@@ -130,11 +130,19 @@ public class PlayerController : MonoBehaviour
     public void OnThrowSpawnGrenade()
     {
         attachedHeldGrenade.SetActive(false);
-        GameObject grenade = Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+        GameObject grenadeGo = Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
     
-        if (grenade != null)
+        if (grenadeGo != null)
         {
-            grenade.GetComponent<Rigidbody>().AddForce((transform.forward) * grenadeThrowForwardImpulse + new Vector3(0.0f, grenadeThrowUpwardImpulse, 0.0f), ForceMode.Impulse);
+            grenadeGo.GetComponent<Rigidbody>().AddForce((transform.forward) * grenadeThrowForwardImpulse + new Vector3(0.0f, grenadeThrowUpwardImpulse, 0.0f), ForceMode.Impulse);
+
+            grenade grenadeComponent = grenadeGo.GetComponent<grenade>();
+
+            if (grenadeComponent != null)
+            {
+                grenadeComponent.activateGrenade();
+            }
+            
         }
     }
 
