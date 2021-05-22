@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class grenade : MonoBehaviour
+public class grenade : Explosion
 {
     public float timer = 2;
-    public float radius = 3;
-    public float force = 500;
+    public float explosionDelay = 0.1f;
     private float countdown;
-    private bool hasExploded = false;
-
-    [SerializeField] GameObject explodeParticle;
 
     void Start()
     {
         countdown = timer;
     }
-
 
     void Update()
     {
@@ -24,26 +19,21 @@ public class grenade : MonoBehaviour
         if(countdown <= 0 && !hasExploded)
         {
             Explode();
+            DoDelayExplosion(explosionDelay);
         }
     }
 
-    //Searches for nearby object in a defined radius and applies a force to those objects
-    private void Explode()
+    //Delays the activation of the sphere collider that will detonate any landmines nearby
+    void DoDelayExplosion(float delayTime)
     {
-        GameObject spawnedParticle = Instantiate(explodeParticle, transform.position, transform.rotation);
-        Destroy(spawnedParticle, 2);
+        StartCoroutine(DelayExplosion(explosionDelay));
+    }
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-        foreach(Collider nearbyObject in colliders)
-        {
-            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
-            if(rb != null)
-            {
-                rb.AddExplosionForce(force, transform.position, radius);
-            }
-        }
+    IEnumerator DelayExplosion(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
-        hasExploded = true;
-        Destroy(gameObject);
+        SphereCollider sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.enabled = true;
     }
 }
