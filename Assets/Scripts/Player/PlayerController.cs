@@ -57,6 +57,11 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;
+
+        if (!characterController.isGrounded)
+        {
+            desiredDirection = Vector3.zero;
+        }
                 
         if (desiredDirection.magnitude > 0)
         {
