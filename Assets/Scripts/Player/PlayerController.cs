@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     public Animator animator;
 
+    public Transform rightHandAttachmentBone;
+
+    // this will go somewhere else, just here to development grenade throw for player.
+    public GameObject grenadePrefab;
+
     CharacterController characterController;
     
     float turnSmoothVelocity;
@@ -22,6 +27,14 @@ public class PlayerController : MonoBehaviour
         float correctHeight = characterController.center.y + characterController.skinWidth;
         // set the controller center vector:
         characterController.center = new Vector3(0, correctHeight, 0);
+
+        if (grenadePrefab != null)
+        {
+            GameObject grenade = Instantiate(grenadePrefab);
+            grenade.transform.parent = rightHandAttachmentBone;
+            grenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
+            grenade.transform.Rotate(new Vector3(90.0f, 0, 0));
+        }
     }
 
     void Update()
