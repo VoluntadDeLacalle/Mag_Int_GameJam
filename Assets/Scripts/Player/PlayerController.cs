@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
     GameObject attachedHeldGrenade = null;
+    float grenadeThrowForwardImpulse = 10.0f;
+    float grenadeThrowUpwardImpulse = 3.0f;
 
     void Start()
     {
@@ -128,7 +130,12 @@ public class PlayerController : MonoBehaviour
     public void OnThrowSpawnGrenade()
     {
         attachedHeldGrenade.SetActive(false);
-        Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+        GameObject grenade = Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+    
+        if (grenade != null)
+        {
+            grenade.GetComponent<Rigidbody>().AddForce((transform.forward) * grenadeThrowForwardImpulse + new Vector3(0.0f, grenadeThrowUpwardImpulse, 0.0f), ForceMode.Impulse);
+        }
     }
 
     public void OnThrowComplete()
