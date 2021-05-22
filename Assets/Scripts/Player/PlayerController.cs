@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
             Vector3 moveDirection = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
-            characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
+            characterController.SimpleMove(moveDirection * walkSpeed);
         }
 
     }
