@@ -34,7 +34,7 @@ public class Explosion : MonoBehaviour
         Destroy(gameObject, destroyDelay);
     }
 
-    //Delays the activation of the sphere collider that will detonate any landmines nearby
+    //Delays the activation of the sphere collider that will detonate any explosives nearby
     protected void DoDelayExplosion(float delayTime)
     {
         StartCoroutine(DelayExplosion(explosionDelay));
