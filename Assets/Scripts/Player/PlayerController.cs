@@ -48,6 +48,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale < 1.0f)
+        {
+            return;
+        }
+
         if (isRagdolling)
         {
             if (transform.position.y < 0)
