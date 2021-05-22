@@ -50,6 +50,12 @@ public class ItemEditor : Editor
                 EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
+            case Item.TypeTag.useable:
+                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
+                EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
+                EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
+                EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
+                break;
         }
 
         serializedObject.ApplyModifiedProperties();

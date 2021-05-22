@@ -63,7 +63,7 @@ public class Inventory : MonoBehaviour
                 totalWeight += newItem.weight;
                 totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
 
-                Destroy(newItem.gameObject);
+                newItem.gameObject.SetActive(false);
                 return;
             }
         }
