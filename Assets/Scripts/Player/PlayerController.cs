@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     float yVelocity;
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
+    GameObject attachedHeldGrenade = null;
 
     void Start()
     {
@@ -41,10 +42,10 @@ public class PlayerController : MonoBehaviour
 
         if (heldGrenadePrefab != null)
         {
-            GameObject grenade = Instantiate(heldGrenadePrefab);
-            grenade.transform.parent = rightHandAttachmentBone;
-            grenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
-            grenade.transform.Rotate(new Vector3(90.0f, 0, 0));
+            attachedHeldGrenade = Instantiate(heldGrenadePrefab);
+            attachedHeldGrenade.transform.parent = rightHandAttachmentBone;
+            attachedHeldGrenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
+            attachedHeldGrenade.transform.Rotate(new Vector3(90.0f, 0, 0));
         }
     }
 
@@ -125,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrowSpawnGrenade()
     {
-
+        attachedHeldGrenade.SetActive(false);
     }
 
     public void OnThrowComplete()
