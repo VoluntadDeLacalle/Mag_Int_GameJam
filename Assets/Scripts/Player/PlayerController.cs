@@ -128,7 +128,12 @@ public class PlayerController : MonoBehaviour
     public void OnThrowSpawnGrenade()
     {
         attachedHeldGrenade.SetActive(false);
-        Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+        GameObject grenade = Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+    
+        if (grenade != null)
+        {
+            grenade.GetComponent<Rigidbody>().AddForce((transform.forward) * 10.0f, ForceMode.Impulse);
+        }
     }
 
     public void OnThrowComplete()
