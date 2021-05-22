@@ -7,8 +7,8 @@ public class grenade : Explosion
     [Header("Grenade Variables")]
     public bool triggerPulled = false;
     public float timer = 2;
-    Color activatedcolor = Color.red;
     public AudioSource triggerPullSFX;
+    Color activatedcolor = Color.red;
 
     [SerializeField]
     private float countdown;
@@ -43,5 +43,10 @@ public class grenade : Explosion
                 Explode();
             }
         }
+    }
+
+    public void activateGrenade()
+    {
+        triggerPulled = true;
     }
 }

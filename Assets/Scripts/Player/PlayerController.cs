@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
     GameObject attachedHeldGrenade = null;
+    float grenadeThrowForwardImpulse = 10.0f;
+    float grenadeThrowUpwardImpulse = 3.0f;
 
     void Start()
     {
@@ -41,13 +43,7 @@ public class PlayerController : MonoBehaviour
         // set the controller center vector:
         characterController.center = new Vector3(0, correctHeight, 0);
 
-        if (heldGrenadePrefab != null)
-        {
-            attachedHeldGrenade = Instantiate(heldGrenadePrefab);
-            attachedHeldGrenade.transform.parent = rightHandAttachmentBone;
-            attachedHeldGrenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
-            attachedHeldGrenade.transform.Rotate(new Vector3(90.0f, 0, 0));
-        }
+        AttachHeldGrenade();
     }
 
     void Update()
@@ -75,7 +71,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (characterController.enabled && characterController.isGrounded && Input.GetMouseButtonDown(0))
+            if (attachedHeldGrenade != null && characterController.enabled && characterController.isGrounded && Input.GetMouseButtonDown(0))
             {
                 animator.SetTrigger("requestThrow");
                 isThrowing = true;
@@ -95,7 +91,7 @@ public class PlayerController : MonoBehaviour
                 desiredDirection = Vector3.zero;
             }
 
-            if (desiredDirection.magnitude > 0)
+            if (desiredDirection.magnitude > 0 && !isThrowing)
             {
                 animator.SetInteger("state", 1);
                 float targetAngle = Mathf.Atan2(desiredDirection.x, desiredDirection.z) * Mathf.Rad2Deg + sceneCamera.eulerAngles.y;
@@ -127,13 +123,30 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrowSpawnGrenade()
     {
+        GameObject grenadeGo = Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+
+        attachedHeldGrenade.transform.parent = null;
         attachedHeldGrenade.SetActive(false);
-        Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
+        attachedHeldGrenade = null;
+
+        if (grenadeGo != null)
+        {
+            grenadeGo.GetComponent<Rigidbody>().AddForce((transform.forward) * grenadeThrowForwardImpulse + new Vector3(0.0f, grenadeThrowUpwardImpulse, 0.0f), ForceMode.Impulse);
+
+            grenade grenadeComponent = grenadeGo.GetComponent<grenade>();
+
+            if (grenadeComponent != null)
+            {
+                grenadeComponent.activateGrenade();
+            }
+            
+        }
     }
 
     public void OnThrowComplete()
     {
         isThrowing = false;
+        AttachHeldGrenade();
     }
 
     public void OnTouchMine()
@@ -157,5 +170,16 @@ public class PlayerController : MonoBehaviour
         animator.enabled = true;
         capsule.enabled = true;
         characterController.enabled = true;
+    }
+
+    void AttachHeldGrenade()
+    {
+        if (heldGrenadePrefab != null)
+        {
+            attachedHeldGrenade = Instantiate(heldGrenadePrefab);
+            attachedHeldGrenade.transform.parent = rightHandAttachmentBone;
+            attachedHeldGrenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
+            attachedHeldGrenade.transform.Rotate(new Vector3(90.0f, 0, 0));
+        }
     }
 }

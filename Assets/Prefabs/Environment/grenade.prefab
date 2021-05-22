@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2246470017587213683}
   - component: {fileID: 4092056676285874617}
   - component: {fileID: 3389084596974624057}
-  - component: {fileID: 3389084596974624062}
   - component: {fileID: 3389084596974624063}
   - component: {fileID: 3779627825795969674}
   - component: {fileID: 6020191610308795777}
-  - component: {fileID: 4089609472977340788}
+  - component: {fileID: 4514697670986092287}
+  - component: {fileID: 6069072704199813167}
   m_Layer: 0
   m_Name: grenade
   m_TagString: Untagged
@@ -103,19 +103,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3389084596974624062
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2578622695657087084}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8979356, y: 1.0922453, z: 1.2302163}
-  m_Center: {x: 0, y: 0.097154856, z: 0.16614035}
 --- !u!114 &3389084596974624063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +319,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!135 &4089609472977340788
+--- !u!65 &4514697670986092287
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578622695657087084}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.04489678, y: 0.054612268, z: 0.061510816}
+  m_Center: {x: 0, y: 0.004857743, z: 0.008307017}
+--- !u!135 &6069072704199813167
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,8 +340,8 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2578622695657087084}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
-  m_Center: {x: 0, y: 0.097154856, z: 0.16614035}
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0.004857743, z: 0.008307017}
