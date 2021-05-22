@@ -14,11 +14,13 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandAttachmentBone;
 
     // this will go somewhere else, just here to development grenade throw for player.
-    public GameObject grenadePrefab;
-    public CapsuleCollider capsule;
+    public GameObject heldGrenadePrefab;
 
+    // cached components
+    CapsuleCollider capsule;
     CharacterController characterController;
     
+    //transient data
     float turnSmoothVelocity;
     bool isThrowing = false;
     bool isRagdolling = false;
@@ -37,9 +39,9 @@ public class PlayerController : MonoBehaviour
         // set the controller center vector:
         characterController.center = new Vector3(0, correctHeight, 0);
 
-        if (grenadePrefab != null)
+        if (heldGrenadePrefab != null)
         {
-            GameObject grenade = Instantiate(grenadePrefab);
+            GameObject grenade = Instantiate(heldGrenadePrefab);
             grenade.transform.parent = rightHandAttachmentBone;
             grenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
             grenade.transform.Rotate(new Vector3(90.0f, 0, 0));
@@ -119,6 +121,11 @@ public class PlayerController : MonoBehaviour
         {
             yVelocity = 0.0f;
         }
+    }
+
+    public void OnThrowSpawnGrenade()
+    {
+
     }
 
     public void OnThrowComplete()
