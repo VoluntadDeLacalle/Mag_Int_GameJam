@@ -28,13 +28,13 @@ public class StartMenu : MonoBehaviour
     public void Options()
     {
         
-        if (optionsUI.activeSelf == false)
+        if (optionsUI.activeSelf)
         {
-            optionsUI.SetActive(true);
+            optionsUI.SetActive(false);
         }
         else
         {
-            optionsUI.SetActive(false);
+            optionsUI.SetActive(true);
         }
     }
 
