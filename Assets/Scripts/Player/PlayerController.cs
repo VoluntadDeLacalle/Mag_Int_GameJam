@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 
     public float walkSpeed = 6.0f;
     public float turnSmoothTime = 0.1f;
-    public float minDirectionChangeThreshold = 0.1f;
     public Animator animator;
 
     CharacterController characterController;
@@ -25,7 +24,7 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;  
 
-        if (desiredDirection.magnitude >= minDirectionChangeThreshold)
+        if (desiredDirection.magnitude > 0)
         {
             animator.SetInteger("state", 1);
             float targetAngle = Mathf.Atan2(desiredDirection.x, desiredDirection.z) * Mathf.Rad2Deg + sceneCamera.eulerAngles.y;
