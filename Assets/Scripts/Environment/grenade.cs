@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class grenade : landmine
+public class grenade : Explosion
 {
     public float timer = 2;
     private float countdown;
