@@ -8,11 +8,13 @@ public class HUDControls : MonoBehaviour
 {
     public GameObject inventoryUI;
     public GameObject craftingUI;
+    public GameObject winScreenUI;
 
     void Start()
     {
         inventoryUI.SetActive(false);
         craftingUI.SetActive(false);
+       //winScreenUI.SetActive(false);
 
         Time.timeScale = 1f;
     }
