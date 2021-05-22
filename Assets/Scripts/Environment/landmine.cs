@@ -6,7 +6,7 @@ public class landmine : Explosion
 {
     public string groundTag = "ground";
 
-    //If anyting touches this object that is not the ground, the object is set to explode
+    //If anything collides this object that is not the ground, the object is set to explode
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.collider.CompareTag(groundTag))

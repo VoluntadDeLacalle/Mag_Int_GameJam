@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class grenade : Explosion
 {
-    public float timer = 2;
-    private float countdown;
-
+    [Header("Grenade Variables")]
     public bool triggerPulled = false;
+    public float timer = 2;
+
+    [SerializeField]
+    private float countdown;
 
     void Start()
     {
