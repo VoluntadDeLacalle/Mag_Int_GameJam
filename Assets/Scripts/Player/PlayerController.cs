@@ -33,6 +33,5 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
             characterController.SimpleMove(moveDirection * walkSpeed);
         }
-
     }
 }
