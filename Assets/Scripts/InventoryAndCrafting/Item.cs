@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     [TextArea]
     public string description;
     public int weight;
-    public UnityEngine.UI.Image inventorySprite;  
+    public Sprite inventorySprite;  
     public List<ChassisComponentTransform> chassisComponentTransforms;
 
     private void OnDrawGizmos()
