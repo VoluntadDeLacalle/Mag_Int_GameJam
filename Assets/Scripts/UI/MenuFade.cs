@@ -10,7 +10,7 @@ public class MenuFade : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)) // Player has McGuffin
+        if(Input.anyKeyDown) // Player has McGuffin
         {
             FadeToStart("Start Menu");
         }
