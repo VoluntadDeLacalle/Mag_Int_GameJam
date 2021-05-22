@@ -26,10 +26,17 @@ public class landmine : Explosion
     {
         if (!hasExploded)
         {
+            bool isPlayer = other.CompareTag("Player");
+
             DoDelayExplosion(explosionDelay);
-            if (other.CompareTag(bombTag))
+            if (other.CompareTag(bombTag) || isPlayer)
             {
                 Explode();
+
+                if (isPlayer)
+                {
+                    other.GetComponent<PlayerController>().OnTouchMine();
+                }
             }
         }
     }

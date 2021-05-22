@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -17,6 +16,13 @@ public class Explosion : MonoBehaviour
     //Searches for nearby object in a defined radius and applies a force to those objects
     protected void Explode()
     {
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+
+        if (meshRenderer != null)
+        {
+            meshRenderer.enabled = false;
+        }
+
         hasExploded = true;
         GameObject spawnedParticle = Instantiate(explodeParticle, transform.position, transform.rotation);
         Destroy(spawnedParticle, 1);
