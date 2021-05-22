@@ -22,10 +22,6 @@ public class Inventory : MonoBehaviour
     private int dropIndex = -1;
     private int totalWeight = 0;
 
-    public Item testItem;
-
-    [ButtonAttribute("Add To Inventory", "AddToInventory")] [SerializeField]
-    private bool _btnInventory;
 
     private void Awake()
     {
@@ -50,9 +46,9 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddToInventory()
+    public void AddToInventory(Item newItem)
     {
-        if (totalWeight + testItem.weight > totalAllowedWeight)
+        if (totalWeight + newItem.weight > totalAllowedWeight)
         {
             Debug.Log("TOO MUCH WEIGHT");
             return;
@@ -62,10 +58,12 @@ public class Inventory : MonoBehaviour
         {
             if (inventory[i] == null)
             {
-                inventory[i] = testItem;
-                inventoryImages[i].GetComponent<UnityEngine.UI.Image>().sprite = testItem.inventorySprite;
-                totalWeight += testItem.weight;
+                inventory[i] = newItem;
+                inventoryImages[i].GetComponent<UnityEngine.UI.Image>().sprite = newItem.inventorySprite;
+                totalWeight += newItem.weight;
                 totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
+
+                Destroy(newItem.gameObject);
                 return;
             }
         }
@@ -85,7 +83,6 @@ public class Inventory : MonoBehaviour
         dropItemButton.SetActive(false);
 
         //spawn item in world
-
     }
 
     public void ChangeInventoryInformation(GameObject clickedObject)
