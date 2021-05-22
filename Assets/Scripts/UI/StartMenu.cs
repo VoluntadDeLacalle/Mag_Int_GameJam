@@ -22,7 +22,7 @@ public class StartMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("PlayerGym");
+        SceneManager.LoadScene("Main_World");
     }
 
     public void Options()
