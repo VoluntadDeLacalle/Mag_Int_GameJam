@@ -47,4 +47,17 @@ public class Explosion : MonoBehaviour
         SphereCollider sphereCollider = GetComponent<SphereCollider>();
         sphereCollider.enabled = true;
     }
+
+    //If an explosive explodes, other bombs in a nearby radius will also explode
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!hasExploded)
+        {
+            DoDelayExplosion(explosionDelay);
+            if (other.CompareTag(bombTag))
+            {
+                Explode();
+            }
+        }
+    }
 }
