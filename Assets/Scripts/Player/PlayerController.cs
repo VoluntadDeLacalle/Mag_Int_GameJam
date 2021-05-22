@@ -40,11 +40,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        animator.SetTrigger("requestThrow");
-    //        isThrowing = true;
-    //    }
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetTrigger("requestThrow");
+            isThrowing = true;
+        }
 
         if (isThrowing)
         {
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrowComplete()
     {
-        Debug.Log("throw complete");
         isThrowing = false;
     }
 }
