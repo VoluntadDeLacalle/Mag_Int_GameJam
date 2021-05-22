@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (characterController.enabled && characterController.isGrounded && Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("requestThrow");
             isThrowing = true;
@@ -100,5 +100,6 @@ public class PlayerController : MonoBehaviour
     public void OnTouchMine()
     {
         yVelocity = explosionForce;
+        //animator.enabled = false;
     }
 }
