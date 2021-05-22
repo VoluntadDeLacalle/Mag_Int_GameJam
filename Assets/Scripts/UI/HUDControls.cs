@@ -27,10 +27,20 @@ public class HUDControls : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
+            if (craftingUI.activeSelf)
+            {
+                toggleOpt(craftingUI);
+            }
+
             toggleOpt(inventoryUI);
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
+            if (inventoryUI.activeSelf)
+            {
+                toggleOpt(inventoryUI);
+            }
+
             toggleOpt(craftingUI);
         }
     }

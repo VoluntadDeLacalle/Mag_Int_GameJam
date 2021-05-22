@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     public GameObject[] inventoryImages = new GameObject[20];
     public int totalAllowedWeight = 0;
     public GameObject inventoryPanel;
+    private bool isActive = false;
 
     [Header("Visual Variables")]
     public Sprite nullPlaceholderSprite;
@@ -33,23 +34,19 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (inventoryPanel.activeSelf && !isActive)
         {
-            if (!inventoryPanel.activeInHierarchy)
-            {
-                selectedInspectorImage.sprite = nullPlaceholderSprite;
-                selectedItemTitle.text = "";
-                selectedItemDescription.text = "";
-                selectedItemWeight.text = "";
-                dropItemButton.SetActive(false);
+            isActive = true;
 
-                inventoryPanel.SetActive(true);
-                //Crafting panel set to false; vis versa in else statement
-            }
-            else
-            {
-                inventoryPanel.SetActive(false);
-            }
+            selectedInspectorImage.sprite = nullPlaceholderSprite;
+            selectedItemTitle.text = "";
+            selectedItemDescription.text = "";
+            selectedItemWeight.text = "";
+            dropItemButton.SetActive(false);
+        }
+        else if (!inventoryPanel.activeSelf && isActive)
+        {
+            isActive = false;
         }
     }
 
