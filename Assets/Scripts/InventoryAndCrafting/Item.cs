@@ -16,7 +16,8 @@ public class Item : MonoBehaviour
     {
         chassis,
         activeComponent,
-        grip
+        grip,
+        useable
     };
     public TypeTag itemType;
     
@@ -26,6 +27,20 @@ public class Item : MonoBehaviour
     public int weight;
     public Sprite inventorySprite;  
     public List<ChassisComponentTransform> chassisComponentTransforms;
+    
+    public Item(Item oldItem)
+    {
+        this.itemType = oldItem.itemType;
+        this.itemName = oldItem.itemName;
+        this.description = oldItem.description;
+        this.weight = oldItem.weight;
+        this.inventorySprite = oldItem.inventorySprite;
+
+        if (this.itemType == TypeTag.chassis)
+        {
+            this.chassisComponentTransforms = new List<ChassisComponentTransform>(oldItem.chassisComponentTransforms);
+        }
+    }
 
     private void OnDrawGizmos()
     {
