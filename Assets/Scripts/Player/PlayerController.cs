@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
         if (desiredDirection.magnitude >= minDirectionChangeThreshold)
         {
-            float targetAngle = Mathf.Atan2(desiredDirection.x, desiredDirection.z) * Mathf.Rad2Deg * sceneCamera.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(desiredDirection.x, desiredDirection.z) * Mathf.Rad2Deg; //* sceneCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
