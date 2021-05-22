@@ -5,7 +5,6 @@ using UnityEngine;
 public class grenade : Explosion
 {
     public float timer = 2;
-    public float explosionDelay = 0.1f;
     private float countdown;
 
     void Start()
@@ -13,6 +12,7 @@ public class grenade : Explosion
         countdown = timer;
     }
 
+    //Grenade countdown to explode
     void Update()
     {
         countdown -= Time.deltaTime;
@@ -21,19 +21,5 @@ public class grenade : Explosion
             Explode();
             DoDelayExplosion(explosionDelay);
         }
-    }
-
-    //Delays the activation of the sphere collider that will detonate any landmines nearby
-    void DoDelayExplosion(float delayTime)
-    {
-        StartCoroutine(DelayExplosion(explosionDelay));
-    }
-
-    IEnumerator DelayExplosion(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        SphereCollider sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.enabled = true;
     }
 }

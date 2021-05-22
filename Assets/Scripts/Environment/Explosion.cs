@@ -6,6 +6,7 @@ public class Explosion : MonoBehaviour
 {
     public float radius = 3;
     public float force = 500;
+    public float explosionDelay = 0.1f;
     public bool hasExploded = false;
     public string bombTag = "bomb";
 
@@ -14,7 +15,7 @@ public class Explosion : MonoBehaviour
     [SerializeField] GameObject explodeParticle;
 
     //Searches for nearby object in a defined radius and applies a force to those objects
-    public void Explode()
+    protected void Explode()
     {
         hasExploded = true;
         GameObject spawnedParticle = Instantiate(explodeParticle, transform.position, transform.rotation);
@@ -31,5 +32,19 @@ public class Explosion : MonoBehaviour
         }
 
         Destroy(gameObject, destroyDelay);
+    }
+
+    //Delays the activation of the sphere collider that will detonate any landmines nearby
+    protected void DoDelayExplosion(float delayTime)
+    {
+        StartCoroutine(DelayExplosion(explosionDelay));
+    }
+
+    IEnumerator DelayExplosion(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SphereCollider sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.enabled = true;
     }
 }
