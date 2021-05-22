@@ -93,7 +93,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2867646019927263639}
-  m_LocalRotation: {x: 0.071671695, y: -0.002343877, z: 0.00016842323, w: 0.99742556}
+  m_LocalRotation: {x: 0.07570051, y: -0.07052073, z: 0.0047414266, w: 0.99462247}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -167,7 +167,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2867646020228092857}
-  m_LocalRotation: {x: 0.0035820052, y: 0.000000017316168, z: -6.2027e-11, w: 0.9999936}
+  m_LocalRotation: {x: 0.0077936854, y: -0.06833569, z: -0.00007062205, w: 0.997632}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -367,7 +367,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2867646021013115914}
-  m_LocalRotation: {x: 0.039904356, y: -1e-45, z: -0, w: 0.9992035}
+  m_LocalRotation: {x: 0.04402745, y: -0.06829316, z: 0.0024117138, w: 0.9966905}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -569,7 +569,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2867646021203304614}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -10}
+  m_LocalPosition: {x: 1.3622247, y: 2.0828705, z: -9.889691}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2867646021013115915}
@@ -697,13 +697,13 @@ MonoBehaviour:
   m_IgnoreTag: Untagged
   m_TransparentLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_MinimumDistanceFromTarget: 0.1
   m_AvoidObstacles: 1
   m_DistanceLimit: 0
   m_MinimumOcclusionTime: 0
   m_CameraRadius: 0.2
-  m_Strategy: 1
+  m_Strategy: 0
   m_MaximumEffort: 4
   m_SmoothingTime: 1
   m_Damping: 1.93
@@ -917,6 +917,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: d0adf6aa9e6472d4d891eb6e1d604e28, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 146e5e3f0499d924cbc3e1dcfbc2c93c,
+        type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 146e5e3f0499d924cbc3e1dcfbc2c93c,
         type: 3}
       propertyPath: m_ApplyRootMotion
