@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
                 desiredDirection = Vector3.zero;
             }
 
-            if (desiredDirection.magnitude > 0)
+            if (desiredDirection.magnitude > 0 && !isThrowing)
             {
                 animator.SetInteger("state", 1);
                 float targetAngle = Mathf.Atan2(desiredDirection.x, desiredDirection.z) * Mathf.Rad2Deg + sceneCamera.eulerAngles.y;
