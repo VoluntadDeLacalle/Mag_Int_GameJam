@@ -14,17 +14,20 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandAttachmentBone;
 
     // this will go somewhere else, just here to development grenade throw for player.
-    public GameObject grenadePrefab;
-    public CapsuleCollider capsule;
+    public GameObject heldGrenadePrefab;
 
+    // cached components
+    CapsuleCollider capsule;
     CharacterController characterController;
     
+    //transient data
     float turnSmoothVelocity;
     bool isThrowing = false;
     bool isRagdolling = false;
     float yVelocity;
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
+    GameObject attachedHeldGrenade = null;
 
     void Start()
     {
@@ -37,18 +40,18 @@ public class PlayerController : MonoBehaviour
         // set the controller center vector:
         characterController.center = new Vector3(0, correctHeight, 0);
 
-        if (grenadePrefab != null)
+        if (heldGrenadePrefab != null)
         {
-            GameObject grenade = Instantiate(grenadePrefab);
-            grenade.transform.parent = rightHandAttachmentBone;
-            grenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
-            grenade.transform.Rotate(new Vector3(90.0f, 0, 0));
+            attachedHeldGrenade = Instantiate(heldGrenadePrefab);
+            attachedHeldGrenade.transform.parent = rightHandAttachmentBone;
+            attachedHeldGrenade.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
+            attachedHeldGrenade.transform.Rotate(new Vector3(90.0f, 0, 0));
         }
     }
 
     void Update()
     {
-        if (Time.timeScale < 1.0f)
+        if (Time.timeScale < 0.1f)
         {
             return;
         }
@@ -119,6 +122,11 @@ public class PlayerController : MonoBehaviour
         {
             yVelocity = 0.0f;
         }
+    }
+
+    public void OnThrowSpawnGrenade()
+    {
+        attachedHeldGrenade.SetActive(false);
     }
 
     public void OnThrowComplete()
