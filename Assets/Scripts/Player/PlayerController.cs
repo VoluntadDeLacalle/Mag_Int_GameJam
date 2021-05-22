@@ -23,9 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;
-
-        //animator.SetInteger("state", desiredDirection.magnitude > 0 ? 1 : 0);
+        Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;  
 
         if (desiredDirection.magnitude >= minDirectionChangeThreshold)
         {
