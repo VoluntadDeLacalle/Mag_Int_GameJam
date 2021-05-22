@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class StartMenu : MonoBehaviour
 {
     // Start is called before the first frame update
+    public string loadSceneName;    
 
     public Button startButton;
     public Button optionsButton;
@@ -22,7 +23,7 @@ public class StartMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("Main_World");
+        SceneManager.LoadScene(loadSceneName);
     }
 
     public void Options()
