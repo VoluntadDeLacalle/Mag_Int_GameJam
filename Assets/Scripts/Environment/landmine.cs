@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class landmine : Explosion
 {
-    //If anyting touches this object the landmind is set to explode
+    public string groundTag = "ground";
+
+    //If anyting touches this object that is not the ground, the object is set to explode
     private void OnCollisionEnter(Collision collision)
     {
-        if(!hasExploded)
+        if (!collision.collider.CompareTag(groundTag))
         {
-            SphereCollider sphereCollider = GetComponent<SphereCollider>();
-            sphereCollider.enabled = true;
+            if (!hasExploded)
+            {
+                SphereCollider sphereCollider = GetComponent<SphereCollider>();
+                sphereCollider.enabled = true;
 
-            Explode();
+                Explode();
+            }
         }
     }
 
-    //If a landmine explodes other landmines in a nearby radius will also explode
+    //If a landmine explodes, other bombs in a nearby radius will also explode
     private void OnTriggerEnter(Collider other)
     {
         if (!hasExploded)

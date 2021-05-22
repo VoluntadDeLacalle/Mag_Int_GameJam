@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class grenade : Explosion
+public class grenade : landmine
 {
     public float timer = 2;
     private float countdown;
+
+    public bool triggerPulled = false;
 
     void Start()
     {
@@ -15,11 +17,14 @@ public class grenade : Explosion
     //Grenade countdown to explode
     void Update()
     {
-        countdown -= Time.deltaTime;
-        if(countdown <= 0 && !hasExploded)
+        if(triggerPulled)
         {
-            Explode();
-            DoDelayExplosion(explosionDelay);
+            countdown -= Time.deltaTime;
+            if (countdown <= 0 && !hasExploded)
+            {
+                Explode();
+                DoDelayExplosion(explosionDelay);
+            }
         }
     }
 }
