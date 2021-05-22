@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     public float walkSpeed = 6.0f;
     public float turnSmoothTime = 0.1f;
+    public float explosionForce = 11.0f;
     public Animator animator;
 
     public Transform rightHandAttachmentBone;
@@ -18,7 +19,8 @@ public class PlayerController : MonoBehaviour
     
     float turnSmoothVelocity;
     bool isThrowing = false;
-    float gravity;
+    float yVelocity;
+    Vector3 moveDirection = Vector3.zero;
 
     void Start()
     {
@@ -55,9 +57,7 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;
-
-        Vector3 moveDirection = Vector3.zero;
-
+                
         if (desiredDirection.magnitude > 0)
         {
             animator.SetInteger("state", 1);
@@ -67,24 +67,33 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
             
             moveDirection = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
-            characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
         }
         else
         {
             animator.SetInteger("state", 0);
+
+            if (characterController.isGrounded)
+            {
+                moveDirection = Vector3.zero;
+            }
         }
 
-        gravity -= 9.81f * Time.deltaTime;
-        characterController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
+        yVelocity -= 9.81f * Time.deltaTime;
+        characterController.Move(((moveDirection * walkSpeed) + new Vector3(0, yVelocity, 0)) * Time.deltaTime); // * Time.deltaTime);
 
         if (characterController.isGrounded)
         {
-            gravity = 0.0f;
+            yVelocity = 0.0f;
         }
     }
 
     public void OnThrowComplete()
     {
         isThrowing = false;
+    }
+
+    public void OnTouchMine()
+    {
+        yVelocity = explosionForce;
     }
 }
