@@ -39,6 +39,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    animator.SetTrigger("requestThrow");
+        //}
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;  

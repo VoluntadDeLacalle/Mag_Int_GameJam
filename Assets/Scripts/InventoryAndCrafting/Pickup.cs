@@ -37,6 +37,11 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
+        if (itemHighlight == null)
+        {
+            return;
+        }
+
         if (itemsInRange.Count > 0 && itemHighlight.text == "")
         {
             itemHighlight.text = "Press 'E' to pick up item!";
