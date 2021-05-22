@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        //https://answers.unity.com/questions/741074/why-character-controller-floats-5-cm-above-ground.html
+        // calculate the correct vertical position:
+        float correctHeight = characterController.center.y + characterController.skinWidth;
+        // set the controller center vector:
+        characterController.center = new Vector3(0, correctHeight, 0);
     }
 
     void Update()
