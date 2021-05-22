@@ -8,7 +8,9 @@ public class Inventory : MonoBehaviour
     public Item[] inventory = new Item[20];
     public GameObject[] inventoryImages = new GameObject[20];
     public int totalAllowedWeight = 0;
+    public GameObject inventoryPanel;
 
+    [Header("Visual Variables")]
     public Sprite nullPlaceholderSprite;
     public UnityEngine.UI.Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
@@ -29,13 +31,26 @@ public class Inventory : MonoBehaviour
         totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        selectedInspectorImage.sprite = nullPlaceholderSprite;
-        selectedItemTitle.text = "";
-        selectedItemDescription.text = "";
-        selectedItemWeight.text = "";
-        dropItemButton.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (!inventoryPanel.activeInHierarchy)
+            {
+                selectedInspectorImage.sprite = nullPlaceholderSprite;
+                selectedItemTitle.text = "";
+                selectedItemDescription.text = "";
+                selectedItemWeight.text = "";
+                dropItemButton.SetActive(false);
+
+                inventoryPanel.SetActive(true);
+                //Crafting panel set to false; vis versa in else statement
+            }
+            else
+            {
+                inventoryPanel.SetActive(false);
+            }
+        }
     }
 
     public void AddToInventory()
