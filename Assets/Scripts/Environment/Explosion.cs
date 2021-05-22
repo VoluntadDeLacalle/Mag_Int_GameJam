@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    [Header("Explosion Variables")]
     public float radius = 3;
     public float force = 500;
     public float explosionDelay = 0.1f;
     public bool hasExploded = false;
     public string bombTag = "bomb";
+    public AudioSource explosionSFX;
 
-    private float destroyDelay = 0.2f;
+    private float destroyDelay = 1f;
 
     [SerializeField] GameObject explodeParticle;
 
@@ -23,6 +25,7 @@ public class Explosion : MonoBehaviour
             meshRenderer.enabled = false;
         }
 
+        explosionSFX.Play();
         hasExploded = true;
         GameObject spawnedParticle = Instantiate(explodeParticle, transform.position, transform.rotation);
         Destroy(spawnedParticle, 1);
