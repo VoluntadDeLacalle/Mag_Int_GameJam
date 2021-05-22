@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale < 1.0f)
+        if (Time.timeScale < 0.1f)
         {
             return;
         }
