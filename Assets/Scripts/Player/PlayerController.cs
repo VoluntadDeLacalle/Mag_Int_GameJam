@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
     
     float turnSmoothVelocity;
+    bool isThrowing = false;
 
     void Start()
     {
@@ -39,10 +40,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    animator.SetTrigger("requestThrow");
-        //}
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        animator.SetTrigger("requestThrow");
+    //        isThrowing = true;
+    //    }
+
+        if (isThrowing)
+        {
+            return;
+        }
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -63,5 +70,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetInteger("state", 0);
         }
+    }
+
+    public void OnThrowComplete()
+    {
+        Debug.Log("throw complete");
+        isThrowing = false;
     }
 }
