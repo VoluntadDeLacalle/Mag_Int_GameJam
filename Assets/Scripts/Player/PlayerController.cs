@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     // this will go somewhere else, just here to development grenade throw for player.
     public GameObject heldGrenadePrefab;
+    public GameObject grenadePrefab;
 
     // cached components
     CapsuleCollider capsule;
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
     public void OnThrowSpawnGrenade()
     {
         attachedHeldGrenade.SetActive(false);
+        Instantiate(grenadePrefab, attachedHeldGrenade.transform.position, attachedHeldGrenade.transform.rotation);
     }
 
     public void OnThrowComplete()
