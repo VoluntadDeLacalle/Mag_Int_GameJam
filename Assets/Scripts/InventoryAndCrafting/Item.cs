@@ -7,6 +7,7 @@ public class ChassisComponentTransform
 {
     public Transform componentTransform;
     public Item.TypeTag componentType = Item.TypeTag.activeComponent;
+    public bool isOccupied = false;
 }
 
 public class Item : MonoBehaviour
