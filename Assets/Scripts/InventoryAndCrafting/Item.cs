@@ -7,6 +7,7 @@ public class ChassisComponentTransform
 {
     public Transform componentTransform;
     public Item.TypeTag componentType = Item.TypeTag.activeComponent;
+    public bool isOccupied = false;
 }
 
 public class Item : MonoBehaviour
@@ -23,7 +24,7 @@ public class Item : MonoBehaviour
     [TextArea]
     public string description;
     public int weight;
-    public UnityEngine.UI.Image inventorySprite;  
+    public Sprite inventorySprite;  
     public List<ChassisComponentTransform> chassisComponentTransforms;
 
     private void OnDrawGizmos()
