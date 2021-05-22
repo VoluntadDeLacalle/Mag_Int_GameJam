@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
     GameObject attachedHeldGrenade = null;
+    float grenadeThrowForwardImpulse = 10.0f;
+    float grenadeThrowUpwardImpulse = 3.0f;
 
     void Start()
     {
@@ -132,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
         if (grenade != null)
         {
-            grenade.GetComponent<Rigidbody>().AddForce((transform.forward) * 10.0f, ForceMode.Impulse);
+            grenade.GetComponent<Rigidbody>().AddForce((transform.forward) * grenadeThrowForwardImpulse + new Vector3(0.0f, grenadeThrowUpwardImpulse, 0.0f), ForceMode.Impulse);
         }
     }
 
