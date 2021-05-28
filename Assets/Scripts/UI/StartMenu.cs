@@ -23,6 +23,7 @@ public class StartMenu : MonoBehaviour
 
     public void NewGame()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         SceneManager.LoadScene(loadSceneName);
     }
 
