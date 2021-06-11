@@ -18,6 +18,7 @@ public class Pickup : MonoBehaviour
             if (!itemsInRange.Contains(other.GetComponent<Item>()))
             {
                 itemsInRange.Add(other.GetComponent<Item>());
+                Debug.Log("Added");
             }
         }
     }
@@ -56,12 +57,16 @@ public class Pickup : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 PickupItem();
+                Debug.Log("You pressed the button");
             }
         }
+
+        Debug.Log(itemsInRange.Count);
     }
 
     public void PickupItem()
     {
+        Debug.Log("Picked up!");
         int randNumb = Random.Range(0, itemsInRange.Count);
         inventoryRef.AddToInventory(itemsInRange[randNumb]);
         itemsInRange.RemoveAt(randNumb);

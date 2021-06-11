@@ -47,11 +47,13 @@ public class HUDControls : MonoBehaviour
         {
             uiName.SetActive(false);
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             uiName.SetActive(true);
             Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

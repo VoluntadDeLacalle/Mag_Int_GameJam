@@ -16,6 +16,7 @@ public class TempWinCondition : MonoBehaviour
     {
         if(col.CompareTag("Player"))
         {
+            Cursor.lockState = CursorLockMode.None;
             winScreenCanvas.SetActive(true);
             anim.SetTrigger("HasMcGuffin");
         }
