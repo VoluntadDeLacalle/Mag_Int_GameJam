@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryPanel;
     private bool isActive = false;
     public PlayerItemHandler playerItemHandler;
+    public Transform dropTransform;
 
     [Header("Visual Variables")]
     public Sprite nullPlaceholderSprite;
@@ -50,6 +51,7 @@ public class Inventory : MonoBehaviour
                 inventory[i] = newItem;
                 inventoryImages[i].GetComponent<UnityEngine.UI.Image>().sprite = newItem.inventorySprite;
 
+                newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                 newItem.gameObject.SetActive(false);
                 return;
             }
@@ -62,6 +64,15 @@ public class Inventory : MonoBehaviour
         {
             return;
         }
+
+        if (playerItemHandler.attachedItem != null)
+        {
+            UnequipItem();
+        }
+
+        inventory[dropIndex].gameObject.transform.position = dropTransform.position;
+        inventory[dropIndex].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        inventory[dropIndex].gameObject.SetActive(true);
 
         inventory[dropIndex] = null;
         inventoryImages[dropIndex].GetComponent<UnityEngine.UI.Image>().sprite = nullPlaceholderSprite;
@@ -145,5 +156,17 @@ public class Inventory : MonoBehaviour
         playerItemHandler.EquipItem(equipIndex);
         equipItemButton.SetActive(false);
         unequipItemButton.SetActive(true);
+    }
+
+    public void UnequipItem()
+    {
+        if (equipIndex == -1)
+        {
+            return;
+        }
+
+        playerItemHandler.UnequipItem(equipIndex);
+        unequipItemButton.SetActive(false);
+        equipItemButton.SetActive(true);
     }
 }
