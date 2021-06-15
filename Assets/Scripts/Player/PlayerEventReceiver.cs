@@ -12,6 +12,6 @@ public class PlayerEventReceiver : MonoBehaviour
 
     public void OnThrowSpawnGrenade()
     {
-        playerController.OnThrowSpawnGrenade();
+        //playerController.OnThrowSpawnGrenade();
     }
 }

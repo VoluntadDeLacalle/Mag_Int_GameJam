@@ -8,7 +8,7 @@ public class ItemEditor : Editor
         type_Prop,
         name_Prop,
         description_Prop,
-        weight_Prop,
+        equip_Prop,
         image_Prop,
         componentTransforms_Prop;
 
@@ -17,7 +17,7 @@ public class ItemEditor : Editor
         type_Prop = serializedObject.FindProperty("itemType");
         name_Prop = serializedObject.FindProperty("itemName");
         description_Prop = serializedObject.FindProperty("description");
-        weight_Prop = serializedObject.FindProperty("weight");
+        equip_Prop = serializedObject.FindProperty("isEquipped");
         image_Prop = serializedObject.FindProperty("inventorySprite");
         componentTransforms_Prop = serializedObject.FindProperty("chassisComponentTransforms");
     }
@@ -34,26 +34,18 @@ public class ItemEditor : Editor
             case Item.TypeTag.chassis:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
-                EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
+                EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 EditorGUILayout.PropertyField(componentTransforms_Prop, new GUIContent("Chassis Component Transforms"));
                 break;
             case Item.TypeTag.activeComponent:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
-                EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
             case Item.TypeTag.grip:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
-                EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
-                EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
-                break;
-            case Item.TypeTag.useable:
-                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
-                EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
-                EditorGUILayout.IntSlider(weight_Prop, 0, 100, new GUIContent("Weight"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
         }

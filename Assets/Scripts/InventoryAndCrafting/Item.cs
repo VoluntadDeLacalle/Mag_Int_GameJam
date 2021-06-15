@@ -16,16 +16,15 @@ public class Item : MonoBehaviour
     {
         chassis,
         activeComponent,
-        grip,
-        useable
+        grip
     };
     public TypeTag itemType;
     
     public string itemName;
     [TextArea]
     public string description;
-    public int weight;
-    public Sprite inventorySprite;  
+    public bool isEquipped = false;
+    public Sprite inventorySprite;
     public List<ChassisComponentTransform> chassisComponentTransforms;
     
     public Item(Item oldItem)
@@ -33,7 +32,6 @@ public class Item : MonoBehaviour
         this.itemType = oldItem.itemType;
         this.itemName = oldItem.itemName;
         this.description = oldItem.description;
-        this.weight = oldItem.weight;
         this.inventorySprite = oldItem.inventorySprite;
 
         if (this.itemType == TypeTag.chassis)

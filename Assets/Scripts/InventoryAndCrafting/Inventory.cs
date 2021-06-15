@@ -7,26 +7,20 @@ public class Inventory : MonoBehaviour
 {
     public Item[] inventory = new Item[20];
     public GameObject[] inventoryImages = new GameObject[20];
-    public int totalAllowedWeight = 0;
     public GameObject inventoryPanel;
     private bool isActive = false;
+    public PlayerItemHandler playerItemHandler;
 
     [Header("Visual Variables")]
     public Sprite nullPlaceholderSprite;
     public UnityEngine.UI.Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
     public TMPro.TextMeshProUGUI selectedItemDescription;
-    public TMPro.TextMeshProUGUI selectedItemWeight;
-    public TMPro.TextMeshProUGUI totalWeightText;
     public GameObject dropItemButton;
+    public GameObject equipItemButton;
+    public GameObject unequipItemButton;
     private int dropIndex = -1;
-    private int totalWeight = 0;
-
-
-    private void Awake()
-    {
-        totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
-    }
+    private int equipIndex = -1;
 
     private void Update()
     {
@@ -37,8 +31,9 @@ public class Inventory : MonoBehaviour
             selectedInspectorImage.sprite = nullPlaceholderSprite;
             selectedItemTitle.text = "";
             selectedItemDescription.text = "";
-            selectedItemWeight.text = "";
             dropItemButton.SetActive(false);
+            equipItemButton.SetActive(false);
+            unequipItemButton.SetActive(false);
         }
         else if (!inventoryPanel.activeSelf && isActive)
         {
@@ -48,20 +43,12 @@ public class Inventory : MonoBehaviour
 
     public void AddToInventory(Item newItem)
     {
-        if (totalWeight + newItem.weight > totalAllowedWeight)
-        {
-            Debug.Log("TOO MUCH WEIGHT");
-            return;
-        }
-
         for (int i = 0; i < 20; i++)
         {
             if (inventory[i] == null)
             {
                 inventory[i] = newItem;
                 inventoryImages[i].GetComponent<UnityEngine.UI.Image>().sprite = newItem.inventorySprite;
-                totalWeight += newItem.weight;
-                totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
 
                 newItem.gameObject.SetActive(false);
                 return;
@@ -71,22 +58,31 @@ public class Inventory : MonoBehaviour
 
     public void DropFromInventory()
     {
-        totalWeight -= inventory[dropIndex].weight;
-        totalWeightText.text = $"Total Weight: {totalWeight}kg/{totalAllowedWeight}kg";
+        if (dropIndex == -1)
+        {
+            return;
+        }
+
         inventory[dropIndex] = null;
         inventoryImages[dropIndex].GetComponent<UnityEngine.UI.Image>().sprite = nullPlaceholderSprite;
 
         selectedInspectorImage.sprite = nullPlaceholderSprite;
         selectedItemTitle.text = "";
         selectedItemDescription.text = "";
-        selectedItemWeight.text = "";
         dropItemButton.SetActive(false);
+        equipItemButton.SetActive(false);
+        unequipItemButton.SetActive(false);
+        dropIndex = -1;
 
         //spawn item in world
     }
 
     public void ChangeInventoryInformation(GameObject clickedObject)
     {
+        equipItemButton.SetActive(false);
+        unequipItemButton.SetActive(false);
+        equipIndex = -1;
+
         int imageIndex = -1;
         for (int i = 0; i < inventoryImages.Length; i++)
         {
@@ -102,7 +98,6 @@ public class Inventory : MonoBehaviour
             selectedInspectorImage.sprite = nullPlaceholderSprite;
             selectedItemTitle.text = "";
             selectedItemDescription.text = "";
-            selectedItemWeight.text = "";
             dropItemButton.SetActive(false);
         }
         else
@@ -113,6 +108,18 @@ public class Inventory : MonoBehaviour
             {
                 case Item.TypeTag.chassis:
                     selectedItemTitle.text = $"{inventory[imageIndex].itemName} (Chassis)";
+                    equipIndex = imageIndex;
+
+                    if (inventory[imageIndex].isEquipped)
+                    {
+                        equipItemButton.SetActive(false);
+                        unequipItemButton.SetActive(true);
+                    }
+                    else
+                    {
+                        unequipItemButton.SetActive(false);
+                        equipItemButton.SetActive(true);
+                    }
                     break;
                 case Item.TypeTag.grip:
                     selectedItemTitle.text = $"{inventory[imageIndex].itemName} (Grip)";
@@ -123,9 +130,20 @@ public class Inventory : MonoBehaviour
             }
             
             selectedItemDescription.text = inventory[imageIndex].description;
-            selectedItemWeight.text = $"{inventory[imageIndex].weight}kg";
             dropItemButton.SetActive(true);
             dropIndex = imageIndex;
         }
+    }
+
+    public void EquipItem()
+    {
+        if (equipIndex == -1)
+        {
+            return;
+        }
+
+        playerItemHandler.EquipItem(equipIndex);
+        equipItemButton.SetActive(false);
+        unequipItemButton.SetActive(true);
     }
 }
