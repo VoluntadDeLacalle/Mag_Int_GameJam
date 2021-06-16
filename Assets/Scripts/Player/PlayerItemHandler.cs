@@ -13,12 +13,12 @@ public class PlayerItemHandler : MonoBehaviour
 
     public GameObject attachedItem = null;
 
-    void AttachItem()
+    void AttachItem(Vector3 newPos, Vector3 newRot)
     {
         attachedItem = equippedGO;
         attachedItem.transform.parent = rightHandAttachmentBone;
-        attachedItem.transform.localPosition = new Vector3(0.069f, -0.048f, -0.028f);
-        //attachedItem.transform.Rotate(new Vector3(90.0f, 0, 0));
+        attachedItem.transform.localPosition = newPos;
+        attachedItem.transform.localRotation = Quaternion.Euler(newRot);
     }
 
     public void EquipItem(int inventoryIndex)
@@ -29,7 +29,8 @@ public class PlayerItemHandler : MonoBehaviour
 
         equippedItem.isEquipped = true;
 
-        AttachItem();
+        AttachItem(itemDetection.inventoryRef.inventory[inventoryIndex].localHandPos,
+                   itemDetection.inventoryRef.inventory[inventoryIndex].localHandRot);
     }
 
     public void UnequipItem(int inventoryIndex)

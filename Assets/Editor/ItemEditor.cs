@@ -9,6 +9,8 @@ public class ItemEditor : Editor
         name_Prop,
         description_Prop,
         equip_Prop,
+        localHandPos_Prop,
+        localHandRot_Prop,
         image_Prop,
         componentTransforms_Prop;
 
@@ -18,6 +20,8 @@ public class ItemEditor : Editor
         name_Prop = serializedObject.FindProperty("itemName");
         description_Prop = serializedObject.FindProperty("description");
         equip_Prop = serializedObject.FindProperty("isEquipped");
+        localHandPos_Prop = serializedObject.FindProperty("localHandPos");
+        localHandRot_Prop = serializedObject.FindProperty("localHandRot");
         image_Prop = serializedObject.FindProperty("inventorySprite");
         componentTransforms_Prop = serializedObject.FindProperty("chassisComponentTransforms");
     }
@@ -35,6 +39,8 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
                 EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
+                EditorGUILayout.PropertyField(localHandPos_Prop, new GUIContent("Local Hand Position"));
+                EditorGUILayout.PropertyField(localHandRot_Prop, new GUIContent("Local Hand Rotation"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 EditorGUILayout.PropertyField(componentTransforms_Prop, new GUIContent("Chassis Component Transforms"));
                 break;

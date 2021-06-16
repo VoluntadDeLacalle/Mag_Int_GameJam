@@ -24,6 +24,8 @@ public class Item : MonoBehaviour
     [TextArea]
     public string description;
     public bool isEquipped = false;
+    public Vector3 localHandPos = Vector3.zero;
+    public Vector3 localHandRot = Vector3.zero;
     public Sprite inventorySprite;
     public List<ChassisComponentTransform> chassisComponentTransforms;
     
