@@ -47,11 +47,13 @@ public class ItemEditor : Editor
             case Item.TypeTag.activeComponent:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
+                EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
             case Item.TypeTag.grip:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
+                EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
         }

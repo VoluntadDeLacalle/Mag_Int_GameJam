@@ -302,7 +302,7 @@ RectTransform:
   m_GameObject: {fileID: 4588606983765519578}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.1514356, y: 1.0638301, z: 1.0638301}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children:
   - {fileID: 3093041342409434869}
   - {fileID: 3093041343210508525}
@@ -569,7 +569,7 @@ RectTransform:
   m_GameObject: {fileID: 4588606984385497649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.1514356, y: 1.0638301, z: 1.0638301}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children:
   - {fileID: 3093041342003642260}
   - {fileID: 3093041343562540771}
@@ -1304,7 +1304,7 @@ RectTransform:
   m_GameObject: {fileID: 4588606984553497843}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.1514356, y: 1.0638301, z: 1.0638301}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children:
   - {fileID: 4588606984430301699}
   - {fileID: 3093041343070689764}
@@ -2273,7 +2273,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 130
     m_Right: 0
-    m_Top: 15
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -2546,9 +2546,9 @@ MonoBehaviour:
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 8534175724227199603}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -3177,6 +3177,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModItem
       objectReference: {fileID: 0}
+    - target: {fileID: 1531981485882328014, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd3cba924044d4bb338d7cd2fad7e1, type: 3}
 --- !u!224 &4588606984430301699 stripped
@@ -3302,6 +3308,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModItem (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1531981485882328014, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd3cba924044d4bb338d7cd2fad7e1, type: 3}
 --- !u!224 &4117963259390085121 stripped
@@ -3677,6 +3689,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModItem (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1531981485882328014, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd3cba924044d4bb338d7cd2fad7e1, type: 3}
 --- !u!224 &3093041342727340075 stripped
@@ -4552,6 +4570,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModItem (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1531981485882328014, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd3cba924044d4bb338d7cd2fad7e1, type: 3}
 --- !u!224 &3093041343400035340 stripped
@@ -4802,6 +4826,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModItem (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1531981485882328014, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cd3cba924044d4bb338d7cd2fad7e1, type: 3}
 --- !u!224 &3093041343070689764 stripped

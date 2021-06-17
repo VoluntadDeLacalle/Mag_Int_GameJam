@@ -2,6 +2,7 @@ using BasicTools.ButtonInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -35,6 +36,28 @@ public class Inventory : MonoBehaviour
             dropItemButton.SetActive(false);
             equipItemButton.SetActive(false);
             unequipItemButton.SetActive(false);
+
+            for (int i = 0; i < inventoryImages.Length; i++)
+            {
+                if (inventory[i] == null)
+                {
+                    continue;
+                }
+
+                if (inventory[i].itemType == Item.TypeTag.activeComponent || inventory[i].itemType == Item.TypeTag.grip)
+                {
+                    if (inventory[i].isEquipped)
+                    {
+                        inventoryImages[i].GetComponent<Image>().color = new Color(1, 0, 0, .5f);
+                        inventoryImages[i].GetComponent<Button>().interactable = false;
+                    }
+                    else
+                    {
+                        inventoryImages[i].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                        inventoryImages[i].GetComponent<Button>().interactable = true;
+                    }
+                }
+            }
         }
         else if (!inventoryPanel.activeSelf && isActive)
         {
