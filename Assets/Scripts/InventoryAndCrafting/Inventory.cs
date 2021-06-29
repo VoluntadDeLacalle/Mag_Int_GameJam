@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
 
     [Header("Visual Variables")]
     public Sprite nullPlaceholderSprite;
-    public UnityEngine.UI.Image selectedInspectorImage;
+    public Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
     public TMPro.TextMeshProUGUI selectedItemDescription;
     public GameObject dropItemButton;
@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour
                     continue;
                 }
 
-                if (inventory[i].itemType == Item.TypeTag.activeComponent || inventory[i].itemType == Item.TypeTag.grip)
+                if (inventory[i].itemType == Item.TypeTag.effector || inventory[i].itemType == Item.TypeTag.grip)
                 {
                     if (inventory[i].isEquipped)
                     {
@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
                     }
                     else
                     {
-                        inventoryImages[i].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                        inventoryImages[i].GetComponent<Image>().color = Color.white;
                         inventoryImages[i].GetComponent<Button>().interactable = true;
                     }
                 }
@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour
             if (inventory[i] == null)
             {
                 inventory[i] = newItem;
-                inventoryImages[i].GetComponent<UnityEngine.UI.Image>().sprite = newItem.inventorySprite;
+                inventoryImages[i].GetComponent<Image>().sprite = newItem.inventorySprite;
 
                 newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                 newItem.gameObject.SetActive(false);
@@ -98,7 +98,7 @@ public class Inventory : MonoBehaviour
         inventory[dropIndex].gameObject.SetActive(true);
 
         inventory[dropIndex] = null;
-        inventoryImages[dropIndex].GetComponent<UnityEngine.UI.Image>().sprite = nullPlaceholderSprite;
+        inventoryImages[dropIndex].GetComponent<Image>().sprite = nullPlaceholderSprite;
 
         selectedInspectorImage.sprite = nullPlaceholderSprite;
         selectedItemTitle.text = "";
@@ -120,7 +120,7 @@ public class Inventory : MonoBehaviour
         int imageIndex = -1;
         for (int i = 0; i < inventoryImages.Length; i++)
         {
-            if (clickedObject == inventoryImages[i] && clickedObject.GetComponent<UnityEngine.UI.Image>().sprite != nullPlaceholderSprite)
+            if (clickedObject == inventoryImages[i] && clickedObject.GetComponent<Image>().sprite != nullPlaceholderSprite)
             {
                 imageIndex = i;
                 break;
@@ -158,7 +158,7 @@ public class Inventory : MonoBehaviour
                 case Item.TypeTag.grip:
                     selectedItemTitle.text = $"{inventory[imageIndex].itemName} (Grip)";
                     break;
-                case Item.TypeTag.activeComponent:
+                case Item.TypeTag.effector:
                     selectedItemTitle.text = $"{inventory[imageIndex].itemName} (Component)";
                     break;
             }

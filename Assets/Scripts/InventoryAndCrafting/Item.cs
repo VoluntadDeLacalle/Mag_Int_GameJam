@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ChassisComponentTransform
+public class ChassisEffectorTransform
 {
     public Transform componentTransform;
-    public Item.TypeTag componentType = Item.TypeTag.activeComponent;
+    public bool isOccupied = false;
+}
+
+[System.Serializable]
+public class ChassisGripTransform
+{
+    public Transform componentTransform;
     public bool isOccupied = false;
 }
 
@@ -15,7 +21,7 @@ public class Item : MonoBehaviour
     public enum TypeTag
     {
         chassis,
-        activeComponent,
+        effector,
         grip
     };
     public TypeTag itemType;
@@ -27,7 +33,8 @@ public class Item : MonoBehaviour
     public Vector3 localHandPos = Vector3.zero;
     public Vector3 localHandRot = Vector3.zero;
     public Sprite inventorySprite;
-    public List<ChassisComponentTransform> chassisComponentTransforms;
+    public ChassisGripTransform chassisGripTransform;
+    public List<ChassisEffectorTransform> chassisEffectorTransforms;
     
     public Item(Item oldItem)
     {
@@ -35,10 +42,14 @@ public class Item : MonoBehaviour
         this.itemName = oldItem.itemName;
         this.description = oldItem.description;
         this.inventorySprite = oldItem.inventorySprite;
+        this.isEquipped = oldItem.isEquipped;
 
         if (this.itemType == TypeTag.chassis)
         {
-            this.chassisComponentTransforms = new List<ChassisComponentTransform>(oldItem.chassisComponentTransforms);
+            this.localHandPos = oldItem.localHandPos;
+            this.localHandRot = oldItem.localHandRot;
+            this.chassisGripTransform = oldItem.chassisGripTransform;
+            this.chassisEffectorTransforms = new List<ChassisEffectorTransform>(oldItem.chassisEffectorTransforms);
         }
     }
 
@@ -46,22 +57,18 @@ public class Item : MonoBehaviour
     {
         if (itemType == TypeTag.chassis)
         {
-            foreach(ChassisComponentTransform chassisComponent in chassisComponentTransforms)
+            if (chassisGripTransform.componentTransform != null)
             {
-                switch (chassisComponent.componentType)
+                Gizmos.color = new Color(0, 1, 0, 0.5f);
+                Gizmos.DrawSphere(chassisGripTransform.componentTransform.position, 0.5f);
+            }
+            
+            for (int i = 0; i < chassisEffectorTransforms.Count; i++)
+            {
+                if (chassisEffectorTransforms[i].componentTransform != null)
                 {
-                    case TypeTag.grip:
-                        Gizmos.color = new Color(0, 1, 0, 0.5f);
-                        Gizmos.DrawSphere(chassisComponent.componentTransform.position, 0.5f);
-                        break;
-                    case TypeTag.activeComponent:
-                        Gizmos.color = new Color(0, 0, 1, 0.5f);
-                        Gizmos.DrawSphere(chassisComponent.componentTransform.position, 0.5f);
-                        break;
-                    case TypeTag.chassis:
-                        Gizmos.color = Color.red;
-                        Gizmos.DrawSphere(chassisComponent.componentTransform.position, 0.5f);
-                        break;
+                    Gizmos.color = new Color(0, 0, 1, 0.5f);
+                    Gizmos.DrawSphere(chassisEffectorTransforms[i].componentTransform.position, 0.5f);
                 }
             }
         }
