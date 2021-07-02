@@ -76,6 +76,7 @@ public class Inventory : MonoBehaviour
 
                 newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                 newItem.gameObject.SetActive(false);
+                newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
                 return;
             }
         }

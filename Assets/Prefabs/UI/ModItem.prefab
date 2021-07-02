@@ -84,6 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1531981484934269712}
+  - component: {fileID: 5086981514553338885}
   m_Layer: 5
   m_Name: ModItem
   m_TagString: Untagged
@@ -111,6 +112,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5086981514553338885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531981484934269713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fedd49b85546df44b8bd82dc8dd8cb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentImage: {fileID: 1531981484498338003}
+  currentTextMesh: {fileID: 1531981485882328014}
 --- !u!1 &1531981485882328016
 GameObject:
   m_ObjectHideFlags: 0

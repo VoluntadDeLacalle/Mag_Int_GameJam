@@ -38,6 +38,7 @@ public class PlayerItemHandler : MonoBehaviour
         itemDetection.inventoryRef.inventory[inventoryIndex].isEquipped = false;
         itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.transform.parent = null;
         itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.SetActive(false);
+        itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         
         equippedItem = null;
         equippedGO = null;

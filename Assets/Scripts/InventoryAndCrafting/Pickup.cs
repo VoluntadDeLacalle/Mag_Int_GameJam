@@ -58,7 +58,10 @@ public class Pickup : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                PickupItem();
+                if (Time.timeScale != 0.0f)
+                {
+                    PickupItem();
+                }
             }
         }
     }

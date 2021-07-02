@@ -7,6 +7,7 @@ public class ChassisEffectorTransform
 {
     public Transform componentTransform;
     public bool isOccupied = false;
+    public int currentOccupiedItemIndex = -1;
 }
 
 [System.Serializable]
@@ -14,6 +15,7 @@ public class ChassisGripTransform
 {
     public Transform componentTransform;
     public bool isOccupied = false;
+    public int currentOccupiedItemIndex = -1;
 }
 
 public class Item : MonoBehaviour
@@ -60,7 +62,7 @@ public class Item : MonoBehaviour
             if (chassisGripTransform.componentTransform != null)
             {
                 Gizmos.color = new Color(0, 1, 0, 0.5f);
-                Gizmos.DrawSphere(chassisGripTransform.componentTransform.position, 0.5f);
+                Gizmos.DrawSphere(chassisGripTransform.componentTransform.position, 0.05f);
             }
             
             for (int i = 0; i < chassisEffectorTransforms.Count; i++)
@@ -68,7 +70,7 @@ public class Item : MonoBehaviour
                 if (chassisEffectorTransforms[i].componentTransform != null)
                 {
                     Gizmos.color = new Color(0, 0, 1, 0.5f);
-                    Gizmos.DrawSphere(chassisEffectorTransforms[i].componentTransform.position, 0.5f);
+                    Gizmos.DrawSphere(chassisEffectorTransforms[i].componentTransform.position, 0.05f);
                 }
             }
         }
