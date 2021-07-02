@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class HUDControls : MonoBehaviour
 {
+    public GameObject pauseUI;
+    public GameObject pickUpUI;
     public GameObject inventoryUI;
     public GameObject craftingUI;
     public GameObject winScreenUI;
@@ -14,8 +16,10 @@ public class HUDControls : MonoBehaviour
     {
         inventoryUI.SetActive(false);
         craftingUI.SetActive(false);
-       //winScreenUI.SetActive(false);
+        pauseUI.SetActive(false);
+        winScreenUI.SetActive(false);
 
+        Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
     }
 
@@ -27,6 +31,10 @@ public class HUDControls : MonoBehaviour
             {
                 toggleOpt(craftingUI);
             }
+            if (pauseUI.activeSelf)
+            {
+                toggleOpt(pauseUI);
+            }
 
             toggleOpt(inventoryUI);
         }
@@ -36,8 +44,34 @@ public class HUDControls : MonoBehaviour
             {
                 toggleOpt(inventoryUI);
             }
+            if (pauseUI.activeSelf)
+            {
+                toggleOpt(pauseUI);
+            }
 
             toggleOpt(craftingUI);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (craftingUI.activeSelf)
+            {
+                toggleOpt(craftingUI);
+            }
+            if (inventoryUI.activeSelf)
+            {
+                toggleOpt(inventoryUI);
+            }
+
+            toggleOpt(pauseUI);
+        }
+
+        if (pickUpUI.activeSelf && Time.timeScale == 0.0f)
+        {
+            pickUpUI.SetActive(false);
+        }
+        else if (!pickUpUI.activeSelf && Time.timeScale == 1.0f)
+        {
+            pickUpUI.SetActive(true);
         }
     }
 
