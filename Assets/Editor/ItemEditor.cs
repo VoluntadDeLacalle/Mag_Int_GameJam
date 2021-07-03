@@ -1,7 +1,8 @@
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Item)), CanEditMultipleObjects]
+[CustomEditor(typeof(Item), true)][CanEditMultipleObjects]
 public class ItemEditor : Editor
 {
     public SerializedProperty
@@ -32,6 +33,8 @@ public class ItemEditor : Editor
     {
         serializedObject.Update();
 
+        FieldInfo[] childFields = target.GetType().GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
         EditorGUILayout.PropertyField(type_Prop);
         Item.TypeTag currentType = (Item.TypeTag)type_Prop.enumValueIndex;
 
@@ -59,6 +62,19 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
+        }
+
+        if (target.GetType().Name != "Item")
+        {
+            foreach (FieldInfo field in childFields)
+            {
+
+                if (field.IsPublic || field.GetCustomAttribute(typeof(SerializeField)) != null)
+                {
+
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty(field.Name));
+                }
+            }
         }
 
         serializedObject.ApplyModifiedProperties();

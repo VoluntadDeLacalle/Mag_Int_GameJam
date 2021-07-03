@@ -56,7 +56,7 @@ public class CraftingController : MonoBehaviour
             {
                 case Item.TypeTag.chassis:
                     int tempChassisNumb = i;
-                    Item tempChassisItem = new Item(inventoryRef.inventory[tempChassisNumb]);
+                    Item tempChassisItem = inventoryRef.inventory[tempChassisNumb];
                     chassisList.Add(tempChassisItem);
                     GameObject tempChassisMod = Instantiate(modItemPrefab, chassisUIParent.transform);
                     tempChassisMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempChassisItem.inventorySprite, tempChassisItem.itemName);
@@ -64,7 +64,7 @@ public class CraftingController : MonoBehaviour
                     break;
                 case Item.TypeTag.effector:
                     int tempEffectorNumb = i;
-                    Item tempEffectorItem = new Item(inventoryRef.inventory[tempEffectorNumb]);
+                    Item tempEffectorItem = inventoryRef.inventory[tempEffectorNumb];
                     effectorList.Add(tempEffectorItem);
                     GameObject tempEffectorMod = Instantiate(modItemPrefab, effectorUIParent.transform);
                     tempEffectorMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempEffectorItem.inventorySprite, tempEffectorItem.itemName);
@@ -72,7 +72,7 @@ public class CraftingController : MonoBehaviour
                     break;
                 case Item.TypeTag.grip:
                     int tempGripNumb = i;
-                    Item tempGripItem = new Item(inventoryRef.inventory[tempGripNumb]);
+                    Item tempGripItem = inventoryRef.inventory[tempGripNumb];
                     gripList.Add(tempGripItem);
                     GameObject tempGripMod = Instantiate(modItemPrefab, gripUIParent.transform);
                     tempGripMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempGripItem.inventorySprite, tempGripItem.itemName);
@@ -139,6 +139,7 @@ public class CraftingController : MonoBehaviour
             inventoryRef.inventory[index].gameObject.SetActive(false);
             inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = false;
             inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = -1;
+            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = null;
             return;
         }
         else if (inventoryRef.inventory[index].isEquipped)
@@ -159,6 +160,7 @@ public class CraftingController : MonoBehaviour
             inventoryRef.inventory[index].gameObject.SetActive(true);
             inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = true;
             inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = index;
+            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = inventoryRef.inventory[index];
         }
     }
 
@@ -185,6 +187,7 @@ public class CraftingController : MonoBehaviour
             inventoryRef.inventory[index].gameObject.SetActive(false);
             inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = false;
             inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = -1;
+            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = null;
             return;
         }
         else if (inventoryRef.inventory[index].isEquipped)
@@ -205,6 +208,7 @@ public class CraftingController : MonoBehaviour
             inventoryRef.inventory[index].gameObject.SetActive(true);
             inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = true;
             inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = index;
+            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = inventoryRef.inventory[index];
         }
     }
 

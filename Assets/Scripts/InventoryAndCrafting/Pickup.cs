@@ -15,7 +15,7 @@ public class Pickup : MonoBehaviour
         tempItem = other.GetComponent<Item>();
         if (tempItem != null)
         {
-            if (/*tempItem.isEquipped != true && */tempItem.GetComponentInParent<PlayerController>() == null)
+            if (tempItem.isEquipped != true && tempItem.GetComponentInParent<PlayerController>() == null)
             {
                 if (!itemsInRange.Contains(other.GetComponent<Item>()))
                 {

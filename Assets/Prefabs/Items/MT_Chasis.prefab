@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 1969500432794686380}
   - component: {fileID: 3241124571813485577}
   - component: {fileID: 801146957885827267}
-  - component: {fileID: 854671651259925830}
+  - component: {fileID: 787146656735538539}
   - component: {fileID: 928325256775911973}
   - component: {fileID: 2413692274894365130}
   m_Layer: 0
@@ -116,7 +116,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &854671651259925830
+--- !u!114 &787146656735538539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1161579720236910870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
+  m_Script: {fileID: 11500000, guid: 814ab9f2277efed499391841444c2075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
@@ -135,12 +135,16 @@ MonoBehaviour:
   localHandPos: {x: 0.089, y: -0.019, z: -0.011}
   localHandRot: {x: 177.1, y: 0, z: 90}
   inventorySprite: {fileID: 21300000, guid: 6bb65dbba9dcc584b972176a3e188ee3, type: 3}
-  chassisGripTransform:
-    componentTransform: {fileID: 8142878687163146360}
-    isOccupied: 0
   chassisEffectorTransforms:
   - componentTransform: {fileID: 4173219946723817929}
     isOccupied: 0
+    currentOccupiedItemIndex: -1
+    currentEffector: {fileID: 0}
+  chassisGripTransform:
+    componentTransform: {fileID: 8142878687163146360}
+    isOccupied: 0
+    currentOccupiedItemIndex: -1
+    currentGrip: {fileID: 0}
 --- !u!54 &928325256775911973
 Rigidbody:
   m_ObjectHideFlags: 0

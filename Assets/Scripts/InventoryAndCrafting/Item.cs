@@ -8,6 +8,7 @@ public class ChassisEffectorTransform
     public Transform componentTransform;
     public bool isOccupied = false;
     public int currentOccupiedItemIndex = -1;
+    public Item currentEffector = null;
 }
 
 [System.Serializable]
@@ -16,6 +17,7 @@ public class ChassisGripTransform
     public Transform componentTransform;
     public bool isOccupied = false;
     public int currentOccupiedItemIndex = -1;
+    public Item currentGrip = null;
 }
 
 public class Item : MonoBehaviour
@@ -35,25 +37,25 @@ public class Item : MonoBehaviour
     public Vector3 localHandPos = Vector3.zero;
     public Vector3 localHandRot = Vector3.zero;
     public Sprite inventorySprite;
+    public List<ChassisEffectorTransform> chassisEffectorTransforms = new List<ChassisEffectorTransform>();
     public ChassisGripTransform chassisGripTransform;
-    public List<ChassisEffectorTransform> chassisEffectorTransforms;
     
-    public Item(Item oldItem)
-    {
-        this.itemType = oldItem.itemType;
-        this.itemName = oldItem.itemName;
-        this.description = oldItem.description;
-        this.inventorySprite = oldItem.inventorySprite;
-        this.isEquipped = oldItem.isEquipped;
+    //public Item(Item oldItem)
+    //{
+    //    this.itemType = oldItem.itemType;
+    //    this.itemName = oldItem.itemName;
+    //    this.description = oldItem.description;
+    //    this.inventorySprite = oldItem.inventorySprite;
+    //    this.isEquipped = oldItem.isEquipped;
 
-        if (this.itemType == TypeTag.chassis)
-        {
-            this.localHandPos = oldItem.localHandPos;
-            this.localHandRot = oldItem.localHandRot;
-            this.chassisGripTransform = oldItem.chassisGripTransform;
-            this.chassisEffectorTransforms = new List<ChassisEffectorTransform>(oldItem.chassisEffectorTransforms);
-        }
-    }
+    //    if (this.itemType == TypeTag.chassis)
+    //    {
+    //        this.localHandPos = oldItem.localHandPos;
+    //        this.localHandRot = oldItem.localHandRot;
+    //        this.chassisGripTransform = oldItem.chassisGripTransform;
+    //        this.chassisEffectorTransforms = new List<ChassisEffectorTransform>(oldItem.chassisEffectorTransforms);
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {
