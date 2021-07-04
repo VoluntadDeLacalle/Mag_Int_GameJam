@@ -6,16 +6,27 @@ public class DetectorEffector : Item
 {
     public int maxRadius = 5;
     public float radiusGrowthTime = 1;
+    public float detectorMoveThreshold = 0.1f;
     public GameObject detectorRadius;
-    
+    public List<Material> detectableMats = new List<Material>();
+
     private float currentRadius = 0;
-    private List<DetectableObject> previousDetectableObjectsInRange = new List<DetectableObject>();
+
+    private void Awake()
+    {        
+        for (int i = 0; i < detectableMats.Count; i++)
+        {
+            detectableMats[i].SetFloat("_Radius", currentRadius);
+            detectableMats[i].SetVector("_Center", transform.position);
+        }
+        detectorRadius.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+    }
 
     public override void Activate()
     {
         if (currentRadius > 0)
         {
-            CheckDetectableObjects();
+            UpdateVisibility();
         }
         
         if (Input.GetMouseButton(0))
@@ -44,37 +55,15 @@ public class DetectorEffector : Item
 
     void SetDetectorRadiusSphereScale(float radius)
     {
-        detectorRadius.transform.parent = null;
         detectorRadius.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
-        detectorRadius.transform.parent = this.gameObject.transform;
     }
 
-    void CheckDetectableObjects()
+    void UpdateVisibility()
     {
-        Collider[] currentColliders = Physics.OverlapSphere(transform.position, currentRadius);
-        List<DetectableObject> currentDetectableObjectsInRange = new List<DetectableObject>();
-
-        for(int i = 0; i < currentColliders.Length; i++)
+        for (int i = 0; i < detectableMats.Count; i++)
         {
-            DetectableObject tempObj = currentColliders[i].gameObject.GetComponent<DetectableObject>();
-            if (tempObj != null)
-            {
-                currentDetectableObjectsInRange.Add(tempObj);
-                tempObj.ActivateMeshRenderer(true);
-            }
+            detectableMats[i].SetFloat("_Radius", currentRadius);
+            detectableMats[i].SetVector("_Center", transform.position);
         }
-
-        for (int j = 0; j < previousDetectableObjectsInRange.Count; j++)
-        {
-            if (!currentDetectableObjectsInRange.Contains(previousDetectableObjectsInRange[j]))
-            {
-                if (previousDetectableObjectsInRange[j] != null)
-                {
-                    previousDetectableObjectsInRange[j].ActivateMeshRenderer(false);
-                }
-            }
-        }
-
-        previousDetectableObjectsInRange = currentDetectableObjectsInRange;
     }
 }

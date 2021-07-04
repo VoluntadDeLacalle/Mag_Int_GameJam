@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 151612136050906152}
   - component: {fileID: 151612136050906154}
   - component: {fileID: 151612136050906151}
-  - component: {fileID: 7092531396114285003}
   - component: {fileID: 4292579698284569856}
   m_Layer: 0
   m_Name: landmine
@@ -65,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 347a8d3f2c58a194fb8b1951e522bfc7, type: 2}
+  - {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -150,18 +149,6 @@ MonoBehaviour:
   explodeParticle: {fileID: 5208051516650667499, guid: d7295d5a7a244c04298ef42a8a456587,
     type: 3}
   groundTag: ground
---- !u!114 &7092531396114285003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070673356041734814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e86370c88907e3468d827c665aec82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &4292579698284569856
 AudioSource:
   m_ObjectHideFlags: 0
