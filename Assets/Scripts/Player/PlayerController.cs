@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Transform debugHitPointTransform;
+
     public Transform sceneCamera;
 
     public float walkSpeed = 6.0f;
@@ -10,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public float explosionForce = 11.0f;
     public float ragdollStunDuration = 5.0f;
     public Animator animator;
+
+    private Camera cam;
 
     // cached components
     CapsuleCollider capsule;
@@ -40,6 +44,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
+    {
+        ManageInput();
+        ManageHookshotStart();
+    }
+
+    public void ManageInput()
     {
         if (Time.timeScale < 0.1f)
         {
@@ -111,6 +121,17 @@ public class PlayerController : MonoBehaviour
         if (characterController.isGrounded)
         {
             yVelocity = 0.0f;
+        }
+    }
+
+    private void ManageHookshotStart()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if (Physics.Raycast(sceneCamera.transform.position, sceneCamera.forward, out RaycastHit raycastHit))
+            {
+                debugHitPointTransform.position = raycastHit.point;
+            }
         }
     }
 
