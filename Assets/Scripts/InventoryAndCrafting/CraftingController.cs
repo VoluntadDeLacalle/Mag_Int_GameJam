@@ -45,7 +45,7 @@ public class CraftingController : MonoBehaviour
 
     void OnEnableCraftingPanel()
     {
-        for (int i = 0; i < inventoryRef.inventory.Length; i++)
+        for (int i = 0; i < inventoryRef.inventory.Count; i++)
         {
             if (inventoryRef.inventory[i] == null)
             {
@@ -98,6 +98,7 @@ public class CraftingController : MonoBehaviour
 
     public void ChassisViewer(int index)
     {
+        Debug.Log(index);
         if (currentViewedChassisIndex == index)
         {
             Destroy(currentViewedChassis);
@@ -118,6 +119,7 @@ public class CraftingController : MonoBehaviour
 
     public void AddEffector(int index)
     {
+        Debug.Log(index);
         if (currentViewedChassisIndex == -1)
         {
             return;
@@ -166,6 +168,7 @@ public class CraftingController : MonoBehaviour
 
     public void AddGrip(int index)
     {
+        Debug.Log(index);
         if (currentViewedChassisIndex == -1)
         {
             return;
