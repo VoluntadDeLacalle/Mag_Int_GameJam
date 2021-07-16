@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Sourced from: https://www.youtube.com/watch?v=twMkGTqyZvI&t=850s
 public class PlayerCharacterController : MonoBehaviour
 {
     [SerializeField] private float mouseSensitivity = 1f;
@@ -12,13 +14,13 @@ public class PlayerCharacterController : MonoBehaviour
     private float cameraVerticalAngle;
     private float characterVelocityY;
     private Vector3 characterVelocityMomentum;
-    private ParticleSystem speedLinesParticleSystem;
     private State state;
     private Vector3 hookshotPosition;
     private float hookshotSize;
 
     public Camera playerCamera;
     public LayerMask grappleLayer;
+    public float maxGrappleDistance = 200f;
 
     private enum State
     {
@@ -130,7 +132,7 @@ public class PlayerCharacterController : MonoBehaviour
     {
         if (TestInputDownHookshot())
         {
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit raycastHit, grappleLayer))
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit raycastHit, maxGrappleDistance, grappleLayer))
             {
                 // Hit something
                 debugHitPointTransform.position = raycastHit.point;
