@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
     public float ragdollStunDuration = 5.0f;
     public Animator animator;
 
-    private Camera cam;
-
     // cached components
     CapsuleCollider capsule;
     CharacterController characterController;
@@ -28,6 +26,7 @@ public class PlayerController : MonoBehaviour
     float ragdollStunTimer = 0.0f;
     float grenadeThrowForwardImpulse = 10.0f;
     float grenadeThrowUpwardImpulse = 3.0f;
+    int layerMask = 1 << 10;
 
     void Start()
     {
@@ -128,9 +127,10 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            if (Physics.Raycast(sceneCamera.transform.position, sceneCamera.forward, out RaycastHit raycastHit))
+            if (Physics.Raycast(sceneCamera.transform.position, sceneCamera.forward, out RaycastHit raycastHit, layerMask))
             {
                 debugHitPointTransform.position = raycastHit.point;
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastHit.distance, Color.yellow);
             }
         }
     }

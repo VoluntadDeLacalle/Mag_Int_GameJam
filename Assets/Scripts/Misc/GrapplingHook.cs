@@ -8,7 +8,7 @@ public class GrapplingHook : MonoBehaviour
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
     public Transform gunTip, camera, player;
-    private float maxDistance = 30f;
+    private float maxDistance = 100f;
     private SpringJoint joint;
     private Rigidbody rb;
     private CharacterController cc;
@@ -60,6 +60,14 @@ public class GrapplingHook : MonoBehaviour
             joint.spring = 4.5f;
             joint.damper = 7f;
             joint.massScale = 4.5f;
+
+            //Vector3 grappleDir = (grapplePoint - transform.position).normalized;
+            //float grappleMultiplier = 2f;
+            //float minSpeed = 10f;
+            //float maxSpeed = 40f;
+            //float grappleSpeed = Mathf.Clamp(Vector3.Distance(transform.position, grapplePoint), minSpeed, maxSpeed);
+
+            //cc.Move(grappleDir * grappleSpeed * grappleMultiplier * Time.deltaTime);
 
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;
