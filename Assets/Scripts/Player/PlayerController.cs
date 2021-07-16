@@ -26,7 +26,18 @@ public class PlayerController : MonoBehaviour
     float ragdollStunTimer = 0.0f;
     float grenadeThrowForwardImpulse = 10.0f;
     float grenadeThrowUpwardImpulse = 3.0f;
-    int layerMask = 1 << 10;
+
+
+    public LayerMask GrappleMask;
+    private Vector3 grapplePosition;
+    private State state;
+
+    private enum State
+    {
+        Normal,
+        Grappling,
+
+    }
 
     void Start()
     {
@@ -40,12 +51,23 @@ public class PlayerController : MonoBehaviour
         characterController.center = new Vector3(0, correctHeight, 0);
 
         //AttachHeldGrenade();
+
+        state = State.Normal;
     }
 
     void Update()
     {
-        ManageInput();
-        ManageHookshotStart();
+        switch (state)
+        {
+            default:
+            case State.Normal:
+                ManageInput();
+                //ManageHookshotStart();
+                break;
+            case State.Grappling:
+                ManageHookshotMovement();
+                break;
+        }
     }
 
     public void ManageInput()
@@ -125,14 +147,25 @@ public class PlayerController : MonoBehaviour
 
     private void ManageHookshotStart()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Physics.Raycast(sceneCamera.transform.position, sceneCamera.forward, out RaycastHit raycastHit, layerMask))
+            RaycastHit hit;
+            if (Physics.Raycast(sceneCamera.position, sceneCamera.forward, out hit, GrappleMask))
             {
-                debugHitPointTransform.position = raycastHit.point;
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastHit.distance, Color.yellow);
+                debugHitPointTransform.position = hit.point;
+                grapplePosition = hit.point;
+                state = State.Grappling;
             }
         }
+    }
+
+    private void ManageHookshotMovement()
+    {
+        Vector3 grappleDir = (grapplePosition - transform.position).normalized;
+        float hookshotSpeed = 5f;
+
+        characterController.Move(moveDirection * hookshotSpeed * Time.deltaTime);
     }
 
     //public void OnThrowSpawnGrenade()
