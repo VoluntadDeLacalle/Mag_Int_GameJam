@@ -7,7 +7,7 @@ public class GrapplingHook : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
-    public Transform gunTip, camera, player;
+    public Transform gunTip, cam, player;
     private float maxDistance = 100f;
     private SpringJoint joint;
     private Rigidbody rb;
@@ -43,23 +43,33 @@ public class GrapplingHook : MonoBehaviour
     void StartGrapple()
     {
         RaycastHit hit;
-        if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable))
         {
             grapplePoint = hit.point;
-            joint = player.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = grapplePoint;
 
-            float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+            Vector3 hookshotDir = (grapplePoint - transform.position).normalized;
 
-            //The distance grapple will try to keep from grapple point. 
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
+            float hookshotSpeedMin = 10f;
+            float hookshotSpeedMax = 40f;
+            float hookshotSpeed = Mathf.Clamp(Vector3.Distance(transform.position, grapplePoint), hookshotSpeedMin, hookshotSpeedMax);
+            float hookshotSpeedMultiplier = 5f;
 
-            //Adjust these values to fit your game.
-            joint.spring = 4.5f;
-            joint.damper = 7f;
-            joint.massScale = 4.5f;
+            // Move Character Controller
+            cc.Move(hookshotDir * hookshotSpeed * hookshotSpeedMultiplier * Time.deltaTime);
+            //joint = player.gameObject.AddComponent<SpringJoint>();
+            //joint.autoConfigureConnectedAnchor = false;
+            //joint.connectedAnchor = grapplePoint;
+
+            //float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+
+            ////The distance grapple will try to keep from grapple point. 
+            //joint.maxDistance = distanceFromPoint * 0.8f;
+            //joint.minDistance = distanceFromPoint * 0.25f;
+
+            ////Adjust these values to fit your game.
+            //joint.spring = 4.5f;
+            //joint.damper = 7f;
+            //joint.massScale = 4.5f;
 
             //Vector3 grappleDir = (grapplePoint - transform.position).normalized;
             //float grappleMultiplier = 2f;
