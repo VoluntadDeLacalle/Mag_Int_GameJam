@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CraftingController : MonoBehaviour
 {
-    public Inventory inventoryRef;
     public GameObject craftingPanel;
     public GameObject modItemPrefab;
     private bool isActive = false;
@@ -26,7 +25,7 @@ public class CraftingController : MonoBehaviour
 
     private void Start()
     {
-        OnDisableCraftingPanel();
+        //OnDisableCraftingPanel();
     }
 
     void DeleteChildrenInGroup(GameObject parentGameObject)
@@ -45,18 +44,18 @@ public class CraftingController : MonoBehaviour
 
     void OnEnableCraftingPanel()
     {
-        for (int i = 0; i < inventoryRef.inventory.Count; i++)
+        for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
         {
-            if (inventoryRef.inventory[i] == null)
+            if (Inventory.Instance.inventory[i] == null)
             {
                 continue;
             }
 
-            switch (inventoryRef.inventory[i].itemType)
+            switch (Inventory.Instance.inventory[i].itemType)
             {
                 case Item.TypeTag.chassis:
                     int tempChassisNumb = i;
-                    Item tempChassisItem = inventoryRef.inventory[tempChassisNumb];
+                    Item tempChassisItem = Inventory.Instance.inventory[tempChassisNumb];
                     chassisList.Add(tempChassisItem);
                     GameObject tempChassisMod = Instantiate(modItemPrefab, chassisUIParent.transform);
                     tempChassisMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempChassisItem.inventorySprite, tempChassisItem.itemName);
@@ -64,7 +63,7 @@ public class CraftingController : MonoBehaviour
                     break;
                 case Item.TypeTag.effector:
                     int tempEffectorNumb = i;
-                    Item tempEffectorItem = inventoryRef.inventory[tempEffectorNumb];
+                    Item tempEffectorItem = Inventory.Instance.inventory[tempEffectorNumb];
                     effectorList.Add(tempEffectorItem);
                     GameObject tempEffectorMod = Instantiate(modItemPrefab, effectorUIParent.transform);
                     tempEffectorMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempEffectorItem.inventorySprite, tempEffectorItem.itemName);
@@ -72,7 +71,7 @@ public class CraftingController : MonoBehaviour
                     break;
                 case Item.TypeTag.grip:
                     int tempGripNumb = i;
-                    Item tempGripItem = inventoryRef.inventory[tempGripNumb];
+                    Item tempGripItem = Inventory.Instance.inventory[tempGripNumb];
                     gripList.Add(tempGripItem);
                     GameObject tempGripMod = Instantiate(modItemPrefab, gripUIParent.transform);
                     tempGripMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempGripItem.inventorySprite, tempGripItem.itemName);
@@ -109,7 +108,7 @@ public class CraftingController : MonoBehaviour
         Destroy(currentViewedChassis);
         currentViewedChassisIndex = -1;
 
-        currentViewedChassis = Instantiate(inventoryRef.inventory[index].gameObject);
+        currentViewedChassis = Instantiate(Inventory.Instance.inventory[index].gameObject);
         currentViewedChassisIndex = index;
         
         currentViewedChassis.transform.position = itemViewerTransform.transform.position;
@@ -124,45 +123,45 @@ public class CraftingController : MonoBehaviour
         {
             return;
         }
-        else if (index == inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex) //Change this to search all effectors later
+        else if (index == Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex) //Change this to search all effectors later
         {
             List<Item> tempItems = new List<Item>(currentViewedChassis.GetComponentsInChildren<Item>());
             for (int i = 0; i < tempItems.Count; i++)
             {
-                if (tempItems[i].itemName == inventoryRef.inventory[index].itemName)
+                if (tempItems[i].itemName == Inventory.Instance.inventory[index].itemName)
                 {
                     Destroy(tempItems[i].gameObject);
                     break;
                 }
             }
 
-            inventoryRef.inventory[index].transform.parent = null;
-            inventoryRef.inventory[index].isEquipped = false;
-            inventoryRef.inventory[index].gameObject.SetActive(false);
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = false;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = -1;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = null;
+            Inventory.Instance.inventory[index].transform.parent = null;
+            Inventory.Instance.inventory[index].isEquipped = false;
+            Inventory.Instance.inventory[index].gameObject.SetActive(false);
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = false;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = -1;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = null;
             return;
         }
-        else if (inventoryRef.inventory[index].isEquipped)
+        else if (Inventory.Instance.inventory[index].isEquipped)
         {
             return;
         }
         else
         {
-            GameObject EffectorObj = Instantiate(inventoryRef.inventory[index].gameObject, currentViewedChassis.transform);
+            GameObject EffectorObj = Instantiate(Inventory.Instance.inventory[index].gameObject, currentViewedChassis.transform);
             EffectorObj.transform.position = currentViewedChassis.GetComponent<Item>().chassisEffectorTransforms[0].componentTransform.position;
             EffectorObj.transform.rotation = Quaternion.Euler(0, 0, 0);
             EffectorObj.SetActive(true);
 
-            inventoryRef.inventory[index].transform.parent = inventoryRef.inventory[currentViewedChassisIndex].transform;
-            inventoryRef.inventory[index].transform.position = inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].componentTransform.position;
-            inventoryRef.inventory[index].transform.rotation = inventoryRef.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
-            inventoryRef.inventory[index].isEquipped = true;
-            inventoryRef.inventory[index].gameObject.SetActive(true);
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = true;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = index;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = inventoryRef.inventory[index];
+            Inventory.Instance.inventory[index].transform.parent = Inventory.Instance.inventory[currentViewedChassisIndex].transform;
+            Inventory.Instance.inventory[index].transform.position = Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].componentTransform.position;
+            Inventory.Instance.inventory[index].transform.rotation = Inventory.Instance.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
+            Inventory.Instance.inventory[index].isEquipped = true;
+            Inventory.Instance.inventory[index].gameObject.SetActive(true);
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = true;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = index;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = Inventory.Instance.inventory[index];
         }
     }
 
@@ -173,45 +172,45 @@ public class CraftingController : MonoBehaviour
         {
             return;
         }
-        else if (index == inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex) //Change this to search all effectors later
+        else if (index == Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex) //Change this to search all effectors later
         {
             List<Item> tempItems = new List<Item>(currentViewedChassis.GetComponentsInChildren<Item>());
             for (int i = 0; i < tempItems.Count; i++)
             {
-                if (tempItems[i].itemName == inventoryRef.inventory[index].itemName)
+                if (tempItems[i].itemName == Inventory.Instance.inventory[index].itemName)
                 {
                     Destroy(tempItems[i].gameObject);
                     break;
                 }
             }
 
-            inventoryRef.inventory[index].transform.parent = null;
-            inventoryRef.inventory[index].isEquipped = false;
-            inventoryRef.inventory[index].gameObject.SetActive(false);
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = false;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = -1;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = null;
+            Inventory.Instance.inventory[index].transform.parent = null;
+            Inventory.Instance.inventory[index].isEquipped = false;
+            Inventory.Instance.inventory[index].gameObject.SetActive(false);
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = false;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = -1;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = null;
             return;
         }
-        else if (inventoryRef.inventory[index].isEquipped)
+        else if (Inventory.Instance.inventory[index].isEquipped)
         {
             return;
         }
         else
         {
-            GameObject EffectorObj = Instantiate(inventoryRef.inventory[index].gameObject, currentViewedChassis.transform);
+            GameObject EffectorObj = Instantiate(Inventory.Instance.inventory[index].gameObject, currentViewedChassis.transform);
             EffectorObj.transform.position = currentViewedChassis.GetComponent<Item>().chassisGripTransform.componentTransform.position;
             EffectorObj.transform.rotation = Quaternion.Euler(0, 0, 0);
             EffectorObj.SetActive(true);
 
-            inventoryRef.inventory[index].transform.parent = inventoryRef.inventory[currentViewedChassisIndex].transform;
-            inventoryRef.inventory[index].transform.position = inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.componentTransform.position;
-            inventoryRef.inventory[index].transform.rotation = inventoryRef.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
-            inventoryRef.inventory[index].isEquipped = true;
-            inventoryRef.inventory[index].gameObject.SetActive(true);
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = true;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = index;
-            inventoryRef.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = inventoryRef.inventory[index];
+            Inventory.Instance.inventory[index].transform.parent = Inventory.Instance.inventory[currentViewedChassisIndex].transform;
+            Inventory.Instance.inventory[index].transform.position = Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.componentTransform.position;
+            Inventory.Instance.inventory[index].transform.rotation = Inventory.Instance.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
+            Inventory.Instance.inventory[index].isEquipped = true;
+            Inventory.Instance.inventory[index].gameObject.SetActive(true);
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = true;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = index;
+            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = Inventory.Instance.inventory[index];
         }
     }
 
@@ -220,12 +219,12 @@ public class CraftingController : MonoBehaviour
         if (craftingPanel.activeSelf && !isActive)
         {
             isActive = true;
-            OnEnableCraftingPanel();
+            //OnEnableCraftingPanel();
         }
         else if (!craftingPanel.activeSelf && isActive)
         {
             isActive = false;
-            OnDisableCraftingPanel();
+            //OnDisableCraftingPanel();
         }
     }
 }

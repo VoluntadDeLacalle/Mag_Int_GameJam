@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : SingletonMonoBehaviour<Inventory>
 {
     public List<Item> inventory = new List<Item>();
     public GameObject inventoryPanel;
@@ -32,8 +32,9 @@ public class Inventory : MonoBehaviour
 
     private ObjectPooler.Key inventoryItemUIKey = ObjectPooler.Key.InventoryItemUIButtons;
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         inventoryPanelGridLayout.columns = maxNumbofColumns;
     }
 
