@@ -7,8 +7,19 @@ public class ChassisEffectorTransform
 {
     public Transform componentTransform;
     public bool isOccupied = false;
-    public int currentOccupiedItemIndex = -1;
     public Item currentEffector = null;
+
+    public void AddNewEffectorTransform(Item newEffector)
+    {
+        isOccupied = true;
+        currentEffector = newEffector;
+    }
+
+    public void ResetEffectorTransform()
+    {
+        isOccupied = false;
+        currentEffector = null;
+    }
 }
 
 [System.Serializable]
@@ -16,8 +27,19 @@ public class ChassisGripTransform
 {
     public Transform componentTransform;
     public bool isOccupied = false;
-    public int currentOccupiedItemIndex = -1;
     public Item currentGrip = null;
+
+    public void AddNewGripTransform(Item newGrip)
+    {
+        isOccupied = true;
+        currentGrip = newGrip;
+    }
+
+    public void ResetGripTransform()
+    {
+        isOccupied = false;
+        currentGrip = null;
+    }
 }
 
 public class Item : MonoBehaviour

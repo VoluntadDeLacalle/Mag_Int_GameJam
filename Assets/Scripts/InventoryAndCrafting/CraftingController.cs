@@ -1,45 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingController : MonoBehaviour
 {
+    [Header("Crafting UI Variables")]
     public GameObject craftingPanel;
     public GameObject modItemPrefab;
+    public GameObject primaryCraftingList;
+    public GameObject craftingModButtonPrefab;
+    public GameObject resetCraftingButtonPrefab;
+    public GameObject warningPanel;
+
     private bool isActive = false;
+    private int currentChassisIndex = -1;
+    private bool warningCalled = false;
+
 
     [Header("Item Viewer Variables")]
-    private GameObject currentViewedChassis;
-    private int currentViewedChassisIndex = -1;
     public Camera itemViewerCamera;
     public GameObject itemViewerTransform;
 
-    public GameObject chassisUIParent;
     private List<Item> chassisList = new List<Item>();
 
-    public GameObject effectorUIParent;
     private List<Item> effectorList = new List<Item>();
 
-    public GameObject gripUIParent;
     private List<Item> gripList = new List<Item>();
 
     private void Start()
     {
-        //OnDisableCraftingPanel();
-    }
-
-    void DeleteChildrenInGroup(GameObject parentGameObject)
-    {
-        List<Transform> tempChildrenList = new List<Transform>(parentGameObject.GetComponentsInChildren<Transform>());
-        for (int i = 0; i < tempChildrenList.Count; i++)
-        {
-            if (tempChildrenList[i].gameObject == parentGameObject)
-            {
-                continue;
-            }
-
-            Destroy(tempChildrenList[i].gameObject);
-        }
+        OnDisableCraftingPanel();
     }
 
     void OnEnableCraftingPanel()
@@ -54,163 +45,464 @@ public class CraftingController : MonoBehaviour
             switch (Inventory.Instance.inventory[i].itemType)
             {
                 case Item.TypeTag.chassis:
-                    int tempChassisNumb = i;
-                    Item tempChassisItem = Inventory.Instance.inventory[tempChassisNumb];
+                    foreach (Item childrenItem in Inventory.Instance.inventory[i].gameObject.GetComponentsInChildren<Item>())
+                    {
+                        if (childrenItem.gameObject == Inventory.Instance.inventory[i].gameObject)
+                        {
+                            continue;
+                        }
+
+                        switch (childrenItem.itemType)
+                        {
+                            case Item.TypeTag.effector:
+                                Item tempChildEffectorItem = childrenItem;
+                                effectorList.Add(tempChildEffectorItem);
+                                break;
+                            case Item.TypeTag.grip:
+                                Item tempChildGripItem = childrenItem;
+                                gripList.Add(tempChildGripItem);
+                                break;
+                        }
+                    }
+
+                    Item tempChassisItem = Inventory.Instance.inventory[i];
                     chassisList.Add(tempChassisItem);
-                    GameObject tempChassisMod = Instantiate(modItemPrefab, chassisUIParent.transform);
-                    tempChassisMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempChassisItem.inventorySprite, tempChassisItem.itemName);
-                    tempChassisMod.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(delegate { ChassisViewer(tempChassisNumb); });
                     break;
                 case Item.TypeTag.effector:
-                    int tempEffectorNumb = i;
-                    Item tempEffectorItem = Inventory.Instance.inventory[tempEffectorNumb];
+                    Item tempEffectorItem = Inventory.Instance.inventory[i];
                     effectorList.Add(tempEffectorItem);
-                    GameObject tempEffectorMod = Instantiate(modItemPrefab, effectorUIParent.transform);
-                    tempEffectorMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempEffectorItem.inventorySprite, tempEffectorItem.itemName);
-                    tempEffectorMod.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(delegate { AddEffector(tempEffectorNumb); });
                     break;
                 case Item.TypeTag.grip:
-                    int tempGripNumb = i;
-                    Item tempGripItem = Inventory.Instance.inventory[tempGripNumb];
+                    Item tempGripItem = Inventory.Instance.inventory[i];
                     gripList.Add(tempGripItem);
-                    GameObject tempGripMod = Instantiate(modItemPrefab, gripUIParent.transform);
-                    tempGripMod.GetComponent<ItemUIDescriptor>().ApplyDescriptors(tempGripItem.inventorySprite, tempGripItem.itemName);
-                    tempGripMod.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(delegate { AddGrip(tempGripNumb); });
                     break;
             }
         }
+        ChooseNewChassis(-1);
     }
 
     void OnDisableCraftingPanel()
     {
-        DeleteChildrenInGroup(chassisUIParent);
-        DeleteChildrenInGroup(effectorUIParent);
-        DeleteChildrenInGroup(gripUIParent);
-
         chassisList.Clear();
         effectorList.Clear();
         gripList.Clear();
 
-        Destroy(currentViewedChassis);
-        currentViewedChassisIndex = -1;
+        currentChassisIndex = -1;
     }
 
-    public void ChassisViewer(int index)
+    void DestroyPrimaryCraftingList()
     {
-        Debug.Log(index);
-        if (currentViewedChassisIndex == index)
+        foreach(Transform currentCraftingModButton in primaryCraftingList.GetComponentsInChildren<Transform>())
         {
-            Destroy(currentViewedChassis);
-            currentViewedChassisIndex = -1;
-            return;
-        }
-
-        Destroy(currentViewedChassis);
-        currentViewedChassisIndex = -1;
-
-        currentViewedChassis = Instantiate(Inventory.Instance.inventory[index].gameObject);
-        currentViewedChassisIndex = index;
-        
-        currentViewedChassis.transform.position = itemViewerTransform.transform.position;
-        currentViewedChassis.transform.rotation = Quaternion.Euler(0, 0, 0);
-        currentViewedChassis.SetActive(true);
-    }
-
-    public void AddEffector(int index)
-    {
-        Debug.Log(index);
-        if (currentViewedChassisIndex == -1)
-        {
-            return;
-        }
-        else if (index == Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex) //Change this to search all effectors later
-        {
-            List<Item> tempItems = new List<Item>(currentViewedChassis.GetComponentsInChildren<Item>());
-            for (int i = 0; i < tempItems.Count; i++)
+            if(currentCraftingModButton == primaryCraftingList.transform)
             {
-                if (tempItems[i].itemName == Inventory.Instance.inventory[index].itemName)
-                {
-                    Destroy(tempItems[i].gameObject);
-                    break;
-                }
+                continue;
             }
 
-            Inventory.Instance.inventory[index].transform.parent = null;
-            Inventory.Instance.inventory[index].isEquipped = false;
-            Inventory.Instance.inventory[index].gameObject.SetActive(false);
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = false;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = -1;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = null;
-            return;
+            Destroy(currentCraftingModButton.gameObject);
         }
-        else if (Inventory.Instance.inventory[index].isEquipped)
+    }
+
+    void WarningResult()
+    {
+        warningCalled = true;
+    }
+
+    void ChooseNewChassis(int index)
+    {
+        DestroyPrimaryCraftingList();
+        float heightSpacing = 0;
+        currentChassisIndex = -1;
+        if (index == -1)
         {
+            GameObject chassisNoneSecondaryCraftingList = SpawnPrimaryButton("Chassis", "None", null,ref heightSpacing);
+            SpawnSecondaryButtons(Item.TypeTag.chassis, chassisNoneSecondaryCraftingList.transform);
             return;
         }
         else
         {
-            GameObject EffectorObj = Instantiate(Inventory.Instance.inventory[index].gameObject, currentViewedChassis.transform);
-            EffectorObj.transform.position = currentViewedChassis.GetComponent<Item>().chassisEffectorTransforms[0].componentTransform.position;
-            EffectorObj.transform.rotation = Quaternion.Euler(0, 0, 0);
-            EffectorObj.SetActive(true);
+            Item currentChassis = chassisList[index];
+            currentChassisIndex = index;
 
-            Inventory.Instance.inventory[index].transform.parent = Inventory.Instance.inventory[currentViewedChassisIndex].transform;
-            Inventory.Instance.inventory[index].transform.position = Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].componentTransform.position;
-            Inventory.Instance.inventory[index].transform.rotation = Inventory.Instance.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
-            Inventory.Instance.inventory[index].isEquipped = true;
-            Inventory.Instance.inventory[index].gameObject.SetActive(true);
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].isOccupied = true;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentOccupiedItemIndex = index;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisEffectorTransforms[0].currentEffector = Inventory.Instance.inventory[index];
+            GameObject chassisSecondaryCraftingList = 
+                SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
+            SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
+
+            List<PrimaryCraftingUIDescriptor> resetEffectorPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
+
+            for (int i = 0; i < currentChassis.chassisEffectorTransforms.Count; i++)
+            {
+                int currentEffectorTransformIndex = i;
+                string effectorItemName = "None";
+                Sprite effectorItemIcon = null;
+                if (currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].isOccupied)
+                {
+                    effectorItemName = currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].currentEffector.itemName;
+                    effectorItemIcon = currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].currentEffector.inventorySprite;
+                }
+
+                GameObject effectorSecondaryCraftingList = 
+                    SpawnPrimaryButton($"Effector { i + 1 }", effectorItemName, effectorItemIcon, ref heightSpacing);
+                SpawnMultiComponentSecondaryButtons(Item.TypeTag.effector, effectorSecondaryCraftingList.transform, currentEffectorTransformIndex);
+
+                resetEffectorPrimaryButtons.Add(effectorSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
+            }
+
+            string gripItemName = "None";
+            Sprite gripItemIcon = null;
+            if (currentChassis.chassisGripTransform.isOccupied)
+            {
+                gripItemName = currentChassis.chassisGripTransform.currentGrip.itemName;
+                gripItemIcon = currentChassis.chassisGripTransform.currentGrip.inventorySprite;
+            }
+            GameObject gripSecondaryCraftingList = 
+                SpawnPrimaryButton("Grip", gripItemName, gripItemIcon, ref heightSpacing);
+            SpawnSecondaryButtons(Item.TypeTag.grip, gripSecondaryCraftingList.transform);
+
+            PrimaryCraftingUIDescriptor resetGripPrimaryButton = gripSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>();
+
+            GameObject resetButton = Instantiate(resetCraftingButtonPrefab);
+            resetButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { ResetCurrentChassis(resetEffectorPrimaryButtons, resetGripPrimaryButton); });
+            resetButton.transform.SetParent(primaryCraftingList.transform, false);
         }
     }
 
-    public void AddGrip(int index)
+    void ResetCurrentChassis(List<PrimaryCraftingUIDescriptor> effectorPrimaryButtons, PrimaryCraftingUIDescriptor gripPrimaryButton)
     {
-        Debug.Log(index);
-        if (currentViewedChassisIndex == -1)
+        string warning = "You are about to remove all components from this chassis!";
+        if (!warningCalled)
         {
-            return;
+            warningPanel.SetActive(true);
+            warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
+            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(effectorPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
         }
-        else if (index == Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex) //Change this to search all effectors later
+        else
         {
-            List<Item> tempItems = new List<Item>(currentViewedChassis.GetComponentsInChildren<Item>());
-            for (int i = 0; i < tempItems.Count; i++)
+            for (int i = 0; i < chassisList[currentChassisIndex].chassisEffectorTransforms.Count; i++)
             {
-                if (tempItems[i].itemName == Inventory.Instance.inventory[index].itemName)
+                effectorPrimaryButtons[i].SetButtonInformation($"Effector {i + 1}", "None", null);
+
+                if (chassisList[currentChassisIndex].chassisEffectorTransforms[i].isOccupied)
                 {
-                    Destroy(tempItems[i].gameObject);
-                    break;
+                    ///Removes effector for current slot if there is one.
+                    chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject.transform.parent = null;
+                    chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.isEquipped = false;
+                    chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject.SetActive(false);
+
+                    Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector);
+                    chassisList[currentChassisIndex].chassisEffectorTransforms[i].ResetEffectorTransform();
                 }
             }
 
-            Inventory.Instance.inventory[index].transform.parent = null;
-            Inventory.Instance.inventory[index].isEquipped = false;
-            Inventory.Instance.inventory[index].gameObject.SetActive(false);
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = false;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = -1;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = null;
-            return;
+            gripPrimaryButton.SetButtonInformation("Grip", "None", null);
+
+            if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
+            {
+                ///Removes grip from current slot if there is one.
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.isEquipped = false;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.SetActive(false);
+
+                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.currentGrip);
+                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+            }
         }
-        else if (Inventory.Instance.inventory[index].isEquipped)
-        {
+    }
+    
+    void ChooseNewEffector(int effectorIndex, int effectorTransformIndex, GameObject parentButton)
+    {
+        if (effectorIndex == -1)
+        {   
+            parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", "None", null);
+            
+            if (chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].isOccupied)
+            {
+                ///Removes effector for current slot if there is one.
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.transform.parent = null;
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.isEquipped = false;
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.SetActive(false);
+                
+                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector);
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].ResetEffectorTransform();
+            }
             return;
         }
         else
         {
-            GameObject EffectorObj = Instantiate(Inventory.Instance.inventory[index].gameObject, currentViewedChassis.transform);
-            EffectorObj.transform.position = currentViewedChassis.GetComponent<Item>().chassisGripTransform.componentTransform.position;
-            EffectorObj.transform.rotation = Quaternion.Euler(0, 0, 0);
-            EffectorObj.SetActive(true);
+            if (chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].isOccupied)
+            {
+                if (chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject == effectorList[effectorIndex].gameObject)
+                {
+                    return;
+                }
 
-            Inventory.Instance.inventory[index].transform.parent = Inventory.Instance.inventory[currentViewedChassisIndex].transform;
-            Inventory.Instance.inventory[index].transform.position = Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.componentTransform.position;
-            Inventory.Instance.inventory[index].transform.rotation = Inventory.Instance.inventory[currentViewedChassisIndex].gameObject.transform.rotation;
-            Inventory.Instance.inventory[index].isEquipped = true;
-            Inventory.Instance.inventory[index].gameObject.SetActive(true);
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.isOccupied = true;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentOccupiedItemIndex = index;
-            Inventory.Instance.inventory[currentViewedChassisIndex].chassisGripTransform.currentGrip = Inventory.Instance.inventory[index];
+                ///Removes whatever effector was in the slot prior to a new one being added.
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.transform.parent = null;
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.isEquipped = false;
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.SetActive(false);
+
+                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector);
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].ResetEffectorTransform();
+            }
+
+            if (effectorList[effectorIndex].isEquipped)
+            {
+                Item attachedEffectorChassis = effectorList[effectorIndex].gameObject.GetComponentInParent<Item>();
+                if (attachedEffectorChassis.gameObject == chassisList[currentChassisIndex].gameObject)
+                {
+                    for (int i = 0; i < chassisList[currentChassisIndex].chassisEffectorTransforms.Count; i++)
+                    {
+                        if (chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject == effectorList[effectorIndex].gameObject)
+                        {
+                            foreach (PrimaryCraftingUIDescriptor currentButton in primaryCraftingList.GetComponentsInChildren<PrimaryCraftingUIDescriptor>())
+                            {
+                                if(currentButton.titleTextMesh.text == $"Effector {i + 1}")
+                                {
+                                    currentButton.SetButtonInformation($"Effector {i + 1}", "None", null);
+                                    break;
+                                }
+                            }
+
+                            chassisList[currentChassisIndex].chassisEffectorTransforms[i].ResetEffectorTransform();
+                            break;
+                        }
+                        else if(i == effectorTransformIndex)
+                        {
+                            continue;
+                        }
+                    }
+                    
+                    ///Moves effector from one slot on current chassis to currently selected one.
+                    effectorList[effectorIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.position;
+                    effectorList[effectorIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
+                    chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].AddNewEffectorTransform(effectorList[effectorIndex]);
+
+                    parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
+                    return;
+                }
+                else
+                {
+                    string warning = "The effector you are trying to use is attached to a different object!";
+                    if (!warningCalled)
+                    {
+                        warningPanel.SetActive(true);
+                        warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
+                        warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewEffector(effectorIndex, effectorTransformIndex, parentButton); warningCalled = false; }, delegate { warningCalled = false; });
+                    }
+                    else
+                    {
+                        for (int i = 0; i < chassisList.Count; i++)
+                        {
+                            if (chassisList[i].gameObject == attachedEffectorChassis.gameObject)
+                            {
+                                for(int j = 0; j < chassisList[i].chassisEffectorTransforms.Count; j++)
+                                {
+                                    if(chassisList[i].chassisEffectorTransforms[j].currentEffector.gameObject == effectorList[effectorIndex])
+                                    {
+                                        chassisList[i].chassisEffectorTransforms[j].ResetEffectorTransform();
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        ///Removes effector from other chassis and places it on this one.
+                        effectorList[effectorIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
+                        effectorList[effectorIndex].transform.position = chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.position;
+                        effectorList[effectorIndex].transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
+                        chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].AddNewEffectorTransform(effectorList[effectorIndex]);
+
+                        parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                ///Adds effector into current slot, removes from inventory.
+                effectorList[effectorIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
+                effectorList[effectorIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.position;
+                effectorList[effectorIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
+                effectorList[effectorIndex].isEquipped = true;
+                effectorList[effectorIndex].gameObject.SetActive(true);
+                
+                chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].AddNewEffectorTransform(effectorList[effectorIndex]);
+                for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+                {
+                    if(Inventory.Instance.inventory[i].gameObject == effectorList[effectorIndex].gameObject)
+                    {
+                        Inventory.Instance.inventory.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
+            }
+        }
+    }
+
+    void ChooseNewGrip(int gripIndex, GameObject parentButton)
+    {
+        if (gripIndex == -1)
+        {
+            parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", "None", null);
+
+            if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
+            {
+                ///Removes grip from current slot if there is one.
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.isEquipped = false;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.SetActive(false);
+
+                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.currentGrip);
+                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+            }
+            return;
+        }
+        else
+        {
+            if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
+            {
+                if (chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject == gripList[gripIndex].gameObject)
+                {
+                    return;
+                }
+
+                ///Removes whatever effector was in the slot prior to a new one being added.
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.isEquipped = false;
+                chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.SetActive(false);
+
+                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.currentGrip);
+                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+            }
+
+            if (gripList[gripIndex].isEquipped)
+            {
+                Item attachedGripChassis = gripList[gripIndex].gameObject.GetComponentInParent<Item>();
+
+                string warning = "The grip you are trying to use is attached to a different object!";
+                if (!warningCalled)
+                {
+                    warningPanel.SetActive(true);
+                    warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
+                    warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewGrip(gripIndex, parentButton); warningCalled = false; }, delegate { warningCalled = false; });
+                }
+                else
+                {
+                    for (int i = 0; i < chassisList.Count; i++)
+                    {
+                        if (chassisList[i].gameObject == attachedGripChassis.gameObject)
+                        {
+                            chassisList[i].chassisGripTransform.ResetGripTransform();
+                            break;
+                        }
+                    }
+                    ///Removes grip from other chassis and places it on this one.
+                    gripList[gripIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
+                    gripList[gripIndex].transform.position = chassisList[currentChassisIndex].chassisGripTransform.componentTransform.position;
+                    gripList[gripIndex].transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
+                    chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
+
+                    parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
+                    return;
+                }
+            }
+            else
+            {
+                ///Adds grip into current slot, removes from inventory.
+                gripList[gripIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
+                gripList[gripIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisGripTransform.componentTransform.position;
+                gripList[gripIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
+                gripList[gripIndex].isEquipped = true;
+                gripList[gripIndex].gameObject.SetActive(true);
+
+                chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
+                for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+                {
+                    if (Inventory.Instance.inventory[i].gameObject == gripList[gripIndex].gameObject)
+                    {
+                        Inventory.Instance.inventory.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
+            }
+        }
+
+    }
+
+    GameObject SpawnPrimaryButton(string title, string itemTitle, Sprite itemIcon,ref float heightSpacing)
+    {
+        GameObject obj = Instantiate(craftingModButtonPrefab);
+        obj.GetComponent<PrimaryCraftingUIDescriptor>().SetButtonInformation(title, itemTitle, itemIcon);
+        obj.transform.SetParent(primaryCraftingList.transform, false);
+        obj.GetComponent<PrimaryCraftingUIDescriptor>().MoveSecondaryCraftingRect(0, heightSpacing);
+        heightSpacing += craftingModButtonPrefab.GetComponent<RectTransform>().rect.height;
+        return obj.GetComponent<PrimaryCraftingUIDescriptor>().secondaryCraftingList;
+    }
+
+    void SpawnMultiComponentSecondaryButtons(Item.TypeTag typeTag, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
+    {
+        GameObject noneObj = Instantiate(modItemPrefab);
+        noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
+        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+        noneObj.transform.SetParent(secondaryButtonParent, false);
+
+        switch (typeTag)
+        {
+            case Item.TypeTag.effector:
+                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewEffector(-1, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+
+                for (int i = 0; i < effectorList.Count; i++)
+                {
+                    int effectorIndex = i;
+                    GameObject effectorObj = Instantiate(modItemPrefab);
+                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(effectorList[effectorIndex].inventorySprite, effectorList[effectorIndex].itemName);
+                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewEffector(effectorIndex, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    effectorObj.transform.SetParent(secondaryButtonParent, false);
+                }
+                break;
+        }
+    }
+
+    void SpawnSecondaryButtons(Item.TypeTag typeTag, Transform secondaryButtonParent)
+    {
+        GameObject noneObj = Instantiate(modItemPrefab);
+        noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
+        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+        noneObj.transform.SetParent(secondaryButtonParent, false);
+
+        switch (typeTag)
+        {
+            case Item.TypeTag.chassis:
+                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(-1); });
+
+                for (int i = 0; i < chassisList.Count; i++)
+                {
+                    int chassisIndex = i;
+                    GameObject chassisObj = Instantiate(modItemPrefab);
+                    chassisObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(chassisList[chassisIndex].inventorySprite, chassisList[chassisIndex].itemName);
+                    chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(chassisIndex); });
+                    chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    chassisObj.transform.SetParent(secondaryButtonParent, false);
+                }
+                break;
+            case Item.TypeTag.grip:
+                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(-1, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+
+                for (int i = 0; i < gripList.Count; i++)
+                {
+                    int gripIndex = i;
+                    GameObject gripObj = Instantiate(modItemPrefab);
+                    gripObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(gripList[gripIndex].inventorySprite, gripList[gripIndex].itemName);
+                    gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(gripIndex, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    gripObj.transform.SetParent(secondaryButtonParent, false);
+                }
+                break;
         }
     }
 
@@ -219,12 +511,12 @@ public class CraftingController : MonoBehaviour
         if (craftingPanel.activeSelf && !isActive)
         {
             isActive = true;
-            //OnEnableCraftingPanel();
+            OnEnableCraftingPanel();
         }
         else if (!craftingPanel.activeSelf && isActive)
         {
             isActive = false;
-            //OnDisableCraftingPanel();
+            OnDisableCraftingPanel();
         }
     }
 }

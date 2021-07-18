@@ -48,6 +48,12 @@ MonoBehaviour:
     type: 3}
   itemViewerCamera: {fileID: 4560360360167464407}
   itemViewerTransform: {fileID: 5139598280633432342}
+  primaryCraftingList: {fileID: 6152271379069432595}
+  craftingModButtonPrefab: {fileID: 6871847946608973954, guid: 38f66b16989617f4a831bee08ce280aa,
+    type: 3}
+  resetCraftingButtonPrefab: {fileID: 6536352705303338211, guid: f9176433b107e1541a3279ab9520d262,
+    type: 3}
+  warningPanel: {fileID: 934676258439875672}
   chassisUIParent: {fileID: 0}
   effectorUIParent: {fileID: 0}
   gripUIParent: {fileID: 0}
@@ -517,6 +523,18 @@ GameObject:
 --- !u!224 &3052678113948389594 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3426385051440792665, guid: d931c442f2113e9488c00d6d4e930d9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 419324730069652611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6152271379069432595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5814428215190153104, guid: d931c442f2113e9488c00d6d4e930d9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 419324730069652611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &934676258439875672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 660092372957944027, guid: d931c442f2113e9488c00d6d4e930d9a,
     type: 3}
   m_PrefabInstance: {fileID: 419324730069652611}
   m_PrefabAsset: {fileID: 0}

@@ -160,13 +160,14 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
     void UpdateInventoryView()
     {
+        DeactivateCurrentInventoryView();
         for (int i = 0; i < inventory.Count; i++)
         {
             //if (inventory[i].itemType != Item.TypeTag.chassis && inventory[i].isEquipped)
             //{
             //    continue;
             //}
-            ///Fix this problem GAVIn
+
             GameObject currentItemBox = ObjectPooler.GetPooler(inventoryItemUIKey).GetPooledObject();
             currentItemBox.transform.SetParent(inventoryItemPanel.transform, false);
             int currentIndex = i;
