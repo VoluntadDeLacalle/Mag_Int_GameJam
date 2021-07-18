@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     float ragdollStunTimer = 0.0f;
     float grenadeThrowForwardImpulse = 10.0f;
     float grenadeThrowUpwardImpulse = 3.0f;
-
+    public float maxGrappleDistance = 200f;
 
     public LayerMask GrappleMask;
     private Vector3 grapplePosition;
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit hit;
-            if (Physics.Raycast(sceneCamera.position, sceneCamera.forward, out hit, GrappleMask))
+            if (Physics.Raycast(sceneCamera.position, sceneCamera.forward, out hit, maxGrappleDistance, GrappleMask))
             {
                 debugHitPointTransform.position = hit.point;
                 grapplePosition = hit.point;

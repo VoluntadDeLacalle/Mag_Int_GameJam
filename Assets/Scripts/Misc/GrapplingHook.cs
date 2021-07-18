@@ -47,37 +47,21 @@ public class GrapplingHook : MonoBehaviour
         {
             grapplePoint = hit.point;
 
-            Vector3 hookshotDir = (grapplePoint - transform.position).normalized;
+            //Move Character Controller
+            joint = player.gameObject.AddComponent<SpringJoint>();
+            joint.autoConfigureConnectedAnchor = false;
+            joint.connectedAnchor = grapplePoint;
 
-            float hookshotSpeedMin = 10f;
-            float hookshotSpeedMax = 40f;
-            float hookshotSpeed = Mathf.Clamp(Vector3.Distance(transform.position, grapplePoint), hookshotSpeedMin, hookshotSpeedMax);
-            float hookshotSpeedMultiplier = 5f;
+            float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-            // Move Character Controller
-            cc.Move(hookshotDir * hookshotSpeed * hookshotSpeedMultiplier * Time.deltaTime);
-            //joint = player.gameObject.AddComponent<SpringJoint>();
-            //joint.autoConfigureConnectedAnchor = false;
-            //joint.connectedAnchor = grapplePoint;
+            //The distance grapple will try to keep from grapple point. 
+            joint.maxDistance = distanceFromPoint * 0.8f;
+            joint.minDistance = distanceFromPoint * 0.25f;
 
-            //float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
-
-            ////The distance grapple will try to keep from grapple point. 
-            //joint.maxDistance = distanceFromPoint * 0.8f;
-            //joint.minDistance = distanceFromPoint * 0.25f;
-
-            ////Adjust these values to fit your game.
-            //joint.spring = 4.5f;
-            //joint.damper = 7f;
-            //joint.massScale = 4.5f;
-
-            //Vector3 grappleDir = (grapplePoint - transform.position).normalized;
-            //float grappleMultiplier = 2f;
-            //float minSpeed = 10f;
-            //float maxSpeed = 40f;
-            //float grappleSpeed = Mathf.Clamp(Vector3.Distance(transform.position, grapplePoint), minSpeed, maxSpeed);
-
-            //cc.Move(grappleDir * grappleSpeed * grappleMultiplier * Time.deltaTime);
+            //Adjust these values to fit your game.
+            joint.spring = 4.5f;
+            joint.damper = 7f;
+            joint.massScale = 4.5f;
 
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;

@@ -2,23 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Sourced from: https://www.youtube.com/watch?v=twMkGTqyZvI&t=850s
 public class PlayerCharacterController : MonoBehaviour
 {
-    [SerializeField] private float mouseSensitivity = 1f;
-    [SerializeField] private Transform debugHitPointTransform;
     [SerializeField] private Transform hookshotTransform;
+    [SerializeField] private Camera playerCam;
+    [SerializeField] private Transform playerTransform;
 
     private CharacterController characterController;
+    public LineRenderer lr;
+    private Vector3 characterVelocityMomentum;
+    private Vector3 currentGrapplePosition;
+    private Vector3 hookshotPosition;
     private float cameraVerticalAngle;
     private float characterVelocityY;
-    private Vector3 characterVelocityMomentum;
-    private ParticleSystem speedLinesParticleSystem;
-    private State state;
-    private Vector3 hookshotPosition;
     private float hookshotSize;
 
-    public Camera playerCamera;
+    private State state;    
+
+    [Header("Grapple Data")]
     public LayerMask grappleLayer;
+    public Transform grappleTip;
+    public float maxGrappleDistance = 200f;
+    public float hookshotThrowSpeed = 500f;
+    public float hookshotSpeedMin = 10f;
+    public float hookshotSpeedMax = 40f;
+    public float hookshotSpeedMultiplier = 5f;
+    public float reachedHookshotPositionDistance = 2f;
+    public float mouseSensitivity = 1f;
+    public bool isGrappling = false;
+
+    [Header("Player Data")]
+    public float moveSpeed = 20f;
+    public float jumpSpeed = 30f;
+    public float gravityDownForce = -60f;
 
     private enum State
     {
@@ -30,9 +48,16 @@ public class PlayerCharacterController : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        //lr = GetComponent<LineRenderer>();
         Cursor.lockState = CursorLockMode.Locked;
         state = State.Normal;
         hookshotTransform.gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(playerTransform.position, new Vector3(2, 1, 2));
     }
 
     private void Update()
@@ -57,6 +82,11 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        DrawRope();
+    }
+
     private void HandleCharacterLook()
     {
         float lookX = Input.GetAxisRaw("Mouse X");
@@ -72,15 +102,13 @@ public class PlayerCharacterController : MonoBehaviour
         cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -89f, 89f);
 
         // Apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-        playerCamera.transform.localEulerAngles = new Vector3(cameraVerticalAngle, 0, 0);
+        playerCam.transform.localEulerAngles = new Vector3(cameraVerticalAngle, 0, 0);
     }
 
     private void HandleCharacterMovement()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
-
-        float moveSpeed = 20f;
+        float moveZ = Input.GetAxisRaw("Vertical");        
 
         Vector3 characterVelocity = transform.right * moveX * moveSpeed + transform.forward * moveZ * moveSpeed;
 
@@ -90,15 +118,12 @@ public class PlayerCharacterController : MonoBehaviour
             // Jump
             if (TestInputJump())
             {
-                float jumpSpeed = 30f;
                 characterVelocityY = jumpSpeed;
             }
         }
 
         // Apply gravity to the velocity
-        float gravityDownForce = -60f;
         characterVelocityY += gravityDownForce * Time.deltaTime;
-
 
         // Apply Y velocity to move vector
         characterVelocity.y = characterVelocityY;
@@ -130,15 +155,15 @@ public class PlayerCharacterController : MonoBehaviour
     {
         if (TestInputDownHookshot())
         {
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit raycastHit, grappleLayer))
+            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit raycastHit, maxGrappleDistance, grappleLayer))
             {
                 // Hit something
-                debugHitPointTransform.position = raycastHit.point;
                 hookshotPosition = raycastHit.point;
                 hookshotSize = 0f;
-                hookshotTransform.gameObject.SetActive(true);
+                //hookshotTransform.gameObject.SetActive(true);
                 hookshotTransform.localScale = Vector3.zero;
                 state = State.HookshotThrown;
+
             }
         }
     }
@@ -146,14 +171,14 @@ public class PlayerCharacterController : MonoBehaviour
     private void HandleHookshotThrow()
     {
         hookshotTransform.LookAt(hookshotPosition);
-
-        float hookshotThrowSpeed = 500f;
         hookshotSize += hookshotThrowSpeed * Time.deltaTime;
         hookshotTransform.localScale = new Vector3(1, 1, hookshotSize);
 
         if (hookshotSize >= Vector3.Distance(transform.position, hookshotPosition))
         {
             state = State.HookshotFlyingPlayer;
+            lr.positionCount = 2;
+            isGrappling = true;
         }
     }
 
@@ -163,15 +188,11 @@ public class PlayerCharacterController : MonoBehaviour
 
         Vector3 hookshotDir = (hookshotPosition - transform.position).normalized;
 
-        float hookshotSpeedMin = 10f;
-        float hookshotSpeedMax = 40f;
         float hookshotSpeed = Mathf.Clamp(Vector3.Distance(transform.position, hookshotPosition), hookshotSpeedMin, hookshotSpeedMax);
-        float hookshotSpeedMultiplier = 5f;
 
         // Move Character Controller
         characterController.Move(hookshotDir * hookshotSpeed * hookshotSpeedMultiplier * Time.deltaTime);
 
-        float reachedHookshotPositionDistance = 1f;
         if (Vector3.Distance(transform.position, hookshotPosition) < reachedHookshotPositionDistance)
         {
             // Reached Hookshot Position
@@ -198,8 +219,21 @@ public class PlayerCharacterController : MonoBehaviour
     private void StopHookshot()
     {
         state = State.Normal;
+        isGrappling = false;
+        lr.positionCount = 0;
         ResetGravityEffect();
+        hookshotPosition = grappleTip.transform.position;
         hookshotTransform.gameObject.SetActive(false);
+    }
+
+    void DrawRope()
+    {
+        //If not grappling, don't draw rope
+        if (!isGrappling) return;
+
+        currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, hookshotPosition, Time.deltaTime * 8f);
+        lr.SetPosition(0, grappleTip.position);
+        lr.SetPosition(1, currentGrapplePosition);
     }
 
     private bool TestInputDownHookshot()
@@ -212,5 +246,13 @@ public class PlayerCharacterController : MonoBehaviour
         return Input.GetKeyDown(KeyCode.Space);
     }
 
+    public bool IsGrappling()
+    {
+        return isGrappling;
+    }
 
+    public Vector3 GetGrapplePoint()
+    {
+        return hookshotPosition;
+    }
 }
