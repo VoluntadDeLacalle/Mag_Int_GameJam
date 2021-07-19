@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Inventory : SingletonMonoBehaviour<Inventory>
 {
     public List<Item> inventory = new List<Item>();
+    public Dictionary<GameObject, GameObject> visualItemDictionary = new Dictionary<GameObject, GameObject>();
     public GameObject inventoryPanel;
     private bool isActive = false;
     public PlayerItemHandler playerItemHandler;

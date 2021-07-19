@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ChassisItem : Item
 {
-    private void Update()
+    new void Update()
     {
+        base.Update();
         if (itemType != TypeTag.chassis)
         {
             return;

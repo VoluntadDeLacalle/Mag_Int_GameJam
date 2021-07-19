@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 928325256775911973}
   - component: {fileID: 2413692274894365130}
   m_Layer: 0
-  m_Name: MT_Chasis
+  m_Name: MT_Chassis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,12 +138,10 @@ MonoBehaviour:
   chassisEffectorTransforms:
   - componentTransform: {fileID: 4173219946723817929}
     isOccupied: 0
-    currentOccupiedItemIndex: -1
     currentEffector: {fileID: 0}
   chassisGripTransform:
     componentTransform: {fileID: 8142878687163146360}
     isOccupied: 0
-    currentOccupiedItemIndex: -1
     currentGrip: {fileID: 0}
 --- !u!54 &928325256775911973
 Rigidbody:

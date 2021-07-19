@@ -20,7 +20,11 @@ public class CraftingController : MonoBehaviour
 
     [Header("Item Viewer Variables")]
     public Camera itemViewerCamera;
-    public GameObject itemViewerTransform;
+    public ItemViewer itemViewer;
+    public GameObject itemViewerPlayerModel;
+    [Range(10,360)]
+    public int playerModelAngularSpeed = 10;
+    private Quaternion originalPlayerModelRotation;
 
     private List<Item> chassisList = new List<Item>();
 
@@ -30,6 +34,7 @@ public class CraftingController : MonoBehaviour
 
     private void Start()
     {
+        originalPlayerModelRotation = itemViewerPlayerModel.transform.rotation;
         OnDisableCraftingPanel();
     }
 
@@ -67,6 +72,11 @@ public class CraftingController : MonoBehaviour
 
                     Item tempChassisItem = Inventory.Instance.inventory[i];
                     chassisList.Add(tempChassisItem);
+
+                    GameObject visualChassis = Inventory.Instance.visualItemDictionary[tempChassisItem.gameObject];
+                    visualChassis.transform.parent = itemViewer.handAttachment;
+                    visualChassis.transform.localPosition = tempChassisItem.localHandPos;
+                    visualChassis.transform.localRotation = Quaternion.Euler(tempChassisItem.localHandRot);
                     break;
                 case Item.TypeTag.effector:
                     Item tempEffectorItem = Inventory.Instance.inventory[i];
@@ -78,6 +88,7 @@ public class CraftingController : MonoBehaviour
                     break;
             }
         }
+
         ChooseNewChassis(-1);
     }
 
@@ -88,6 +99,8 @@ public class CraftingController : MonoBehaviour
         gripList.Clear();
 
         currentChassisIndex = -1;
+
+        itemViewerPlayerModel.transform.rotation = originalPlayerModelRotation;
     }
 
     void DestroyPrimaryCraftingList()
@@ -108,21 +121,57 @@ public class CraftingController : MonoBehaviour
         warningCalled = true;
     }
 
+    void DisableVisualItem(GameObject visualItem)
+    {
+        visualItem.SetActive(false);
+        visualItem.transform.parent = null;
+    }
+
+    void EnableVisualItem(GameObject visualItem, Transform visualParent, Vector3 localPosition, Quaternion localRotation)
+    {
+        visualItem.transform.parent = visualParent;
+        visualItem.transform.localPosition = localPosition;
+        visualItem.transform.localRotation = localRotation;
+        visualItem.SetActive(true);
+    }
+
     void ChooseNewChassis(int index)
     {
         DestroyPrimaryCraftingList();
+
         float heightSpacing = 0;
-        currentChassisIndex = -1;
         if (index == -1)
         {
             GameObject chassisNoneSecondaryCraftingList = SpawnPrimaryButton("Chassis", "None", null,ref heightSpacing);
             SpawnSecondaryButtons(Item.TypeTag.chassis, chassisNoneSecondaryCraftingList.transform);
+            if (currentChassisIndex != -1)
+            {
+                for (int i = 0; i < chassisList[currentChassisIndex].chassisEffectorTransforms.Count; i++)
+                {
+                    if (chassisList[currentChassisIndex].chassisEffectorTransforms[i].isOccupied)
+                    {
+                        DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject]);
+                    }
+                }
+
+                if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
+                {
+                    DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject]);
+                }
+
+                Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].SetActive(false);
+            }
+
+            currentChassisIndex = -1;
             return;
         }
         else
         {
             Item currentChassis = chassisList[index];
             currentChassisIndex = index;
+
+            GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
+            visualChassis.SetActive(true);
 
             GameObject chassisSecondaryCraftingList = 
                 SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
@@ -135,15 +184,24 @@ public class CraftingController : MonoBehaviour
                 int currentEffectorTransformIndex = i;
                 string effectorItemName = "None";
                 Sprite effectorItemIcon = null;
+                bool currentPointIsOccupied = false;
+
                 if (currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].isOccupied)
                 {
                     effectorItemName = currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].currentEffector.itemName;
                     effectorItemIcon = currentChassis.chassisEffectorTransforms[currentEffectorTransformIndex].currentEffector.inventorySprite;
+                    currentPointIsOccupied = true;
                 }
 
                 GameObject effectorSecondaryCraftingList = 
                     SpawnPrimaryButton($"Effector { i + 1 }", effectorItemName, effectorItemIcon, ref heightSpacing);
                 SpawnMultiComponentSecondaryButtons(Item.TypeTag.effector, effectorSecondaryCraftingList.transform, currentEffectorTransformIndex);
+
+                if (currentPointIsOccupied)
+                {
+                    GameObject visualEffector = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[currentEffectorTransformIndex].currentEffector.gameObject];
+                    EnableVisualItem(visualEffector, visualChassis.transform, chassisList[currentChassisIndex].chassisEffectorTransforms[i].componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
+                }
 
                 resetEffectorPrimaryButtons.Add(effectorSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
             }
@@ -159,6 +217,12 @@ public class CraftingController : MonoBehaviour
                 SpawnPrimaryButton("Grip", gripItemName, gripItemIcon, ref heightSpacing);
             SpawnSecondaryButtons(Item.TypeTag.grip, gripSecondaryCraftingList.transform);
 
+            if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
+            {
+                GameObject visualGrip = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject];
+                EnableVisualItem(visualGrip, visualChassis.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
+            }
+            
             PrimaryCraftingUIDescriptor resetGripPrimaryButton = gripSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>();
 
             GameObject resetButton = Instantiate(resetCraftingButtonPrefab);
@@ -184,6 +248,8 @@ public class CraftingController : MonoBehaviour
 
                 if (chassisList[currentChassisIndex].chassisEffectorTransforms[i].isOccupied)
                 {
+                    DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject]);
+
                     ///Removes effector for current slot if there is one.
                     chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject.transform.parent = null;
                     chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.isEquipped = false;
@@ -198,6 +264,8 @@ public class CraftingController : MonoBehaviour
 
             if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
             {
+                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject]);
+
                 ///Removes grip from current slot if there is one.
                 chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisGripTransform.currentGrip.isEquipped = false;
@@ -217,6 +285,8 @@ public class CraftingController : MonoBehaviour
             
             if (chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].isOccupied)
             {
+                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject]);
+
                 ///Removes effector for current slot if there is one.
                 chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.isEquipped = false;
@@ -235,6 +305,7 @@ public class CraftingController : MonoBehaviour
                 {
                     return;
                 }
+                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject]);
 
                 ///Removes whatever effector was in the slot prior to a new one being added.
                 chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].currentEffector.gameObject.transform.parent = null;
@@ -263,6 +334,7 @@ public class CraftingController : MonoBehaviour
                                 }
                             }
 
+                            DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisEffectorTransforms[i].currentEffector.gameObject]);
                             chassisList[currentChassisIndex].chassisEffectorTransforms[i].ResetEffectorTransform();
                             break;
                         }
@@ -276,6 +348,9 @@ public class CraftingController : MonoBehaviour
                     effectorList[effectorIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.position;
                     effectorList[effectorIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
                     chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].AddNewEffectorTransform(effectorList[effectorIndex]);
+
+                    GameObject visualEffector = Inventory.Instance.visualItemDictionary[effectorList[effectorIndex].gameObject];
+                    EnableVisualItem(visualEffector, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
 
                     parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
                     return;
@@ -312,6 +387,9 @@ public class CraftingController : MonoBehaviour
                         effectorList[effectorIndex].transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
                         chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].AddNewEffectorTransform(effectorList[effectorIndex]);
 
+                        GameObject visualEffector = Inventory.Instance.visualItemDictionary[effectorList[effectorIndex].gameObject];
+                        EnableVisualItem(visualEffector, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
+
                         parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
                         return;
                     }
@@ -319,6 +397,7 @@ public class CraftingController : MonoBehaviour
             }
             else
             {
+
                 ///Adds effector into current slot, removes from inventory.
                 effectorList[effectorIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
                 effectorList[effectorIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.position;
@@ -336,6 +415,9 @@ public class CraftingController : MonoBehaviour
                     }
                 }
 
+                GameObject visualEffector = Inventory.Instance.visualItemDictionary[effectorList[effectorIndex].gameObject];
+                EnableVisualItem(visualEffector, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisEffectorTransforms[effectorTransformIndex].componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
+
                 parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { effectorTransformIndex + 1 }", effectorList[effectorIndex].itemName, effectorList[effectorIndex].inventorySprite);
             }
         }
@@ -349,6 +431,8 @@ public class CraftingController : MonoBehaviour
 
             if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
             {
+                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject]);
+
                 ///Removes grip from current slot if there is one.
                 chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisGripTransform.currentGrip.isEquipped = false;
@@ -367,6 +451,7 @@ public class CraftingController : MonoBehaviour
                 {
                     return;
                 }
+                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject]);
 
                 ///Removes whatever effector was in the slot prior to a new one being added.
                 chassisList[currentChassisIndex].chassisGripTransform.currentGrip.gameObject.transform.parent = null;
@@ -404,12 +489,16 @@ public class CraftingController : MonoBehaviour
                     gripList[gripIndex].transform.rotation = chassisList[currentChassisIndex].gameObject.transform.rotation;
                     chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
 
+                    GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
+                    EnableVisualItem(visualGrip, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
+
                     parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
                     return;
                 }
             }
             else
             {
+
                 ///Adds grip into current slot, removes from inventory.
                 gripList[gripIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
                 gripList[gripIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisGripTransform.componentTransform.position;
@@ -426,6 +515,9 @@ public class CraftingController : MonoBehaviour
                         break;
                     }
                 }
+
+                GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
+                EnableVisualItem(visualGrip, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, chassisList[currentChassisIndex].gameObject.transform.rotation);
 
                 parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
             }
@@ -506,8 +598,29 @@ public class CraftingController : MonoBehaviour
         }
     }
 
+    void RotateItemViewer()
+    {
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            itemViewerPlayerModel.transform.Rotate(new Vector3(0, -playerModelAngularSpeed * Time.fixedDeltaTime, 0));
+        }
+        else if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            itemViewerPlayerModel.transform.Rotate(new Vector3(0, playerModelAngularSpeed * Time.fixedDeltaTime, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            itemViewerPlayerModel.transform.rotation = originalPlayerModelRotation;
+        }
+    }
+
     private void Update()
     {
+        if (isActive)
+        {
+            RotateItemViewer();
+        }
+
         if (craftingPanel.activeSelf && !isActive)
         {
             isActive = true;

@@ -44,6 +44,8 @@ public class ChassisGripTransform
 
 public class Item : MonoBehaviour
 {
+    private bool hasBeenCopied = false;
+
     public enum TypeTag
     {
         chassis,
@@ -61,23 +63,6 @@ public class Item : MonoBehaviour
     public Sprite inventorySprite;
     public List<ChassisEffectorTransform> chassisEffectorTransforms = new List<ChassisEffectorTransform>();
     public ChassisGripTransform chassisGripTransform;
-    
-    //public Item(Item oldItem)
-    //{
-    //    this.itemType = oldItem.itemType;
-    //    this.itemName = oldItem.itemName;
-    //    this.description = oldItem.description;
-    //    this.inventorySprite = oldItem.inventorySprite;
-    //    this.isEquipped = oldItem.isEquipped;
-
-    //    if (this.itemType == TypeTag.chassis)
-    //    {
-    //        this.localHandPos = oldItem.localHandPos;
-    //        this.localHandRot = oldItem.localHandRot;
-    //        this.chassisGripTransform = oldItem.chassisGripTransform;
-    //        this.chassisEffectorTransforms = new List<ChassisEffectorTransform>(oldItem.chassisEffectorTransforms);
-    //    }
-    //}
 
     private void OnDrawGizmos()
     {
@@ -97,6 +82,42 @@ public class Item : MonoBehaviour
                     Gizmos.DrawSphere(chassisEffectorTransforms[i].componentTransform.position, 0.05f);
                 }
             }
+        }
+    }
+
+    protected void Update()
+    {
+        if (Inventory.Instance != null && !hasBeenCopied)
+        {
+            if (Inventory.Instance.visualItemDictionary.ContainsKey(this.gameObject))
+            {
+                return;
+            }
+
+            GameObject tempGameObj = Instantiate(this.gameObject);
+            string tempName = tempGameObj.name;
+            if (tempName.Contains("(Clone)"))
+            {
+                tempName = tempName.Substring(0, Mathf.Abs(tempName.IndexOf("(Clone)")));
+            }
+            tempGameObj.name = $"{tempName}_Unwrapped";
+
+            foreach (var component in tempGameObj.GetComponents<Component>())
+            {
+                if (component == tempGameObj.GetComponent<Transform>() || component == tempGameObj.GetComponent<MeshFilter>() ||
+                    component == tempGameObj.GetComponent<MeshRenderer>())
+                {
+                    continue;
+                }
+
+                Destroy(component);
+            }
+
+            tempGameObj.layer = LayerMask.NameToLayer("ItemRenderer");
+
+            Inventory.Instance.visualItemDictionary.Add(this.gameObject, tempGameObj);
+            tempGameObj.SetActive(false);
+            hasBeenCopied = true;
         }
     }
 

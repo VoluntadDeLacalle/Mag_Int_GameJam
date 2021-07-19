@@ -46,17 +46,16 @@ MonoBehaviour:
   craftingPanel: {fileID: 3052678113948389598}
   modItemPrefab: {fileID: 1531981484934269713, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
     type: 3}
-  itemViewerCamera: {fileID: 4560360360167464407}
-  itemViewerTransform: {fileID: 5139598280633432342}
   primaryCraftingList: {fileID: 6152271379069432595}
   craftingModButtonPrefab: {fileID: 6871847946608973954, guid: 38f66b16989617f4a831bee08ce280aa,
     type: 3}
   resetCraftingButtonPrefab: {fileID: 6536352705303338211, guid: f9176433b107e1541a3279ab9520d262,
     type: 3}
   warningPanel: {fileID: 934676258439875672}
-  chassisUIParent: {fileID: 0}
-  effectorUIParent: {fileID: 0}
-  gripUIParent: {fileID: 0}
+  itemViewerCamera: {fileID: 4560360360167464407}
+  itemViewer: {fileID: 1414209300298263046}
+  itemViewerPlayerModel: {fileID: 5974803419998862017}
+  playerModelAngularSpeed: 30
 --- !u!1 &3005939856148657950
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +547,7 @@ PrefabInstance:
     - target: {fileID: 8920523584220150274, guid: d7bc579f2fec8114da9a5e4f99c05469,
         type: 3}
       propertyPath: m_Name
-      value: ItemViewer
+      value: ItemViewerCollection
       objectReference: {fileID: 0}
     - target: {fileID: 8920523584220150333, guid: d7bc579f2fec8114da9a5e4f99c05469,
         type: 3}
@@ -570,6 +569,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8920523584879195531, guid: d7bc579f2fec8114da9a5e4f99c05469,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7bc579f2fec8114da9a5e4f99c05469, type: 3}
 --- !u!4 &4560360359761121902 stripped
@@ -578,15 +582,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4937554301309036627}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1414209300298263046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6279689858356003413, guid: d7bc579f2fec8114da9a5e4f99c05469,
+    type: 3}
+  m_PrefabInstance: {fileID: 4937554301309036627}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bcfe92adffb5d6439a943c9787ce176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &4560360360167464407 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8920523584879195524, guid: d7bc579f2fec8114da9a5e4f99c05469,
     type: 3}
   m_PrefabInstance: {fileID: 4937554301309036627}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5139598280633432342 stripped
+--- !u!1 &5974803419998862017 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 276463530518450501, guid: d7bc579f2fec8114da9a5e4f99c05469,
+  m_CorrespondingSourceObject: {fileID: 1616637750338392722, guid: d7bc579f2fec8114da9a5e4f99c05469,
     type: 3}
   m_PrefabInstance: {fileID: 4937554301309036627}
   m_PrefabAsset: {fileID: 0}
