@@ -14,7 +14,9 @@ public class ObjectPooler : MonoBehaviour
 
     public enum Key
     {
-        InventoryItemUIButtons
+        InventoryItemUIButtons,
+        PrimaryCraftingUIButtons,
+        SecondaryCraftingUIButtons
     }
 
     public Key key;
@@ -52,7 +54,7 @@ public class ObjectPooler : MonoBehaviour
     {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!pooledObjects[i].activeSelf)
             {
                 return pooledObjects[i];
             }

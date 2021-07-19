@@ -10,6 +10,12 @@ public class PrimaryCraftingUIDescriptor : MonoBehaviour
     public TextMeshProUGUI itemNameTextMesh;
     public Image buttonIcon;
     public GameObject secondaryCraftingList;
+    private Vector2 secondaryCraftingListOriginalXY;
+
+    private void Awake()
+    {
+        secondaryCraftingListOriginalXY = secondaryCraftingList.GetComponent<RectTransform>().anchoredPosition;
+    }
 
     public void SetButtonInformation(string title, string itemTitle, Sprite itemSprite)
     {
@@ -51,5 +57,11 @@ public class PrimaryCraftingUIDescriptor : MonoBehaviour
     {
         RectTransform currentRect = secondaryCraftingList.GetComponent<RectTransform>();
         currentRect.anchoredPosition = new Vector2(currentRect.anchoredPosition.x + newX, currentRect.anchoredPosition.y + newY);
+    }
+
+    public void ResetSecondaryCraftingRect()
+    {
+        secondaryCraftingList.GetComponent<RectTransform>().anchoredPosition = secondaryCraftingListOriginalXY;
+        secondaryCraftingList.SetActive(false);
     }
 }
