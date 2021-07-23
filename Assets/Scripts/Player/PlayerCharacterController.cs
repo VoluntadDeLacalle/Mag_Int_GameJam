@@ -6,7 +6,6 @@ using UnityEngine;
 //Sourced from: https://www.youtube.com/watch?v=twMkGTqyZvI&t=850s
 public class PlayerCharacterController : MonoBehaviour
 {
-    [SerializeField] private Transform hookshotTransform;
     [SerializeField] private Camera playerCam;
     [SerializeField] private Transform playerTransform;
 
@@ -17,7 +16,6 @@ public class PlayerCharacterController : MonoBehaviour
     private Vector3 hookshotPosition;
     private float cameraVerticalAngle;
     private float characterVelocityY;
-    private float hookshotSize;
 
     private State state;    
 
@@ -51,13 +49,6 @@ public class PlayerCharacterController : MonoBehaviour
         //lr = GetComponent<LineRenderer>();
         Cursor.lockState = CursorLockMode.Locked;
         state = State.Normal;
-        hookshotTransform.gameObject.SetActive(false);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(playerTransform.position, new Vector3(2, 1, 2));
     }
 
     private void Update()
@@ -159,9 +150,6 @@ public class PlayerCharacterController : MonoBehaviour
             {
                 // Hit something
                 hookshotPosition = raycastHit.point;
-                hookshotSize = 0f;
-                //hookshotTransform.gameObject.SetActive(true);
-                hookshotTransform.localScale = Vector3.zero;
                 state = State.HookshotThrown;
 
             }
@@ -170,22 +158,13 @@ public class PlayerCharacterController : MonoBehaviour
 
     private void HandleHookshotThrow()
     {
-        hookshotTransform.LookAt(hookshotPosition);
-        hookshotSize += hookshotThrowSpeed * Time.deltaTime;
-        hookshotTransform.localScale = new Vector3(1, 1, hookshotSize);
-
-        if (hookshotSize >= Vector3.Distance(transform.position, hookshotPosition))
-        {
-            state = State.HookshotFlyingPlayer;
-            lr.positionCount = 2;
-            isGrappling = true;
-        }
+        state = State.HookshotFlyingPlayer;
+        lr.positionCount = 2;
+        isGrappling = true;
     }
 
     private void HandleHookshotMovement()
     {
-        hookshotTransform.LookAt(hookshotPosition);
-
         Vector3 hookshotDir = (hookshotPosition - transform.position).normalized;
 
         float hookshotSpeed = Mathf.Clamp(Vector3.Distance(transform.position, hookshotPosition), hookshotSpeedMin, hookshotSpeedMax);
@@ -222,18 +201,17 @@ public class PlayerCharacterController : MonoBehaviour
         isGrappling = false;
         lr.positionCount = 0;
         ResetGravityEffect();
-        hookshotPosition = grappleTip.transform.position;
-        hookshotTransform.gameObject.SetActive(false);
     }
 
     void DrawRope()
     {
         //If not grappling, don't draw rope
         if (!isGrappling) return;
-
-        currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, hookshotPosition, Time.deltaTime * 8f);
+        
+        //swing
+        //currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, hookshotPosition, Time.deltaTime * 8f);
         lr.SetPosition(0, grappleTip.position);
-        lr.SetPosition(1, currentGrapplePosition);
+        lr.SetPosition(1, hookshotPosition);
     }
 
     private bool TestInputDownHookshot()
