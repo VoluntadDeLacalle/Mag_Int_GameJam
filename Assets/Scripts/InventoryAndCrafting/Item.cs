@@ -116,6 +116,7 @@ public class Item : MonoBehaviour
             tempGameObj.layer = LayerMask.NameToLayer("ItemRenderer");
 
             Inventory.Instance.visualItemDictionary.Add(this.gameObject, tempGameObj);
+            tempGameObj.transform.SetParent(Inventory.Instance.visualItemParent.transform);
             tempGameObj.SetActive(false);
             hasBeenCopied = true;
         }

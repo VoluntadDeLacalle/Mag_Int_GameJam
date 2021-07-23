@@ -102,6 +102,11 @@ public class CraftingController : MonoBehaviour
     {
         DisableWholeVisualChassis();
 
+        for (int i = 0; i < chassisList.Count; i++)
+        {
+            DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[i].gameObject]);
+        }
+
         chassisList.Clear();
         effectorList.Clear();
         gripList.Clear();
@@ -153,7 +158,7 @@ public class CraftingController : MonoBehaviour
     void DisableVisualItem(GameObject visualItem)
     {
         visualItem.SetActive(false);
-        visualItem.transform.parent = null;
+        visualItem.transform.SetParent(Inventory.Instance.visualItemParent.transform);
     }
 
     void DisableWholeVisualChassis()

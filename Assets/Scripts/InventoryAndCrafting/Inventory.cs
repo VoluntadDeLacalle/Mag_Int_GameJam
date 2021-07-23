@@ -6,28 +6,30 @@ using UnityEngine.UI;
 
 public class Inventory : SingletonMonoBehaviour<Inventory>
 {
+    [Header("Containers and External Variables")]
     public List<Item> inventory = new List<Item>();
     public Dictionary<GameObject, GameObject> visualItemDictionary = new Dictionary<GameObject, GameObject>();
-    public GameObject inventoryPanel;
-    private bool isActive = false;
+    public GameObject visualItemParent;
     public PlayerItemHandler playerItemHandler;
     public Transform dropTransform;
 
-    [Header("New Inventory Variables")]
+    [Header("Inventory Variables")]
     public GameObject inventoryItemPanel;
     public GameObject inventoryItemBox;
     [Range(3,6)]
     public int maxNumbofColumns = 0;
     public FlexibleGridLayout inventoryPanelGridLayout;
 
-    [Header("Visual Variables")]
-    public Sprite nullPlaceholderSprite;
+    [Header("UI Variables")]
+    public GameObject inventoryPanel;
     public Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
     public TMPro.TextMeshProUGUI selectedItemDescription;
+    public TMPro.TextMeshProUGUI selectedItemAttachedComponents;
     public GameObject dropItemButton;
     public GameObject equipItemButton;
     public GameObject unequipItemButton;
+    private bool isActive = false;
     private int dropIndex = -1;
     private int equipIndex = -1;
 
@@ -62,6 +64,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         selectedInspectorImage.color = new Color(0, 0, 0, 0);
         selectedItemTitle.text = "";
         selectedItemDescription.text = "";
+        selectedItemAttachedComponents.text = "";
         dropItemButton.SetActive(false);
         equipItemButton.SetActive(false);
         unequipItemButton.SetActive(false);
@@ -103,6 +106,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
     public void ChangeInventoryInformation(int inventoryIndex)
     {
+        selectedItemAttachedComponents.text = "";
         equipItemButton.SetActive(false);
         unequipItemButton.SetActive(false);
         equipIndex = -1;
@@ -127,6 +131,22 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             {
                 unequipItemButton.SetActive(false);
                 equipItemButton.SetActive(true);
+            }
+
+            selectedItemAttachedComponents.text = "<b>Effectors</b>\n------------";
+
+            for (int i = 0; i < inventory[inventoryIndex].chassisEffectorTransforms.Count; i++)
+            {
+                if (inventory[inventoryIndex].chassisEffectorTransforms[i].isOccupied)
+                {
+                    selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisEffectorTransforms[i].currentEffector.itemName}";
+                }
+            }
+            selectedItemAttachedComponents.text += "\n\n<b>Grip</b>\n------------";
+
+            if (inventory[inventoryIndex].chassisGripTransform.isOccupied)
+            {
+                selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisGripTransform.currentGrip.itemName}";
             }
         }
             
