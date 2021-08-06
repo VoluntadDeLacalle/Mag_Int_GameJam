@@ -41,6 +41,9 @@ public class CraftingController : MonoBehaviour
         resetButton.transform.SetParent(gameObject.transform, false);
         resetButton.SetActive(false);
 
+        RectTransform modItemRect = modItemPrefab.GetComponent<RectTransform>();
+        craftingModButtonPrefab.GetComponent<PrimaryCraftingUIDescriptor>().SetUpList(modItemRect.sizeDelta.y);
+
         OnDisableCraftingPanel();
     }
 
@@ -125,7 +128,7 @@ public class CraftingController : MonoBehaviour
                 continue;
             }
 
-            foreach(Transform secondaryCraftingModButton in currentCraftingModButton.gameObject.GetComponent<PrimaryCraftingUIDescriptor>().secondaryCraftingList.GetComponentsInChildren<Transform>())
+            foreach(Transform secondaryCraftingModButton in currentCraftingModButton.gameObject.GetComponent<PrimaryCraftingUIDescriptor>().internalCraftingList.GetComponentsInChildren<Transform>())
             {
                 if (secondaryCraftingModButton.GetComponent<ItemUIDescriptor>() == null)
                 {
@@ -217,6 +220,7 @@ public class CraftingController : MonoBehaviour
                 SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
             SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
 
+            PrimaryCraftingUIDescriptor resetChassisPrimaryButton = chassisSecondaryCraftingList.GetComponentInParent<PrimaryCraftingUIDescriptor>();
             List<PrimaryCraftingUIDescriptor> resetEffectorPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
 
             for (int i = 0; i < currentChassis.chassisEffectorTransforms.Count; i++)
@@ -265,26 +269,29 @@ public class CraftingController : MonoBehaviour
             
             PrimaryCraftingUIDescriptor resetGripPrimaryButton = gripSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>();
 
-            resetButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { ResetCurrentChassis(resetEffectorPrimaryButtons, resetGripPrimaryButton); });
+            resetButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { ResetCurrentChassis(resetChassisPrimaryButton, resetEffectorPrimaryButtons, resetGripPrimaryButton); });
             resetButton.transform.SetParent(primaryCraftingList.transform, false);
             resetButton.SetActive(true);
         }
     }
 
-    void ResetCurrentChassis(List<PrimaryCraftingUIDescriptor> effectorPrimaryButtons, PrimaryCraftingUIDescriptor gripPrimaryButton)
+    void ResetCurrentChassis(PrimaryCraftingUIDescriptor chassisPrimaryButton, List<PrimaryCraftingUIDescriptor> effectorPrimaryButtons, PrimaryCraftingUIDescriptor gripPrimaryButton)
     {
-        string warning = "You are about to remove all components from this chassis!";
+        string warning = "You are about to remove everything from this chassis!";
         if (!warningCalled)
         {
             warningPanel.SetActive(true);
             warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
-            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(effectorPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
+            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(chassisPrimaryButton, effectorPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
         }
         else
         {
+            chassisPrimaryButton.secondaryCraftingList.gameObject.SetActive(false);
+
             for (int i = 0; i < chassisList[currentChassisIndex].chassisEffectorTransforms.Count; i++)
             {
                 effectorPrimaryButtons[i].SetButtonInformation($"Effector {i + 1}", "None", null);
+                effectorPrimaryButtons[i].secondaryCraftingList.gameObject.SetActive(false);
 
                 if (chassisList[currentChassisIndex].chassisEffectorTransforms[i].isOccupied)
                 {
@@ -301,6 +308,7 @@ public class CraftingController : MonoBehaviour
             }
 
             gripPrimaryButton.SetButtonInformation("Grip", "None", null);
+            gripPrimaryButton.secondaryCraftingList.gameObject.SetActive(false);
 
             if (chassisList[currentChassisIndex].chassisGripTransform.isOccupied)
             {
@@ -574,14 +582,14 @@ public class CraftingController : MonoBehaviour
         obj.GetComponent<PrimaryCraftingUIDescriptor>().MoveSecondaryCraftingRect(0, heightSpacing);
         heightSpacing += craftingModButtonPrefab.GetComponent<RectTransform>().rect.height;
         obj.SetActive(true);
-        return obj.GetComponent<PrimaryCraftingUIDescriptor>().secondaryCraftingList;
+        return obj.GetComponent<PrimaryCraftingUIDescriptor>().internalCraftingList;
     }
 
     void SpawnMultiComponentSecondaryButtons(Item.TypeTag typeTag, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
     {
         GameObject noneObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
         noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
-        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
         noneObj.transform.SetParent(secondaryButtonParent, false);
         noneObj.SetActive(true);
 
@@ -596,10 +604,12 @@ public class CraftingController : MonoBehaviour
                     GameObject effectorObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
                     effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(effectorList[effectorIndex].inventorySprite, effectorList[effectorIndex].itemName);
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewEffector(effectorIndex, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     effectorObj.transform.SetParent(secondaryButtonParent, false);
                     effectorObj.SetActive(true);
                 }
+
+                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(effectorList.Count + 1);
                 break;
         }
     }
@@ -608,7 +618,7 @@ public class CraftingController : MonoBehaviour
     {
         GameObject noneObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
         noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
-        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
         noneObj.transform.SetParent(secondaryButtonParent, false);
         noneObj.SetActive(true);
 
@@ -623,10 +633,12 @@ public class CraftingController : MonoBehaviour
                     GameObject chassisObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
                     chassisObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(chassisList[chassisIndex].inventorySprite, chassisList[chassisIndex].itemName);
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(chassisIndex); });
-                    chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     chassisObj.transform.SetParent(secondaryButtonParent, false);
                     chassisObj.SetActive(true);
                 }
+
+                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(chassisList.Count + 1);
                 break;
             case Item.TypeTag.grip:
                 noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(-1, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
@@ -637,10 +649,11 @@ public class CraftingController : MonoBehaviour
                     GameObject gripObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
                     gripObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(gripList[gripIndex].inventorySprite, gripList[gripIndex].itemName);
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(gripIndex, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
-                    gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.gameObject.SetActive(false); });
+                    gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     gripObj.transform.SetParent(secondaryButtonParent, false);
                     gripObj.SetActive(true);
                 }
+                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(gripList.Count + 1);
                 break;
         }
     }
