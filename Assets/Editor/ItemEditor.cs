@@ -13,7 +13,7 @@ public class ItemEditor : Editor
         localHandPos_Prop,
         localHandRot_Prop,
         image_Prop,
-        effectorTransforms_Prop,
+        componentTransforms_Prop,
         gripTransform_Prop;
 
     private void OnEnable()
@@ -25,7 +25,7 @@ public class ItemEditor : Editor
         localHandPos_Prop = serializedObject.FindProperty("localHandPos");
         localHandRot_Prop = serializedObject.FindProperty("localHandRot");
         image_Prop = serializedObject.FindProperty("inventorySprite");
-        effectorTransforms_Prop = serializedObject.FindProperty("chassisEffectorTransforms");
+        componentTransforms_Prop = serializedObject.FindProperty("chassisComponentTransforms");
         gripTransform_Prop = serializedObject.FindProperty("chassisGripTransform");
     }
 
@@ -47,7 +47,7 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(localHandPos_Prop, new GUIContent("Local Hand Position"));
                 EditorGUILayout.PropertyField(localHandRot_Prop, new GUIContent("Local Hand Rotation"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
-                EditorGUILayout.PropertyField(effectorTransforms_Prop, new GUIContent("Chassis Effector Transforms"));
+                EditorGUILayout.PropertyField(componentTransforms_Prop, new GUIContent("Chassis Component Transforms"));
                 EditorGUILayout.PropertyField(gripTransform_Prop, new GUIContent("Chassis Grip Transform"));
                 break;
             case Item.TypeTag.effector:

@@ -12,16 +12,16 @@ public class ChassisItem : Item
             return;
         }
 
-        if (chassisEffectorTransforms.Count < 1 || isEquipped == false || Time.timeScale == 0.0f)
+        if (chassisComponentTransforms.Count < 1 || isEquipped == false || Time.timeScale == 0.0f)
         {
             return;
         }
 
-        for (int i = 0; i < chassisEffectorTransforms.Count; i++)
+        for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
-            if (chassisEffectorTransforms[i].isOccupied)
+            if (chassisComponentTransforms[i].IsComponentTransformOccupied())
             {
-                chassisEffectorTransforms[i].currentEffector.Activate();
+                chassisComponentTransforms[i].GetComponentTransformItem().Activate();
             }
         }
     }

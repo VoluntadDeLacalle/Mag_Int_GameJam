@@ -135,18 +135,18 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
             selectedItemAttachedComponents.text = "<b>Effectors</b>\n------------";
 
-            for (int i = 0; i < inventory[inventoryIndex].chassisEffectorTransforms.Count; i++)
+            for (int i = 0; i < inventory[inventoryIndex].chassisComponentTransforms.Count; i++)
             {
-                if (inventory[inventoryIndex].chassisEffectorTransforms[i].isOccupied)
+                if (inventory[inventoryIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
                 {
-                    selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisEffectorTransforms[i].currentEffector.itemName}";
+                    selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisComponentTransforms[i].GetComponentTransformItem().itemName}";
                 }
             }
             selectedItemAttachedComponents.text += "\n\n<b>Grip</b>\n------------";
 
-            if (inventory[inventoryIndex].chassisGripTransform.isOccupied)
+            if (inventory[inventoryIndex].chassisGripTransform.IsGripTransformOccupied())
             {
-                selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisGripTransform.currentGrip.itemName}";
+                selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisGripTransform.GetGripTransformItem().itemName}";
             }
         }
             

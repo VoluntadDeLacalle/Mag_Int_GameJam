@@ -3,22 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ChassisEffectorTransform
+public class ChassisComponentTransform
 {
     public Transform componentTransform;
-    public bool isOccupied = false;
-    public Item currentEffector = null;
+    private bool isOccupied = false;
+    private Item currentComponent = null;
 
-    public void AddNewEffectorTransform(Item newEffector)
+    public void AddNewComponentTransform(Item newComponent)
     {
+        if (newComponent.itemType == Item.TypeTag.chassis || newComponent.itemType == Item.TypeTag.grip)
+        {
+            Debug.LogError("Illegal item type being added as Component Transform!");
+            return;
+        }
+
         isOccupied = true;
-        currentEffector = newEffector;
+        currentComponent = newComponent;
     }
 
-    public void ResetEffectorTransform()
+    public Item GetComponentTransformItem()
+    {
+        return currentComponent;
+    }
+
+    public bool IsComponentTransformOccupied()
+    {
+        return isOccupied;
+    }
+
+    public void ResetComponentTransform()
     {
         isOccupied = false;
-        currentEffector = null;
+        currentComponent = null;
     }
 }
 
@@ -26,13 +42,23 @@ public class ChassisEffectorTransform
 public class ChassisGripTransform
 {
     public Transform componentTransform;
-    public bool isOccupied = false;
-    public Item currentGrip = null;
+    private bool isOccupied = false;
+    private Item currentGrip = null;
 
     public void AddNewGripTransform(Item newGrip)
     {
         isOccupied = true;
         currentGrip = newGrip;
+    }
+
+    public Item GetGripTransformItem()
+    {
+        return currentGrip;
+    }
+
+    public bool IsGripTransformOccupied()
+    {
+        return currentGrip;
     }
 
     public void ResetGripTransform()
@@ -50,7 +76,9 @@ public class Item : MonoBehaviour
     {
         chassis,
         effector,
-        grip
+        grip,
+        ammo,
+        modifier
     };
     public TypeTag itemType;
     
@@ -61,7 +89,7 @@ public class Item : MonoBehaviour
     public Vector3 localHandPos = Vector3.zero;
     public Vector3 localHandRot = Vector3.zero;
     public Sprite inventorySprite;
-    public List<ChassisEffectorTransform> chassisEffectorTransforms = new List<ChassisEffectorTransform>();
+    public List<ChassisComponentTransform> chassisComponentTransforms = new List<ChassisComponentTransform>();
     public ChassisGripTransform chassisGripTransform;
 
     private void OnDrawGizmos()
@@ -74,12 +102,12 @@ public class Item : MonoBehaviour
                 Gizmos.DrawSphere(chassisGripTransform.componentTransform.position, 0.05f);
             }
             
-            for (int i = 0; i < chassisEffectorTransforms.Count; i++)
+            for (int i = 0; i < chassisComponentTransforms.Count; i++)
             {
-                if (chassisEffectorTransforms[i].componentTransform != null)
+                if (chassisComponentTransforms[i].componentTransform != null)
                 {
                     Gizmos.color = new Color(0, 0, 1, 0.5f);
-                    Gizmos.DrawSphere(chassisEffectorTransforms[i].componentTransform.position, 0.05f);
+                    Gizmos.DrawSphere(chassisComponentTransforms[i].componentTransform.position, 0.05f);
                 }
             }
         }
