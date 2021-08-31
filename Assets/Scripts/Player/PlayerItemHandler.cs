@@ -9,14 +9,14 @@ public class PlayerItemHandler : MonoBehaviour
     private Item equippedItem;
     private GameObject equippedGO;
 
-    public Transform rightHandAttachmentBone;
+    public Transform leftHandAttachmentBone;
 
     public GameObject attachedItem = null;
 
     void AttachItem(Vector3 newPos, Vector3 newRot)
     {
         attachedItem = equippedGO;
-        attachedItem.transform.parent = rightHandAttachmentBone;
+        attachedItem.transform.parent = leftHandAttachmentBone;
         attachedItem.transform.localPosition = newPos;
         attachedItem.transform.localRotation = Quaternion.Euler(newRot);
     }

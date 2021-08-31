@@ -130,10 +130,19 @@ public class Item : MonoBehaviour
             }
             tempGameObj.name = $"{tempName}_Unwrapped";
 
+            if (tempGameObj.GetComponent<Item>() != null)
+            {
+                if (tempGameObj.GetComponent<Item>().itemType == TypeTag.chassis)
+                {
+                    tempGameObj.AddComponent<ChassisVisualItem>();
+                    tempGameObj.GetComponent<ChassisVisualItem>().AddVisualTransforms(tempGameObj.GetComponent<Item>().chassisComponentTransforms, tempGameObj.GetComponent<Item>().chassisGripTransform);
+                }
+            }
+
             foreach (var component in tempGameObj.GetComponents<Component>())
             {
                 if (component == tempGameObj.GetComponent<Transform>() || component == tempGameObj.GetComponent<MeshFilter>() ||
-                    component == tempGameObj.GetComponent<MeshRenderer>())
+                    component == tempGameObj.GetComponent<MeshRenderer>() || component == tempGameObj.GetComponent<VisualItem>())
                 {
                     continue;
                 }
