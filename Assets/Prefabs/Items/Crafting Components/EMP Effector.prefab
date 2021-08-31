@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 3853809071904657974}
   - component: {fileID: 277203622749127327}
   - component: {fileID: 8810325434434881288}
+  - component: {fileID: 1116543450413997601}
   m_Layer: 0
   m_Name: EMP Effector
   m_TagString: Untagged
@@ -109,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3349418763419235299}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.576439, y: -0.00000011920929, z: 37.499336}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8205837222434521741}
@@ -194,6 +195,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17293167, y: 0.42399597, z: 0.25627518}
   m_Center: {x: -0.00068187714, y: 0.20503944, z: -0.037130356}
+--- !u!114 &1116543450413997601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349418763419235299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: EMP
+  description: This effector will shoot a beam in whatever direction the effector
+    is pointing. This beam will disable certain electrical equipment.
+  isEquipped: 0
+  localHandPos: {x: 0, y: 0, z: 0}
+  localHandRot: {x: 0, y: 0, z: 0}
+  inventorySprite: {fileID: 0}
+  chassisComponentTransforms: []
+  chassisGripTransform:
+    componentTransform: {fileID: 0}
 --- !u!1 &3932378678705062470
 GameObject:
   m_ObjectHideFlags: 0

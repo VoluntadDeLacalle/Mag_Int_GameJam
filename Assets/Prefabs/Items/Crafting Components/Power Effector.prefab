@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8112824729736744036}
   - component: {fileID: 7840012654974856565}
   - component: {fileID: 472697491067735557}
+  - component: {fileID: 565534934369991816}
   m_Layer: 0
   m_Name: Power Effector
   m_TagString: Untagged
@@ -113,3 +114,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &565534934369991816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7752515112599629233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: Power
+  description: This effector will shoot a beam in whatever direction it is pointing.
+    This beam will activate certain electrical equipment.
+  isEquipped: 0
+  localHandPos: {x: 0, y: 0, z: 0}
+  localHandRot: {x: 0, y: 0, z: 0}
+  inventorySprite: {fileID: 0}
+  chassisComponentTransforms: []
+  chassisGripTransform:
+    componentTransform: {fileID: 0}

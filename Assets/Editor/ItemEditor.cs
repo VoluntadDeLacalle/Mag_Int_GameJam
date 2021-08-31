@@ -62,6 +62,18 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
+            case Item.TypeTag.ammo:
+                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
+                EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
+                EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
+                EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
+                break;
+            case Item.TypeTag.modifier:
+                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
+                EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
+                EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
+                EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
+                break;
         }
 
         if (target.GetType().Name != "Item")
