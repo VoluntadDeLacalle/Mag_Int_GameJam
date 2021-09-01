@@ -9,6 +9,7 @@ public class ChassisItem : Item
         base.Update();
         if (itemType != TypeTag.chassis)
         {
+            Debug.LogError($"{itemName} is currently of {itemType} type and not Chassis!");
             return;
         }
 

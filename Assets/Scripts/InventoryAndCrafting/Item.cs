@@ -58,7 +58,7 @@ public class ChassisGripTransform
 
     public bool IsGripTransformOccupied()
     {
-        return currentGrip;
+        return isOccupied;
     }
 
     public void ResetGripTransform()
@@ -151,6 +151,21 @@ public class Item : MonoBehaviour
             }
 
             tempGameObj.layer = LayerMask.NameToLayer("ItemRenderer");
+
+            foreach(Transform child in tempGameObj.GetComponentsInChildren<Transform>())
+            {
+                MeshRenderer tempMR = null;
+                tempMR = child.GetComponent<MeshRenderer>();
+
+                if (tempMR == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    child.gameObject.layer = LayerMask.NameToLayer("ItemRenderer");
+                }
+            }
 
             Inventory.Instance.visualItemDictionary.Add(this.gameObject, tempGameObj);
             tempGameObj.transform.SetParent(Inventory.Instance.visualItemParent.transform);

@@ -16,7 +16,9 @@ public class ObjectPooler : MonoBehaviour
     {
         InventoryItemUIButtons,
         PrimaryCraftingUIButtons,
-        SecondaryCraftingUIButtons
+        SecondaryCraftingUIButtons,
+        GrenadeAmmo,
+        ExplosionParticle
     }
 
     public Key key;
@@ -80,6 +82,7 @@ public class ObjectPooler : MonoBehaviour
             return obj;
         }
 
+        Debug.LogError("No more pooled objects available");
         return null;
     }
 

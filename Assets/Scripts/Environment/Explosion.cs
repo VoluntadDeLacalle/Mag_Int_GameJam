@@ -13,7 +13,7 @@ public class Explosion : MonoBehaviour
 
     private float destroyDelay = 1f;
 
-    [SerializeField] GameObject explodeParticle;
+    ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
 
     //Searches for nearby object in a defined radius and applies a force to those objects
     protected void Explode()
@@ -27,8 +27,12 @@ public class Explosion : MonoBehaviour
 
         explosionSFX.Play();
         hasExploded = true;
-        GameObject spawnedParticle = Instantiate(explodeParticle, transform.position, transform.rotation);
-        Destroy(spawnedParticle, 1);
+        GameObject spawnedParticle = ObjectPooler.GetPooler(explosionParticleKey).GetPooledObject();
+        spawnedParticle.transform.position = transform.position;
+        spawnedParticle.transform.rotation = transform.rotation;
+        spawnedParticle.SetActive(true);
+
+        DisableAfterTime(spawnedParticle, 1);
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
         foreach (Collider nearbyObject in colliders)
@@ -40,7 +44,26 @@ public class Explosion : MonoBehaviour
             }
         }
 
-        Destroy(gameObject, destroyDelay);
+        //gameObject.SetActive(false);
+        DisableAfterTime(gameObject, destroyDelay);
+    }
+
+    protected void ResetExplosive()
+    {
+        GetComponent<MeshRenderer>().enabled = true;
+        hasExploded = false;
+    }
+
+    void DisableAfterTime(GameObject objectToDisable, float time = 0)
+    {
+        StartCoroutine(DisableEnum(time, objectToDisable));
+    }
+
+    IEnumerator DisableEnum(float disableTime, GameObject objectToDisable)
+    {
+        yield return new WaitForSeconds(disableTime);
+
+        objectToDisable.SetActive(false);
     }
 
     //Delays the activation of the sphere collider that will detonate any explosives nearby
@@ -60,7 +83,7 @@ public class Explosion : MonoBehaviour
     //If an explosive explodes, other bombs in a nearby radius will also explode
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasExploded)
+        if (!hasExploded && other.CompareTag(bombTag))
         {
             DoDelayExplosion(explosionDelay);
             if (other.CompareTag(bombTag))

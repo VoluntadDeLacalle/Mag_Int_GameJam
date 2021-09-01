@@ -241,25 +241,42 @@ public class CraftingController : MonoBehaviour
             SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
 
             PrimaryCraftingUIDescriptor resetChassisPrimaryButton = chassisSecondaryCraftingList.GetComponentInParent<PrimaryCraftingUIDescriptor>();
-            List<PrimaryCraftingUIDescriptor> resetEffectorPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
+            List<PrimaryCraftingUIDescriptor> resetComponentPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
+
+            List<Item> currentComponentList = new List<Item>();
+
+            for (int i = 0; i < effectorList.Count; i++)
+            {
+                currentComponentList.Add(effectorList[i]);
+            }
+
+            for (int i = 0; i < modifierList.Count; i++)
+            {
+                currentComponentList.Add(modifierList[i]);
+            }
+
+            for (int i = 0; i < ammoList.Count; i++)
+            {
+                currentComponentList.Add(ammoList[i]);
+            }
 
             for (int i = 0; i < currentChassis.chassisComponentTransforms.Count; i++)
             {
                 int currentcomponentTransformIndex = i;
-                string effectorItemName = "None";
-                Sprite effectorItemIcon = null;
+                string componentItemName = "None";
+                Sprite componentItemIcon = null;
                 bool currentPointIsOccupied = false;
 
                 if (currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].IsComponentTransformOccupied())
                 {
-                    effectorItemName = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().itemName;
-                    effectorItemIcon = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().inventorySprite;
+                    componentItemName = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().itemName;
+                    componentItemIcon = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().inventorySprite;
                     currentPointIsOccupied = true;
                 }
 
-                GameObject effectorSecondaryCraftingList = 
-                    SpawnPrimaryButton($"Effector { i + 1 }", effectorItemName, effectorItemIcon, ref heightSpacing);
-                SpawnMultiComponentSecondaryButtons(Item.TypeTag.effector, effectorSecondaryCraftingList.transform, currentcomponentTransformIndex);
+                GameObject componentSecondaryCraftingList = 
+                    SpawnPrimaryButton($"Component { i + 1 }", componentItemName, componentItemIcon, ref heightSpacing);
+                SpawnMultiComponentSecondaryButtons(currentComponentList, componentSecondaryCraftingList.transform, currentcomponentTransformIndex);
 
                 if (currentPointIsOccupied)
                 {
@@ -267,7 +284,7 @@ public class CraftingController : MonoBehaviour
                     EnableVisualItem(visualEffector, visualChassis.transform, chassisList[currentChassisIndex].chassisComponentTransforms[currentcomponentTransformIndex].componentTransform.localPosition, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[currentcomponentTransformIndex].componentTransform.rotation);
                 }
 
-                resetEffectorPrimaryButtons.Add(effectorSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
+                resetComponentPrimaryButtons.Add(componentSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
             }
 
             string gripItemName = "None";
@@ -289,20 +306,20 @@ public class CraftingController : MonoBehaviour
             
             PrimaryCraftingUIDescriptor resetGripPrimaryButton = gripSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>();
 
-            resetButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { ResetCurrentChassis(resetChassisPrimaryButton, resetEffectorPrimaryButtons, resetGripPrimaryButton); });
+            resetButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { ResetCurrentChassis(resetChassisPrimaryButton, resetComponentPrimaryButtons, resetGripPrimaryButton); });
             resetButton.transform.SetParent(primaryCraftingList.transform, false);
             resetButton.SetActive(true);
         }
     }
 
-    void ResetCurrentChassis(PrimaryCraftingUIDescriptor chassisPrimaryButton, List<PrimaryCraftingUIDescriptor> effectorPrimaryButtons, PrimaryCraftingUIDescriptor gripPrimaryButton)
+    void ResetCurrentChassis(PrimaryCraftingUIDescriptor chassisPrimaryButton, List<PrimaryCraftingUIDescriptor> componentPrimaryButtons, PrimaryCraftingUIDescriptor gripPrimaryButton)
     {
         string warning = "You are about to remove everything from this chassis!";
         if (!warningCalled)
         {
             warningPanel.SetActive(true);
             warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
-            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(chassisPrimaryButton, effectorPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
+            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(chassisPrimaryButton, componentPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
         }
         else
         {
@@ -310,14 +327,14 @@ public class CraftingController : MonoBehaviour
 
             for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
             {
-                effectorPrimaryButtons[i].SetButtonInformation($"Effector {i + 1}", "None", null);
-                effectorPrimaryButtons[i].secondaryCraftingList.gameObject.SetActive(false);
+                componentPrimaryButtons[i].SetButtonInformation($"Component {i + 1}", "None", null);
+                componentPrimaryButtons[i].secondaryCraftingList.gameObject.SetActive(false);
 
                 if (chassisList[currentChassisIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
                 {
                     DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject]);
 
-                    ///Removes effector for current slot if there is one.
+                    ///Removes component for current slot if there is one.
                     chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.transform.parent = null;
                     chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().isEquipped = false;
                     chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.SetActive(false);
@@ -349,13 +366,13 @@ public class CraftingController : MonoBehaviour
     {
         if (componentIndex == -1)
         {   
-            parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Effector { componentTransformIndex + 1 }", "None", null);
+            parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", "None", null);
             
             if (chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].IsComponentTransformOccupied())
             {
                 DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject]);
 
-                ///Removes effector for current slot if there is one.
+                ///Removes component for current slot if there is one.
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().isEquipped = false;
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.SetActive(false);
@@ -375,7 +392,7 @@ public class CraftingController : MonoBehaviour
                 }
                 DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject]);
 
-                ///Removes whatever effector was in the slot prior to a new one being added.
+                ///Removes whatever component was in the slot prior to a new one being added.
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().isEquipped = false;
                 chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.SetActive(false);
@@ -386,8 +403,8 @@ public class CraftingController : MonoBehaviour
 
             if (componentList[componentIndex].isEquipped)
             {
-                Item attachedEffectorChassis = componentList[componentIndex].gameObject.GetComponentInParent<Item>();
-                if (attachedEffectorChassis.gameObject == chassisList[currentChassisIndex].gameObject)
+                Item attachedComponentChassis = componentList[componentIndex].gameObject.GetComponentInParent<Item>();
+                if (attachedComponentChassis.gameObject == chassisList[currentChassisIndex].gameObject)
                 {
                     for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
                     {
@@ -412,13 +429,13 @@ public class CraftingController : MonoBehaviour
                         }
                     }
                     
-                    ///Moves effector from one slot on current chassis to currently selected one.
+                    ///Moves component from one slot on current chassis to currently selected one.
                     componentList[componentIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
                     componentList[componentIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
                     chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
 
-                    GameObject visualEffector = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
-                    EnableVisualItem(visualEffector, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
+                    GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
+                    EnableVisualItem(visualComponent, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
 
                     parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentList[componentIndex].inventorySprite);
                     return;
@@ -436,7 +453,7 @@ public class CraftingController : MonoBehaviour
                     {
                         for (int i = 0; i < chassisList.Count; i++)
                         {
-                            if (chassisList[i].gameObject == attachedEffectorChassis.gameObject)
+                            if (chassisList[i].gameObject == attachedComponentChassis.gameObject)
                             {
                                 for(int j = 0; j < chassisList[i].chassisComponentTransforms.Count; j++)
                                 {
@@ -466,7 +483,7 @@ public class CraftingController : MonoBehaviour
             else
             {
 
-                ///Adds effector into current slot, removes from inventory.
+                ///Adds component into current slot, removes from inventory.
                 componentList[componentIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
                 componentList[componentIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
                 componentList[componentIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
@@ -483,8 +500,8 @@ public class CraftingController : MonoBehaviour
                     }
                 }
 
-                GameObject visualEffector = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
-                EnableVisualItem(visualEffector, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
+                GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
+                EnableVisualItem(visualComponent, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
 
                 parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentList[componentIndex].inventorySprite);
             }
@@ -521,7 +538,7 @@ public class CraftingController : MonoBehaviour
                 }
                 DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject]);
 
-                ///Removes whatever effector was in the slot prior to a new one being added.
+                ///Removes whatever component was in the slot prior to a new one being added.
                 chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.transform.parent = null;
                 chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().isEquipped = false;
                 chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.SetActive(false);
@@ -605,65 +622,55 @@ public class CraftingController : MonoBehaviour
         return obj.GetComponent<PrimaryCraftingUIDescriptor>().internalCraftingList;
     }
 
-    void SpawnMultiComponentSecondaryButtons(Item.TypeTag typeTag, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
+    void SpawnMultiComponentSecondaryButtons(List<Item> componentList, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
     {
         GameObject noneObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
         noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
         noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
         noneObj.transform.SetParent(secondaryButtonParent, false);
+        noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(-1, null, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
         noneObj.SetActive(true);
 
-        switch (typeTag)
+        for (int i = 0; i < componentList.Count; i++)
         {
-            case Item.TypeTag.effector:
-                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(-1, null, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+            Item.TypeTag typeTag = componentList[i].itemType;
 
-                for (int i = 0; i < effectorList.Count; i++)
-                {
-                    int componentIndex = i;
+            switch (typeTag)
+            {
+                case Item.TypeTag.effector:
+                    int effectorIndex = i;
                     GameObject effectorObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(effectorList[componentIndex].inventorySprite, effectorList[componentIndex].itemName);
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(componentIndex, effectorList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[effectorIndex].inventorySprite, componentList[effectorIndex].itemName);
+                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(effectorIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     effectorObj.transform.SetParent(secondaryButtonParent, false);
                     effectorObj.SetActive(true);
-                }
 
-                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(effectorList.Count + 1);
-                break;
-            case Item.TypeTag.modifier:
-                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(-1, null, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    break;
+                case Item.TypeTag.modifier:
+                    int modifierIndex = i;
+                    GameObject modifierObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
+                    modifierObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[modifierIndex].inventorySprite, componentList[modifierIndex].itemName);
+                    modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(modifierIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    modifierObj.transform.SetParent(secondaryButtonParent, false);
+                    modifierObj.SetActive(true);
 
-                for (int i = 0; i < modifierList.Count; i++)
-                {
-                    int componentIndex = i;
-                    GameObject effectorObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(modifierList[componentIndex].inventorySprite, modifierList[componentIndex].itemName);
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(componentIndex, modifierList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
-                    effectorObj.transform.SetParent(secondaryButtonParent, false);
-                    effectorObj.SetActive(true);
-                }
+                    break;
+                case Item.TypeTag.ammo:
+                    int ammoIndex = i;
+                    GameObject ammoObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
+                    ammoObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[ammoIndex].inventorySprite, componentList[ammoIndex].itemName);
+                    ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(ammoIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+                    ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    ammoObj.transform.SetParent(secondaryButtonParent, false);
+                    ammoObj.SetActive(true);
 
-                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(modifierList.Count + 1);
-                break;
-            case Item.TypeTag.ammo:
-                noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(-1, null, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
-
-                for (int i = 0; i < ammoList.Count; i++)
-                {
-                    int componentIndex = i;
-                    GameObject effectorObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(ammoList[componentIndex].inventorySprite, ammoList[componentIndex].itemName);
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(componentIndex, ammoList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
-                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
-                    effectorObj.transform.SetParent(secondaryButtonParent, false);
-                    effectorObj.SetActive(true);
-                }
-
-                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(ammoList.Count + 1);
-                break;
+                    break;
+            }
         }
+
+        secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(componentList.Count + 1);
     }
 
     void SpawnSecondaryButtons(Item.TypeTag typeTag, Transform secondaryButtonParent)

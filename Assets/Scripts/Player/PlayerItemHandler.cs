@@ -13,6 +13,11 @@ public class PlayerItemHandler : MonoBehaviour
 
     public GameObject attachedItem = null;
 
+    public Item GetEquippedItem()
+    {
+        return equippedGO.GetComponent<Item>();
+    }
+
     void AttachItem(Vector3 newPos, Vector3 newRot)
     {
         attachedItem = equippedGO;

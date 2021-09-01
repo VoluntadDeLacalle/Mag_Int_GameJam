@@ -66,4 +66,14 @@ public class DetectorEffector : Item
             detectableMats[i].SetVector("_Center", transform.position);
         }
     }
+
+    new void Update()
+    {
+        base.Update();
+
+        if (itemType != TypeTag.effector)
+        {
+            Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
+        }
+    }
 }

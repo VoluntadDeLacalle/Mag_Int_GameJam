@@ -13,13 +13,25 @@ public class grenade : Explosion
     [SerializeField]
     private float countdown;
 
+    private Color originalColor;
     private bool hasPlayed = false;
     private Renderer rend;
+    private SphereCollider sphereCollider;
+    private Trajectory trajectory;
 
-    void Start()
+    private void Awake()
+    {
+        sphereCollider = GetComponent<SphereCollider>();
+        rend = GetComponent<Renderer>();
+        trajectory = GetComponent<Trajectory>();
+
+        originalColor = rend.material.color;
+    }
+
+    void OnEnable()
     {
         countdown = timer;
-        rend = GetComponent<Renderer>();
+        ActivateGrenade();
     }
 
     //Grenade countdown to explode
@@ -38,15 +50,26 @@ public class grenade : Explosion
             countdown -= Time.deltaTime;
             if (countdown <= 0 && !hasExploded)
             {
-                SphereCollider sphereCollider = GetComponent<SphereCollider>();
                 sphereCollider.enabled = true;
                 Explode();
             }
         }
     }
 
-    public void activateGrenade()
+    public void ActivateGrenade()
     {
         triggerPulled = true;
+    }
+
+    private void OnDisable()
+    {
+        countdown = timer;
+        sphereCollider.enabled = false;
+        triggerPulled = false;
+        hasPlayed = false;
+
+        ResetExplosive();
+
+        trajectory.trajectoryType = Trajectory.TrajectoryType.none;
     }
 }
