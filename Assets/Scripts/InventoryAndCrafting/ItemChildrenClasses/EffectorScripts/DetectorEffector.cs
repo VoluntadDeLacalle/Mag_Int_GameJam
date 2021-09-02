@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,11 @@ public class DetectorEffector : Item
     public GameObject detectorRadius;
     public List<Material> detectableMats = new List<Material>();
 
+    [Header("Modifier Variables")]
+    public int amplifiedMaxRadius = 10;
+
     private float currentRadius = 0;
+    private int originalMaxRadius = 0;
 
     private void Awake()
     {        
@@ -20,6 +25,8 @@ public class DetectorEffector : Item
             detectableMats[i].SetVector("_Center", transform.position);
         }
         detectorRadius.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+
+        originalMaxRadius = maxRadius;
     }
 
     public override void Activate()
@@ -67,6 +74,42 @@ public class DetectorEffector : Item
         }
     }
 
+    public override void ModifyComponent(ModifierItem.ModifierType modifierType)
+    {
+        switch (modifierType)
+        {
+            case ModifierItem.ModifierType.Amplifier:
+                maxRadius = amplifiedMaxRadius;
+                break;
+            case ModifierItem.ModifierType.Exploding:
+                break;
+            case ModifierItem.ModifierType.Reflector:
+                break;
+        }
+    }
+
+    public override void UnmodifyComponent(ModifierItem.ModifierType modifierType)
+    {
+        switch (modifierType)
+        {
+            case ModifierItem.ModifierType.Amplifier:
+                maxRadius = originalMaxRadius;
+                break;
+            case ModifierItem.ModifierType.Exploding:
+                break;
+            case ModifierItem.ModifierType.Reflector:
+                break;
+        }
+    }
+
+    public override void OnUnequip()
+    {
+        foreach (ModifierItem.ModifierType modifierType in (ModifierItem.ModifierType[])Enum.GetValues(typeof(ModifierItem.ModifierType)))
+        {
+            UnmodifyComponent(modifierType);
+        }
+    }
+
     new void Update()
     {
         base.Update();
@@ -74,6 +117,15 @@ public class DetectorEffector : Item
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < detectableMats.Count; i++)
+        {
+            detectableMats[i].SetFloat("_Radius", 0);
+            detectableMats[i].SetVector("_Center", Vector3.zero);
         }
     }
 }

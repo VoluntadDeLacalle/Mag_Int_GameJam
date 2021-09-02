@@ -28,6 +28,18 @@ public class PlayerItemHandler : MonoBehaviour
 
     public void EquipItem(int inventoryIndex)
     {
+        if (equippedGO != null)
+        {
+            for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+            {
+                if (Inventory.Instance.inventory[i].isEquipped && Inventory.Instance.inventory[i].itemType == Item.TypeTag.chassis)
+                {
+                    UnequipItem(i);
+                    break;
+                }
+            }
+        }
+
         equippedItem = itemDetection.inventoryRef.inventory[inventoryIndex];
         equippedGO = equippedItem.gameObject;
         equippedGO.SetActive(true);

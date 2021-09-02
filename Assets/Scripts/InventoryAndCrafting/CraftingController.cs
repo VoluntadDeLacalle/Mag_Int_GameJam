@@ -230,6 +230,8 @@ public class CraftingController : MonoBehaviour
         }
         else
         {
+            DisableWholeVisualChassis();
+
             Item currentChassis = chassisList[index];
             currentChassisIndex = index;
 
@@ -403,11 +405,16 @@ public class CraftingController : MonoBehaviour
 
             if (componentList[componentIndex].isEquipped)
             {
-                Item attachedComponentChassis = componentList[componentIndex].gameObject.GetComponentInParent<Item>();
+                Item attachedComponentChassis = componentList[componentIndex].gameObject.transform.parent.GetComponent<Item>();
                 if (attachedComponentChassis.gameObject == chassisList[currentChassisIndex].gameObject)
                 {
                     for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
                     {
+                        if (!chassisList[currentChassisIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                        {
+                            continue;
+                        }
+
                         if (chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject == componentList[componentIndex].gameObject)
                         {
                             foreach (PrimaryCraftingUIDescriptor currentButton in primaryCraftingList.GetComponentsInChildren<PrimaryCraftingUIDescriptor>())
@@ -432,6 +439,7 @@ public class CraftingController : MonoBehaviour
                     ///Moves component from one slot on current chassis to currently selected one.
                     componentList[componentIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
                     componentList[componentIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
+                    componentList[componentIndex].isEquipped = true;
                     chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
 
                     GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
@@ -457,7 +465,12 @@ public class CraftingController : MonoBehaviour
                             {
                                 for(int j = 0; j < chassisList[i].chassisComponentTransforms.Count; j++)
                                 {
-                                    if(chassisList[i].chassisComponentTransforms[j].GetComponentTransformItem().gameObject == componentList[componentIndex])
+                                    if (!chassisList[i].chassisComponentTransforms[j].IsComponentTransformOccupied())
+                                    {
+                                        continue;
+                                    }
+
+                                    if(chassisList[i].chassisComponentTransforms[j].GetComponentTransformItem().gameObject == componentList[componentIndex].gameObject)
                                     {
                                         chassisList[i].chassisComponentTransforms[j].ResetComponentTransform();
                                         break;
@@ -470,6 +483,7 @@ public class CraftingController : MonoBehaviour
                         componentList[componentIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
                         componentList[componentIndex].transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
                         componentList[componentIndex].transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
+                        componentList[componentIndex].isEquipped = true;
                         chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
 
                         GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];

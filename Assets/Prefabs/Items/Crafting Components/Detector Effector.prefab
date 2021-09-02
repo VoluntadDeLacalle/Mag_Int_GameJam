@@ -90,7 +90,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2289066098861814677}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -208,6 +208,7 @@ MonoBehaviour:
   detectorRadius: {fileID: 2289066098861814677}
   detectableMats:
   - {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
+  amplifiedMaxRadius: 10
 --- !u!54 &8009583458387915559
 Rigidbody:
   m_ObjectHideFlags: 0

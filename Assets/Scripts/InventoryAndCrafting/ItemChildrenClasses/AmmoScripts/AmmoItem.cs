@@ -106,6 +106,8 @@ public class AmmoItem : Item
                 return;
             }
         }
+
+        //currentChassis = Inventory.Instance.playerItemHandler.GetEquippedItem();
     }
 
     new void Update()
