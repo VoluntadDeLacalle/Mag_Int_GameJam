@@ -18,6 +18,7 @@ public class ObjectPooler : MonoBehaviour
         PrimaryCraftingUIButtons,
         SecondaryCraftingUIButtons,
         GrenadeAmmo,
+        RockAmmo,
         ExplosionParticle
     }
 

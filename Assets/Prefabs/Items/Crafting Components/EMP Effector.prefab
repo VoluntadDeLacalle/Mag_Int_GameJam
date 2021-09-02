@@ -81,6 +81,87 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2551432859122333448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6721650172594911806}
+  - component: {fileID: 9145920755732178970}
+  - component: {fileID: 4635817354102050540}
+  m_Layer: 0
+  m_Name: EMPRadius
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6721650172594911806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551432859122333448}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.225, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 2679736551420848473}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &9145920755732178970
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551432859122333448}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4635817354102050540
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551432859122333448}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f7344c21f16b7c54b8e2e5edbe072582, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3349418763419235299
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,9 +173,9 @@ GameObject:
   - component: {fileID: 2679736551420848473}
   - component: {fileID: 1341946963739731708}
   - component: {fileID: 3853809071904657974}
+  - component: {fileID: 5359292409737074398}
   - component: {fileID: 277203622749127327}
   - component: {fileID: 8810325434434881288}
-  - component: {fileID: 1116543450413997601}
   m_Layer: 0
   m_Name: EMP Effector
   m_TagString: Untagged
@@ -113,6 +194,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 6721650172594911806}
   - {fileID: 8205837222434521741}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -166,6 +248,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5359292409737074398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349418763419235299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a75990a9b9c394a409841beeace22d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: EMP
+  description: This effector will shoot a beam in whatever direction the effector
+    is pointing. This beam will disable certain electrical equipment.
+  isEquipped: 0
+  localHandPos: {x: 0, y: 0, z: 0}
+  localHandRot: {x: 0, y: 0, z: 0}
+  inventorySprite: {fileID: 0}
+  chassisComponentTransforms: []
+  chassisGripTransform:
+    componentTransform: {fileID: 0}
+  maxRadius: 5
+  radiusGrowthTime: 1
+  EMPRadius: {fileID: 2551432859122333448}
+  amplifiedMaxRadius: 10
 --- !u!54 &277203622749127327
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -195,29 +304,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17293167, y: 0.42399597, z: 0.25627518}
   m_Center: {x: -0.00068187714, y: 0.20503944, z: -0.037130356}
---- !u!114 &1116543450413997601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3349418763419235299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 1
-  itemName: EMP
-  description: This effector will shoot a beam in whatever direction the effector
-    is pointing. This beam will disable certain electrical equipment.
-  isEquipped: 0
-  localHandPos: {x: 0, y: 0, z: 0}
-  localHandRot: {x: 0, y: 0, z: 0}
-  inventorySprite: {fileID: 0}
-  chassisComponentTransforms: []
-  chassisGripTransform:
-    componentTransform: {fileID: 0}
 --- !u!1 &3932378678705062470
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +418,7 @@ Transform:
   - {fileID: 7495449208899803159}
   - {fileID: 7709964709630720445}
   m_Father: {fileID: 2679736551420848473}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6264272988510797032
 GameObject:
