@@ -563,7 +563,7 @@ public class CraftingController : MonoBehaviour
 
             if (gripList[gripIndex].isEquipped)
             {
-                Item attachedGripChassis = gripList[gripIndex].gameObject.GetComponentInParent<Item>();
+                Item attachedGripChassis = gripList[gripIndex].gameObject.transform.parent.GetComponent<Item>();
 
                 string warning = "The grip you are trying to use is attached to a different object!";
                 if (!warningCalled)
@@ -576,6 +576,11 @@ public class CraftingController : MonoBehaviour
                 {
                     for (int i = 0; i < chassisList.Count; i++)
                     {
+                        if (!chassisList[i].chassisGripTransform.IsGripTransformOccupied())
+                        {
+                            continue;
+                        }
+
                         if (chassisList[i].gameObject == attachedGripChassis.gameObject)
                         {
                             chassisList[i].chassisGripTransform.ResetGripTransform();
@@ -586,6 +591,7 @@ public class CraftingController : MonoBehaviour
                     gripList[gripIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
                     gripList[gripIndex].transform.position = chassisList[currentChassisIndex].chassisGripTransform.componentTransform.position;
                     gripList[gripIndex].transform.rotation = chassisList[currentChassisIndex].chassisGripTransform.componentTransform.rotation;
+                    gripList[gripIndex].isEquipped = true;
                     chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
 
                     GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
