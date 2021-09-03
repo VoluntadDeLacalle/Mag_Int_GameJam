@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EMPEffector : Item
@@ -70,7 +68,7 @@ public class EMPEffector : Item
 
             if (currentElectricalComponent.IsPowered())
             {
-                currentElectricalComponent.SetPower(false);
+                currentElectricalComponent.SetIsPowered(false);
             }
         }
     }
@@ -109,6 +107,8 @@ public class EMPEffector : Item
         {
             UnmodifyComponent(modifierType);
         }
+
+        currentRadius = 0;
     }
 
     new void Update()
