@@ -20,6 +20,7 @@ public class ChassisComponentTransform
         isOccupied = true;
         currentComponent = newComponent;
         currentComponent.isEquipped = true;
+        currentComponent.OnEquip();
     }
 
     public Item GetComponentTransformItem()
@@ -54,6 +55,7 @@ public class ChassisGripTransform
         isOccupied = true;
         currentGrip = newGrip;
         currentGrip.isEquipped = true;
+        currentGrip.OnEquip();
     }
 
     public Item GetGripTransformItem()
@@ -182,6 +184,7 @@ public class Item : MonoBehaviour
         }
     }
 
+    public virtual void OnEquip() { }
     public virtual void OnUnequip() { }
     public virtual void Activate() { }
     public virtual void ModifyComponent(ModifierItem.ModifierType modifierType) { }

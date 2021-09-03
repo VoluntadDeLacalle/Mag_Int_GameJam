@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +16,8 @@ public class ChassisItem : Item
         }
     }
 
-    new void Update()
+    void LateUpdate()
     {
-        base.Update();
         if (itemType != TypeTag.chassis)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not Chassis!");

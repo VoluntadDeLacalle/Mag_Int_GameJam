@@ -1,12 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Electrical : MonoBehaviour
 {
+    public string electricalLayerName = "Electrical";
+
     protected bool isPowered = false;
 
-    public void SetPower(bool shouldPower)
+    private void Awake()
+    {
+        gameObject.layer = LayerMask.NameToLayer(electricalLayerName);
+    }
+
+    public void SetIsPowered(bool shouldPower)
     {
         isPowered = shouldPower;
     }
