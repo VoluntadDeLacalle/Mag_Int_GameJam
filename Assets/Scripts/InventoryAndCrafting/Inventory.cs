@@ -162,7 +162,16 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             return;
         }
 
-        playerItemHandler.EquipItem(equipIndex);
+        if (inventory[equipIndex].chassisGripTransform.IsGripTransformOccupied())
+        {
+            playerItemHandler.EquipItem(inventory[equipIndex].chassisGripTransform.GetGripTransformItem());
+        }
+        else
+        {
+            playerItemHandler.EquipItem(equipIndex);
+        }
+        inventory[equipIndex].isEquipped = true;
+        
         equipItemButton.SetActive(false);
         unequipItemButton.SetActive(true);
     }
@@ -174,7 +183,16 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             return;
         }
 
-        playerItemHandler.UnequipItem(equipIndex);
+        if (inventory[equipIndex].chassisGripTransform.IsGripTransformOccupied())
+        {
+            playerItemHandler.UnequipItem(inventory[equipIndex].chassisGripTransform.GetGripTransformItem());
+        }
+        else
+        {
+            playerItemHandler.UnequipItem(equipIndex);
+        }
+        inventory[equipIndex].isEquipped = false;
+
         unequipItemButton.SetActive(false);
         equipItemButton.SetActive(true);
     }

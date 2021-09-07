@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2918208357557608980}
   - component: {fileID: 2292425254133509553}
   - component: {fileID: 4050042106995267963}
+  - component: {fileID: 8548997402553588285}
   - component: {fileID: 4461032559681611144}
   - component: {fileID: 274772089127773550}
-  - component: {fileID: 4802126452879196069}
   m_Layer: 0
   m_Name: Simple Grip
   m_TagString: Untagged
@@ -84,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8548997402553588285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2536757659613034670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c26b4fd6be3c94fa9467055fde0b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: Simple
+  description: This is a simple handle grip.
+  isEquipped: 0
+  localHandPos: {x: -0.105, y: -0.056, z: -0.018}
+  localHandRot: {x: -79.62, y: 240.263, z: -66.876}
+  inventorySprite: {fileID: 21300000, guid: 6bb65dbba9dcc584b972176a3e188ee3, type: 3}
+  chassisComponentTransforms: []
+  chassisGripTransform:
+    componentTransform: {fileID: 0}
 --- !u!65 &4461032559681611144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,25 +135,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4802126452879196069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2536757659613034670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 2
-  itemName: Simple
-  description: This is a simple handle grip.
-  isEquipped: 0
-  localHandPos: {x: 0, y: 0, z: 0}
-  localHandRot: {x: 0, y: 0, z: 0}
-  inventorySprite: {fileID: 21300000, guid: 6bb65dbba9dcc584b972176a3e188ee3, type: 3}
-  chassisComponentTransforms: []
-  chassisGripTransform:
-    componentTransform: {fileID: 0}

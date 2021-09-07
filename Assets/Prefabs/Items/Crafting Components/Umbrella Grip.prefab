@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5647537251772817388}
   - component: {fileID: 8777461385991508041}
   - component: {fileID: 6785580939938079875}
+  - component: {fileID: 5345342537963771280}
   - component: {fileID: 2826262258515520550}
   - component: {fileID: 3081628348407457480}
-  - component: {fileID: 3354178913757445406}
   m_Layer: 0
   m_Name: Umbrella Grip
   m_TagString: Untagged
@@ -85,6 +85,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5345342537963771280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984294677714044246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c26b4fd6be3c94fa9467055fde0b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: Umbrella
+  description: When activated, this grip will allow the player to hold it directly
+    above their head.
+  isEquipped: 0
+  localHandPos: {x: -0.167, y: 0.002, z: 0.758}
+  localHandRot: {x: -93.809, y: -42.359, z: 217.027}
+  inventorySprite: {fileID: 0}
+  chassisComponentTransforms: []
+  chassisGripTransform:
+    componentTransform: {fileID: 0}
 --- !u!65 &2826262258515520550
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -114,26 +137,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3354178913757445406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4984294677714044246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 2
-  itemName: Umbrella
-  description: When activated, this grip will allow the player to hold it directly
-    above their head.
-  isEquipped: 0
-  localHandPos: {x: 0, y: 0, z: 0}
-  localHandRot: {x: 0, y: 0, z: 0}
-  inventorySprite: {fileID: 0}
-  chassisComponentTransforms: []
-  chassisGripTransform:
-    componentTransform: {fileID: 0}

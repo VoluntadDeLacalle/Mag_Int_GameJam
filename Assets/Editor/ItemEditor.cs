@@ -60,6 +60,8 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 EditorGUILayout.PropertyField(description_Prop, new GUIContent("Description"));
                 EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
+                EditorGUILayout.PropertyField(localHandPos_Prop, new GUIContent("Local Hand Position"));
+                EditorGUILayout.PropertyField(localHandRot_Prop, new GUIContent("Local Hand Rotation"));
                 EditorGUILayout.PropertyField(image_Prop, new GUIContent("Inventory Sprite"));
                 break;
             case Item.TypeTag.ammo:

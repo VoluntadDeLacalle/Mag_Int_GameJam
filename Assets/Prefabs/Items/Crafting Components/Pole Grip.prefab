@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3424161711293296555}
   - component: {fileID: 1741427932677431310}
   - component: {fileID: 4597678461937423556}
-  - component: {fileID: 349338263336854369}
+  - component: {fileID: 5978214009297426071}
   - component: {fileID: 1129399706590503680}
   - component: {fileID: 7826866020923807220}
   m_Layer: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &349338263336854369
+--- !u!114 &5978214009297426071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,21 +93,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2652268627475117329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b546fa3a0533ca4d98339ef9388c80c, type: 3}
+  m_Script: {fileID: 11500000, guid: 47c26b4fd6be3c94fa9467055fde0b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 2
-  itemName: Pole Grip
-  description: Grip things like-a da pole.
+  itemName: Pole
+  description: Allows for an extension of your current hold.
   isEquipped: 0
-  localHandPos: {x: 0, y: 0, z: 0}
-  localHandRot: {x: 0, y: 0, z: 0}
+  localHandPos: {x: -0.15, y: -0.012, z: 0.515}
+  localHandRot: {x: 84.296, y: 61.925, z: 64.839}
   inventorySprite: {fileID: 21300000, guid: 6705c704234128f4d8745a4d5ccaae7c, type: 3}
-  chassisEffectorTransforms: []
+  chassisComponentTransforms: []
   chassisGripTransform:
     componentTransform: {fileID: 0}
-    isOccupied: 0
-    currentGrip: {fileID: 0}
 --- !u!54 &1129399706590503680
 Rigidbody:
   m_ObjectHideFlags: 0
