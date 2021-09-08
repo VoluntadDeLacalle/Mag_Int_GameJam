@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : SingletonMonoBehaviour<PlayerController>
 {
     [SerializeField] private Transform debugHitPointTransform;
 
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     float ragdollStunTimer = 0.0f;
     float grenadeThrowForwardImpulse = 10.0f;
     float grenadeThrowUpwardImpulse = 3.0f;
+    private bool canMove = true;
     public float maxGrappleDistance = 200f;
 
     public LayerMask GrappleMask;
@@ -70,9 +71,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool CanMove()
+    {
+        return canMove;
+    }
+
+    public void ShouldMove(bool shouldMove)
+    {
+        canMove = shouldMove;
+    }
+
     public void ManageInput()
     {
-        if (Time.timeScale < 0.1f)
+        if (Time.timeScale < 0.1f || !canMove)
         {
             return;
         }

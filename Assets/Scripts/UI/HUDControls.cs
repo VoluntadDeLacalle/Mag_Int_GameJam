@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HUDControls : MonoBehaviour
 {
     public GameObject pauseUI;
-    public GameObject pickUpUI;
+    public GameObject pickUpUIText;
     public GameObject inventoryUI;
     public GameObject craftingUI;
     public GameObject winScreenUI;
@@ -65,13 +65,13 @@ public class HUDControls : MonoBehaviour
             toggleOpt(pauseUI);
         }
 
-        if (pickUpUI.activeSelf && Time.timeScale == 0.0f)
+        if (pickUpUIText.activeSelf && Time.timeScale == 0.0f)
         {
-            pickUpUI.SetActive(false);
+            pickUpUIText.SetActive(false);
         }
-        else if (!pickUpUI.activeSelf && Time.timeScale == 1.0f)
+        else if (!pickUpUIText.activeSelf && Time.timeScale == 1.0f)
         {
-            pickUpUI.SetActive(true);
+            pickUpUIText.SetActive(true);
         }
     }
 

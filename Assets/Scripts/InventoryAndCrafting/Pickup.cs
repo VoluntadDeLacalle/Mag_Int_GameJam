@@ -58,7 +58,7 @@ public class Pickup : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Time.timeScale != 0.0f)
+                if (Time.timeScale != 0.0f || PlayerController.Instance.CanMove())
                 {
                     PickupItem();
                 }
