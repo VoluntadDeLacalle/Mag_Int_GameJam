@@ -89,6 +89,8 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             newItem.gameObject.SetActive(false);
             newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+
+        Player.Instance.backpackFill.IncreaseBackpack(20);
     }
 
     public void DropFromInventory()
@@ -120,8 +122,36 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         }
 
         inventory.RemoveAt(dropIndex);
-        ResetSelectedInfo();
-        dropIndex = -1;
+        if (dropIndex == inventory.Count)
+        {
+            if (inventory.Count == 0)
+            {
+                ResetSelectedInfo();
+                dropIndex = -1;
+            }
+            else
+            {
+                ChangeInventoryInformation(dropIndex - 1);
+            }
+        }
+        else
+        {
+            if (inventory.Count == 0)
+            {
+                ResetSelectedInfo();
+                dropIndex = -1;
+            }
+            else
+            {
+                ChangeInventoryInformation(dropIndex);
+            }
+        }
+
+        Player.Instance.backpackFill.DecreaseBackpack(20);
+        if (inventory.Count == 0)
+        {
+            Player.Instance.backpackFill.DecreaseBackpack(300);
+        }
 
         UpdateInventoryView();
     }

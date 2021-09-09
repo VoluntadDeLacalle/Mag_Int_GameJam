@@ -1,3 +1,4 @@
+using Invector.vCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class TextboxTest : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponentInChildren<PlayerController>())
+        if (other.GetComponentInChildren<vThirdPersonController>())
         {
             GetComponent<MeshRenderer>().material.color = Color.green;
             inRange = true;

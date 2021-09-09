@@ -1,3 +1,4 @@
+using Invector.vCharacterController;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ public class ChassisItem : Item
 
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
-            if (!PlayerController.Instance.CanMove())
+            if (!Player.Instance.vThirdPersonInput.CanMove())
             {
                 break;
             }

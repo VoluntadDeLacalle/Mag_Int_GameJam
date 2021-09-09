@@ -1,4 +1,5 @@
 using BasicTools.ButtonInspector;
+using Invector.vCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,7 +58,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
 
         talkerIcon.sprite = newTalkerIcon;
         textboxAnimator.SetBool("isEnabled", true);
-        PlayerController.Instance.ShouldMove(false);
+        Player.Instance.vThirdPersonInput.ShouldMove(false);
     }
 
     private void StartFirstText()
@@ -83,7 +84,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         typeTimer = maxTypeTimer;
         continueFlashTimer = maxContinueFlashTimer;
 
-        PlayerController.Instance.ShouldMove(true);
+        Player.Instance.vThirdPersonInput.ShouldMove(true);
     }
 
     string GetNextBox(string currentText)

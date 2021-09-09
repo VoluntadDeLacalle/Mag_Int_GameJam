@@ -1,10 +1,10 @@
+using Invector.vCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    public Inventory inventoryRef;
     public TMPro.TextMeshProUGUI itemHighlight;
 
     private List<Item> itemsInRange = new List<Item>();
@@ -15,14 +15,14 @@ public class Pickup : MonoBehaviour
         tempItem = other.GetComponent<Item>();
         if (tempItem != null)
         {
-            if (tempItem.isEquipped != true && tempItem.GetComponentInParent<PlayerController>() == null)
+            if (tempItem.isEquipped != true && tempItem.GetComponentInParent<Player>() == null)
             {
                 if (!itemsInRange.Contains(other.GetComponent<Item>()))
                 {
                     itemsInRange.Add(other.GetComponent<Item>());
                 }
             }
-            else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<PlayerController>() == null)
+            else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<Player>() == null)
             {
                 if (!itemsInRange.Contains(other.GetComponent<Item>()))
                 {
@@ -75,7 +75,7 @@ public class Pickup : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Time.timeScale != 0.0f || PlayerController.Instance.CanMove())
+                if (Time.timeScale != 0.0f || Player.Instance.vThirdPersonInput.CanMove())
                 {
                     PickupItem();
                 }
@@ -89,11 +89,11 @@ public class Pickup : MonoBehaviour
         Item tempItem = itemsInRange[randNumb];
         if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
         {
-            inventoryRef.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
+            Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
         }
         else
         {
-            inventoryRef.AddToInventory(tempItem);
+            Inventory.Instance.AddToInventory(tempItem);
 
         }
         itemsInRange.RemoveAt(randNumb);

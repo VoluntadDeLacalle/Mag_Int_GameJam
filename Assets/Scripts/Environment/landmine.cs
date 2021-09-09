@@ -1,3 +1,4 @@
+using Invector.vCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +36,8 @@ public class landmine : Explosion
 
                 if (isPlayer)
                 {
-                    other.GetComponent<PlayerController>().OnTouchMine();
+                    Debug.Log("FIX DEATH FOR PLAYER ON MINE");
+                    //other.GetComponent<vThirdPersonController>().OnTouchMine();
                 }
             }
         }

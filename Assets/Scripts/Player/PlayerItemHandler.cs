@@ -1,10 +1,11 @@
+using Invector.vCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerItemHandler : MonoBehaviour
 {
-    public PlayerController playerController;
+    public vThirdPersonController playerController;
     public Pickup itemDetection;
     private Item equippedItem;
     private GameObject equippedGO;

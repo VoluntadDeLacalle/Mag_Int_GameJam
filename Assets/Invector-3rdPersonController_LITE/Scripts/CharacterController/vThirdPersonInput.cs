@@ -21,6 +21,8 @@ namespace Invector.vCharacterController
         [HideInInspector] public vThirdPersonCamera tpCamera;
         [HideInInspector] public Camera cameraMain;
 
+        private bool canMove = true;
+
         #endregion
 
         protected virtual void Start()
@@ -81,10 +83,28 @@ namespace Invector.vCharacterController
             JumpInput();
         }
 
+        public bool CanMove()
+        {
+            return canMove;
+        }
+
+        public void ShouldMove(bool shouldMove)
+        {
+            canMove = shouldMove;
+        }
+
         public virtual void MoveInput()
         {
-            cc.input.x = Input.GetAxis(horizontalInput);
-            cc.input.z = Input.GetAxis(verticallInput);
+            if (Time.timeScale < 0.1f || !canMove)
+            {
+                cc.input.x = 0;
+                cc.input.z = 0;
+            }
+            else
+            {
+                cc.input.x = Input.GetAxis(horizontalInput);
+                cc.input.z = Input.GetAxis(verticallInput);
+            }
         }
 
         protected virtual void CameraInput()
@@ -141,6 +161,11 @@ namespace Invector.vCharacterController
         /// </summary>
         protected virtual void JumpInput()
         {
+            if (Time.timeScale < 0.1f || !canMove)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(jumpInput) && JumpConditions())
                 cc.Jump();
         }

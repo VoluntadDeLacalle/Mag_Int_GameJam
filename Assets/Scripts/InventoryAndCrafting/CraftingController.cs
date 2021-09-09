@@ -648,13 +648,13 @@ public class CraftingController : MonoBehaviour
 
                     chassisList[currentChassisIndex].gameObject.transform.parent = gripList[gripIndex].transform;
                     chassisList[currentChassisIndex].gameObject.transform.position = gripList[gripIndex].gameObject.transform.position;
-                    chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                    chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0);
                     chassisList[currentChassisIndex].gameObject.SetActive(true);
 
                     GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
                     GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
                     EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                    EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
+                    EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
 
                     parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
                     return;
@@ -672,7 +672,7 @@ public class CraftingController : MonoBehaviour
 
                 chassisList[currentChassisIndex].gameObject.transform.parent = gripList[gripIndex].transform;
                 chassisList[currentChassisIndex].gameObject.transform.position = gripList[gripIndex].gameObject.transform.position;
-                chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0);
                 chassisList[currentChassisIndex].gameObject.SetActive(true);
 
                 chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
@@ -688,7 +688,7 @@ public class CraftingController : MonoBehaviour
                 GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
                 GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
                 EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
+                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
 
                 parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
             }
