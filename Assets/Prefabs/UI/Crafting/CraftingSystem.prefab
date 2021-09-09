@@ -44,14 +44,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   craftingPanel: {fileID: 3052678113948389598}
+  warningPanel: {fileID: 934676258439875672}
+  tooltip: {fileID: 411136324008358963}
+  primaryCraftingList: {fileID: 6152271379069432595}
   modItemPrefab: {fileID: 1531981484934269713, guid: 35cd3cba924044d4bb338d7cd2fad7e1,
     type: 3}
-  primaryCraftingList: {fileID: 6152271379069432595}
   craftingModButtonPrefab: {fileID: 6871847946608973954, guid: 38f66b16989617f4a831bee08ce280aa,
     type: 3}
   resetCraftingButtonPrefab: {fileID: 6536352705303338211, guid: f9176433b107e1541a3279ab9520d262,
     type: 3}
-  warningPanel: {fileID: 934676258439875672}
   itemViewerCamera: {fileID: 4560360360167464407}
   itemViewer: {fileID: 1414209300298263046}
   itemViewerPlayerModel: {fileID: 5974803419998862017}
@@ -96,6 +97,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1561127077760220286}
     m_Modifications:
+    - target: {fileID: 28459553881432240, guid: d931c442f2113e9488c00d6d4e930d9a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3426385051312107668, guid: d931c442f2113e9488c00d6d4e930d9a,
         type: 3}
       propertyPath: m_DecelerationRate
@@ -528,6 +534,12 @@ RectTransform:
 --- !u!1 &6152271379069432595 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5814428215190153104, guid: d931c442f2113e9488c00d6d4e930d9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 419324730069652611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &411136324008358963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 28459553881432240, guid: d931c442f2113e9488c00d6d4e930d9a,
     type: 3}
   m_PrefabInstance: {fileID: 419324730069652611}
   m_PrefabAsset: {fileID: 0}

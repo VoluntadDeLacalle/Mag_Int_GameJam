@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CraftingController : MonoBehaviour
@@ -8,6 +9,7 @@ public class CraftingController : MonoBehaviour
     [Header("Crafting UI Variables")]
     public GameObject craftingPanel;
     public GameObject warningPanel;
+    public GameObject tooltip;
     public GameObject primaryCraftingList;
     public GameObject modItemPrefab;
     public GameObject craftingModButtonPrefab;
@@ -17,6 +19,7 @@ public class CraftingController : MonoBehaviour
     private bool isActive = false;
     private int currentChassisIndex = -1;
     private bool warningCalled = false;
+
     private List<Item> chassisList = new List<Item>();
     private List<Item> effectorList = new List<Item>();
     private List<Item> modifierList = new List<Item>();
@@ -94,10 +97,6 @@ public class CraftingController : MonoBehaviour
                     Item tempChassisItem = Inventory.Instance.inventory[i];
                     chassisList.Add(tempChassisItem);
 
-                    //GameObject visualChassis = Inventory.Instance.visualItemDictionary[tempChassisItem.gameObject];
-                    //visualChassis.transform.parent = itemViewer.handAttachment;
-                    //visualChassis.transform.localPosition = tempChassisItem.localHandPos;
-                    //visualChassis.transform.localRotation = Quaternion.Euler(tempChassisItem.localHandRot);
                     break;
                 case Item.TypeTag.effector:
                     Item tempEffectorItem = Inventory.Instance.inventory[i];
@@ -159,6 +158,7 @@ public class CraftingController : MonoBehaviour
 
                 secondaryCraftingModButton.gameObject.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
                 secondaryCraftingModButton.gameObject.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+                secondaryCraftingModButton.gameObject.GetComponentInChildren<EventTrigger>().triggers.Clear();
                 secondaryCraftingModButton.SetParent(ObjectPooler.GetPooler(secondaryButtonUIKey).gameObject.transform, false);
                 secondaryCraftingModButton.gameObject.SetActive(false);
             }
@@ -684,6 +684,21 @@ public class CraftingController : MonoBehaviour
 
     }
 
+    void SetEventTrigger(Item currentItem, out EventTrigger.Entry eventTypeEnter, out EventTrigger.Entry eventTypeExit)
+    {
+        string itemType = (currentItem.itemType).ToString();
+        itemType = char.ToUpper(itemType[0]) + itemType.Substring(1);
+        string itemTitle = $"{currentItem.itemName} ({itemType})";
+
+        eventTypeEnter = new EventTrigger.Entry();
+        eventTypeEnter.eventID = EventTriggerType.PointerEnter;
+        eventTypeExit = new EventTrigger.Entry();
+        eventTypeExit.eventID = EventTriggerType.PointerExit;
+
+        eventTypeEnter.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().EnableTooltip(itemTitle, currentItem.description); });
+        eventTypeExit.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+    }
+
     GameObject SpawnPrimaryButton(string title, string itemTitle, Sprite itemIcon,ref float heightSpacing)
     {
         GameObject obj = ObjectPooler.GetPooler(primaryButtonUIKey).GetPooledObject();
@@ -701,8 +716,8 @@ public class CraftingController : MonoBehaviour
         GameObject noneObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
         noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
         noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
-        noneObj.transform.SetParent(secondaryButtonParent, false);
         noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(-1, null, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
+        noneObj.transform.SetParent(secondaryButtonParent, false);
         noneObj.SetActive(true);
 
         for (int i = 0; i < componentList.Count; i++)
@@ -717,6 +732,14 @@ public class CraftingController : MonoBehaviour
                     effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[effectorIndex].inventorySprite, componentList[effectorIndex].itemName);
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(effectorIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+
+                    EventTrigger.Entry effectorEventTypeEnter;
+                    EventTrigger.Entry effectorEventTypeExit;
+                    SetEventTrigger(componentList[effectorIndex], out effectorEventTypeEnter, out effectorEventTypeExit);
+                    effectorObj.GetComponentInChildren<EventTrigger>().triggers.Add(effectorEventTypeEnter);
+                    effectorObj.GetComponentInChildren<EventTrigger>().triggers.Add(effectorEventTypeExit);
+
                     effectorObj.transform.SetParent(secondaryButtonParent, false);
                     effectorObj.SetActive(true);
 
@@ -727,6 +750,14 @@ public class CraftingController : MonoBehaviour
                     modifierObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[modifierIndex].inventorySprite, componentList[modifierIndex].itemName);
                     modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(modifierIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+
+                    EventTrigger.Entry modifierEventTypeEnter;
+                    EventTrigger.Entry modifierEventTypeExit;
+                    SetEventTrigger(componentList[modifierIndex], out modifierEventTypeEnter, out modifierEventTypeExit);
+                    modifierObj.GetComponentInChildren<EventTrigger>().triggers.Add(modifierEventTypeEnter);
+                    modifierObj.GetComponentInChildren<EventTrigger>().triggers.Add(modifierEventTypeExit);
+
                     modifierObj.transform.SetParent(secondaryButtonParent, false);
                     modifierObj.SetActive(true);
 
@@ -737,6 +768,14 @@ public class CraftingController : MonoBehaviour
                     ammoObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[ammoIndex].inventorySprite, componentList[ammoIndex].itemName);
                     ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(ammoIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+
+                    EventTrigger.Entry ammoEventTypeEnter;
+                    EventTrigger.Entry ammoEventTypeExit;
+                    SetEventTrigger(componentList[ammoIndex], out ammoEventTypeEnter, out ammoEventTypeExit);
+                    ammoObj.GetComponentInChildren<EventTrigger>().triggers.Add(ammoEventTypeEnter);
+                    ammoObj.GetComponentInChildren<EventTrigger>().triggers.Add(ammoEventTypeExit);
+
                     ammoObj.transform.SetParent(secondaryButtonParent, false);
                     ammoObj.SetActive(true);
 
@@ -767,6 +806,14 @@ public class CraftingController : MonoBehaviour
                     chassisObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(chassisList[chassisIndex].inventorySprite, chassisList[chassisIndex].itemName);
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(chassisIndex); });
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+
+                    EventTrigger.Entry chassisEventTypeEnter;
+                    EventTrigger.Entry chassisEventTypeExit;
+                    SetEventTrigger(chassisList[chassisIndex], out chassisEventTypeEnter, out chassisEventTypeExit);
+                    chassisObj.GetComponentInChildren<EventTrigger>().triggers.Add(chassisEventTypeEnter);
+                    chassisObj.GetComponentInChildren<EventTrigger>().triggers.Add(chassisEventTypeExit);
+
                     chassisObj.transform.SetParent(secondaryButtonParent, false);
                     chassisObj.SetActive(true);
                 }
@@ -783,6 +830,14 @@ public class CraftingController : MonoBehaviour
                     gripObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(gripList[gripIndex].inventorySprite, gripList[gripIndex].itemName);
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(gripIndex, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
+                    gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+
+                    EventTrigger.Entry gripEventTypeEnter;
+                    EventTrigger.Entry gripEventTypeExit;
+                    SetEventTrigger(gripList[gripIndex], out gripEventTypeEnter, out gripEventTypeExit);
+                    gripObj.GetComponentInChildren<EventTrigger>().triggers.Add(gripEventTypeEnter);
+                    gripObj.GetComponentInChildren<EventTrigger>().triggers.Add(gripEventTypeExit);
+
                     gripObj.transform.SetParent(secondaryButtonParent, false);
                     gripObj.SetActive(true);
                 }
