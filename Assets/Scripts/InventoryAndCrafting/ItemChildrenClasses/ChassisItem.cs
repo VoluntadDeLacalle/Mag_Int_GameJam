@@ -31,13 +31,13 @@ public class ChassisItem : Item
 
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
+            if (!PlayerController.Instance.CanMove())
+            {
+                break;
+            }
+
             if (chassisComponentTransforms[i].IsComponentTransformOccupied())
             {
-                //if(chassisComponentTransforms[i].GetComponentTransformItem().itemType == TypeTag.modifier)
-                //{
-                //    continue;
-                //}
-
                 chassisComponentTransforms[i].GetComponentTransformItem().Activate();
             }
         }

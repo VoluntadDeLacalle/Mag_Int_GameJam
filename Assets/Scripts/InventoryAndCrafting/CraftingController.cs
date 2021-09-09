@@ -117,7 +117,17 @@ public class CraftingController : MonoBehaviour
             }
         }
 
-        ChooseNewChassis(-1);
+        int startingChassis = -1;
+        for (int i = 0; i < chassisList.Count; i++)
+        {
+            if (chassisList[i].itemType == Item.TypeTag.chassis 
+                && chassisList[i].isEquipped)
+            {
+                startingChassis = i;
+            }
+        }
+
+        ChooseNewChassis(startingChassis);
     }
 
     void OnDisableCraftingPanel()
@@ -261,10 +271,11 @@ public class CraftingController : MonoBehaviour
         else
         {
             DisableWholeVisualChassis();
-
+            ///Get current chassis
             Item currentChassis = chassisList[index];
             currentChassisIndex = index;
 
+            ///Visualize current chassis
             GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
             if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
             {
@@ -277,15 +288,9 @@ public class CraftingController : MonoBehaviour
                 EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
             }
 
-            GameObject chassisSecondaryCraftingList = 
-                SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
-            SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
-
-            PrimaryCraftingUIDescriptor resetChassisPrimaryButton = chassisSecondaryCraftingList.GetComponentInParent<PrimaryCraftingUIDescriptor>();
+            ///Spawn component buttons
             List<PrimaryCraftingUIDescriptor> resetComponentPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
-
             List<Item> currentComponentList = new List<Item>();
-
             for (int i = 0; i < effectorList.Count; i++)
             {
                 currentComponentList.Add(effectorList[i]);
@@ -317,7 +322,7 @@ public class CraftingController : MonoBehaviour
 
                 GameObject componentSecondaryCraftingList = 
                     SpawnPrimaryButton($"Component { i + 1 }", componentItemName, componentItemIcon, ref heightSpacing);
-                SpawnMultiComponentSecondaryButtons(currentComponentList, componentSecondaryCraftingList.transform, currentcomponentTransformIndex);
+                    SpawnMultiComponentSecondaryButtons(currentComponentList, componentSecondaryCraftingList.transform, currentcomponentTransformIndex);
 
                 if (currentPointIsOccupied)
                 {
@@ -328,6 +333,13 @@ public class CraftingController : MonoBehaviour
                 resetComponentPrimaryButtons.Add(componentSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
             }
 
+            ///Spawn chassis button
+            GameObject chassisSecondaryCraftingList =
+                SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
+                SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
+            PrimaryCraftingUIDescriptor resetChassisPrimaryButton = chassisSecondaryCraftingList.GetComponentInParent<PrimaryCraftingUIDescriptor>();
+
+            ///Spawn grip button
             string gripItemName = "None";
             Sprite gripItemIcon = null;
             if (currentChassis.chassisGripTransform.IsGripTransformOccupied())
@@ -337,7 +349,7 @@ public class CraftingController : MonoBehaviour
             }
             GameObject gripSecondaryCraftingList = 
                 SpawnPrimaryButton("Grip", gripItemName, gripItemIcon, ref heightSpacing);
-            SpawnSecondaryButtons(Item.TypeTag.grip, gripSecondaryCraftingList.transform);
+                SpawnSecondaryButtons(Item.TypeTag.grip, gripSecondaryCraftingList.transform);
             
             PrimaryCraftingUIDescriptor resetGripPrimaryButton = gripSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>();
 

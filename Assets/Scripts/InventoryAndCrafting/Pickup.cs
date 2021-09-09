@@ -22,6 +22,13 @@ public class Pickup : MonoBehaviour
                     itemsInRange.Add(other.GetComponent<Item>());
                 }
             }
+            else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<PlayerController>() == null)
+            {
+                if (!itemsInRange.Contains(other.GetComponent<Item>()))
+                {
+                    itemsInRange.Add(other.GetComponent<Item>());
+                }
+            }
         }
     }
 
@@ -31,9 +38,19 @@ public class Pickup : MonoBehaviour
         tempItem = other.GetComponent<Item>();
         if (tempItem != null)
         {
-            if (itemsInRange.Contains(other.GetComponent<Item>()))
+            if (tempItem.itemType == Item.TypeTag.grip && tempItem.isEquipped)
             {
-                itemsInRange.Remove(other.GetComponent<Item>());
+                if (itemsInRange.Contains(other.GetComponent<Item>()))
+                {
+                    itemsInRange.Remove(other.GetComponent<Item>());
+                }
+            }
+            else
+            {
+                if (itemsInRange.Contains(other.GetComponent<Item>()))
+                {
+                    itemsInRange.Remove(other.GetComponent<Item>());
+                }
             }
         }
     }
@@ -69,7 +86,16 @@ public class Pickup : MonoBehaviour
     public void PickupItem()
     {
         int randNumb = Random.Range(0, itemsInRange.Count);
-        inventoryRef.AddToInventory(itemsInRange[randNumb]);
+        Item tempItem = itemsInRange[randNumb];
+        if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
+        {
+            inventoryRef.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
+        }
+        else
+        {
+            inventoryRef.AddToInventory(tempItem);
+
+        }
         itemsInRange.RemoveAt(randNumb);
     }
 }

@@ -74,10 +74,21 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
     {
         inventory.Add(newItem);
 
-        newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-        newItem.gameObject.GetComponent<Collider>().enabled = false;
-        newItem.gameObject.SetActive(false);
-        newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (newItem.itemType == Item.TypeTag.chassis && newItem.chassisGripTransform.IsGripTransformOccupied())
+        {
+            Item tempItem = newItem.chassisGripTransform.GetGripTransformItem();
+            tempItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            tempItem.gameObject.GetComponent<Collider>().enabled = false;
+            tempItem.gameObject.SetActive(false);
+            tempItem.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            newItem.gameObject.GetComponent<Collider>().enabled = false;
+            newItem.gameObject.SetActive(false);
+            newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     public void DropFromInventory()
@@ -92,10 +103,21 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             UnequipItem();
         }
 
-        inventory[dropIndex].gameObject.transform.position = dropTransform.position;
-        inventory[dropIndex].gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        inventory[dropIndex].gameObject.GetComponent<Collider>().enabled = true;
-        inventory[dropIndex].gameObject.SetActive(true);
+        if (inventory[dropIndex].itemType == Item.TypeTag.chassis && inventory[dropIndex].chassisGripTransform.IsGripTransformOccupied())
+        {
+            GameObject tempDropObj = inventory[dropIndex].chassisGripTransform.GetGripTransformItem().gameObject;
+            tempDropObj.transform.position = dropTransform.position;
+            tempDropObj.GetComponent<Rigidbody>().isKinematic = false;
+            tempDropObj.GetComponent<Collider>().enabled = true;
+            tempDropObj.SetActive(true);
+        }
+        else
+        {
+            inventory[dropIndex].gameObject.transform.position = dropTransform.position;
+            inventory[dropIndex].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            inventory[dropIndex].gameObject.GetComponent<Collider>().enabled = true;
+            inventory[dropIndex].gameObject.SetActive(true);
+        }
 
         inventory.RemoveAt(dropIndex);
         ResetSelectedInfo();
@@ -191,6 +213,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         {
             playerItemHandler.UnequipItem(equipIndex);
         }
+
         inventory[equipIndex].isEquipped = false;
 
         unequipItemButton.SetActive(false);
@@ -202,11 +225,6 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         DeactivateCurrentInventoryView();
         for (int i = 0; i < inventory.Count; i++)
         {
-            //if (inventory[i].itemType != Item.TypeTag.chassis && inventory[i].isEquipped)
-            //{
-            //    continue;
-            //}
-
             GameObject currentItemBox = ObjectPooler.GetPooler(inventoryItemUIKey).GetPooledObject();
             currentItemBox.transform.SetParent(inventoryItemPanel.transform, false);
             int currentIndex = i;

@@ -30,17 +30,19 @@ public class PlayerItemHandler : MonoBehaviour
     {
         if (equippedGO != null)
         {
-            for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
-            {
-                if (Inventory.Instance.inventory[i].isEquipped && Inventory.Instance.inventory[i].gameObject == equippedGO)
-                {
-                    UnequipItem(i);
-                    break;
-                }
-            }
+            //for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+            //{
+            //    if (Inventory.Instance.inventory[i].isEquipped && Inventory.Instance.inventory[i].gameObject == equippedGO)
+            //    {
+            //        UnequipItem(i);
+            //        break;
+            //    }
+            //}
+
+            UnequipItem(equippedItem);
         }
 
-        equippedItem = itemDetection.inventoryRef.inventory[inventoryIndex];
+        equippedItem = Inventory.Instance.inventory[inventoryIndex];
         equippedGO = equippedItem.gameObject;
         equippedGO.SetActive(true);
 
@@ -49,8 +51,8 @@ public class PlayerItemHandler : MonoBehaviour
             equippedItem.isEquipped = true;
         }
 
-        AttachItem(itemDetection.inventoryRef.inventory[inventoryIndex].localHandPos,
-                   itemDetection.inventoryRef.inventory[inventoryIndex].localHandRot);
+        AttachItem(Inventory.Instance.inventory[inventoryIndex].localHandPos,
+                   Inventory.Instance.inventory[inventoryIndex].localHandRot);
     }
 
     public void EquipItem(Item itemToEquip)
@@ -74,14 +76,18 @@ public class PlayerItemHandler : MonoBehaviour
 
     public void UnequipItem(int inventoryIndex)
     {
-        if (itemDetection.inventoryRef.inventory[inventoryIndex].itemType != Item.TypeTag.grip)
+        if (Inventory.Instance.inventory[inventoryIndex].itemType != Item.TypeTag.grip)
         {
-            itemDetection.inventoryRef.inventory[inventoryIndex].isEquipped = false;
+            Inventory.Instance.inventory[inventoryIndex].isEquipped = false;
+        }
+        else
+        {
+            Inventory.Instance.inventory[inventoryIndex].gameObject.GetComponentInChildren<ChassisItem>().isEquipped = false;
         }
         
-        itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.transform.parent = null; 
-        itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.SetActive(false);
-        itemDetection.inventoryRef.inventory[inventoryIndex].gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Inventory.Instance.inventory[inventoryIndex].gameObject.transform.parent = null; 
+        Inventory.Instance.inventory[inventoryIndex].gameObject.SetActive(false);
+        Inventory.Instance.inventory[inventoryIndex].gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         
         equippedItem = null;
         equippedGO = null;
@@ -93,6 +99,10 @@ public class PlayerItemHandler : MonoBehaviour
         if (itemToUnequip.itemType != Item.TypeTag.grip)
         {
             itemToUnequip.isEquipped = false;
+        }
+        else
+        {
+            itemToUnequip.GetComponentInChildren<ChassisItem>().isEquipped = false;
         }
 
         itemToUnequip.gameObject.transform.parent = null;
