@@ -18,19 +18,6 @@ public class AmmoItem : Item
 
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject currentAmmo = ObjectPooler.GetPooler(ammoPrefabKey).GetPooledObject();
-            if (currentAmmo == null)
-            {
-                return;
-            }
-
-            Trajectory currentTrajectory = currentAmmo.GetComponent<Trajectory>();
-            if (currentTrajectory == null)
-            {
-                Debug.LogError("Selected Ammo does not have a trajectory script attached!");
-                return;
-            }
-
             bool gunEffectorCheck = false;
             bool catapultEffectorCheck = false;
             GunEffector currentGun = null;
@@ -38,6 +25,11 @@ public class AmmoItem : Item
 
             for (int i = 0; i < currentChassis.chassisComponentTransforms.Count; i++)
             {
+                if (!currentChassis.chassisComponentTransforms[i].IsComponentTransformOccupied())
+                {
+                    continue;
+                }
+
                 GunEffector tempGun = null;
                 CatapultEffector tempCat = null;
 
@@ -59,38 +51,17 @@ public class AmmoItem : Item
                 }
             }
 
-            if (gunEffectorCheck && catapultEffectorCheck)
+            if (!gunEffectorCheck && !catapultEffectorCheck)
             {
-                int tempNumbGen = Random.Range(0, 2);
-                if (tempNumbGen == 0)
+                GameObject currentAmmo = ObjectPooler.GetPooler(ammoPrefabKey).GetPooledObject();
+                if (currentAmmo == null)
                 {
-                    currentTrajectory.trajectoryType = Trajectory.TrajectoryType.straight;
-                    currentAmmo.transform.rotation.SetLookRotation(currentGun.transform.forward, currentGun.transform.up);
+                    return;
                 }
-                else
-                {
-                    currentTrajectory.trajectoryType = Trajectory.TrajectoryType.arc;
-                    currentAmmo.transform.rotation.SetLookRotation(currentCat.transform.forward, currentCat.transform.up);
-                }
-            }
-            else if (gunEffectorCheck && !catapultEffectorCheck)
-            {
-                currentTrajectory.trajectoryType = Trajectory.TrajectoryType.straight;
-                currentAmmo.transform.rotation.SetLookRotation(currentGun.transform.forward, currentGun.transform.up);
-            }
-            else if (!gunEffectorCheck && catapultEffectorCheck)
-            {
-                currentTrajectory.trajectoryType = Trajectory.TrajectoryType.arc;
-                currentAmmo.transform.rotation.SetLookRotation(currentCat.transform.forward, currentCat.transform.up);
-            }
-            else
-            {
-                currentTrajectory.trajectoryType = Trajectory.TrajectoryType.none;
-                currentAmmo.transform.rotation.SetLookRotation(transform.forward, transform.up);
-            }
 
-            currentAmmo.transform.position = transform.position;
-            currentAmmo.SetActive(true);
+                currentAmmo.transform.position = transform.position;
+                currentAmmo.SetActive(true);
+            }
         }
     }
 
@@ -106,8 +77,6 @@ public class AmmoItem : Item
                 return;
             }
         }
-
-        //currentChassis = Inventory.Instance.playerItemHandler.GetEquippedItem();
     }
 
     new void Update()

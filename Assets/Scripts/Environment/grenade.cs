@@ -17,13 +17,11 @@ public class grenade : Explosion
     private bool hasPlayed = false;
     private Renderer rend;
     private SphereCollider sphereCollider;
-    private Trajectory trajectory;
 
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
         rend = GetComponent<Renderer>();
-        trajectory = GetComponent<Trajectory>();
 
         originalColor = rend.material.color;
     }
@@ -69,7 +67,5 @@ public class grenade : Explosion
         hasPlayed = false;
 
         ResetExplosive();
-
-        trajectory.trajectoryType = Trajectory.TrajectoryType.none;
     }
 }

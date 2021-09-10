@@ -5,8 +5,6 @@ public class ActiveRock : MonoBehaviour
     public float activeTimer = 0;
     private float maxActiveTimer;
 
-    public Trajectory trajectory;
-
     private void Awake()
     {
         maxActiveTimer = activeTimer;
