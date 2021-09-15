@@ -47,6 +47,10 @@
 			_OutlineSize *= saturate((dist - _OutlineFadeMin) / (_OutlineFadeMax - _OutlineFadeMin));
 		#endif
 
+		///Stealth stuff
+		vertexOutput.positionWorld.xyz = ComputeObjectToWorldSpace(VERTEX_INPUT.vertex.xyz);
+		///End of Stealth stuff
+
 		#if defined(MK_OUTLINE_HULL_ORIGIN)
 			//float4x4 modelMatrix = MATRIX_M;
 			//vertexInput.vertex.xyz += SafeNormalize(vertexInput.vertex.xyz) * _OutlineSize * OUTLINE_ORIGIN_SCALE;
@@ -111,6 +115,28 @@
 		return vertexOutput;
 	}
 
+	///Stealth Delcarations
+	float3 _StealthCenter;
+	float _StealthRadius;
+	float _StealthOpacity;
+	float _StealthDitherSize;
+	float4 _StealthEmission;
+
+	void Unity_Dither_float(float In, float4 ScreenPosition, out float Out)
+		{
+			float2 uv = ScreenPosition.xy * _ScreenParams.xy;
+			float DITHER_THRESHOLDS[16] =
+			{
+				1.0 / 17.0,  9.0 / 17.0,  3.0 / 17.0, 11.0 / 17.0,
+				13.0 / 17.0,  5.0 / 17.0, 15.0 / 17.0,  7.0 / 17.0,
+				4.0 / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
+				16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0
+			};
+			uint index = (uint(uv.x) % 4) * 4 + uint(uv.y) % 4;
+			Out = In - DITHER_THRESHOLDS[index];
+		}
+	///End Stealth Declarations
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// FRAGMENT SHADER
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +161,43 @@
 			PASS_NULL_CLIP_ARG(vertexOutput.nullClip)
 			PASS_FLIPBOOK_UV_ARG(vertexOutput.flipbookUV)
 		);
+
+		///Gavin Stuff starts here
+		float4 tempColor = _AlbedoColor;
+		float3 tempCenter = _StealthCenter;
+		float3 tempWorldPos = vertexOutput.positionWorld.xyz;
+
+		float positionPoint = sqrt(pow(abs((tempCenter.x - tempWorldPos.x)), 2) + pow(abs((tempCenter.y - tempWorldPos.y)), 2) + pow(abs((tempCenter.z - tempWorldPos.z)), 2));
+		float predicate = positionPoint > _StealthRadius ? 1 : 0;
+
+		float4 tempScreenPos = float4(0,0,0,0);
+		#ifdef MK_POS_CLIP
+			tempScreenPos = vertexOutput.positionClip;
+		#endif
+		#ifdef MK_POS_NULL_CLIP
+			tempScreenPos = vertexOutput.positionClip;
+		#endif
+		tempScreenPos = tempScreenPos / _StealthDitherSize;
+		float ditherResult;
+		Unity_Dither_float(1, tempScreenPos, ditherResult);
+
+		float alphaOutput = predicate ? 1 : _StealthOpacity;
+		float mainColorOutput = predicate ? 1 : 0;
+		float emissionOutput = predicate ? 0 : 1;
+		float ditherOutput = predicate ? 1 : ditherResult;
+
+		tempColor.xyz = tempColor.xyz * mainColorOutput;
+		tempColor.a = alphaOutput;
+		float4 tempEmission = _StealthEmission * emissionOutput;
+		//tempColor.a = tempColor.a * ditherOutput;
+		///Gavin Stuff ends here
+
 		Surface surface = InitSurface(surfaceData, PASS_TEXTURE_2D(_AlbedoMap, SAMPLER_REPEAT_MAIN), autoLP4(_OutlineColor.rgb, _AlbedoColor.a));
 		MKPBSData pbsData = ComputePBSData(surface, surfaceData);
 		Composite(surface, surfaceData, pbsData);
+
+		surface.final.xyz = surface.final.xyz + tempEmission.xyz;
+		surface.final.a = tempColor.a;
 
 		return surface.final;
 	}

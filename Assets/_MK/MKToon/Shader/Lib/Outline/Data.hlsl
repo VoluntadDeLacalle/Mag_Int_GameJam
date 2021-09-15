@@ -59,6 +59,11 @@
 			float fogFactor : TEXCOORD1;
 		#endif
 
+		#if defined(MK_POS_WORLD) || defined(MK_FOG)
+			float4 positionWorld : TEXCOORD5; //posWorld XYZ Fog W
+		#endif
+
+
 		#if defined(MK_PARALLAX)
 			half3 viewTangent : TEXCOORD2;
 		#endif

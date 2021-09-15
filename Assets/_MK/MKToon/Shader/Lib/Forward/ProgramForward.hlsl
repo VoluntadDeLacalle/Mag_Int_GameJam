@@ -189,7 +189,7 @@
 			tempScreenPos = vertexOutput.positionClip;
 		#endif
 		#ifdef MK_POS_NULL_CLIP
-			tempScreenPos = vertexOutput.nullClip;
+			tempScreenPos = vertexOutput.positionClip;
 		#endif
 		tempScreenPos = tempScreenPos / _StealthDitherSize;
 		float ditherResult;
@@ -201,7 +201,7 @@
 		float ditherOutput = predicate ? 1 : ditherResult;
 
 		tempColor.xyz = tempColor.xyz * mainColorOutput;
-		tempColor.a = alphaOutput * tempColor.a;
+		tempColor.a = alphaOutput;
 		float4 tempEmission = _StealthEmission * emissionOutput;
 		#ifdef MK_EMISSION	
 			tempColor.xyz = tempColor.xyz + tempEmission.xyz;
@@ -243,6 +243,8 @@
 
 		//Finalize the output
 		Composite(surface, surfaceData, pbsData);
+
+		surface.final.a = tempColor.a;
 
 		return surface.final;
 	}

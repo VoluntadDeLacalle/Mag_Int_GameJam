@@ -748,7 +748,7 @@ namespace MK.Toon.Editor
         );
         internal static readonly GUIContent stealthDitherSize = new GUIContent
         (
-            "Dither Size", 
+            "[IGNORE] Dither Size [IGNORE]", 
             "Size of dithering effect in detection sphere."
         );
         internal static readonly GUIContent stealthEmission = new GUIContent

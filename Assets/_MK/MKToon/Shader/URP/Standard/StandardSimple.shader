@@ -135,6 +135,7 @@ Shader "MK/Toon/URP/Standard/Simple"
 		[HideInInspector] _InputTab ("", int) = 1
 		[HideInInspector] _StylizeTab ("", int) = 0
 		[HideInInspector] _AdvancedTab ("", int) = 0
+		[HideInInspector] _GavinStealthTab ("", int) = 0
 
 		/////////////////
 		// System	   //
