@@ -104,6 +104,15 @@ namespace MK.Toon.Editor
         protected MaterialProperty _stencilZFail;
 
         /////////////////
+		// Gavin 	   //
+		/////////////////
+        protected MaterialProperty _stealthCenter;
+        protected MaterialProperty _stealthRadius;
+        protected MaterialProperty _stealthOpacity;
+        protected MaterialProperty _stealthDitherSize;
+        protected MaterialProperty _stealthEmission;
+
+        /////////////////
         // Editor Only //
         /////////////////
         protected MaterialProperty _initialized;
@@ -111,6 +120,7 @@ namespace MK.Toon.Editor
         protected MaterialProperty _inputTab;
         protected MaterialProperty _stylizeTab;
         protected MaterialProperty _advancedTab;
+        protected MaterialProperty _gavinStealthTab;
         protected FontStyle _defaultFontStyle;
 
         /////////////////
@@ -182,10 +192,17 @@ namespace MK.Toon.Editor
             _inputTab = FindProperty(EditorProperties.inputTab.uniform.name, props);
             _stylizeTab = FindProperty(EditorProperties.stylizeTab.uniform.name, props);
             _advancedTab = FindProperty(EditorProperties.advancedTab.uniform.name, props);
+            _gavinStealthTab = FindProperty(EditorProperties.gavinStealthTab.uniform.name, props);
 
             _outline.FindProperties(props);
             _refraction.FindProperties(props);
             _particles.FindProperties(props);
+
+            _stealthCenter = FindProperty(Properties.stealthCenter.uniform.name, props);
+            _stealthRadius = FindProperty(Properties.stealthRadius.uniform.name, props);
+            _stealthOpacity = FindProperty(Properties.stealthOpacity.uniform.name, props);
+            _stealthDitherSize = FindProperty(Properties.stealthDitherSize.uniform.name, props);
+            _stealthEmission = FindProperty(Properties.stealthEmission.uniform.name, props);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -638,6 +655,14 @@ namespace MK.Toon.Editor
             return EditorHelper.HandleBehavior("Advanced", "", _advancedTab, null, materialEditor, true);
         }
 
+        /////////////////
+        // Gavin       //
+        /////////////////
+        protected bool GavinStealthBehavior(MaterialEditor materialEditor)
+        {
+            return EditorHelper.HandleBehavior("GavinStealth", "", _gavinStealthTab, null, materialEditor, true);
+        }
+
         //Stencil Builtin
         private void SetBuiltinStencilSettings(MaterialEditor materialEditor)
         {
@@ -721,6 +746,42 @@ namespace MK.Toon.Editor
             EditorHelper.DrawSplitter();
         }
 
+        protected void DrawStealthOpacity(MaterialEditor materialEditor)
+        {
+            EditorGUI.BeginChangeCheck();
+            materialEditor.ShaderProperty(_stealthOpacity, UI.stealthOpacity);
+            if(EditorGUI.EndChangeCheck())
+            {
+                UpdateStealthOpacity();
+            }
+        }
+
+        protected void DrawStealthDitherSize(MaterialEditor materialEditor)
+        {
+            EditorGUI.BeginChangeCheck();
+            materialEditor.ShaderProperty(_stealthDitherSize, UI.stealthDitherSize);
+            if(EditorGUI.EndChangeCheck())
+            {
+                UpdateStealthDitherSize();
+            }
+        }
+
+        protected virtual void DrawGavinStealthContent(MaterialEditor materialEditor)
+        {
+            ///Whoops
+            Debug.Log("FIX ME GAVIN");
+        }
+
+        private void DrawGavinStealth(MaterialEditor materialEditor)
+        {
+            if(GavinStealthBehavior(materialEditor))
+            {
+                DrawGavinStealthContent(materialEditor);
+            }
+
+            EditorHelper.DrawSplitter();
+        }
+
         /// <summary>
         /// Draw the complete editor based on the tabs
         /// </summary>
@@ -736,6 +797,7 @@ namespace MK.Toon.Editor
             DrawInput(materialEditor);
             DrawStylize(materialEditor);
             DrawAdvanced(materialEditor);
+            DrawGavinStealth(materialEditor);
             _particles.DrawParticles(materialEditor, properties, _surface, _shaderTemplate);
             _refraction.DrawRefraction(materialEditor, properties);
             _outline.DrawOutline(materialEditor, properties);
@@ -863,6 +925,22 @@ namespace MK.Toon.Editor
             }
         }
 
+        private void UpdateStealthOpacity()
+        {
+            foreach (Material mat in _stealthOpacity.targets)
+            {
+                Properties.stealthOpacity.SetValue(mat, Properties.stealthOpacity.GetValue(mat));
+            }
+        }
+
+        private void UpdateStealthDitherSize()
+        {
+            foreach (Material mat in _stealthDitherSize.targets)
+            {
+                Properties.stealthDitherSize.SetValue(mat, Properties.stealthDitherSize.GetValue(mat));
+            }
+        }
+
         protected virtual void UpdateKeywords()
         {
             ManageKeywordsBlend();
@@ -875,6 +953,8 @@ namespace MK.Toon.Editor
             ManageKeywordsColorGrading();
             ManageKeywordsVertexAnimation();
             ManageKeywordsVertexAnimationMap();
+            UpdateStealthOpacity();
+            UpdateStealthDitherSize();
             _particles.UpdateKeywords();
             _outline.ManageKeywordsOutline();
             _outline.ManageKeywordsOutlineNoise();
