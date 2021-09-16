@@ -163,6 +163,15 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		_OutlineNoise ("", Range(-1, 1)) = 0.0
 
 		/////////////////
+		// Gavin 	   //
+		/////////////////
+		[MKToonVector3Drawer]_StealthCenter ("", Vector) = (0,0,0)
+		_StealthRadius ("", Float) = 0
+		_StealthOpacity ("", Range(0, 1)) = 1
+		_StealthDitherSize("", Range(0, 2)) = 1
+		_StealthEmission("", Color) = (0, 0, 0, 1)
+
+		/////////////////
 		// Editor Only //
 		/////////////////
 		[HideInInspector] _Initialized ("", int) = 0
@@ -170,6 +179,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 		[HideInInspector] _InputTab ("", int) = 1
 		[HideInInspector] _StylizeTab ("", int) = 0
 		[HideInInspector] _AdvancedTab ("", int) = 0
+		[HideInInspector] _GavinStealthTab ("", int) = 0
 		[HideInInspector] _OutlineTab ("", int) = 0
 
 		/////////////////
@@ -180,7 +190,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+		Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		// FORWARD BASE

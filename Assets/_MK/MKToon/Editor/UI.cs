@@ -727,7 +727,36 @@ namespace MK.Toon.Editor
             "Z Fail", 
             ""
         );
-       
+
+        /////////////////
+        // Gavin       //
+        /////////////////
+        internal static readonly GUIContent stealthCenter = new GUIContent
+        (
+            "Center", 
+            "Position of detection sphere."
+        );
+        internal static readonly GUIContent stealthRadius = new GUIContent
+        (
+            "Radius", 
+            "Radius of detection sphere."
+        );
+        internal static readonly GUIContent stealthOpacity = new GUIContent
+        (
+            "Opacity", 
+            "Opacity of area in detection sphere."
+        );
+        internal static readonly GUIContent stealthDitherSize = new GUIContent
+        (
+            "[IGNORE] Dither Size [IGNORE]", 
+            "Size of dithering effect in detection sphere."
+        );
+        internal static readonly GUIContent stealthEmission = new GUIContent
+        (
+            "Emission", 
+            "Color of area in detection sphere."
+        );
+
         /////////////////
         // Outline     //
         /////////////////
@@ -874,6 +903,11 @@ namespace MK.Toon.Editor
         internal static readonly GUIContent advancedTab = new GUIContent
         (
             "Advanced", 
+            ""
+        );
+        internal static readonly GUIContent gavinStealthTab = new GUIContent
+        (
+            "GavinStealth",
             ""
         );
         internal static readonly GUIContent particlesTab = new GUIContent
