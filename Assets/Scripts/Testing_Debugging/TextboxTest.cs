@@ -35,7 +35,7 @@ public class TextboxTest : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.T))
             {
-                Textbox.Instance.EnableTextbox(textFile, talkerIcon);
+                Textbox.Instance.EnableTextbox(textFile, talkerIcon, false);
             }
         }
     }

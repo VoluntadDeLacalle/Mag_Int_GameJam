@@ -8,10 +8,14 @@ using UnityEngine.UI;
 public class Textbox : SingletonMonoBehaviour<Textbox>
 {
     public TMPro.TextMeshProUGUI textMesh;
+    public bool autoAdavance = false;
+    public float autoAdvanceTimer = 5;
+    private float maxAutoAdvanceTimer = 0;
 
     [Header("Juice Variables")]
     public float typeTimer = 1;
     private float maxTypeTimer = 0;
+    private float originalTypeTimer = 0;
 
     public char continueIcon;
     public float continueFlashTimer = 1;
@@ -32,18 +36,23 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
     new void Awake()
     {
         base.Awake();
+
         maxTypeTimer = typeTimer;
+        originalTypeTimer = typeTimer;
         maxContinueFlashTimer = continueFlashTimer;
+        maxAutoAdvanceTimer = autoAdvanceTimer;
+        
         talkerIconAnimator.SetBool("isTalking", false);
     }
 
-    public void EnableTextbox(TextAsset textFile, Sprite newTalkerIcon)
+    public void EnableTextbox(TextAsset textFile, Sprite newTalkerIcon, bool sAutoAdvance)
     {
         if (isTextboxEnabled)
         {
             Debug.LogError("Textbox already active!");
             return;
         }
+        autoAdavance = sAutoAdvance;
 
         textMesh.text = "";
         if (textFile != null)
@@ -58,7 +67,11 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
 
         talkerIcon.sprite = newTalkerIcon;
         textboxAnimator.SetBool("isEnabled", true);
-        Player.Instance.vThirdPersonInput.ShouldMove(false);
+
+        if (!autoAdavance)
+        {
+            Player.Instance.vThirdPersonInput.ShouldMove(false);
+        }
     }
 
     private void StartFirstText()
@@ -81,8 +94,13 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
 
         talkerIcon.sprite = null;
 
+        maxTypeTimer = originalTypeTimer;
         typeTimer = maxTypeTimer;
+
         continueFlashTimer = maxContinueFlashTimer;
+
+        autoAdvanceTimer = maxAutoAdvanceTimer;
+        autoAdavance = false;
 
         Player.Instance.vThirdPersonInput.ShouldMove(true);
     }
@@ -191,6 +209,31 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         }
     }
 
+    void AdvanceText()
+    {
+        autoAdvanceTimer -= Time.deltaTime;
+        if (autoAdvanceTimer <= 0)
+        {
+            if (count < textLines.Count)
+            {
+                SetText(textLines[count]);
+            }
+            else
+            {
+                DisableTextbox();
+                return;
+            }
+
+            autoAdvanceTimer = maxAutoAdvanceTimer;
+        }
+    }
+
+    public void SetTypeSpeed(float newTimerSpeed)
+    {
+        maxTypeTimer = newTimerSpeed;
+        typeTimer = newTimerSpeed;
+    }
+
     private void Update()
     {
         if (!isTextboxEnabled || Time.timeScale < 0.1f)
@@ -198,7 +241,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !autoAdavance)
         {
             if (!isTyping)
             {
@@ -229,6 +272,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         else
         {
             ContinueFlash();
+            AdvanceText();
         }
     }
 }
