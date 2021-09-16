@@ -13,6 +13,7 @@ public class ShaderTest : MonoBehaviour
         for (int i = 0; i < shaderMats.Count; i++) {
             shaderMats[i].SetFloat("_StealthRadius", radius);
             shaderMats[i].SetVector("_StealthCenter", transform.position);
+            shaderMats[i].renderQueue = 3000;
         }
     }
 

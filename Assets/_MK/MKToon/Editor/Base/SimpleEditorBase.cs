@@ -682,6 +682,8 @@ namespace MK.Toon.Editor
             EditorGUI.BeginChangeCheck();
             materialEditor.ShaderProperty(_stealthCenter, UI.stealthCenter);
             materialEditor.ShaderProperty(_stealthRadius, UI.stealthRadius);
+            
+            EditorHelper.Divider();
             materialEditor.ShaderProperty(_stealthEmission, UI.stealthEmission);
             EditorGUI.EndChangeCheck();
         }
@@ -689,10 +691,8 @@ namespace MK.Toon.Editor
         protected override void DrawGavinStealthContent(MaterialEditor materialEditor)
         {
             DrawStealthVariables(materialEditor);
-
-            EditorHelper.Divider();
             DrawStealthOpacity(materialEditor);
-            DrawStealthDitherSize(materialEditor);
+            //DrawStealthDitherSize(materialEditor);
         }
 
 
