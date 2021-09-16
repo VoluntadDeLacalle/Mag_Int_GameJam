@@ -100,7 +100,17 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             return;
         }
 
-        if (playerItemHandler.attachedItem != null && dropIndex == equipIndex)
+        int tempEquippedIndex = -1;
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].itemType == Item.TypeTag.chassis && inventory[i].isEquipped)
+            {
+                tempEquippedIndex = i;
+                break;
+            }
+        }
+
+        if (playerItemHandler.attachedItem != null && dropIndex == tempEquippedIndex)
         {
             UnequipItem();
         }
