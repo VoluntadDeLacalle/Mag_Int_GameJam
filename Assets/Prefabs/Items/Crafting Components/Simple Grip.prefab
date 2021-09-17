@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2292425254133509553}
   - component: {fileID: 4050042106995267963}
   - component: {fileID: 8548997402553588285}
-  - component: {fileID: 4461032559681611144}
+  - component: {fileID: 8621712595810415930}
   - component: {fileID: 274772089127773550}
   m_Layer: 0
   m_Name: Simple Grip
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2536757659613034670}
-  m_Mesh: {fileID: -1188659867385127475, guid: 9ee337d549f7f324b8342cc4338b1eb4, type: 3}
+  m_Mesh: {fileID: -432656332388203778, guid: 9ee337d549f7f324b8342cc4338b1eb4, type: 3}
 --- !u!23 &4050042106995267963
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: 9ee337d549f7f324b8342cc4338b1eb4, type: 3}
+  - {fileID: 2100000, guid: 0c7240a7696fa174b8b95430e6a986ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,13 +100,13 @@ MonoBehaviour:
   itemName: Simple
   description: This is a simple handle grip.
   isEquipped: 0
-  localHandPos: {x: -0.102, y: -0.026, z: 0.024}
+  localHandPos: {x: -0.162, y: 0.087, z: 0.29}
   localHandRot: {x: 0.136, y: 77.433, z: 67.356}
   inventorySprite: {fileID: 21300000, guid: 6bb65dbba9dcc584b972176a3e188ee3, type: 3}
   chassisComponentTransforms: []
   chassisGripTransform:
     componentTransform: {fileID: 0}
---- !u!65 &4461032559681611144
+--- !u!65 &8621712595810415930
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,8 +117,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.06426537, y: 0.5329462, z: 0.2088241}
-  m_Center: {x: 0.0000000055879354, y: 0.04743968, z: 0.033718005}
+  m_Size: {x: 0.1, y: 0.57, z: 0.24}
+  m_Center: {x: 0.0000000055879354, y: -0.26057556, z: 0.033718}
 --- !u!54 &274772089127773550
 Rigidbody:
   m_ObjectHideFlags: 0

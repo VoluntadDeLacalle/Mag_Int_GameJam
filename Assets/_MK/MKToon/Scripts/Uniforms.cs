@@ -147,7 +147,16 @@ namespace MK.Toon
         public static readonly Uniform stencilPass                = new Uniform("_StencilPass");
         public static readonly Uniform stencilFail                = new Uniform("_StencilFail");
         public static readonly Uniform stencilZFail               = new Uniform("_StencilZFail");
-       
+
+        /////////////////
+        // Gavin       //
+        /////////////////
+        public static readonly Uniform stealthCenter        = new Uniform("_StealthCenter");
+        public static readonly Uniform stealthRadius        = new Uniform("_StealthRadius");
+        public static readonly Uniform stealthOpacity       = new Uniform("_StealthOpacity");
+        public static readonly Uniform stealthDitherSize    = new Uniform("_StealthDitherSize");
+        public static readonly Uniform stealthEmission      = new Uniform("_StealthEmission");
+
         /////////////////
         // Outline     //
         /////////////////
@@ -186,14 +195,15 @@ namespace MK.Toon
         /////////////////
         // Editor Only //
         /////////////////
-        public static readonly Uniform initialized   = new Uniform("_Initialized");
-        public static readonly Uniform optionsTab    = new Uniform("_OptionsTab");
-        public static readonly Uniform inputTab      = new Uniform("_InputTab");
-        public static readonly Uniform stylizeTab    = new Uniform("_StylizeTab");
-        public static readonly Uniform advancedTab   = new Uniform("_AdvancedTab");
-        public static readonly Uniform particlesTab  = new Uniform("_ParticlesTab");
-        public static readonly Uniform outlineTab    = new Uniform("_OutlineTab");
-        public static readonly Uniform refractionTab = new Uniform("_RefractionTab");
+        public static readonly Uniform initialized      = new Uniform("_Initialized");
+        public static readonly Uniform optionsTab       = new Uniform("_OptionsTab");
+        public static readonly Uniform inputTab         = new Uniform("_InputTab");
+        public static readonly Uniform stylizeTab       = new Uniform("_StylizeTab");
+        public static readonly Uniform advancedTab      = new Uniform("_AdvancedTab");
+        public static readonly Uniform gavinStealthTab  = new Uniform("_GavinStealthTab");
+        public static readonly Uniform particlesTab     = new Uniform("_ParticlesTab");
+        public static readonly Uniform outlineTab       = new Uniform("_OutlineTab");
+        public static readonly Uniform refractionTab    = new Uniform("_RefractionTab");
 
         /////////////////
         // System      //

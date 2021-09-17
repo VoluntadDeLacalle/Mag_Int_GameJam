@@ -160,6 +160,15 @@ namespace MK.Toon
         public static readonly EnumProperty<StencilOperation> stencilZFail          = new EnumProperty<StencilOperation>(Uniforms.stencilZFail);
        
         /////////////////
+        // Gavin       //
+        /////////////////
+        public static readonly Vector3Property stealthCenter        = new Vector3Property(Uniforms.stealthCenter);
+        public static readonly FloatProperty stealthRadius          = new FloatProperty(Uniforms.stealthRadius);
+        public static readonly RangeProperty stealthOpacity         = new RangeProperty(Uniforms.stealthOpacity, 0, 1);
+        public static readonly RangeProperty stealthDitherSize      = new RangeProperty(Uniforms.stealthDitherSize, 0, 2);
+        public static readonly ColorProperty stealthEmission        = new ColorProperty(Uniforms.stealthEmission);
+
+        /////////////////
         // Outline     //
         /////////////////
         public static readonly EnumProperty<Outline> outline         = new EnumProperty<Outline>(Uniforms.outline, Keywords.outline);

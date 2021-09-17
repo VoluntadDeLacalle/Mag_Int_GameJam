@@ -1,15 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectorEffector : Item
+public class StealthEffector : Item
 {
-    [Header("Detector Variables")]
+    [Header("Stealth Variables")]
     public int maxRadius = 5;
     public float radiusGrowthTime = 1;
-    public float detectorMoveThreshold = 0.1f;
-    public GameObject detectorRadius;
-    public List<Material> detectableMats = new List<Material>();
+    public GameObject stealthRadiusObj;
+    public List<Material> stealthMats = new List<Material>();
 
     [Header("Modifier Variables")]
     public int amplifiedMaxRadius = 10;
@@ -18,13 +18,12 @@ public class DetectorEffector : Item
     private int originalMaxRadius = 0;
 
     private void Awake()
-    {        
-        for (int i = 0; i < detectableMats.Count; i++)
+    {
+        for (int i = 0; i < stealthMats.Count; i++)
         {
-            detectableMats[i].SetFloat("_Radius", currentRadius);
-            detectableMats[i].SetVector("_Center", transform.position);
+            stealthMats[i].SetFloat("_StealthRadius", currentRadius);
+            stealthMats[i].SetVector("_StealthCenter", transform.position);
         }
-        detectorRadius.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
 
         originalMaxRadius = maxRadius;
     }
@@ -33,44 +32,44 @@ public class DetectorEffector : Item
     {
         if (currentRadius > 0)
         {
-            UpdateVisibility();
+            UpdateActiveRadius();
         }
-        
+
         if (Input.GetMouseButton(0))
         {
             if (currentRadius < maxRadius - 0.1f)
             {
                 currentRadius = Mathf.Lerp(currentRadius, maxRadius, radiusGrowthTime * Time.deltaTime);
-                SetDetectorRadiusSphereScale(currentRadius);
+                SetStealthRadiusSphereScale(currentRadius);
                 return;
             }
             currentRadius = maxRadius;
-            SetDetectorRadiusSphereScale(maxRadius);
+            SetStealthRadiusSphereScale(maxRadius);
         }
         else
         {
-            if(currentRadius > 0.1f)
+            if (currentRadius > 0.1f)
             {
                 currentRadius = Mathf.Lerp(currentRadius, 0, radiusGrowthTime * Time.deltaTime);
-                SetDetectorRadiusSphereScale(currentRadius);
+                SetStealthRadiusSphereScale(currentRadius);
                 return;
             }
             currentRadius = 0;
-            SetDetectorRadiusSphereScale(0.0f);
+            SetStealthRadiusSphereScale(0.0f);
         }
     }
 
-    void SetDetectorRadiusSphereScale(float radius)
+    void SetStealthRadiusSphereScale(float radius)
     {
-        detectorRadius.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
+        stealthRadiusObj.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
     }
 
-    void UpdateVisibility()
+    void UpdateActiveRadius()
     {
-        for (int i = 0; i < detectableMats.Count; i++)
+        for (int i = 0; i < stealthMats.Count; i++)
         {
-            detectableMats[i].SetFloat("_Radius", currentRadius);
-            detectableMats[i].SetVector("_Center", transform.position);
+            stealthMats[i].SetFloat("_StealthRadius", currentRadius);
+            stealthMats[i].SetVector("_StealthCenter", transform.position);
         }
     }
 
@@ -124,10 +123,10 @@ public class DetectorEffector : Item
 
     private void OnDestroy()
     {
-        for (int i = 0; i < detectableMats.Count; i++)
+        for (int i = 0; i < stealthMats.Count; i++)
         {
-            detectableMats[i].SetFloat("_Radius", 0);
-            detectableMats[i].SetVector("_Center", Vector3.zero);
+            stealthMats[i].SetFloat("_StealthRadius", 0);
+            stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
         }
     }
 }

@@ -73,6 +73,15 @@ Shader "MK/Toon/URP/Standard/Unlit + Refraction"
 		_RefractionDistortionFade ("", Range(0.0, 1.0)) = 0.5
 
 		/////////////////
+		// Gavin 	   //
+		/////////////////
+		[MKToonVector3Drawer]_StealthCenter ("", Vector) = (0,0,0,0)
+		_StealthRadius ("", Float) = 0
+		_StealthOpacity ("", Range(0, 1)) = 1
+		_StealthDitherSize("", Range(0, 2)) = 1
+		_StealthEmission("", Color) = (0, 0, 0, 1)
+
+		/////////////////
 		// Editor Only //
 		/////////////////
 		[HideInInspector] _Initialized ("", int) = 0
@@ -80,6 +89,7 @@ Shader "MK/Toon/URP/Standard/Unlit + Refraction"
 		[HideInInspector] _InputTab ("", int) = 1
 		[HideInInspector] _StylizeTab ("", int) = 0
 		[HideInInspector] _AdvancedTab ("", int) = 0
+		[HideInInspector] _GavinStealthTab ("", int) = 0
 		[HideInInspector] _RefractionTab ("", int) = 0
 
 		/////////////////

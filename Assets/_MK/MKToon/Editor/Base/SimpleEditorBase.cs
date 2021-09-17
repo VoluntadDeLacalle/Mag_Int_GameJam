@@ -97,6 +97,15 @@ namespace MK.Toon.Editor
         protected MaterialProperty _specularIntensity;
         protected MaterialProperty _environmentReflections;
 
+        /////////////////
+        // Gavin       //
+        /////////////////
+        protected MaterialProperty _stealthCenter;
+        protected MaterialProperty _stealthRadius;
+        protected MaterialProperty _stealthOpacity;
+        protected MaterialProperty _stealthDitherSize;
+        protected MaterialProperty _stealthEmission;
+
         protected override void FindProperties(MaterialProperty[] props)
         {
             base.FindProperties(props);
@@ -157,6 +166,12 @@ namespace MK.Toon.Editor
             _specular = FindProperty(Properties.specular.uniform.name, props);
             _specularIntensity = FindProperty(Properties.specularIntensity.uniform.name, props);
             _environmentReflections = FindProperty(Properties.environmentReflections.uniform.name, props);
+
+            _stealthCenter = FindProperty(Properties.stealthCenter.uniform.name, props);
+            _stealthRadius = FindProperty(Properties.stealthRadius.uniform.name, props);
+            _stealthOpacity = FindProperty(Properties.stealthOpacity.uniform.name, props);
+            _stealthDitherSize = FindProperty(Properties.stealthDitherSize.uniform.name, props);
+            _stealthEmission = FindProperty(Properties.stealthEmission.uniform.name, props);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -658,6 +673,28 @@ namespace MK.Toon.Editor
             EditorHelper.Divider();
             DrawStencil(materialEditor);
         }
+
+        /////////////////
+        // Gavin       //
+        /////////////////
+        protected virtual void DrawStealthVariables(MaterialEditor materialEditor)
+        {
+            EditorGUI.BeginChangeCheck();
+            materialEditor.ShaderProperty(_stealthCenter, UI.stealthCenter);
+            materialEditor.ShaderProperty(_stealthRadius, UI.stealthRadius);
+            
+            EditorHelper.Divider();
+            materialEditor.ShaderProperty(_stealthEmission, UI.stealthEmission);
+            EditorGUI.EndChangeCheck();
+        }
+        
+        protected override void DrawGavinStealthContent(MaterialEditor materialEditor)
+        {
+            DrawStealthVariables(materialEditor);
+            DrawStealthOpacity(materialEditor);
+            //DrawStealthDitherSize(materialEditor);
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 		// Variants Setup                                                                          //
