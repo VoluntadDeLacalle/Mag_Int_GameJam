@@ -113,6 +113,12 @@ public class StealthEffector : Item
         }
 
         currentRadius = 0;
+
+        for (int i = 0; i < stealthMats.Count; i++)
+        {
+            stealthMats[i].SetFloat("_StealthRadius", 0);
+            stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
+        }
     }
 
     new void Update()
