@@ -61,7 +61,11 @@ public class StealthEffector : Item
 
     void SetStealthRadiusSphereScale(float radius)
     {
-        stealthRadiusObj.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
+        float radiusX = radius * (1 / transform.localScale.x);
+        float radiusY = radius * (1 / transform.localScale.y);
+        float radiusZ = radius * (1 / transform.localScale.z);
+
+        stealthRadiusObj.transform.localScale = new Vector3(radiusX * 2, radiusY * 2, radiusZ * 2); //Multiplication is temp.
     }
 
     void UpdateActiveRadius()

@@ -5,7 +5,7 @@ public class EMPEffector : Item
 {
     public int maxRadius = 5;
     public float radiusGrowthTime = 1;
-    public GameObject EMPRadius;
+    public GameObject EMPRadiusObj;
 
     [Header("Modifier Variables")]
     public int amplifiedMaxRadius = 10;
@@ -51,12 +51,16 @@ public class EMPEffector : Item
 
     void SetEMPRadiusSphereScale(float radius)
     {
-        EMPRadius.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
+        float radiusX = radius * (1 / transform.localScale.x);
+        float radiusY = radius * (1 / transform.localScale.y);
+        float radiusZ = radius * (1 / transform.localScale.z);
+
+        EMPRadiusObj.transform.localScale = new Vector3(radiusX * 2, radiusY * 2, radiusZ * 2); //Multiplication is temp.
     }
 
     void UpdateEMPDetection()
     {
-        Collider[] collidersInRange = Physics.OverlapSphere(EMPRadius.transform.position, currentRadius);
+        Collider[] collidersInRange = Physics.OverlapSphere(EMPRadiusObj.transform.position, currentRadius);
 
         for (int i = 0; i < collidersInRange.Length; i++)
         {
