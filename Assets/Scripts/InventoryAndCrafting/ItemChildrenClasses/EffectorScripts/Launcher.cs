@@ -128,4 +128,23 @@ public class Launcher : MonoBehaviour
         Vector3 finalDir = (angleTransform.position - initialTransform.position).normalized;
         bullet.GetComponent<Rigidbody>().AddForce(finalDir * ammoThrust);
     }
+
+    public void Shoot(GameObject objectToShoot)
+    {
+        GameObject bullet = objectToShoot;
+        if (bullet == null)
+        {
+            return;
+        }
+
+        bullet.transform.position = initialTransform.position;
+        bullet.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        bullet.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        bullet.GetComponent<Rigidbody>().isKinematic = true;
+        bullet.GetComponent<Rigidbody>().isKinematic = false;
+        bullet.SetActive(true);
+
+        Vector3 finalDir = (angleTransform.position - initialTransform.position).normalized;
+        bullet.GetComponent<Rigidbody>().AddForce(finalDir * ammoThrust);
+    }
 }

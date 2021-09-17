@@ -254,6 +254,28 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             playerItemHandler.UnequipItem(equipIndex);
         }
 
+        GrabberEffector grabberEffector = null;
+        for (int i = 0; i < inventory[equipIndex].chassisComponentTransforms.Count; i++)
+        {
+            if (inventory[equipIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+            {
+                grabberEffector = inventory[equipIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.GetComponent<GrabberEffector>();
+
+                if (grabberEffector != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (grabberEffector != null)
+        {
+            if (grabberEffector.currentAttachedObj != null)
+            {
+                grabberEffector.DropCurrentObj();
+            }
+        }
+
         inventory[equipIndex].isEquipped = false;
 
         unequipItemButton.SetActive(false);

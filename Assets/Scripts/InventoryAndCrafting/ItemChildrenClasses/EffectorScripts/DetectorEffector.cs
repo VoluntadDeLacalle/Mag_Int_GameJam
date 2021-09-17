@@ -8,7 +8,7 @@ public class DetectorEffector : Item
     public int maxRadius = 5;
     public float radiusGrowthTime = 1;
     public float detectorMoveThreshold = 0.1f;
-    public GameObject detectorRadius;
+    public GameObject detectorRadiusObj;
     public List<Material> detectableMats = new List<Material>();
 
     [Header("Modifier Variables")]
@@ -24,7 +24,7 @@ public class DetectorEffector : Item
             detectableMats[i].SetFloat("_Radius", currentRadius);
             detectableMats[i].SetVector("_Center", transform.position);
         }
-        detectorRadius.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+        detectorRadiusObj.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
 
         originalMaxRadius = maxRadius;
     }
@@ -62,7 +62,11 @@ public class DetectorEffector : Item
 
     void SetDetectorRadiusSphereScale(float radius)
     {
-        detectorRadius.transform.localScale = new Vector3(radius * 2, radius * 2, radius * 2); //Multiplication is temp.
+        float radiusX = radius * (1 / transform.localScale.x);
+        float radiusY = radius * (1 / transform.localScale.y);
+        float radiusZ = radius * (1 / transform.localScale.z);
+
+        detectorRadiusObj.transform.localScale = new Vector3(radiusX * 2, radiusY * 2, radiusZ * 2); //Multiplication is temp.
     }
 
     void UpdateVisibility()
