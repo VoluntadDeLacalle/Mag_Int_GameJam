@@ -114,6 +114,12 @@ public class DetectorEffector : Item
         }
 
         currentRadius = 0;
+
+        for (int i = 0; i < detectableMats.Count; i++)
+        {
+            detectableMats[i].SetFloat("_Radius", 0);
+            detectableMats[i].SetVector("_Center", Vector3.zero);
+        }
     }
 
     new void Update()

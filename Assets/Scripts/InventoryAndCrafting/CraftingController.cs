@@ -148,6 +148,7 @@ public class CraftingController : MonoBehaviour
         currentChassisIndex = -1;
 
         itemViewerPlayerModel.transform.rotation = originalPlayerModelRotation;
+        tooltip.GetComponent<Tooltip>().DisableTooltip();
     }
 
     void DestroyPrimaryCraftingList()
@@ -253,6 +254,10 @@ public class CraftingController : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Sets a new chassis as the target of the crafting system.
+    /// </summary>
+    /// <param name="index"></param>
     void ChooseNewChassis(int index)
     {
         DestroyPrimaryCraftingList();
@@ -407,6 +412,13 @@ public class CraftingController : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Applies a new component to the current selected component slot.
+    /// </summary>
+    /// <param name="componentIndex"></param>
+    /// <param name="componentList"></param>
+    /// <param name="componentTransformIndex"></param>
+    /// <param name="parentButton"></param>
     void ChooseNewComponent(int componentIndex, List<Item> componentList, int componentTransformIndex, GameObject parentButton)
     {
         if (componentIndex == -1)
@@ -560,6 +572,11 @@ public class CraftingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Applies a new grip to the grip slot.
+    /// </summary>
+    /// <param name="gripIndex"></param>
+    /// <param name="parentButton"></param>
     void ChooseNewGrip(int gripIndex, GameObject parentButton)
     {
         if (gripIndex == -1)
@@ -635,10 +652,16 @@ public class CraftingController : MonoBehaviour
 
                         if (chassisList[i].gameObject == attachedGripChassis.gameObject)
                         {
+                            if (chassisList[i].isEquipped)
+                            {
+                                Inventory.Instance.playerItemHandler.EquipItem(chassisList[i]);
+                            }
+
                             chassisList[i].chassisGripTransform.ResetGripTransform();
                             break;
                         }
                     }
+
                     ///Removes grip from other chassis and places it on this one.
                     if (chassisList[currentChassisIndex].isEquipped)
                     {
@@ -650,6 +673,7 @@ public class CraftingController : MonoBehaviour
                     chassisList[currentChassisIndex].gameObject.transform.position = gripList[gripIndex].gameObject.transform.position;
                     chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0);
                     chassisList[currentChassisIndex].gameObject.SetActive(true);
+                    chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
 
                     GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
                     GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
