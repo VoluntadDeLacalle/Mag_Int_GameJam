@@ -24,7 +24,7 @@ public class DetectorEffector : Item
             detectableMats[i].SetFloat("_Radius", currentRadius);
             detectableMats[i].SetVector("_Center", transform.position);
         }
-        detectorRadiusObj.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+        //detectorRadiusObj.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
 
         originalMaxRadius = maxRadius;
     }
@@ -57,6 +57,12 @@ public class DetectorEffector : Item
             }
             currentRadius = 0;
             SetDetectorRadiusSphereScale(0.0f);
+
+            for (int i = 0; i < detectableMats.Count; i++)
+            {
+                detectableMats[i].SetFloat("_Radius", 0);
+                detectableMats[i].SetVector("_Center", Vector3.zero);
+            }
         }
     }
 
