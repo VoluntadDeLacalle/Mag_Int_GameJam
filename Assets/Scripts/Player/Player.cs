@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Player : SingletonMonoBehaviour<Player>
 {
-    [Header("Component Variables")]
-    public Animator anim;
+    [Header("Third Person Component Variables")]
+    public vThirdPersonController vThirdPersonController;
     public vThirdPersonInput vThirdPersonInput;
     public vThirdPersonCamera vThirdPersonCamera;
+
+    [Header("Other Component Variables")]
+    public Animator anim;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
@@ -39,9 +42,16 @@ public class Player : SingletonMonoBehaviour<Player>
         ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
         originalCameraHeight = vThirdPersonCamera.height;
 
+        Debug.Log("Awake");
+
         if (origin == null)
         {
-            origin = transform;
+            GameObject originPoint = new GameObject("OriginPoint");
+            originPoint.transform.parent = transform.root;
+
+            originPoint.transform.position = transform.position;
+            originPoint.transform.rotation = transform.rotation;
+            origin = originPoint.transform;
         }
     }
 
@@ -94,6 +104,7 @@ public class Player : SingletonMonoBehaviour<Player>
         vThirdPersonCamera.SetTarget(gameObject.transform);
         ToggleRagdoll(false);
 
+        transform.position = origin.position;
         primaryRigidbody.MovePosition(origin.position);
         transform.rotation = origin.rotation;
     }
@@ -101,16 +112,19 @@ public class Player : SingletonMonoBehaviour<Player>
     private void Die()
     {
         isAlive = false;
-        vThirdPersonCamera.height = deathCameraTarget.position.y;
         vThirdPersonCamera.SetTarget(deathCameraTarget);
+        if (vThirdPersonController.isGrounded)
+        {
+            vThirdPersonCamera.height = deathCameraTarget.position.y;
+        }
+        else
+        {
+            vThirdPersonCamera.height = deathCameraTarget.position.y - transform.position.y;
+        }
+
         ToggleRagdoll(true);
 
         health.OnHealthDepleated.RemoveAllListeners();
         health.OnHealthDepleated.AddListener(Die);
-    }
-
-    private void Update()
-    {
-        Debug.Log(transform.position);
     }
 }

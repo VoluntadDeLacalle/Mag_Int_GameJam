@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class landmine : Explosion
+public class Landmine : Explosive
 {
     public string groundTag = "ground";
 

@@ -3230,17 +3230,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45bda207e08b72488eca927208b0630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 1018390873774750510}
+  vThirdPersonController: {fileID: 1018390873774750509}
   vThirdPersonInput: {fileID: 1018390873774750508}
   vThirdPersonCamera: {fileID: 0}
+  anim: {fileID: 1018390873774750510}
   primaryRigidbody: {fileID: 1018390873774750507}
   primaryCollider: {fileID: 1018390873774750506}
   health: {fileID: 3525646185255956491}
   ragdoll: {fileID: 3664566712407341150}
-  spineBone: {fileID: 5551859153506071671}
+  deathCameraTarget: {fileID: 1018390874279805762}
   backpackFill: {fileID: 7279450582619209517}
   clothPhysicsManager: {fileID: 1132397039742236586}
   backpackBoneSpring: {fileID: 1018390874107597246}
+  origin: {fileID: 0}
 --- !u!114 &1018390873774750509
 MonoBehaviour:
   m_ObjectHideFlags: 0
