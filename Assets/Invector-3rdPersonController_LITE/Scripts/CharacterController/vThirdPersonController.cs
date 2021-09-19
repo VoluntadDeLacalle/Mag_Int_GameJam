@@ -107,9 +107,9 @@ namespace Invector.vCharacterController
             }
         }
 
-        public virtual void Strafe()
+        public virtual void Strafe(bool shouldStrafe)
         {
-            isStrafing = !isStrafing;
+            isStrafing = shouldStrafe;
         }
 
         public virtual void Jump()

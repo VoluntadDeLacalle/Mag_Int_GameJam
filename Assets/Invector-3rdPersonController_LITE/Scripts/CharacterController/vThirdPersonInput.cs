@@ -10,7 +10,7 @@ namespace Invector.vCharacterController
         public string horizontalInput = "Horizontal";
         public string verticallInput = "Vertical";
         public KeyCode jumpInput = KeyCode.Space;
-        public KeyCode strafeInput = KeyCode.Tab;
+        public KeyCode strafeInput = KeyCode.Mouse1;
         public KeyCode sprintInput = KeyCode.LeftShift;
 
         [Header("Camera Input")]
@@ -136,7 +136,9 @@ namespace Invector.vCharacterController
         protected virtual void StrafeInput()
         {
             if (Input.GetKeyDown(strafeInput))
-                cc.Strafe();
+                cc.Strafe(true);
+            else if (Input.GetKeyUp(strafeInput))
+                cc.Strafe(false);
         }
 
         protected virtual void SprintInput()

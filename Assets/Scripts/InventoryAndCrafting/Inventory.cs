@@ -233,6 +233,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             playerItemHandler.EquipItem(equipIndex);
         }
         inventory[equipIndex].isEquipped = true;
+        inventory[equipIndex].OnEquip();
         
         equipItemButton.SetActive(false);
         unequipItemButton.SetActive(true);
@@ -277,6 +278,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         }
 
         inventory[equipIndex].isEquipped = false;
+        inventory[equipIndex].OnUnequip();
 
         unequipItemButton.SetActive(false);
         equipItemButton.SetActive(true);

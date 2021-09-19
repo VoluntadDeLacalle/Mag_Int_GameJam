@@ -15,6 +15,29 @@ public class GripItem : Item
     [Header("Grip Variables")]
     public GripType gripType = GripType.None;
 
+    public override void Activate()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Player.Instance.anim.SetBool("IsActivated", true);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            Player.Instance.anim.SetBool("IsActivated", false);
+        }
+    }
+
+    public override void OnEquip()
+    {
+        Player.Instance.anim.SetLayerWeight((int)gripType + 1, 1);
+    }
+
+    public override void OnUnequip()
+    {
+        Player.Instance.anim.SetLayerWeight((int)gripType + 1, 0);
+        Player.Instance.anim.SetBool("IsActivated", false);
+    }
+
     new void Update()
     {
         base.Update();

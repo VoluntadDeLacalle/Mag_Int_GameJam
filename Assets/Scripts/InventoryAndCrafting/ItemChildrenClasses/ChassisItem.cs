@@ -17,6 +17,17 @@ public class ChassisItem : Item
         }
     }
 
+    public override void OnEquip()
+    {
+        Player.Instance.anim.SetLayerWeight(1, 1);
+    }
+
+    public override void OnUnequip()
+    {
+        Player.Instance.anim.SetLayerWeight(1, 0);
+        Player.Instance.anim.SetBool("IsActivated", false);
+    }
+
     void LateUpdate()
     {
         if (itemType != TypeTag.chassis)
@@ -41,6 +52,11 @@ public class ChassisItem : Item
             {
                 chassisComponentTransforms[i].GetComponentTransformItem().Activate();
             }
+        }
+
+        if (chassisGripTransform.IsGripTransformOccupied())
+        {
+            chassisGripTransform.GetGripTransformItem().Activate();
         }
 
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
