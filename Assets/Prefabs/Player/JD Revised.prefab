@@ -2897,10 +2897,11 @@ GameObject:
   - component: {fileID: -7452040692193898975}
   - component: {fileID: 1018390873774750509}
   - component: {fileID: 1018390873774750508}
-  - component: {fileID: 1018390873774750507}
-  - component: {fileID: 1018390873774750506}
   - component: {fileID: 8741778327616787926}
   - component: {fileID: 7279450582619209517}
+  - component: {fileID: 3525646185255956491}
+  - component: {fileID: 1018390873774750507}
+  - component: {fileID: 1018390873774750506}
   m_Layer: 0
   m_Name: JD Revised
   m_TagString: Player
@@ -2963,6 +2964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backpackFill: {fileID: 7279450582619209517}
   vThirdPersonInput: {fileID: 1018390873774750508}
+  health: {fileID: 3525646185255956491}
 --- !u!114 &1018390873774750509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3034,6 +3036,56 @@ MonoBehaviour:
   cc: {fileID: 0}
   tpCamera: {fileID: 0}
   cameraMain: {fileID: 0}
+--- !u!114 &8741778327616787926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873774750505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975de8d4216a7dc4885e05350304bcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1018390873774750509}
+  itemDetection: {fileID: 4577966725674352913}
+  leftHandAttachmentBone: {fileID: 1018390875162200495}
+  attachedItem: {fileID: 0}
+--- !u!114 &7279450582619209517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873774750505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3afbc039f82d14b82b04c4de568d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backpackRef: {fileID: 1018390874267969053}
+--- !u!114 &3525646185255956491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873774750505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a194529fb1fbf24d9d3edfc5186a06b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  currentHealth: 1
+  startAtMaxHealth: 1
+  OnHealthDepleated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthRestored:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &1018390873774750507
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3064,35 +3116,6 @@ CapsuleCollider:
   m_Height: 1.782599
   m_Direction: 1
   m_Center: {x: 0, y: 0.8912995, z: 0}
---- !u!114 &8741778327616787926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018390873774750505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975de8d4216a7dc4885e05350304bcf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 1018390873774750509}
-  itemDetection: {fileID: 4577966725674352913}
-  leftHandAttachmentBone: {fileID: 1018390875162200495}
-  attachedItem: {fileID: 0}
---- !u!114 &7279450582619209517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018390873774750505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3afbc039f82d14b82b04c4de568d67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backpackRef: {fileID: 1018390874267969053}
 --- !u!1 &1018390873779014743
 GameObject:
   m_ObjectHideFlags: 0
