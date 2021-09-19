@@ -8,20 +8,26 @@ public class Player : SingletonMonoBehaviour<Player>
     [Header("Component Variables")]
     public Animator anim;
     public vThirdPersonInput vThirdPersonInput;
+    public vThirdPersonCamera vThirdPersonCamera;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
-    public BackpackFill backpackFill;
 
     [Header("Juice Variables")]
+    public Ragdoll ragdoll;
+    public Transform deathCameraTarget;
+    public BackpackFill backpackFill;
     public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
 
     [Header("Personal Player Variables")]
 
     private bool isAlive = true;
+    public Transform origin = null;
     private List<Rigidbody> ragdollRigidbodies = new List<Rigidbody>();
     private List<Collider> ragdollColliders = new List<Collider>();
+
+    private float originalCameraHeight;
 
     new void Awake()
     {
@@ -29,31 +35,13 @@ public class Player : SingletonMonoBehaviour<Player>
 
         health.OnHealthDepleated.AddListener(Die);
         health.OnHealthRestored.AddListener(Revived);
-        GetAllRagdolls();
-    }
 
-    void GetAllRagdolls()
-    {
-        foreach (Rigidbody rb in gameObject.GetComponentsInChildren<Rigidbody>())
+        ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
+        originalCameraHeight = vThirdPersonCamera.height;
+
+        if (origin == null)
         {
-            if (rb == primaryRigidbody)
-            {
-                continue;
-            }
-
-            rb.isKinematic = true;
-            ragdollRigidbodies.Add(rb);
-        }
-
-        foreach (Collider collider in gameObject.GetComponentsInChildren<Collider>())
-        {
-            if(collider == primaryCollider)
-            {
-                continue;
-            }
-
-            collider.enabled = false;
-            ragdollColliders.Add(collider);
+            origin = transform;
         }
     }
 
@@ -65,15 +53,18 @@ public class Player : SingletonMonoBehaviour<Player>
         clothPhysicsManager.enabled = !shouldToggle;
         backpackBoneSpring.enabled = !shouldToggle;
 
-        for (int i = 0; i < ragdollColliders.Count; i++)
+        ragdoll.ToggleRagdoll(shouldToggle);
+    }
+
+    public void Explode(float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    {
+        if (Vector3.Distance(transform.position, explosionPosition) > explosionRadius)
         {
-            ragdollColliders[i].enabled = shouldToggle;
+            return;
         }
 
-        for(int i = 0; i < ragdollRigidbodies.Count; i++)
-        {
-            ragdollRigidbodies[i].isKinematic = !shouldToggle;
-        }
+        health.OnHealthDepleated.AddListener(delegate { ragdoll.ExplodeRagdoll(explosionForce, explosionPosition, explosionRadius); });
+        health.TakeDamage(100);
     }
 
     public bool IsAlive()
@@ -81,16 +72,45 @@ public class Player : SingletonMonoBehaviour<Player>
         return isAlive;
     }
 
+    public void SetNewSpawnPoint(Transform spawnPoint)
+    {
+        origin = spawnPoint;
+    }
+
+    public void Respawn(Transform spawnPoint = null)
+    {
+        if (spawnPoint != null)
+        {
+            origin = spawnPoint;
+        }
+
+        health.FullHeal();
+    }
+
     private void Revived()
     {
         isAlive = true;
+        vThirdPersonCamera.height = originalCameraHeight;
+        vThirdPersonCamera.SetTarget(gameObject.transform);
         ToggleRagdoll(false);
+
+        primaryRigidbody.MovePosition(origin.position);
+        transform.rotation = origin.rotation;
     }
 
     private void Die()
     {
-        Debug.Log("Fuckin, dead B");
         isAlive = false;
+        vThirdPersonCamera.height = deathCameraTarget.position.y;
+        vThirdPersonCamera.SetTarget(deathCameraTarget);
         ToggleRagdoll(true);
+
+        health.OnHealthDepleated.RemoveAllListeners();
+        health.OnHealthDepleated.AddListener(Die);
+    }
+
+    private void Update()
+    {
+        Debug.Log(transform.position);
     }
 }

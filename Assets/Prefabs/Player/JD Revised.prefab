@@ -207,6 +207,7 @@ Transform:
   m_Children:
   - {fileID: 1018390874279805762}
   - {fileID: 1018390875098858459}
+  - {fileID: 5551859153506071671}
   m_Father: {fileID: 1018390873774750511}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3168,6 +3169,7 @@ GameObject:
   - component: {fileID: 3525646185255956491}
   - component: {fileID: 1018390873774750507}
   - component: {fileID: 1018390873774750506}
+  - component: {fileID: 3664566712407341150}
   m_Layer: 0
   m_Name: JD Revised
   m_TagString: Player
@@ -3230,9 +3232,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1018390873774750510}
   vThirdPersonInput: {fileID: 1018390873774750508}
+  vThirdPersonCamera: {fileID: 0}
   primaryRigidbody: {fileID: 1018390873774750507}
   primaryCollider: {fileID: 1018390873774750506}
   health: {fileID: 3525646185255956491}
+  ragdoll: {fileID: 3664566712407341150}
+  spineBone: {fileID: 5551859153506071671}
   backpackFill: {fileID: 7279450582619209517}
   clothPhysicsManager: {fileID: 1132397039742236586}
   backpackBoneSpring: {fileID: 1018390874107597246}
@@ -3387,6 +3392,18 @@ CapsuleCollider:
   m_Height: 1.782599
   m_Direction: 1
   m_Center: {x: 0, y: 0.8912995, z: 0}
+--- !u!114 &3664566712407341150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873774750505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52af5e602257f3b4bbd9734da56af20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1018390873779014743
 GameObject:
   m_ObjectHideFlags: 0
@@ -13903,6 +13920,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1018390873774750511}
   m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8902369363204373921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5551859153506071671}
+  m_Layer: 9
+  m_Name: DeathCameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5551859153506071671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902369363204373921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1018390873217044595}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1018390875151125142
 PrefabInstance:
