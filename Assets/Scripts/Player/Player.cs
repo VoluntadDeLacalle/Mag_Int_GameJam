@@ -42,8 +42,6 @@ public class Player : SingletonMonoBehaviour<Player>
         ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
         originalCameraHeight = vThirdPersonCamera.height;
 
-        Debug.Log("Awake");
-
         if (origin == null)
         {
             GameObject originPoint = new GameObject("OriginPoint");
@@ -112,6 +110,7 @@ public class Player : SingletonMonoBehaviour<Player>
     private void Die()
     {
         isAlive = false;
+
         vThirdPersonCamera.SetTarget(deathCameraTarget);
         if (vThirdPersonController.isGrounded)
         {

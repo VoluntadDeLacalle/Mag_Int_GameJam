@@ -15,7 +15,7 @@ public class Explosive : MonoBehaviour
 
     ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
@@ -24,12 +24,13 @@ public class Explosive : MonoBehaviour
     //Searches for nearby object in a defined radius and applies a force to those objects
     protected void Explode()
     {
+        hasExploded = true;
+
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer != null)
         {
             meshRenderer.enabled = false;
         }
-
         PlayJuice();
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -46,6 +47,15 @@ public class Explosive : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
+
+            Explosive explosive = nearbyObject.GetComponent<Explosive>();
+            if (explosive != null)
+            {
+                if (!explosive.hasExploded)
+                {
+                    explosive.DoDelayExplosion(explosionDelay);
+                }
+            }
         }
 
         DisableAfterTime(gameObject, destroyDelay);
@@ -54,7 +64,6 @@ public class Explosive : MonoBehaviour
     private void PlayJuice()
     {
         explosionSFX.Play();
-        hasExploded = true;
         GameObject spawnedParticle = ObjectPooler.GetPooler(explosionParticleKey).GetPooledObject();
         spawnedParticle.transform.position = transform.position;
         spawnedParticle.transform.rotation = transform.rotation;
@@ -81,7 +90,6 @@ public class Explosive : MonoBehaviour
         objectToDisable.SetActive(false);
     }
 
-    //Delays the activation of the sphere collider that will detonate any explosives nearby
     protected void DoDelayExplosion(float delayTime)
     {
         StartCoroutine(DelayExplosion(explosionDelay));
@@ -91,25 +99,6 @@ public class Explosive : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        ActivateNearbyExplosives();
-    }
-
-    //If an explosive explodes, other bombs in a nearby radius will also explode
-    private void ActivateNearbyExplosives()
-    {
-        Collider[] collidersInRange = Physics.OverlapSphere(transform.position, explosionRadius);
-
-        for (int i = 0; i < collidersInRange.Length; i++)
-        {
-            if (!hasExploded && collidersInRange[i].gameObject.CompareTag(bombTag))
-            {
-                DoDelayExplosion(explosionDelay);
-                
-                if (collidersInRange[i].gameObject.CompareTag(bombTag))
-                {
-                    Explode();
-                }
-            }
-        }
+        Explode();
     }
 }

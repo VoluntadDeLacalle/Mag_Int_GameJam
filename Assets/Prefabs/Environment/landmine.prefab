@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 400850131964366884}
   - component: {fileID: 3620824313594683265}
   - component: {fileID: 1574913855148550987}
-  - component: {fileID: 151612136050906153}
-  - component: {fileID: 151612136050906152}
-  - component: {fileID: 151612136050906154}
   - component: {fileID: 151612136050906151}
+  - component: {fileID: 151612136050906152}
+  - component: {fileID: 151612136050906153}
   - component: {fileID: 4292579698284569856}
   m_Layer: 0
-  m_Name: landmine
+  m_Name: Landmine
   m_TagString: bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +32,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.19342427, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 9044703222267899542}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
+  - {fileID: 2100000, guid: 4dad30bbe2213eb4d8312f7bb6190866, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,6 +86,41 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &151612136050906151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673356041734814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd801da8bc84ba04c8afe17c5fa870f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 4
+  explosionForce: 1000
+  explosionDelay: 0.1
+  hasExploded: 0
+  bombTag: bomb
+  explosionSFX: {fileID: 4292579698284569856}
+  colliderTransform: {fileID: 9044703222267899542}
+  boxBounds: {x: 0.8, y: 0.15, z: 0.8}
+  turnOnDetectorMat: 1
+  detectorMat: {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
+--- !u!65 &151612136050906152
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673356041734814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 1.2, z: 1.4}
+  m_Center: {x: 0, y: -0.52, z: 0}
 --- !u!54 &151612136050906153
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -102,53 +137,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &151612136050906152
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070673356041734814}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2.720868, z: 2}
-  m_Center: {x: 0, y: 0.36043411, z: 0}
---- !u!135 &151612136050906154
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070673356041734814}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0.36043411, z: 0}
---- !u!114 &151612136050906151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070673356041734814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd801da8bc84ba04c8afe17c5fa870f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 3
-  force: 500
-  explosionDelay: 0.1
-  hasExploded: 0
-  bombTag: bomb
-  explosionSFX: {fileID: 4292579698284569856}
-  explodeParticle: {fileID: 5208051516650667499, guid: d7295d5a7a244c04298ef42a8a456587,
-    type: 3}
-  groundTag: ground
 --- !u!82 &4292579698284569856
 AudioSource:
   m_ObjectHideFlags: 0
@@ -245,3 +233,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &7399671888146576778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9044703222267899542}
+  m_Layer: 0
+  m_Name: ColliderTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9044703222267899542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7399671888146576778}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.72, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400850131964366884}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

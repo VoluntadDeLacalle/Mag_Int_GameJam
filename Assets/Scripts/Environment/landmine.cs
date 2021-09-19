@@ -5,41 +5,45 @@ using UnityEngine;
 
 public class Landmine : Explosive
 {
-    public string groundTag = "ground";
+    [Header("Landmine Variables")]
+    public Transform colliderTransform;
+    public Vector3 boxBounds;
 
-    //If anything collides this object that is not the ground, the object is set to explode
-    private void OnCollisionEnter(Collision collision)
+    public bool turnOnDetectorMat = false;
+    public Material detectorMat;
+
+    private void Awake()
     {
-        if (!collision.collider.CompareTag(groundTag))
+        if (turnOnDetectorMat)
         {
-            if (!hasExploded)
-            {
-                SphereCollider sphereCollider = GetComponent<SphereCollider>();
-                sphereCollider.enabled = true;
-
-                Explode();
-            }
+            gameObject.GetComponent<Renderer>().material = detectorMat;
         }
     }
 
-    //If a landmine explodes, other bombs in a nearby radius will also explode
-    private void OnTriggerEnter(Collider other)
+    new void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(colliderTransform.position, boxBounds * 2);
+    }
+
+    void CheckCollisions()
+    {
+        Collider[] collidersInBox = Physics.OverlapBox(colliderTransform.position, boxBounds);
+
+        if (collidersInBox.Length > 0)
+        {
+            hasExploded = true;
+            Explode();
+        }
+    }
+
+    private void FixedUpdate()
     {
         if (!hasExploded)
         {
-            bool isPlayer = other.CompareTag("Player");
-
-            //DoDelayExplosion(explosionDelay);
-            if (other.CompareTag(bombTag) || isPlayer)
-            {
-                Explode();
-
-                if (isPlayer)
-                {
-                    Debug.Log("FIX DEATH FOR PLAYER ON MINE");
-                    //other.GetComponent<vThirdPersonController>().OnTouchMine();
-                }
-            }
+            CheckCollisions();
         }
     }
 }
