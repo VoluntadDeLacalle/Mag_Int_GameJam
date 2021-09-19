@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class GripItem : Item
 {
+    public enum GripType
+    {
+        None,
+        Simple,
+        Pole,
+        Umbrella
+    };
+
+    [Header("Grip Variables")]
+    public GripType gripType = GripType.None;
+
     new void Update()
     {
         base.Update();

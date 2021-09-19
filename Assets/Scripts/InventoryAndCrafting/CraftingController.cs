@@ -148,6 +148,8 @@ public class CraftingController : MonoBehaviour
         currentChassisIndex = -1;
 
         itemViewerPlayerModel.transform.rotation = originalPlayerModelRotation;
+        itemViewer.SwitchPlayerAnimLayer(0);
+
         tooltip.GetComponent<Tooltip>().DisableTooltip();
     }
 
@@ -287,10 +289,14 @@ public class CraftingController : MonoBehaviour
                 GameObject visualGrip = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject];
                 EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandPos, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandRot);
                 EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
+
+                itemViewer.SwitchPlayerAnimLayer((int)chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
             }
             else
             {
                 EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
+
+                itemViewer.SwitchPlayerAnimLayer(0);
             }
 
             ///Spawn component buttons
@@ -592,6 +598,8 @@ public class CraftingController : MonoBehaviour
                 chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.SetActive(false);
 
                 EnableVisualEquippedItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject], itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
+                itemViewer.SwitchPlayerAnimLayer(0);
+                
                 if (chassisList[currentChassisIndex].isEquipped)
                 {
                     Inventory.Instance.playerItemHandler.EquipItem(FindInventoryIndex(chassisList[currentChassisIndex]));
@@ -680,6 +688,8 @@ public class CraftingController : MonoBehaviour
                     EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
                     EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
 
+                    itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
+
                     parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
                     return;
                 }
@@ -713,6 +723,8 @@ public class CraftingController : MonoBehaviour
                 GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
                 EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
                 EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
+
+                itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
 
                 parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
             }
