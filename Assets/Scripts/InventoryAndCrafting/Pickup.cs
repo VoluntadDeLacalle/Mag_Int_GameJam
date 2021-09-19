@@ -6,50 +6,129 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI itemHighlight;
+    public float pickupRadius = 3;
+    public LayerMask playerMask;
+    public List<Transform> raycastOrigins = new List<Transform>();
+    [Header("Purely Gizmo Variables")]
+    [Range(0, 1)]
+    public float raycastOriginRadius = 0;
+    
+    private Dictionary<float, Ray> currentRaycasts = new Dictionary<float, Ray>();
+    private List<Item> currentItemsInRange = new List<Item>();
+    private List<Item> previousItemsInRange = new List<Item>();
 
-    private List<Item> itemsInRange = new List<Item>();
-
-    private void OnTriggerEnter(Collider other)
+    private void OnDrawGizmosSelected()
     {
-        Item tempItem = null; 
-        tempItem = other.GetComponent<Item>();
-        if (tempItem != null)
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, pickupRadius);
+
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        for (int i = 0; i < raycastOrigins.Count; i++)
         {
-            if (tempItem.isEquipped != true && tempItem.GetComponentInParent<Player>() == null)
+            Gizmos.DrawSphere(raycastOrigins[i].position, raycastOriginRadius);
+        }
+
+        foreach (KeyValuePair<float, Ray> currentPair in currentRaycasts)
+        {
+            Gizmos.DrawRay(currentPair.Value.origin, currentPair.Value.direction * currentPair.Key);
+        }
+    }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Item tempItem = null; 
+    //    tempItem = other.GetComponent<Item>();
+    //    if (tempItem != null)
+    //    {
+    //        if (tempItem.isEquipped != true && tempItem.GetComponentInParent<Player>() == null)
+    //        {
+    //            if (!itemsInRange.Contains(other.GetComponent<Item>()))
+    //            {
+    //                itemsInRange.Add(other.GetComponent<Item>());
+    //            }
+    //        }
+    //        else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<Player>() == null)
+    //        {
+    //            if (!itemsInRange.Contains(other.GetComponent<Item>()))
+    //            {
+    //                itemsInRange.Add(other.GetComponent<Item>());
+    //            }
+    //        }
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    Item tempItem = null;
+    //    tempItem = other.GetComponent<Item>();
+    //    if (tempItem != null)
+    //    {
+    //        if (tempItem.itemType == Item.TypeTag.grip && tempItem.isEquipped)
+    //        {
+    //            if (itemsInRange.Contains(other.GetComponent<Item>()))
+    //            {
+    //                itemsInRange.Remove(other.GetComponent<Item>());
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (itemsInRange.Contains(other.GetComponent<Item>()))
+    //            {
+    //                itemsInRange.Remove(other.GetComponent<Item>());
+    //            }
+    //        }
+    //    }
+    //}
+
+    void AddItemInRange(Item tempItem, GameObject otherGameObject)
+    {
+        if (tempItem.isEquipped != true && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
+        {
+            if (!currentItemsInRange.Contains(otherGameObject.GetComponent<Item>()))
             {
-                if (!itemsInRange.Contains(other.GetComponent<Item>()))
-                {
-                    itemsInRange.Add(other.GetComponent<Item>());
-                }
+                currentItemsInRange.Add(otherGameObject.GetComponent<Item>());
             }
-            else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<Player>() == null)
+        }
+        else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
+        {
+            if (!currentItemsInRange.Contains(otherGameObject.GetComponent<Item>()))
             {
-                if (!itemsInRange.Contains(other.GetComponent<Item>()))
-                {
-                    itemsInRange.Add(other.GetComponent<Item>());
-                }
+                currentItemsInRange.Add(otherGameObject.GetComponent<Item>());
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void CheckItemsInRange()
     {
-        Item tempItem = null;
-        tempItem = other.GetComponent<Item>();
-        if (tempItem != null)
+        Collider[] collidersInRange = Physics.OverlapSphere(transform.position, pickupRadius);
+        currentRaycasts.Clear();
+        currentItemsInRange.Clear();
+
+        for (int i = 0; i < collidersInRange.Length; i++)
         {
-            if (tempItem.itemType == Item.TypeTag.grip && tempItem.isEquipped)
+            Item tempItem = null;
+            tempItem = collidersInRange[i].gameObject.GetComponent<Item>();
+            if(tempItem != null)
             {
-                if (itemsInRange.Contains(other.GetComponent<Item>()))
+                for (int j = 0; j < raycastOrigins.Count; j++)
                 {
-                    itemsInRange.Remove(other.GetComponent<Item>());
-                }
-            }
-            else
-            {
-                if (itemsInRange.Contains(other.GetComponent<Item>()))
-                {
-                    itemsInRange.Remove(other.GetComponent<Item>());
+                    Ray currentRay = new Ray(raycastOrigins[j].position, (tempItem.gameObject.transform.position - raycastOrigins[j].position).normalized);
+                    float distance = Vector3.Distance(raycastOrigins[j].position, tempItem.gameObject.transform.position);
+
+                    LayerMask invertedPlayerMask = ~playerMask;
+                    RaycastHit hitInfo;
+
+                    if (Physics.Raycast(currentRay, out hitInfo, distance, invertedPlayerMask))
+                    {
+                        if (hitInfo.collider != collidersInRange[i])
+                        {
+                            continue;
+                        }
+
+                        currentRaycasts.Add(hitInfo.distance, currentRay);
+                        AddItemInRange(tempItem, collidersInRange[i].gameObject);
+                        break;
+                    }
                 }
             }
         }
@@ -57,21 +136,24 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
+        CheckItemsInRange();
+
+
         if (itemHighlight == null)
         {
             return;
         }
 
-        if (itemsInRange.Count > 0 && itemHighlight.text == "")
+        if (currentItemsInRange.Count > 0 && itemHighlight.text == "")
         {
             itemHighlight.text = "Press 'E' to pick up item!";
         }
-        else if (itemsInRange.Count == 0 && itemHighlight.text != "")
+        else if (currentItemsInRange.Count == 0 && itemHighlight.text != "")
         {
             itemHighlight.text = "";
         }
 
-        if (itemsInRange.Count > 0)
+        if (currentItemsInRange.Count > 0)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -85,8 +167,8 @@ public class Pickup : MonoBehaviour
 
     public void PickupItem()
     {
-        int randNumb = Random.Range(0, itemsInRange.Count);
-        Item tempItem = itemsInRange[randNumb];
+        int randNumb = Random.Range(0, currentItemsInRange.Count);
+        Item tempItem = currentItemsInRange[randNumb];
         if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
         {
             Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
@@ -96,6 +178,6 @@ public class Pickup : MonoBehaviour
             Inventory.Instance.AddToInventory(tempItem);
 
         }
-        itemsInRange.RemoveAt(randNumb);
+        currentItemsInRange.RemoveAt(randNumb);
     }
 }
