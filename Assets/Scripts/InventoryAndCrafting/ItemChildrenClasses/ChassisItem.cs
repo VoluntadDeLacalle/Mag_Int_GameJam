@@ -25,7 +25,7 @@ public class ChassisItem : Item
             return;
         }
 
-        if (chassisComponentTransforms.Count < 1 || isEquipped == false || Time.timeScale == 0.0f)
+        if (chassisComponentTransforms.Count < 1 || isEquipped == false || Time.timeScale == 0.0f || !Player.Instance.IsAlive())
         {
             return;
         }

@@ -49,6 +49,18 @@ public class EMPEffector : Item
         }
     }
 
+    void UpdateSphereNotAlive()
+    {
+        if (currentRadius > 0.1f)
+        {
+            currentRadius = Mathf.Lerp(currentRadius, 0, radiusGrowthTime * Time.deltaTime);
+            SetEMPRadiusSphereScale(currentRadius);
+            return;
+        }
+        currentRadius = 0;
+        SetEMPRadiusSphereScale(0.0f);
+    }
+
     void SetEMPRadiusSphereScale(float radius)
     {
         float radiusX = radius * (1 / transform.localScale.x);
@@ -122,6 +134,11 @@ public class EMPEffector : Item
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
+        }
+
+        if (!Player.Instance.IsAlive())
+        {
+            UpdateSphereNotAlive();
         }
     }
 }

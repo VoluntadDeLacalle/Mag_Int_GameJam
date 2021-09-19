@@ -95,7 +95,7 @@ namespace Invector.vCharacterController
 
         public virtual void MoveInput()
         {
-            if (Time.timeScale < 0.1f || !canMove)
+            if (Time.timeScale < 0.1f || !canMove || !Player.Instance.IsAlive())
             {
                 cc.input.x = 0;
                 cc.input.z = 0;
@@ -161,7 +161,7 @@ namespace Invector.vCharacterController
         /// </summary>
         protected virtual void JumpInput()
         {
-            if (Time.timeScale < 0.1f || !canMove)
+            if (Time.timeScale < 0.1f || !canMove || !Player.Instance.IsAlive())
             {
                 return;
             }
