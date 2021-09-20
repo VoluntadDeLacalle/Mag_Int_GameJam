@@ -19,42 +19,22 @@ public class GripItem : Item
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (!Player.Instance.anim.GetBool("IsActivated"))
-            {
-                Player.Instance.anim.SetLayerWeight((int)gripType + 1, 1);
-            }
-
             Player.Instance.anim.SetBool("IsActivated", true);
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            if (Player.Instance.anim.GetBool("IsActivated"))
-            {
-                Player.Instance.anim.SetLayerWeight((int)gripType + 1, 0.5f);
-            }
-
             Player.Instance.anim.SetBool("IsActivated", false);
         }
     }
 
     public override void OnEquip()
     {
-        ChassisItem chassisItem = null;
-        chassisItem = GetComponentInChildren<ChassisItem>();
-        if (isEquipped == false || chassisItem == null)
-        {
-            if (!chassisItem.isEquipped)
-            {
-                return;
-            }
-        }
 
-        Player.Instance.anim.SetLayerWeight((int)gripType + 1, 0.5f);
     }
 
     public override void OnUnequip()
     {
-        Player.Instance.anim.SetLayerWeight((int)gripType + 1, 0);
+        Player.Instance.anim.SetInteger("GripEnum", -1);
         Player.Instance.anim.SetBool("IsActivated", false);
     }
 

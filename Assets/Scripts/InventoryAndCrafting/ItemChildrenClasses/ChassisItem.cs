@@ -24,7 +24,7 @@ public class ChassisItem : Item
             return;
         }
 
-        Player.Instance.anim.SetBool("IsHoldingChassis", true);
+        Player.Instance.anim.SetInteger("GripEnum", 0);
     }
 
     public override void OnUnequip()
@@ -34,12 +34,13 @@ public class ChassisItem : Item
             return;
         }
 
-        Player.Instance.anim.SetBool("IsHoldingChassis", false);
+        Player.Instance.anim.SetInteger("GripEnum", -1);
         Player.Instance.anim.SetBool("IsActivated", false);
     }
 
     void LateUpdate()
     {
+        //Check to see if chassis active should run
         if (itemType != TypeTag.chassis)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not Chassis!");
@@ -51,6 +52,16 @@ public class ChassisItem : Item
             return;
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            Player.Instance.anim.SetBool("IsActivated", true);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            Player.Instance.anim.SetBool("IsActivated", false);
+        }
+
+        //Handle all attached components
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
             if (!Player.Instance.vThirdPersonInput.CanMove())
@@ -64,16 +75,7 @@ public class ChassisItem : Item
             }
         }
 
-        if (chassisGripTransform.IsGripTransformOccupied())
-        {
-            if (Player.Instance.anim.GetLayerWeight((int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType) == 0)
-            {
-                Player.Instance.anim.SetLayerWeight((int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType, 0.5f);
-            }
-
-            chassisGripTransform.GetGripTransformItem().Activate();
-        }
-
+        bool hasComponent = false;
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
             if (chassisComponentTransforms[i].IsComponentTransformOccupied())
@@ -83,15 +85,26 @@ public class ChassisItem : Item
                     chassisComponentTransforms[i].GetComponentTransformItem().isEquipped = true;
                 }
 
-                //for (int j = 0; j < chassisComponentTransforms.Count; j++)
-                //{
-                //    if(chassisComponentTransforms[j].GetComponentTransformItem().itemType == TypeTag.modifier)
-                //    {
-                //        chassisComponentTransforms[j].GetComponentTransformItem().Activate();
-                //    }
-                //} //Attempt at only have the modifier run once. Oh well, keep it in case you need it. B)
+                hasComponent = true;
+            }
+        }
+        Player.Instance.anim.SetBool("HasComponent", hasComponent);
 
-                //Debug.Log("Running");
+        //Handle the attached grip
+        if (chassisGripTransform.IsGripTransformOccupied())
+        {
+            if (Player.Instance.anim.GetInteger("GripEnum") != (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType)
+            {
+                Player.Instance.anim.SetInteger("GripEnum", (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
+            }
+
+            chassisGripTransform.GetGripTransformItem().Activate();
+        }
+        else
+        {
+            if (Player.Instance.anim.GetInteger("GripEnum") != 0)
+            {
+                Player.Instance.anim.SetInteger("GripEnum", 0);
             }
         }
     }

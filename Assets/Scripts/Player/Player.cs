@@ -102,6 +102,11 @@ public class Player : SingletonMonoBehaviour<Player>
         health.FullHeal();
     }
 
+    public void CantUseChassis()
+    {
+        anim.SetBool("IsActivated", false);
+    }
+
     private void ResetVariables()
     {
         anim.enabled = false;
