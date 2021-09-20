@@ -43,7 +43,10 @@ public class GripItem : Item
         chassisItem = GetComponentInChildren<ChassisItem>();
         if (isEquipped == false || chassisItem == null)
         {
-            return;
+            if (!chassisItem.isEquipped)
+            {
+                return;
+            }
         }
 
         Player.Instance.anim.SetLayerWeight((int)gripType + 1, 0.5f);
