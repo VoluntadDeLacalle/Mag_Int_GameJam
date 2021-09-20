@@ -15,6 +15,7 @@ public class Player : SingletonMonoBehaviour<Player>
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
+    public PlayerItemHandler itemHandler;
 
     [Header("Juice Variables")]
     public Ragdoll ragdoll;
@@ -38,6 +39,7 @@ public class Player : SingletonMonoBehaviour<Player>
 
         health.OnHealthDepleated.AddListener(Die);
         health.OnHealthRestored.AddListener(Revived);
+        health.OnHealthRestored.AddListener(ResetVariables);
 
         ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
         originalCameraHeight = vThirdPersonCamera.height;
@@ -73,6 +75,11 @@ public class Player : SingletonMonoBehaviour<Player>
 
         health.OnHealthDepleated.AddListener(delegate { ragdoll.ExplodeRagdoll(explosionForce, explosionPosition, explosionRadius); });
         health.TakeDamage(100);
+
+        if (itemHandler.GetEquippedItem())
+        {
+            health.OnHealthDepleated.AddListener(delegate { itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, explosionRadius); });
+        }
     }
 
     public bool IsAlive()
@@ -95,9 +102,27 @@ public class Player : SingletonMonoBehaviour<Player>
         health.FullHeal();
     }
 
+    private void ResetVariables()
+    {
+        anim.enabled = false;
+        anim.enabled = true;
+
+        if (itemHandler.GetEquippedItem() != null)
+        {
+            itemHandler.GetEquippedItem().gameObject.transform.parent = itemHandler.leftHandAttachmentBone;
+            itemHandler.GetEquippedItem().gameObject.transform.localPosition = itemHandler.GetEquippedItem().localHandPos;
+            itemHandler.GetEquippedItem().gameObject.transform.localRotation = Quaternion.Euler(itemHandler.GetEquippedItem().localHandRot);
+            itemHandler.GetEquippedItem().gameObject.GetComponent<Collider>().enabled = false;
+            itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+            itemHandler.UnequipItem(itemHandler.GetEquippedItem());
+        }
+    }
+
     private void Revived()
     {
         isAlive = true;
+
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
         ToggleRagdoll(false);
@@ -119,6 +144,13 @@ public class Player : SingletonMonoBehaviour<Player>
         else
         {
             vThirdPersonCamera.height = deathCameraTarget.position.y - transform.position.y;
+        }
+
+        if (itemHandler.GetEquippedItem() != null)
+        {
+            itemHandler.GetEquippedItem().gameObject.transform.parent = null;
+            itemHandler.GetEquippedItem().gameObject.GetComponent<Collider>().enabled = true;
+            itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().isKinematic = false;
         }
 
         ToggleRagdoll(true);

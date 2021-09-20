@@ -139,7 +139,7 @@ public class Pickup : MonoBehaviour
         CheckItemsInRange();
 
 
-        if (itemHighlight == null)
+        if (itemHighlight == null || !Player.Instance.IsAlive())
         {
             return;
         }

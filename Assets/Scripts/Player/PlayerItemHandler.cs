@@ -16,7 +16,16 @@ public class PlayerItemHandler : MonoBehaviour
 
     public Item GetEquippedItem()
     {
-        return equippedGO.GetComponent<Item>();
+        
+        if (equippedItem == null)
+        {
+            return null;
+        }
+        else
+        {
+            return equippedItem;
+        }
+        
     }
 
     void AttachItem(Vector3 newPos, Vector3 newRot)

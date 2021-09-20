@@ -13,8 +13,8 @@ public class Health : MonoBehaviour
     public float currentHealth;
     public bool startAtMaxHealth = true;
     
-    public UnityEvent OnHealthDepleated;
-    public UnityEvent OnHealthRestored;
+    [HideInInspector] public UnityEvent OnHealthDepleated;
+    [HideInInspector] public UnityEvent OnHealthRestored;
 
     private bool healthDepleted = false;
 
