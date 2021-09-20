@@ -24,7 +24,7 @@ public class ChassisItem : Item
             return;
         }
 
-        Player.Instance.anim.SetLayerWeight(1, 0.5f);
+        Player.Instance.anim.SetBool("IsHoldingChassis", true);
     }
 
     public override void OnUnequip()
@@ -34,7 +34,7 @@ public class ChassisItem : Item
             return;
         }
 
-        Player.Instance.anim.SetLayerWeight(1, 0);
+        Player.Instance.anim.SetBool("IsHoldingChassis", false);
         Player.Instance.anim.SetBool("IsActivated", false);
     }
 
@@ -69,22 +69,9 @@ public class ChassisItem : Item
             if (Player.Instance.anim.GetLayerWeight((int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType) == 0)
             {
                 Player.Instance.anim.SetLayerWeight((int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType, 0.5f);
-                //Player.Instance.anim.SetBool("IsActivated", false);
-            }
-
-            if (Player.Instance.anim.GetLayerWeight(1) == 0.5f)
-            {
-                Player.Instance.anim.SetLayerWeight(1, 0);
             }
 
             chassisGripTransform.GetGripTransformItem().Activate();
-        }
-        else
-        {
-            if (Player.Instance.anim.GetLayerWeight(1) == 0)
-            {
-                Player.Instance.anim.SetLayerWeight(1, 0.5f);
-            }
         }
 
         for (int i = 0; i < chassisComponentTransforms.Count; i++)
