@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2919118715303164630}
   - component: {fileID: 2246470017587213683}
   - component: {fileID: 4092056676285874617}
-  - component: {fileID: 3389084596974624063}
+  - component: {fileID: 4591099135307409598}
   - component: {fileID: 8229757015981890932}
   - component: {fileID: 3779627825795969674}
   - component: {fileID: 6020191610308795777}
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3389084596974624063
+--- !u!114 &4591099135307409598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,12 +96,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2578622695657087084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da3e6c2c46114594595b5b46b90ca1df, type: 3}
+  m_Script: {fileID: 11500000, guid: 68c89295fdd663f4ca5d9dd942d9078b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 2
   explosionForce: 1250
-  explosionDelay: 1
+  explosionDelay: 0.1
   hasExploded: 0
   bombTag: bomb
   explosionSFX: {fileID: 3779627825795969674}

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,10 +40,10 @@ public class Grenade : Explosive
     //Grenade countdown to explode
     void Update()
     {
-        if(triggerPulled)
+        if (triggerPulled)
         {
             //hack for soundbite of grenade. Fix later with an audiomanager
-            if(!hasPlayed)
+            if (!hasPlayed)
             {
                 triggerPullSFX.Play();
                 glowActivatedColor = true;
