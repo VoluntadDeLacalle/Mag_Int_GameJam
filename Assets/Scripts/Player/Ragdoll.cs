@@ -45,6 +45,19 @@ public class Ragdoll : MonoBehaviour
         }
     }
 
+    public void UnwrapRagdoll()
+    {
+        for (int i = 0; i < ragdollColliders.Count; i++)
+        {
+            ragdollColliders[i].enabled = false;
+        }
+
+        for (int i = 0; i < ragdollRigidbodies.Count; i++)
+        {
+            ragdollRigidbodies[i].isKinematic = true;
+        }
+    }
+
     public void ExplodeRagdoll(float explosionForce, Vector3 explosionPosition, float explosionRadius)
     {
         if (ragdollRigidbodies[0] != null)

@@ -42,6 +42,14 @@ public class Explosive : MonoBehaviour
                 continue;
             }
 
+            Enemy tempEnemy = null;
+            tempEnemy = nearbyObject.GetComponent<Enemy>();
+            if (tempEnemy != null)
+            {
+                tempEnemy.Explode(explosionForce, transform.position, explosionRadius);
+                continue;
+            }
+
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
             if (rb != null)
             {

@@ -118,6 +118,20 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Update()
     {
+        if (!enemy.IsAlive())
+        {
+            if (enemy.nav.enabled)
+            {
+                if (!enemy.nav.isStopped)
+                {
+                    enemy.nav.isStopped = true;
+                }
+                return;
+            }
+
+            return;
+        }
+
         if (shouldRest)
         {
             restTimer -= Time.deltaTime;

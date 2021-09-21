@@ -23,6 +23,7 @@ public class StealthEffector : Item
         {
             stealthMats[i].SetFloat("_StealthRadius", currentRadius);
             stealthMats[i].SetVector("_StealthCenter", transform.position);
+            stealthMats[i].renderQueue = 3000;
         }
 
         originalMaxRadius = maxRadius;

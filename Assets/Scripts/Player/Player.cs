@@ -25,11 +25,9 @@ public class Player : SingletonMonoBehaviour<Player>
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
 
     [Header("Personal Player Variables")]
+    public Transform origin = null;
 
     private bool isAlive = true;
-    public Transform origin = null;
-    private List<Rigidbody> ragdollRigidbodies = new List<Rigidbody>();
-    private List<Collider> ragdollColliders = new List<Collider>();
 
     private float originalCameraHeight;
 

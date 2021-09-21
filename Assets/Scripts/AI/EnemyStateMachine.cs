@@ -28,8 +28,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Update()
     {
-        ///ADD CODE FOR CHECKING IF ENEMY IS ALIVE!!!
         if (Player.Instance == null)
+        {
+            return;
+        }
+
+        if (!enemy.IsAlive())
         {
             return;
         }

@@ -1,3 +1,4 @@
+using BasicTools.ButtonInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,30 +15,133 @@ public class Enemy : MonoBehaviour
     public EnemyStateMachine enemyStateMachine;
     public EnemyBehavior enemyBehavior;
 
-    void Start()
+    [Header("Other Component Variables")]
+    public Animator anim;
+    public Rigidbody primaryRigidbody;
+    public Collider primaryCollider;
+    public Health health;
+
+    [Header("Juice Variables")]
+    public Ragdoll ragdoll;
+    public float deathTimer = 0;
+    public float disintigrateSpeed = 1;
+
+    [Header("Debugging")]
+    [Button("Kill Enemy", "KillEnemy")]
+    [SerializeField] bool _killBtn;
+
+    private bool isAlive = true;
+    private bool isDead = false;
+
+    private float lowActivationLerp = 0;
+    private float maxActivationLerp = 1;
+
+    private List<Material> enemyMats = new List<Material>();
+
+    private void Awake()
     {
         nav.updateRotation = false;
+        
+        health.OnHealthDepleated.AddListener(Die);
+        ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
+
+        GetAllMaterials();
+    }
+
+    public bool IsAlive()
+    {
+        return isAlive;
+    }
+
+    void ToggleRagdoll(bool shouldToggle)
+    {
+        primaryRigidbody.isKinematic = shouldToggle;
+        primaryCollider.enabled = !shouldToggle;
+        anim.enabled = !shouldToggle;
+        
+        nav.isStopped = shouldToggle;
+        nav.enabled = !shouldToggle;
+
+        ragdoll.ToggleRagdoll(shouldToggle);
+    }
+
+    void GetAllMaterials()
+    {
+        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
+        {
+            if (!enemyMats.Contains(rend.material))
+            {
+                enemyMats.Add(rend.material);
+            }
+        }
+    }
+
+    public void Explode(float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    {
+        if (Vector3.Distance(transform.position, explosionPosition) > explosionRadius)
+        {
+            return;
+        }
+
+        health.OnHealthDepleated.AddListener(delegate { ragdoll.ExplodeRagdoll(explosionForce, explosionPosition, explosionRadius); });
+        health.TakeDamage(100);
+    }
+
+    /// <summary>
+    /// Purely for debugging.
+    /// </summary>
+    private void KillEnemy()
+    {
+        health.TakeDamage(100);
+    }
+
+    private void Disintigrate()
+    {
+        if (lowActivationLerp < maxActivationLerp - 0.05f)
+        {
+            lowActivationLerp = Mathf.Lerp(lowActivationLerp, maxActivationLerp, disintigrateSpeed * Time.deltaTime);
+
+            for (int i = 0; i < enemyMats.Count; i++)
+            {
+                enemyMats[i].SetFloat("_DissolveAmount", lowActivationLerp);
+            }
+            return;
+        }
+
+        lowActivationLerp = maxActivationLerp;
+        for (int i = 0; i < enemyMats.Count; i++)
+        {
+            enemyMats[i].SetFloat("_DissolveAmount", 1);
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private void Die()
+    {
+        isAlive = false;
+        isDead = true;
+        ToggleRagdoll(true);
+
+        health.OnHealthDepleated.RemoveAllListeners();
+        health.OnHealthDepleated.AddListener(Die);
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isDead)
         {
-            RaycastHit hit;
 
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            deathTimer -= Time.deltaTime;
+            if (deathTimer <= 0)
             {
-                nav.SetDestination(hit.point);
-            }
-        }
+                if (lowActivationLerp == 0)
+                {
+                    ragdoll.UnwrapRagdoll();
+                }
 
-        if (nav.remainingDistance > nav.stoppingDistance)
-        {
-            thirdPersonCharacter.Move(nav.desiredVelocity, false, false);
-        }
-        else
-        {
-            thirdPersonCharacter.Move(Vector3.zero, false, false);
+                Disintigrate();
+            }
         }
     }
 }
