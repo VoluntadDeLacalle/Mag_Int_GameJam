@@ -45,6 +45,7 @@ public class EnemyStateMachine : MonoBehaviour
                 case StateType.Patrol:
 
                     enemy.enemyBehavior.Patrol();
+                    enemy.enemyFOV.FindPlayer();
                     break;
                 case StateType.Shoot:
                     

@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [Header("Behavior Component Variables")]
     public EnemyStateMachine enemyStateMachine;
     public EnemyBehavior enemyBehavior;
+    public FieldOfView enemyFOV;
 
     [Header("Other Component Variables")]
     public Animator anim;

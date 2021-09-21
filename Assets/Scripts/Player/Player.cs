@@ -15,6 +15,7 @@ public class Player : SingletonMonoBehaviour<Player>
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
+    public Pickup pickup;
     public PlayerItemHandler itemHandler;
 
     [Header("Juice Variables")]

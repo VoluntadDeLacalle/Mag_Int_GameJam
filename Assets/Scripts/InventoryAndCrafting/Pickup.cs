@@ -15,7 +15,6 @@ public class Pickup : MonoBehaviour
     
     private Dictionary<float, Ray> currentRaycasts = new Dictionary<float, Ray>();
     private List<Item> currentItemsInRange = new List<Item>();
-    private List<Item> previousItemsInRange = new List<Item>();
 
     private void OnDrawGizmosSelected()
     {
@@ -33,52 +32,6 @@ public class Pickup : MonoBehaviour
             Gizmos.DrawRay(currentPair.Value.origin, currentPair.Value.direction * currentPair.Key);
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Item tempItem = null; 
-    //    tempItem = other.GetComponent<Item>();
-    //    if (tempItem != null)
-    //    {
-    //        if (tempItem.isEquipped != true && tempItem.GetComponentInParent<Player>() == null)
-    //        {
-    //            if (!itemsInRange.Contains(other.GetComponent<Item>()))
-    //            {
-    //                itemsInRange.Add(other.GetComponent<Item>());
-    //            }
-    //        }
-    //        else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.GetComponentInParent<Player>() == null)
-    //        {
-    //            if (!itemsInRange.Contains(other.GetComponent<Item>()))
-    //            {
-    //                itemsInRange.Add(other.GetComponent<Item>());
-    //            }
-    //        }
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    Item tempItem = null;
-    //    tempItem = other.GetComponent<Item>();
-    //    if (tempItem != null)
-    //    {
-    //        if (tempItem.itemType == Item.TypeTag.grip && tempItem.isEquipped)
-    //        {
-    //            if (itemsInRange.Contains(other.GetComponent<Item>()))
-    //            {
-    //                itemsInRange.Remove(other.GetComponent<Item>());
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (itemsInRange.Contains(other.GetComponent<Item>()))
-    //            {
-    //                itemsInRange.Remove(other.GetComponent<Item>());
-    //            }
-    //        }
-    //    }
-    //}
 
     void AddItemInRange(Item tempItem, GameObject otherGameObject)
     {
