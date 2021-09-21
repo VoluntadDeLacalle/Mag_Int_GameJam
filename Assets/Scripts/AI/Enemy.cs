@@ -54,6 +54,11 @@ public class Enemy : MonoBehaviour
         return isAlive;
     }
 
+    public void StopAttack()
+    {
+        anim.SetBool("IsAttacking", false);
+    }
+
     void ToggleRagdoll(bool shouldToggle)
     {
         primaryRigidbody.isKinematic = shouldToggle;
@@ -66,15 +71,12 @@ public class Enemy : MonoBehaviour
         ragdoll.ToggleRagdoll(shouldToggle);
     }
 
-    void GetAllMaterials()
+    /// <summary>
+    /// Purely for debugging.
+    /// </summary>
+    private void KillEnemy()
     {
-        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
-        {
-            if (!enemyMats.Contains(rend.material))
-            {
-                enemyMats.Add(rend.material);
-            }
-        }
+        health.TakeDamage(100);
     }
 
     public void Explode(float explosionForce, Vector3 explosionPosition, float explosionRadius)
@@ -88,12 +90,15 @@ public class Enemy : MonoBehaviour
         health.TakeDamage(100);
     }
 
-    /// <summary>
-    /// Purely for debugging.
-    /// </summary>
-    private void KillEnemy()
+    void GetAllMaterials()
     {
-        health.TakeDamage(100);
+        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
+        {
+            if (!enemyMats.Contains(rend.material))
+            {
+                enemyMats.Add(rend.material);
+            }
+        }
     }
 
     private void Disintigrate()

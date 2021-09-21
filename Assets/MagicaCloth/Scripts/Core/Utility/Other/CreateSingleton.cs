@@ -67,7 +67,10 @@ namespace MagicaCloth
             if (initInstance == null && instance != null && Application.isPlaying)
             {
                 // シーン切り替えでもオブジェクトが消えないように設定
-                DontDestroyOnLoad(instance.gameObject);
+                if (instance.gameObject.transform == instance.gameObject.transform.root)
+                {
+                    DontDestroyOnLoad(instance.gameObject);
+                }
 
                 // 初期化呼び出し
                 var s = instance as CreateSingleton<T>;

@@ -56,7 +56,17 @@ public class Player : SingletonMonoBehaviour<Player>
 
     void ToggleRagdoll(bool shouldToggle)
     {
-        primaryRigidbody.isKinematic = shouldToggle;
+        if (shouldToggle)
+        {
+            primaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            primaryRigidbody.isKinematic = shouldToggle;
+        }
+        else
+        {
+            primaryRigidbody.isKinematic = shouldToggle;
+            primaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
+
         primaryCollider.enabled = !shouldToggle;
         anim.enabled = !shouldToggle;
         clothPhysicsManager.enabled = !shouldToggle;

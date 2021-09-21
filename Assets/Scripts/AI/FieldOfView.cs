@@ -14,16 +14,15 @@ public class FieldOfView : MonoBehaviour
     [Range(0, 360)] public float viewAngle;
     public List<Transform> visibleTargets = new List<Transform>();
 
-    [Header("Chase Variable")]
-    public float chaseRadius;
+    void Awake()
+    {
+        enemy = GetComponent<Enemy>();
+    }
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, chaseRadius);
 
         Vector3 viewAngleA = DirFromAngle(-viewAngle / 2, false);
         Vector3 viewAngleB = DirFromAngle(viewAngle / 2, false);
@@ -39,7 +38,7 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    public void FindPlayer()
+    public bool FindPlayer()
     {
         visibleTargets.Clear();
 
@@ -48,10 +47,22 @@ public class FieldOfView : MonoBehaviour
         {
             float distToTarget = Vector3.Distance(transform.position, targets[i].transform.position);
 
-            if (distToTarget > detectionRadius)
+            if (enemy.enemyStateMachine.GetCurrentState() != EnemyStateMachine.StateType.Chase
+                || enemy.enemyStateMachine.GetCurrentState() != EnemyStateMachine.StateType.Attack)
             {
-                continue;
+                if (distToTarget > detectionRadius)
+                {
+                    continue;
+                }
             }
+            else
+            {
+                if (distToTarget > enemy.enemyBehavior.chaseRadius)
+                {
+                    continue;
+                }
+            }
+            
 
             Vector3 dirToTarget = (targets[i].position - transform.position).normalized;
             if (IsTargetInFOV(dirToTarget))
@@ -67,12 +78,26 @@ public class FieldOfView : MonoBehaviour
                         continue;
                     }
 
-                    //enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Shoot);
+                    if (enemy.enemyStateMachine.GetCurrentState() == EnemyStateMachine.StateType.Patrol 
+                        || enemy.enemyStateMachine.GetCurrentState() == EnemyStateMachine.StateType.LostPlayer)
+                    {
+                        if (distToTarget < enemy.enemyBehavior.innerAttackRadius)
+                        {
+                            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Attack);
+                        }
+                        else
+                        {
+                            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Chase);
+                        }
+                    }
+                    
                     visibleTargets.Add(targets[i]);
-                    break;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     public bool IsTargetInFOV(Vector3 dirToTarget)

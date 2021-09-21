@@ -9,7 +9,7 @@ public class EnemyStateMachine : MonoBehaviour
     public enum StateType
     {
         Patrol,
-        Shoot,
+        Attack,
         Chase,
         LostPlayer
     }
@@ -28,7 +28,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Update()
     {
-        if (Player.Instance == null)
+        if (Player.Instance == null || !Player.Instance.IsAlive())
         {
             return;
         }
@@ -38,28 +38,37 @@ public class EnemyStateMachine : MonoBehaviour
             return;
         }
 
-        if (Player.Instance.IsAlive())
+        if (!enemy.enemyBehavior.shouldAct)
         {
-            switch (state)
-            {
-                case StateType.Patrol:
-
-                    enemy.enemyBehavior.Patrol();
-                    enemy.enemyFOV.FindPlayer();
-                    break;
-                case StateType.Shoot:
-                    
-                    break;
-                case StateType.Chase:
-                    //enemy.Chasing();
-
-                    break;
-                case StateType.LostPlayer:
-
-                    //enemy.playerSearch();
-                    break;
-            }
+            return;
         }
+
+        switch (state)
+        {
+            case StateType.Patrol:
+                enemy.enemyBehavior.Patrol();
+                    
+                enemy.enemyFOV.FindPlayer();
+                break;
+            case StateType.Attack:
+                enemy.enemyBehavior.Attack();
+
+                break;
+            case StateType.Chase:
+                enemy.enemyBehavior.Chase();
+
+                break;
+            case StateType.LostPlayer:
+                enemy.enemyBehavior.LostPlayer();
+
+                enemy.enemyFOV.FindPlayer();
+                break;
+        }
+    }
+
+    public StateType GetCurrentState()
+    {
+        return state;
     }
 
     public void switchState(StateType newState)
@@ -69,11 +78,21 @@ public class EnemyStateMachine : MonoBehaviour
             return;
         }
 
+        if (!Player.Instance.IsAlive() || !enemy.IsAlive())
+        {
+            return;
+        }
+
+        if (!enemy.enemyBehavior.shouldAct)
+        {
+            return;
+        }
+
         state = newState;
         OnStateEnter();
     }
 
-    public void OnStateEnter()
+    private void OnStateEnter()
     {
         switch (state)
         {
@@ -81,13 +100,21 @@ public class EnemyStateMachine : MonoBehaviour
                 enemy.enemyBehavior.StartPatrolling();
 
                 break;
-            case StateType.Shoot:
+            case StateType.Attack:
+                enemy.enemyBehavior.StartAttack();
 
                 break;
             case StateType.Chase:
+                enemy.enemyBehavior.SetLastKnowPosition(Player.Instance.transform.position);
+
+                if (!enemy.enemyFOV.FindPlayer()) 
+                {
+                    switchState(StateType.LostPlayer);
+                }
 
                 break;
             case StateType.LostPlayer:
+                enemy.enemyBehavior.SetLastKnowPosition(Player.Instance.transform.position);
 
                 break;
         }

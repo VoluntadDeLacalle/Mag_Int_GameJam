@@ -161,6 +161,12 @@ MonoBehaviour:
   - patrolTransform: {fileID: 0}
     restTime: 0
   patrolSpeed: 0.5
+  innerAttackRadius: 2
+  outerAttackRadius: 6
+  attackTimer: 2
+  chaseRadius: 15
+  chaseSpeed: 0.9
+  updatePositionDist: 0.2
 --- !u!114 &2028812607382518539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +185,6 @@ MonoBehaviour:
     m_Bits: 2048
   viewAngle: 120
   visibleTargets: []
-  chaseRadius: 15
 --- !u!114 &504474670914868558
 MonoBehaviour:
   m_ObjectHideFlags: 0

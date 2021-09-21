@@ -16,6 +16,7 @@ public class EnemyBehavior : MonoBehaviour
     [Header("Basic Variables")]
     public float baseSpeed = 3.5f;
     public float currentSpeed;
+    public bool shouldAct = true;
 
     [Header("Patrol Variables")]
     public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
@@ -25,11 +26,42 @@ public class EnemyBehavior : MonoBehaviour
     private bool hasRested = false;
     private float restTimer = 0;
 
+    [Header("Attack Variables")]
+    public float innerAttackRadius = 0;
+    public float outerAttackRadius = 0;
+    public float attackTimer = 1.2f;
+    private bool isAttacking = false;
+    private float maxAttackTimer = 0;
+
+    [Header("Chase Variables")]
+    public float chaseRadius = 0;
+    public float chaseSpeed = 1.2f;
+    public float updatePositionDist = 0.2f;
+    private Vector3 lastKnownPosition;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
 
         currentSpeed = baseSpeed;
+        maxAttackTimer = attackTimer;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, innerAttackRadius);
+
+        if (outerAttackRadius <= innerAttackRadius)
+        {
+            outerAttackRadius = innerAttackRadius + 1;
+        }
+
+        Gizmos.color = new Color(1, 0.5f, 0, 1);
+        Gizmos.DrawWireSphere(transform.position, outerAttackRadius);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, chaseRadius);
     }
 
     private int FindClosestPatrolPoint()
@@ -60,6 +92,10 @@ public class EnemyBehavior : MonoBehaviour
 
         return minIndex;
     }
+
+    /// <summary>
+    /// Start of Patrol functions
+    /// </summary>
 
     private void PatrolRest(float currentRestTime)
     {
@@ -116,14 +152,123 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Start of Attack Functions
+    /// </summary>
+
+    public void StartAttack()
+    {
+        isAttacking = true;
+        attackTimer = maxAttackTimer;
+
+        enemy.nav.SetDestination(transform.position);
+
+    }
+
+    public void Attack()
+    {
+        Vector3 playerPos = Player.Instance.transform.position;
+
+        if (!isAttacking)
+        {
+            if (!enemy.enemyFOV.FindPlayer())
+            {
+                enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.LostPlayer);
+                isAttacking = false;
+                return;
+            }
+
+            if (Vector3.Distance(playerPos, transform.position) > innerAttackRadius)
+            {
+                enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Chase);
+                isAttacking = false;
+                return;
+            }
+
+            isAttacking = true;
+        }
+
+        enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+    }
+
+    /// <summary>
+    /// Start of Chase functions
+    /// </summary>
+
+    public void SetLastKnowPosition(Vector3 lastKnowPos)
+    {
+        lastKnownPosition = lastKnowPos;
+        enemy.nav.SetDestination(lastKnownPosition);
+
+        currentSpeed = chaseSpeed;
+    }
+
+    public void Chase()
+    {
+        if (!enemy.enemyFOV.FindPlayer())
+        {
+            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.LostPlayer);
+            return;
+        }
+        Vector3 playerPos = Player.Instance.transform.position;
+
+        if (Vector3.Distance(playerPos, transform.position) < innerAttackRadius)
+        {
+            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Attack);
+            return;
+        }
+
+        if (Vector3.Distance(playerPos, lastKnownPosition) > updatePositionDist)
+        {
+            lastKnownPosition = playerPos;
+            enemy.nav.SetDestination(lastKnownPosition);
+        }
+
+        if (enemy.nav.remainingDistance > enemy.nav.stoppingDistance)
+        {
+            enemy.thirdPersonCharacter.Move(enemy.nav.desiredVelocity, false, false);
+        }
+        else
+        {
+            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+        }
+    }
+
+    /// <summary>
+    /// Start of Lost Player Functions
+    /// </summary>
+
+    public void LostPlayer()
+    {
+        if (enemy.nav.remainingDistance > enemy.nav.stoppingDistance)
+        {
+            enemy.thirdPersonCharacter.Move(enemy.nav.desiredVelocity, false, false);
+        }
+        else
+        {
+            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
+        }
+    }
+
+    /// <summary>
+    /// Update
+    /// </summary>
+
     private void Update()
     {
+        if (!Player.Instance.IsAlive())
+        {
+            return;
+        }
+
         if (!enemy.IsAlive())
         {
             if (enemy.nav.enabled)
             {
-                if (!enemy.nav.isStopped)
+                if (!enemy.nav.isStopped || enemy.nav.hasPath)
                 {
+                    enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
                     enemy.nav.isStopped = true;
                 }
                 return;
@@ -132,8 +277,17 @@ public class EnemyBehavior : MonoBehaviour
             return;
         }
 
+        //Update nav speed.
+        if (enemy.nav.speed != currentSpeed)
+        {
+            enemy.nav.speed = currentSpeed;
+        }
+
+        //Checks if enemy is resting on current patrol position.
         if (shouldRest)
         {
+            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
             {
@@ -142,9 +296,27 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
 
-        if (enemy.nav.speed != currentSpeed)
+        //Charges up an attack and releases it once the timer hits zero.
+        if (isAttacking)
         {
-            enemy.nav.speed = currentSpeed;
+            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+
+            attackTimer -= Time.deltaTime;
+            if (attackTimer <= 0)
+            {
+                Debug.Log("Attack!");
+                enemy.anim.SetBool("IsAttacking", true);
+
+                Vector3 playerPos = Player.Instance.transform.position;
+                if (Vector3.Distance(playerPos, transform.position) < outerAttackRadius)
+                {
+                    Player.Instance.Explode(1000, transform.position, outerAttackRadius);
+                    shouldAct = false;
+                }
+
+                isAttacking = false;
+                attackTimer = maxAttackTimer;
+            }
         }
     }
 }

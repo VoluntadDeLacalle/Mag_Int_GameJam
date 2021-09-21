@@ -24,8 +24,6 @@ public class PlayerController : MonoBehaviour
     float yVelocity;
     Vector3 moveDirection = Vector3.zero;
     float ragdollStunTimer = 0.0f;
-    float grenadeThrowForwardImpulse = 10.0f;
-    float grenadeThrowUpwardImpulse = 3.0f;
     private bool canMove = true;
     public float maxGrappleDistance = 200f;
 
