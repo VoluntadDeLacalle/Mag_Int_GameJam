@@ -664,6 +664,10 @@ public class CraftingController : MonoBehaviour
                             {
                                 Inventory.Instance.playerItemHandler.EquipItem(chassisList[i]);
                             }
+                            else
+                            {
+                                chassisList[i].gameObject.SetActive(false);
+                            }
 
                             chassisList[i].chassisGripTransform.ResetGripTransform();
                             break;
@@ -673,7 +677,7 @@ public class CraftingController : MonoBehaviour
                     ///Removes grip from other chassis and places it on this one.
                     if (chassisList[currentChassisIndex].isEquipped)
                     {
-                        Inventory.Instance.playerItemHandler.EquipItem(FindInventoryIndex(gripList[gripIndex]));
+                        Inventory.Instance.playerItemHandler.EquipItem(gripList[gripIndex]);
                         chassisList[currentChassisIndex].isEquipped = true;
                     }
 
@@ -700,7 +704,7 @@ public class CraftingController : MonoBehaviour
                 ///Adds grip into current slot, removes from inventory.
                 if (chassisList[currentChassisIndex].isEquipped)
                 {
-                    Inventory.Instance.playerItemHandler.EquipItem(FindInventoryIndex(gripList[gripIndex]));
+                    Inventory.Instance.playerItemHandler.EquipItem(gripList[gripIndex]);
                     chassisList[currentChassisIndex].isEquipped = true;
                 }
 

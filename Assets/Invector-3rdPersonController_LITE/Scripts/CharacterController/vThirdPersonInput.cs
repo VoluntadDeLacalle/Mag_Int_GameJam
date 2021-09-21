@@ -147,6 +147,11 @@ namespace Invector.vCharacterController
                 cc.Sprint(true);
             else if (Input.GetKeyUp(sprintInput))
                 cc.Sprint(false);
+            
+            if (cc.input.magnitude < 0.1f)
+            {
+                cc.Sprint(false);
+            }
         }
 
         /// <summary>

@@ -104,12 +104,13 @@ public class Player : SingletonMonoBehaviour<Player>
     public void CantUseChassis()
     {
         anim.SetBool("IsActivated", false);
+        anim.SetBool("IsStrafing", false);
     }
 
     private void ResetVariables()
     {
-        anim.enabled = false;
-        anim.enabled = true;
+        anim.SetBool("IsActivated", false);
+        anim.SetInteger("GripEnum", -1);
 
         if (itemHandler.GetEquippedItem() != null)
         {
