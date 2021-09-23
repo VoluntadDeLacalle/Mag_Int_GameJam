@@ -78,6 +78,9 @@ MonoBehaviour:
   enemyStateMachine: {fileID: 7431464691104038381}
   enemyBehavior: {fileID: 8748009629158503716}
   enemyFOV: {fileID: 2028812607382518539}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
   anim: {fileID: 4572298134194464255}
   primaryRigidbody: {fileID: 8902401526490286429}
   primaryCollider: {fileID: 518141049678423899}
@@ -86,6 +89,9 @@ MonoBehaviour:
   deathTimer: 4
   disintigrateSpeed: 1
   _killBtn: 0
+  showAttackRadius: 1
+  showChaseRadius: 1
+  showFOV: 1
 --- !u!195 &1767101059340435581
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -153,8 +159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5270f56711b88a44688cf5c8dca42d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 5748663641504115622}
   baseSpeed: 3.5
   currentSpeed: 0
+  shouldAct: 1
   patrolPoints:
   - patrolTransform: {fileID: 0}
     restTime: 0
@@ -167,6 +175,12 @@ MonoBehaviour:
   chaseRadius: 15
   chaseSpeed: 0.9
   updatePositionDist: 0.2
+  lostSearchTime: 12.5
+  turnRight: 1
+  maxTurnAngle: 60
+  turnSpeed: 5
+  searchTimer: 1
+  explosionParticleKey: 5
 --- !u!114 &2028812607382518539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd941318a5a57e244ac6959708dd37bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 5748663641504115622}
   detectionRadius: 11
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 2048
   viewAngle: 120
   visibleTargets: []
 --- !u!114 &504474670914868558

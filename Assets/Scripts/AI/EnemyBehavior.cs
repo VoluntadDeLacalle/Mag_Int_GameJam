@@ -11,12 +11,12 @@ public class PatrolPoint
 
 public class EnemyBehavior : MonoBehaviour
 {
-    private Enemy enemy;
+    public Enemy enemy;
 
     [Header("Basic Variables")]
     public float baseSpeed = 3.5f;
     public float currentSpeed;
-    public bool shouldAct = true;
+    [HideInInspector] public bool shouldAct = true;
 
     [Header("Patrol Variables")]
     public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
@@ -39,29 +39,58 @@ public class EnemyBehavior : MonoBehaviour
     public float updatePositionDist = 0.2f;
     private Vector3 lastKnownPosition;
 
+    [Header("LostPlayer")]
+    public float lostSearchTime = 12.5f;
+
+    [Header("Search Variables")]
+    public bool turnRight = true;
+    private bool initialTurnRight;
+
+    [Range(10, 180)]
+    public float maxTurnAngle = 120;
+    public float turnSpeed = 5;
+    
+    public float searchTimer = 1;
+    private float maxSearchTimer;
+    private bool stopTurning = false;
+
+    private Vector3 initialForward;
+    private float initialEulerY;
+
+    [Header("Juice")]
+    public ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
 
         currentSpeed = baseSpeed;
         maxAttackTimer = attackTimer;
+        maxSearchTimer = searchTimer;
+        initialTurnRight = turnRight;
     }
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, innerAttackRadius);
-
-        if (outerAttackRadius <= innerAttackRadius)
+        if (enemy.showAttackRadius)
         {
-            outerAttackRadius = innerAttackRadius + 1;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, innerAttackRadius);
+
+            if (outerAttackRadius <= innerAttackRadius)
+            {
+                outerAttackRadius = innerAttackRadius + 1;
+            }
+
+            Gizmos.color = new Color(1, 0.5f, 0, 1);
+            Gizmos.DrawWireSphere(transform.position, outerAttackRadius);
         }
 
-        Gizmos.color = new Color(1, 0.5f, 0, 1);
-        Gizmos.DrawWireSphere(transform.position, outerAttackRadius);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, chaseRadius);
+        if (enemy.showChaseRadius)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, chaseRadius);
+        }
     }
 
     private int FindClosestPatrolPoint()
@@ -97,7 +126,7 @@ public class EnemyBehavior : MonoBehaviour
     /// Start of Patrol functions
     /// </summary>
 
-    private void PatrolRest(float currentRestTime)
+    private void Rest(float currentRestTime)
     {
         restTimer = currentRestTime;
     }
@@ -113,6 +142,12 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         enemy.nav.SetDestination(patrolPoints[currentPatrolPointIndex].patrolTransform.position);
+
+        shouldRest = false;
+        hasRested = false;
+        stopTurning = false;
+        turnRight = initialTurnRight;
+        searchTimer = maxSearchTimer;
     }
 
     public void Patrol()
@@ -130,12 +165,13 @@ public class EnemyBehavior : MonoBehaviour
         {
             enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
 
-            if (patrolPoints[currentPatrolPointIndex].restTime != 0 && !hasRested)
+            if (patrolPoints[currentPatrolPointIndex].restTime != 0 && !hasRested && !shouldRest)
             {
                 shouldRest = true;
-                PatrolRest(patrolPoints[currentPatrolPointIndex].restTime);
+                Rest(patrolPoints[currentPatrolPointIndex].restTime);
+                StartSearch();
             }
-            else
+            else if ((hasRested && !shouldRest) || patrolPoints[currentPatrolPointIndex].restTime == 0)
             {
                 if (currentPatrolPointIndex + 1 == patrolPoints.Count)
                 {
@@ -162,7 +198,10 @@ public class EnemyBehavior : MonoBehaviour
         attackTimer = maxAttackTimer;
 
         enemy.nav.SetDestination(transform.position);
+        enemy.anim.SetBool("IsAttacking", true);
 
+        shouldRest = false;
+        hasRested = false;
     }
 
     public void Attack()
@@ -201,6 +240,9 @@ public class EnemyBehavior : MonoBehaviour
         enemy.nav.SetDestination(lastKnownPosition);
 
         currentSpeed = chaseSpeed;
+
+        shouldRest = false;
+        hasRested = false;
     }
 
     public void Chase()
@@ -247,8 +289,87 @@ public class EnemyBehavior : MonoBehaviour
         else
         {
             enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
-            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
+
+            if (!hasRested && !shouldRest)
+            {
+                shouldRest = true;
+                Rest(lostSearchTime);
+                StartSearch();
+            }
+            else if (hasRested && !shouldRest)
+            {
+                hasRested = false;
+
+                enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
+            }
         }
+    }
+
+    void StartSearch()
+    {
+        initialForward = transform.forward;
+        initialEulerY = transform.rotation.eulerAngles.y;
+        searchTimer = maxSearchTimer;
+        turnRight = initialTurnRight;
+    }
+
+    void TurnCharacter()
+    {
+        if (stopTurning)
+        {
+            return;
+        }
+
+        float angle = Vector3.Angle(initialForward, transform.forward);
+        Vector3 cross = Vector3.Cross(initialForward, transform.forward);
+        if (cross.y < 0)
+        {
+            angle = -angle;
+        }
+
+        if (angle > maxTurnAngle && turnRight)
+        {
+            stopTurning = true;
+        }
+        else if (angle < -maxTurnAngle && !turnRight)
+        {
+            stopTurning = true;
+        }
+
+        if (turnRight)
+        {
+            enemy.thirdPersonCharacter.TurnCharacter(turnSpeed, turnSpeed);
+        }
+        else
+        {
+            enemy.thirdPersonCharacter.TurnCharacter(-turnSpeed, turnSpeed);
+        }
+    }
+
+    /// <summary>
+    /// Juice
+    /// </summary>
+
+    private void PlayJuice(Vector3 position)
+    {
+        GameObject spawnedParticle = ObjectPooler.GetPooler(explosionParticleKey).GetPooledObject();
+        spawnedParticle.transform.position = position;
+        spawnedParticle.transform.rotation = transform.rotation;
+        spawnedParticle.SetActive(true);
+
+        DisableAfterTime(spawnedParticle, 1);
+    }
+
+    void DisableAfterTime(GameObject objectToDisable, float time = 0)
+    {
+        StartCoroutine(DisableEnum(time, objectToDisable));
+    }
+
+    IEnumerator DisableEnum(float disableTime, GameObject objectToDisable)
+    {
+        yield return new WaitForSeconds(disableTime);
+
+        objectToDisable.SetActive(false);
     }
 
     /// <summary>
@@ -283,11 +404,27 @@ public class EnemyBehavior : MonoBehaviour
             enemy.nav.speed = currentSpeed;
         }
 
-        //Checks if enemy is resting on current patrol position.
+        if (stopTurning)
+        {
+
+            searchTimer -= Time.deltaTime;
+            if (searchTimer <= 0)
+            {
+                turnRight = !turnRight;
+                searchTimer = maxSearchTimer;
+                stopTurning = false;
+            }
+        }
+
+        //Checks if enemy is resting.
         if (shouldRest)
         {
-            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
-
+            TurnCharacter();
+            if (stopTurning)
+            {
+                enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+            }
+            
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
             {
@@ -305,17 +442,31 @@ public class EnemyBehavior : MonoBehaviour
             if (attackTimer <= 0)
             {
                 Debug.Log("Attack!");
-                enemy.anim.SetBool("IsAttacking", true);
 
                 Vector3 playerPos = Player.Instance.transform.position;
-                if (Vector3.Distance(playerPos, transform.position) < outerAttackRadius)
+                Vector3 dirToPlayer = (playerPos - transform.position).normalized;
+                float currentDistance = Vector3.Distance(playerPos, transform.position);
+                LayerMask invertedEnemyMask = ~enemy.enemyMask;
+                if (currentDistance < outerAttackRadius && enemy.enemyFOV.IsTargetInFOV(dirToPlayer))
                 {
-                    Player.Instance.Explode(1000, transform.position, outerAttackRadius);
-                    shouldAct = false;
+                    RaycastHit hitInfo;
+                    if (Physics.Raycast(transform.position, dirToPlayer, out hitInfo, currentDistance, invertedEnemyMask))
+                    {
+                        enemy.anim.SetTrigger("Hit");
+
+                        if (hitInfo.collider == Player.Instance.primaryCollider)
+                        {
+                            Player.Instance.Explode(1000, transform.position, outerAttackRadius);
+                            shouldAct = false;
+                        }
+
+                        PlayJuice(hitInfo.point);
+                    }
                 }
 
                 isAttacking = false;
                 attackTimer = maxAttackTimer;
+                enemy.anim.SetBool("IsAttacking", false);
             }
         }
     }

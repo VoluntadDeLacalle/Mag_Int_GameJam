@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public FieldOfView enemyFOV;
 
     [Header("Other Component Variables")]
+    public LayerMask enemyMask;
     public Animator anim;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
@@ -30,6 +31,9 @@ public class Enemy : MonoBehaviour
     [Header("Debugging")]
     [Button("Kill Enemy", "KillEnemy")]
     [SerializeField] bool _killBtn;
+    public bool showAttackRadius = true;
+    public bool showChaseRadius = true;
+    public bool showFOV = true;
 
     private bool isAlive = true;
     private bool isDead = false;
@@ -57,6 +61,7 @@ public class Enemy : MonoBehaviour
     public void StopAttack()
     {
         anim.SetBool("IsAttacking", false);
+        anim.ResetTrigger("Hit");
     }
 
     void ToggleRagdoll(bool shouldToggle)

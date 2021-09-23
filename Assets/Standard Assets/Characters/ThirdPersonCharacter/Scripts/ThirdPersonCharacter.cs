@@ -183,6 +183,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
 		}
 
+		public void TurnCharacter(float turnAmount, float turnSpeed)
+		{
+			m_TurnAmount = turnAmount;
+			UpdateAnimator(Vector3.zero);
+
+			transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
+		}
+
 
 		public void OnAnimatorMove()
 		{

@@ -25,6 +25,11 @@ public class GripItem : Item
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }
+
+        if (!Input.GetMouseButton(1) && Player.Instance.anim.GetBool("IsActivated"))
+        {
+            Player.Instance.anim.SetBool("IsActivated", false);
+        }
     }
 
     public override void OnEquip()

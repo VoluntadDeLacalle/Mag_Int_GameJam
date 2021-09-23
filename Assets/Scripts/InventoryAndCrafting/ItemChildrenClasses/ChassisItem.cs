@@ -29,11 +29,6 @@ public class ChassisItem : Item
 
     public override void OnUnequip()
     {
-        if (isEquipped == true)
-        {
-            return;
-        }
-
         Player.Instance.anim.SetInteger("GripEnum", -1);
         Player.Instance.anim.SetBool("IsActivated", false);
     }
@@ -57,6 +52,11 @@ public class ChassisItem : Item
             Player.Instance.anim.SetBool("IsActivated", true);
         }
         else if (Input.GetMouseButtonUp(1))
+        {
+            Player.Instance.anim.SetBool("IsActivated", false);
+        }
+
+        if (!Input.GetMouseButton(1) && Player.Instance.anim.GetBool("IsActivated"))
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }

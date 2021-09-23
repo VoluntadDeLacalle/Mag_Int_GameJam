@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    private Enemy enemy;
+    public Enemy enemy;
 
     [Header("DetectionVariables")]
     public float detectionRadius;
-    public LayerMask enemyMask;
 
     [Header("Field of view Variables")]
     [Range(0, 360)] public float viewAngle;
@@ -21,20 +20,23 @@ public class FieldOfView : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
-
-        Vector3 viewAngleA = DirFromAngle(-viewAngle / 2, false);
-        Vector3 viewAngleB = DirFromAngle(viewAngle / 2, false);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleA * detectionRadius);
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleB * detectionRadius);
-
-        Gizmos.color = Color.red;
-        foreach (Transform visibleTarget in visibleTargets)
+        if (enemy.showFOV)
         {
-            Gizmos.DrawLine(transform.position, visibleTarget.position);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, detectionRadius);
+
+            Vector3 viewAngleA = DirFromAngle(-viewAngle / 2, false);
+            Vector3 viewAngleB = DirFromAngle(viewAngle / 2, false);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + viewAngleA * detectionRadius);
+            Gizmos.DrawLine(transform.position, transform.position + viewAngleB * detectionRadius);
+
+            Gizmos.color = Color.red;
+            foreach (Transform visibleTarget in visibleTargets)
+            {
+                Gizmos.DrawLine(transform.position, visibleTarget.position);
+            }
         }
     }
 
@@ -65,16 +67,16 @@ public class FieldOfView : MonoBehaviour
             
 
             Vector3 dirToTarget = (targets[i].position - transform.position).normalized;
+
             if (IsTargetInFOV(dirToTarget))
             {
-                LayerMask invertedEnemyMask = ~enemyMask;
+                LayerMask invertedEnemyMask = ~enemy.enemyMask;
                 RaycastHit hitInfo;
 
                 if ((Physics.Raycast(transform.position, dirToTarget, out hitInfo, distToTarget, invertedEnemyMask)))
                 {
                     if (hitInfo.collider != Player.Instance.primaryCollider)
                     {
-                        Debug.Log(hitInfo.collider.gameObject.name);
                         continue;
                     }
 
