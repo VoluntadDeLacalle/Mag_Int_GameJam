@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeed: 3.5
   currentSpeed: 0
+  shouldAct: 1
   patrolPoints:
   - patrolTransform: {fileID: 0}
     restTime: 0
@@ -167,6 +168,10 @@ MonoBehaviour:
   chaseRadius: 15
   chaseSpeed: 0.9
   updatePositionDist: 0.2
+  turnRight: 1
+  maxTurnAngle: 60
+  turnSpeed: 5
+  searchTimer: 1
 --- !u!114 &2028812607382518539
 MonoBehaviour:
   m_ObjectHideFlags: 0

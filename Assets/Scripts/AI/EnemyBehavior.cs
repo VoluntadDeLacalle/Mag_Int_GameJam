@@ -39,12 +39,27 @@ public class EnemyBehavior : MonoBehaviour
     public float updatePositionDist = 0.2f;
     private Vector3 lastKnownPosition;
 
+    [Header("Search Variables")]
+    public bool turnRight = true;
+    private bool initialTurnRight;
+
+    public float maxTurnAngle = 120;
+    public float turnSpeed = 5;
+
+    public float searchTimer = 1;
+    private float maxSearchTimer;
+    private bool stopTurning = false;
+
+    private Vector3 initialForward;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
 
         currentSpeed = baseSpeed;
         maxAttackTimer = attackTimer;
+        maxSearchTimer = searchTimer;
+        initialTurnRight = turnRight;
     }
 
     void OnDrawGizmosSelected()
@@ -134,6 +149,8 @@ public class EnemyBehavior : MonoBehaviour
             {
                 shouldRest = true;
                 PatrolRest(patrolPoints[currentPatrolPointIndex].restTime);
+
+                StartSearch();
             }
             else
             {
@@ -251,6 +268,48 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    void StartSearch()
+    {
+        initialForward = transform.forward;
+        searchTimer = maxSearchTimer;
+        turnRight = initialTurnRight;
+    }
+
+    void TurnCharacter()
+    {
+        if (stopTurning)
+        {
+            return;
+        }
+
+        float angle = Vector3.Angle(initialForward, transform.forward);
+        Vector3 cross = Vector3.Cross(initialForward, transform.forward);
+        if (cross.y < 0)
+        {
+            angle = -angle;
+        }
+
+        if (angle > maxTurnAngle && turnRight)
+        {
+            stopTurning = true;
+        }
+        else if (angle < -maxTurnAngle && !turnRight)
+        {
+            stopTurning = true;
+        }
+
+        if (turnRight)
+        {
+            Debug.Log("Right");
+            enemy.thirdPersonCharacter.TurnCharacter(turnSpeed, turnSpeed);
+        }
+        else
+        {
+            Debug.Log("Left");
+            enemy.thirdPersonCharacter.TurnCharacter(-turnSpeed, turnSpeed);
+        }
+    }
+
     /// <summary>
     /// Update
     /// </summary>
@@ -261,6 +320,8 @@ public class EnemyBehavior : MonoBehaviour
         {
             return;
         }
+
+        //Debug.Log($"Stop Turning: {stopTurning}");
 
         if (!enemy.IsAlive())
         {
@@ -283,10 +344,27 @@ public class EnemyBehavior : MonoBehaviour
             enemy.nav.speed = currentSpeed;
         }
 
+        if (stopTurning)
+        {
+
+            searchTimer -= Time.deltaTime;
+            if (searchTimer <= 0)
+            {
+                turnRight = !turnRight;
+                searchTimer = maxSearchTimer;
+                stopTurning = false;
+            }
+        }
+
         //Checks if enemy is resting on current patrol position.
         if (shouldRest)
         {
-            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+            TurnCharacter();
+            if (stopTurning)
+            {
+                enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+            }
+            
 
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
