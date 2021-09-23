@@ -74,7 +74,7 @@ public class FieldOfView : MonoBehaviour
                 {
                     if (hitInfo.collider != Player.Instance.primaryCollider)
                     {
-                        Debug.Log(hitInfo.collider.gameObject.name);
+                        //Debug.Log(hitInfo.collider.gameObject.name);
                         continue;
                     }
 

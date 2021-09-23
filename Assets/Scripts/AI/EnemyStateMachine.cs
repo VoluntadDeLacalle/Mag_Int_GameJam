@@ -61,7 +61,7 @@ public class EnemyStateMachine : MonoBehaviour
             case StateType.LostPlayer:
                 enemy.enemyBehavior.LostPlayer();
 
-                enemy.enemyFOV.FindPlayer();
+                //enemy.enemyFOV.FindPlayer();
                 break;
         }
     }

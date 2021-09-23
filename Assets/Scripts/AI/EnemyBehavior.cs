@@ -39,18 +39,22 @@ public class EnemyBehavior : MonoBehaviour
     public float updatePositionDist = 0.2f;
     private Vector3 lastKnownPosition;
 
+    [Header("LostPlayer")]
+    public float lostSearchTime = 12.5f;
+
     [Header("Search Variables")]
     public bool turnRight = true;
     private bool initialTurnRight;
 
     public float maxTurnAngle = 120;
     public float turnSpeed = 5;
-
+    
     public float searchTimer = 1;
     private float maxSearchTimer;
     private bool stopTurning = false;
 
     private Vector3 initialForward;
+    private float initialEulerY;
 
     private void Awake()
     {
@@ -112,7 +116,7 @@ public class EnemyBehavior : MonoBehaviour
     /// Start of Patrol functions
     /// </summary>
 
-    private void PatrolRest(float currentRestTime)
+    private void Rest(float currentRestTime)
     {
         restTimer = currentRestTime;
     }
@@ -128,6 +132,12 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         enemy.nav.SetDestination(patrolPoints[currentPatrolPointIndex].patrolTransform.position);
+
+        shouldRest = false;
+        hasRested = false;
+        stopTurning = false;
+        turnRight = initialTurnRight;
+        searchTimer = maxSearchTimer;
     }
 
     public void Patrol()
@@ -145,14 +155,13 @@ public class EnemyBehavior : MonoBehaviour
         {
             enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
 
-            if (patrolPoints[currentPatrolPointIndex].restTime != 0 && !hasRested)
+            if (patrolPoints[currentPatrolPointIndex].restTime != 0 && !hasRested && !shouldRest)
             {
                 shouldRest = true;
-                PatrolRest(patrolPoints[currentPatrolPointIndex].restTime);
-
+                Rest(patrolPoints[currentPatrolPointIndex].restTime);
                 StartSearch();
             }
-            else
+            else if ((hasRested && !shouldRest) || patrolPoints[currentPatrolPointIndex].restTime == 0)
             {
                 if (currentPatrolPointIndex + 1 == patrolPoints.Count)
                 {
@@ -179,7 +188,6 @@ public class EnemyBehavior : MonoBehaviour
         attackTimer = maxAttackTimer;
 
         enemy.nav.SetDestination(transform.position);
-
     }
 
     public void Attack()
@@ -257,6 +265,14 @@ public class EnemyBehavior : MonoBehaviour
 
     public void LostPlayer()
     {
+        if (enemy.enemyFOV.FindPlayer())
+        {
+            shouldRest = false;
+            hasRested = false;
+            
+            return;
+        }
+
         if (enemy.nav.remainingDistance > enemy.nav.stoppingDistance)
         {
             enemy.thirdPersonCharacter.Move(enemy.nav.desiredVelocity, false, false);
@@ -264,13 +280,26 @@ public class EnemyBehavior : MonoBehaviour
         else
         {
             enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
-            enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
+
+            if (!hasRested && !shouldRest)
+            {
+                shouldRest = true;
+                Rest(lostSearchTime);
+                StartSearch();
+            }
+            else if (hasRested && !shouldRest)
+            {
+                hasRested = false;
+
+                enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
+            }
         }
     }
 
     void StartSearch()
     {
         initialForward = transform.forward;
+        initialEulerY = transform.rotation.eulerAngles.y;
         searchTimer = maxSearchTimer;
         turnRight = initialTurnRight;
     }
@@ -321,8 +350,6 @@ public class EnemyBehavior : MonoBehaviour
             return;
         }
 
-        //Debug.Log($"Stop Turning: {stopTurning}");
-
         if (!enemy.IsAlive())
         {
             if (enemy.nav.enabled)
@@ -356,7 +383,7 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
 
-        //Checks if enemy is resting on current patrol position.
+        //Checks if enemy is resting.
         if (shouldRest)
         {
             TurnCharacter();
@@ -365,10 +392,10 @@ public class EnemyBehavior : MonoBehaviour
                 enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
             }
             
-
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
             {
+                Debug.Log("stopTurning);");
                 shouldRest = false;
                 hasRested = true;
             }
