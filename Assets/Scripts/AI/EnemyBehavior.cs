@@ -395,7 +395,6 @@ public class EnemyBehavior : MonoBehaviour
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
             {
-                Debug.Log("stopTurning);");
                 shouldRest = false;
                 hasRested = true;
             }

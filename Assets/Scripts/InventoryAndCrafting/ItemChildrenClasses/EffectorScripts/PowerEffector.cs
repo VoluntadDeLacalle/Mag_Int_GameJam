@@ -66,14 +66,21 @@ public class PowerEffector : Item
         if (Physics.Raycast(currentShot, out hitInfo, maxDistance)) 
         {
             Electrical currentElectricalComponent = hitInfo.collider.gameObject.GetComponent<Electrical>();
-            if (currentElectricalComponent == null)
+            if (currentElectricalComponent != null)
             {
+                if (!currentElectricalComponent.IsPowered())
+                {
+                    currentElectricalComponent.SetIsPowered(true);
+                    return;
+                }
+
                 return;
             }
 
-            if (!currentElectricalComponent.IsPowered())
+            Enemy currentEnemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
+            if (currentEnemy != null)
             {
-                currentElectricalComponent.SetIsPowered(true);
+                currentEnemy.health.TakeDamage(100);
             }
         }
     }
