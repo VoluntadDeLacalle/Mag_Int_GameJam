@@ -1,0 +1,355 @@
+fileFormatVersion: 2
+guid: 0cc6199a65adb4449bbd3724aa715a80
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
+  version: 29
+  projectContext: 2
+  mGraphInstanceData:
+  - graphLabel: Rust Leaks On Steel Panels
+    prototypeName: Rust Leaks On Steel Panels
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://rust_leaks_on_steel_panels\" label=\"\" >\n 
+      <presetinput identifier=\"$outputsize\" uid=\"3918239227\" type=\"8\" value=\"9,9\"
+      />\n  <presetinput identifier=\"metal_color_1\" uid=\"2170156091\" type=\"2\"
+      value=\"0.301887,0.301887,0.301887\" />\n  <presetinput identifier=\"metal_color_2\"
+      uid=\"2170155225\" type=\"2\" value=\"0,0,0\" />\n  <presetinput identifier=\"metal_roughness\"
+      uid=\"2170146303\" type=\"0\" value=\"0.21\" />\n  <presetinput identifier=\"leak_amount\"
+      uid=\"2170169852\" type=\"0\" value=\"0.764\" />\n  <presetinput identifier=\"leak_color_1\"
+      uid=\"2170149635\" type=\"2\" value=\"0.490566,0.321254,0.200854\" />\n  <presetinput
+      identifier=\"leak_color_2\" uid=\"2170146859\" type=\"2\" value=\"0.150943,0.109205,0.0774653\"
+      />\n  <presetinput identifier=\"rust_color_1\" uid=\"2170166465\" type=\"2\"
+      value=\"0.358491,0.201222,0.170452\" />\n  <presetinput identifier=\"rust_color_2\"
+      uid=\"2170165737\" type=\"2\" value=\"0.320755,0.178979,0.10712\" />\n  <presetinput
+      identifier=\"rust_roughness\" uid=\"2170164887\" type=\"0\" value=\"0.314\"
+      />\n  <presetinput identifier=\"pattern_x\" uid=\"2170175299\" type=\"0\" value=\"0.576\"
+      />\n  <presetinput identifier=\"pattern_y\" uid=\"2170162697\" type=\"0\" value=\"0.356\"
+      />\n  <presetinput identifier=\"bolts\" uid=\"2169842152\" type=\"4\" value=\"0\"
+      />\n  <presetinput identifier=\"luminosity\" uid=\"3973524544\" type=\"0\"
+      value=\"0.469\" />\n  <presetinput identifier=\"contrast\" uid=\"2471683426\"
+      type=\"0\" value=\"-0.29\" />\n  <presetinput identifier=\"saturation\" uid=\"3973524565\"
+      type=\"0\" value=\"0.625\" />\n  <presetinput identifier=\"normal_intensity\"
+      uid=\"3973501729\" type=\"0\" value=\"0.556\" />\n </sbspreset>\n"
+    shaderName: Universal Render Pipeline/Lit
+    materialProperties:
+      shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+      shaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+      lightmapFlags: 4
+      enableInstancingVariants: 0
+      doubleSidedGI: 0
+      customRenderQueue: 2000
+      texEnvs:
+      - name: _BaseMap
+        texture: {fileID: 4552689329844312526, guid: 0cc6199a65adb4449bbd3724aa715a80,
+          type: 3}
+        scale: {x: 3, y: 3}
+        offset: {x: 0, y: 0}
+      - name: _BumpMap
+        texture: {fileID: -1579732534452780557, guid: 0cc6199a65adb4449bbd3724aa715a80,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailAlbedoMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailMask
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailNormalMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _EmissionMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _MainTex
+        texture: {instanceID: 0}
+        scale: {x: 3, y: 3}
+        offset: {x: 0, y: 0}
+      - name: _MetallicGlossMap
+        texture: {fileID: -7716279215530644868, guid: 0cc6199a65adb4449bbd3724aa715a80,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _OcclusionMap
+        texture: {fileID: -1357067957848174104, guid: 0cc6199a65adb4449bbd3724aa715a80,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _ParallaxMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _SpecGlossMap
+        texture: {fileID: -8091505843952111151, guid: 0cc6199a65adb4449bbd3724aa715a80,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: unity_Lightmaps
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: unity_LightmapsInd
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: unity_ShadowMasks
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      floats:
+      - name: _AlphaClip
+        float: 0
+      - name: _Blend
+        float: 0
+      - name: _BumpScale
+        float: 1
+      - name: _ClearCoatMask
+        float: 0
+      - name: _ClearCoatSmoothness
+        float: 0
+      - name: _Cull
+        float: 2
+      - name: _Cutoff
+        float: 0.5
+      - name: _DetailAlbedoMapScale
+        float: 1
+      - name: _DetailNormalMapScale
+        float: 1
+      - name: _DstBlend
+        float: 0
+      - name: _EnvironmentReflections
+        float: 1
+      - name: _GlossMapScale
+        float: 0
+      - name: _Glossiness
+        float: 0
+      - name: _GlossyReflections
+        float: 0
+      - name: _Metallic
+        float: 0
+      - name: _OcclusionStrength
+        float: 1
+      - name: _Parallax
+        float: 0.005
+      - name: _QueueOffset
+        float: 0
+      - name: _ReceiveShadows
+        float: 1
+      - name: _Smoothness
+        float: 1
+      - name: _SmoothnessTextureChannel
+        float: 0
+      - name: _SpecularHighlights
+        float: 1
+      - name: _SrcBlend
+        float: 1
+      - name: _Surface
+        float: 0
+      - name: _WorkflowMode
+        float: 1
+      - name: _ZWrite
+        float: 1
+      colors:
+      - name: _BaseColor
+        color: {r: 1, g: 1, b: 1, a: 1}
+      - name: _Color
+        color: {r: 1, g: 1, b: 1, a: 1}
+      - name: _EmissionColor
+        color: {r: 0, g: 0, b: 0, a: 1}
+      - name: _SpecColor
+        color: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    outputDescList:
+    - outputName: diffuse
+      identifier: diffuse
+      usageName: diffuse
+      channelStr: diffuse
+      label: Diffuse
+      usage: 0
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: baseColor
+      identifier: basecolor
+      usageName: baseColor
+      channelStr: baseColor
+      label: Base Color
+      usage: 1
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: normal
+      identifier: normal
+      usageName: normal
+      channelStr: normal
+      label: Normal
+      usage: 7
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: specular
+      identifier: specular
+      usageName: specular
+      channelStr: specular
+      label: Specular
+      usage: 11
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: glossiness
+      identifier: glossiness
+      usageName: glossiness
+      channelStr: glossiness
+      label: Glossiness
+      usage: 14
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: roughness
+      identifier: roughness
+      usageName: roughness
+      channelStr: roughness
+      label: Roughness
+      usage: 15
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: metallic
+      identifier: metallic
+      usageName: metallic
+      channelStr: metallic
+      label: Metallic
+      usage: 34
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: height
+      identifier: height
+      usageName: height
+      channelStr: height
+      label: Height
+      usage: 9
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: ambientOcclusion
+      identifier: ambientocclusion
+      usageName: ambientOcclusion
+      channelStr: ambientOcclusion
+      label: Ambient Occlusion
+      usage: 5
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    texturePackingList:
+    - targetName: diffuse
+      components:
+      - sourceName: diffuse
+        from: 0
+        to: 3
+    - targetName: baseColor
+      components:
+      - sourceName: baseColor
+        from: 0
+        to: 3
+    - targetName: normal
+      components:
+      - sourceName: normal
+        from: 0
+        to: 3
+    - targetName: specular
+      components:
+      - sourceName: smoothness
+        from: 0
+        to: 3
+    - targetName: glossiness
+      components:
+      - sourceName: glossiness
+        from: 0
+        to: 3
+    - targetName: roughness
+      components:
+      - sourceName: roughness
+        from: 0
+        to: 3
+    - targetName: metallic
+      components:
+      - sourceName: smoothness
+        from: 0
+        to: 3
+    - targetName: height
+      components:
+      - sourceName: height
+        from: 0
+        to: 3
+    - targetName: ambientOcclusion
+      components:
+      - sourceName: ambientOcclusion
+        from: 0
+        to: 3
+    textureParameters:
+    - textureName: Rust Leaks On Steel Panels - diffuse
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - baseColor
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - normal
+      wrapMode: 0
+      filterMode: 1
+      aniso: 3
+    - textureName: Rust Leaks On Steel Panels - specular
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - glossiness
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - roughness
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - metallic
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - height
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Rust Leaks On Steel Panels - ambientOcclusion
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    colorSpaceList: []
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      textureWidth: 512
+      textureHeight: 512
+      textureFormatMode: 0
+      normalCompressed: 0
+      bGenerateOnLoad: 1
+    material: {fileID: 8605800917047260827, guid: 0cc6199a65adb4449bbd3724aa715a80,
+      type: 3}
+    generatedTextures:
+    - {fileID: 4552689329844312526, guid: 0cc6199a65adb4449bbd3724aa715a80, type: 3}
+    - {fileID: -1579732534452780557, guid: 0cc6199a65adb4449bbd3724aa715a80, type: 3}
+    - {fileID: -8091505843952111151, guid: 0cc6199a65adb4449bbd3724aa715a80, type: 3}
+    - {fileID: -7716279215530644868, guid: 0cc6199a65adb4449bbd3724aa715a80, type: 3}
+    - {fileID: -1357067957848174104, guid: 0cc6199a65adb4449bbd3724aa715a80, type: 3}
