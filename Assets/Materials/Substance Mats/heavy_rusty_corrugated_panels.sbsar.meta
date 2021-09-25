@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8440abf3926bcee4cb71779c16320922
+guid: 2564b02fc31575a41a4fb3a699c8045e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -11,19 +11,14 @@ ScriptedImporter:
   version: 29
   projectContext: 2
   mGraphInstanceData:
-  - graphLabel: Beach Bunker Concrete Damaged
-    prototypeName: Beach Bunker Concrete Damaged
+  - graphLabel: Heavy Rusty Corrugated Panels
+    prototypeName: Heavy Rusty Corrugated Panels
     graphDescIndex: 0
     generateAllOutputs: 0
     generateMipMaps: 1
-    preset: " <sbspreset pkgurl=\"pkg://beach_bunker_concrete_damaged\" label=\"\"
-      >\n  <presetinput identifier=\"$outputsize\" uid=\"445212142\" type=\"8\" value=\"9,9\"
-      />\n  <presetinput identifier=\"$randomseed\" uid=\"1308324796\" type=\"4\"
-      value=\"46\" />\n  <presetinput identifier=\"concrete_roughness\" uid=\"1914488714\"
-      type=\"0\" value=\"0.736\" />\n  <presetinput identifier=\"concrete_damage_spread\"
-      uid=\"1914481953\" type=\"0\" value=\"0.29\" />\n  <presetinput identifier=\"pebble_density\"
-      uid=\"1914479542\" type=\"0\" value=\"0.737\" />\n  <presetinput identifier=\"crack_size\"
-      uid=\"1914556982\" type=\"0\" value=\"0.259\" />\n </sbspreset>\n"
+    preset: " <sbspreset pkgurl=\"pkg://heavy_rusty_corrugated_panels\" label=\"\"
+      >\n  <presetinput identifier=\"$outputsize\" uid=\"1917447019\" type=\"8\"
+      value=\"9,9\" />\n </sbspreset>\n"
     shaderName: Universal Render Pipeline/Lit
     materialProperties:
       shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
@@ -31,15 +26,15 @@ ScriptedImporter:
       lightmapFlags: 4
       enableInstancingVariants: 0
       doubleSidedGI: 0
-      customRenderQueue: 2008
+      customRenderQueue: 2000
       texEnvs:
       - name: _BaseMap
-        texture: {fileID: 5603319794363459518, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: -3195120850145922453, guid: 2564b02fc31575a41a4fb3a699c8045e,
           type: 3}
-        scale: {x: 1, y: 1}
+        scale: {x: 3.79, y: 3.99}
         offset: {x: 0, y: 0}
       - name: _BumpMap
-        texture: {fileID: 1474567115952843223, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: 3826582212562153731, guid: 2564b02fc31575a41a4fb3a699c8045e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -61,15 +56,15 @@ ScriptedImporter:
         offset: {x: 0, y: 0}
       - name: _MainTex
         texture: {instanceID: 0}
-        scale: {x: 1, y: 1}
+        scale: {x: 3.79, y: 3.99}
         offset: {x: 0, y: 0}
       - name: _MetallicGlossMap
-        texture: {fileID: -6057134463780675541, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: 499149941402596675, guid: 2564b02fc31575a41a4fb3a699c8045e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _OcclusionMap
-        texture: {fileID: -1016258012288789929, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: 3923575771939661868, guid: 2564b02fc31575a41a4fb3a699c8045e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -78,7 +73,7 @@ ScriptedImporter:
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _SpecGlossMap
-        texture: {fileID: 8420318496059398158, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: -7939389070046105118, guid: 2564b02fc31575a41a4fb3a699c8045e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -130,11 +125,11 @@ ScriptedImporter:
       - name: _Parallax
         float: 0.005
       - name: _QueueOffset
-        float: 8
+        float: 0
       - name: _ReceiveShadows
         float: 1
       - name: _Smoothness
-        float: 0.638
+        float: 1
       - name: _SmoothnessTextureChannel
         float: 0
       - name: _SpecularHighlights
@@ -285,39 +280,39 @@ ScriptedImporter:
         from: 0
         to: 3
     textureParameters:
-    - textureName: Beach Bunker Concrete Damaged - diffuse
+    - textureName: Heavy Rusty Corrugated Panels - diffuse
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - baseColor
+    - textureName: Heavy Rusty Corrugated Panels - baseColor
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - normal
+    - textureName: Heavy Rusty Corrugated Panels - normal
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - specular
+    - textureName: Heavy Rusty Corrugated Panels - specular
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - glossiness
+    - textureName: Heavy Rusty Corrugated Panels - glossiness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - roughness
+    - textureName: Heavy Rusty Corrugated Panels - roughness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - metallic
+    - textureName: Heavy Rusty Corrugated Panels - metallic
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - height
+    - textureName: Heavy Rusty Corrugated Panels - height
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - ambientOcclusion
+    - textureName: Heavy Rusty Corrugated Panels - ambientOcclusion
       wrapMode: 0
       filterMode: 1
       aniso: 1
@@ -332,11 +327,11 @@ ScriptedImporter:
       textureFormatMode: 0
       normalCompressed: 0
       bGenerateOnLoad: 1
-    material: {fileID: -549227396433021501, guid: 8440abf3926bcee4cb71779c16320922,
+    material: {fileID: -7731743013952503560, guid: 2564b02fc31575a41a4fb3a699c8045e,
       type: 3}
     generatedTextures:
-    - {fileID: 5603319794363459518, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: 1474567115952843223, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: 8420318496059398158, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: -6057134463780675541, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: -1016258012288789929, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
+    - {fileID: -3195120850145922453, guid: 2564b02fc31575a41a4fb3a699c8045e, type: 3}
+    - {fileID: 3826582212562153731, guid: 2564b02fc31575a41a4fb3a699c8045e, type: 3}
+    - {fileID: -7939389070046105118, guid: 2564b02fc31575a41a4fb3a699c8045e, type: 3}
+    - {fileID: 499149941402596675, guid: 2564b02fc31575a41a4fb3a699c8045e, type: 3}
+    - {fileID: 3923575771939661868, guid: 2564b02fc31575a41a4fb3a699c8045e, type: 3}
