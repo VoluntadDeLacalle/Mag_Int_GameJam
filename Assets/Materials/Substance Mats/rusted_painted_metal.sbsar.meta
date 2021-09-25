@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8440abf3926bcee4cb71779c16320922
+guid: 46d33f3144b666f4992c26f772b7208e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -11,35 +11,41 @@ ScriptedImporter:
   version: 29
   projectContext: 2
   mGraphInstanceData:
-  - graphLabel: Beach Bunker Concrete Damaged
-    prototypeName: Beach Bunker Concrete Damaged
+  - graphLabel: Rusted Painted Metal
+    prototypeName: Rusted Painted Metal
     graphDescIndex: 0
     generateAllOutputs: 0
     generateMipMaps: 1
-    preset: " <sbspreset pkgurl=\"pkg://beach_bunker_concrete_damaged\" label=\"\"
-      >\n  <presetinput identifier=\"$outputsize\" uid=\"445212142\" type=\"8\" value=\"9,9\"
-      />\n  <presetinput identifier=\"$randomseed\" uid=\"1308324796\" type=\"4\"
-      value=\"46\" />\n  <presetinput identifier=\"concrete_roughness\" uid=\"1914488714\"
-      type=\"0\" value=\"0.736\" />\n  <presetinput identifier=\"concrete_damage_spread\"
-      uid=\"1914481953\" type=\"0\" value=\"0.29\" />\n  <presetinput identifier=\"pebble_density\"
-      uid=\"1914479542\" type=\"0\" value=\"0.737\" />\n  <presetinput identifier=\"crack_size\"
-      uid=\"1914556982\" type=\"0\" value=\"0.259\" />\n </sbspreset>\n"
+    preset: " <sbspreset pkgurl=\"pkg://rusted_painted_metal\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1069543745\" type=\"8\" value=\"9,9\" />\n 
+      <presetinput identifier=\"color_rust\" uid=\"1214924516\" type=\"2\" value=\"0.462264,0.291582,0.211072\"
+      />\n  <presetinput identifier=\"color_paint\" uid=\"1210756707\" type=\"2\"
+      value=\"0.40566,0.40566,0.40566\" />\n  <presetinput identifier=\"variation\"
+      uid=\"1214927937\" type=\"0\" value=\"0.44\" />\n  <presetinput identifier=\"rust_amount\"
+      uid=\"1214054394\" type=\"0\" value=\"0.71\" />\n  <presetinput identifier=\"wetness\"
+      uid=\"1213994415\" type=\"0\" value=\"0.275\" />\n  <presetinput identifier=\"roughness_rust\"
+      uid=\"1214927621\" type=\"0\" value=\"1\" />\n  <presetinput identifier=\"roughness_paint\"
+      uid=\"1210795757\" type=\"0\" value=\"0.475\" />\n  <presetinput identifier=\"contrast\"
+      uid=\"1164345816\" type=\"0\" value=\"-0.09\" />\n  <presetinput identifier=\"saturation\"
+      uid=\"987973871\" type=\"0\" value=\"0.522\" />\n  <presetinput identifier=\"normal_intensity\"
+      uid=\"987936667\" type=\"0\" value=\"0.331\" />\n  <presetinput identifier=\"height_position\"
+      uid=\"1120058315\" type=\"0\" value=\"0\" />\n </sbspreset>\n"
     shaderName: Universal Render Pipeline/Lit
     materialProperties:
       shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-      shaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+      shaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP
       lightmapFlags: 4
       enableInstancingVariants: 0
       doubleSidedGI: 0
-      customRenderQueue: 2008
+      customRenderQueue: 2000
       texEnvs:
       - name: _BaseMap
-        texture: {fileID: 5603319794363459518, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: 5748981587790686239, guid: 46d33f3144b666f4992c26f772b7208e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _BumpMap
-        texture: {fileID: 1474567115952843223, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: -3216107359039569077, guid: 46d33f3144b666f4992c26f772b7208e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -64,13 +70,12 @@ ScriptedImporter:
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _MetallicGlossMap
-        texture: {fileID: -6057134463780675541, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: 1733326665467993718, guid: 46d33f3144b666f4992c26f772b7208e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _OcclusionMap
-        texture: {fileID: -1016258012288789929, guid: 8440abf3926bcee4cb71779c16320922,
-          type: 3}
+        texture: {instanceID: 0}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _ParallaxMap
@@ -78,7 +83,7 @@ ScriptedImporter:
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _SpecGlossMap
-        texture: {fileID: 8420318496059398158, guid: 8440abf3926bcee4cb71779c16320922,
+        texture: {fileID: -6004100450763274989, guid: 46d33f3144b666f4992c26f772b7208e,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -100,7 +105,7 @@ ScriptedImporter:
       - name: _Blend
         float: 0
       - name: _BumpScale
-        float: 1
+        float: 3.74
       - name: _ClearCoatMask
         float: 0
       - name: _ClearCoatSmoothness
@@ -130,11 +135,11 @@ ScriptedImporter:
       - name: _Parallax
         float: 0.005
       - name: _QueueOffset
-        float: 8
+        float: 0
       - name: _ReceiveShadows
         float: 1
       - name: _Smoothness
-        float: 0.638
+        float: 1
       - name: _SmoothnessTextureChannel
         float: 0
       - name: _SpecularHighlights
@@ -229,15 +234,6 @@ ScriptedImporter:
       bImage: 1
       bNumerical: 0
       bLinear: 1
-    - outputName: ambientOcclusion
-      identifier: ambientocclusion
-      usageName: ambientOcclusion
-      channelStr: ambientOcclusion
-      label: Ambient Occlusion
-      usage: 5
-      bImage: 1
-      bNumerical: 0
-      bLinear: 1
     texturePackingList:
     - targetName: diffuse
       components:
@@ -279,45 +275,36 @@ ScriptedImporter:
       - sourceName: height
         from: 0
         to: 3
-    - targetName: ambientOcclusion
-      components:
-      - sourceName: ambientOcclusion
-        from: 0
-        to: 3
     textureParameters:
-    - textureName: Beach Bunker Concrete Damaged - diffuse
+    - textureName: Rusted Painted Metal - diffuse
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - baseColor
+    - textureName: Rusted Painted Metal - baseColor
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - normal
+    - textureName: Rusted Painted Metal - normal
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - specular
+    - textureName: Rusted Painted Metal - specular
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - glossiness
+    - textureName: Rusted Painted Metal - glossiness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - roughness
+    - textureName: Rusted Painted Metal - roughness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - metallic
+    - textureName: Rusted Painted Metal - metallic
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - height
-      wrapMode: 0
-      filterMode: 1
-      aniso: 1
-    - textureName: Beach Bunker Concrete Damaged - ambientOcclusion
+    - textureName: Rusted Painted Metal - height
       wrapMode: 0
       filterMode: 1
       aniso: 1
@@ -332,11 +319,10 @@ ScriptedImporter:
       textureFormatMode: 0
       normalCompressed: 0
       bGenerateOnLoad: 1
-    material: {fileID: -549227396433021501, guid: 8440abf3926bcee4cb71779c16320922,
+    material: {fileID: -6465295006441776248, guid: 46d33f3144b666f4992c26f772b7208e,
       type: 3}
     generatedTextures:
-    - {fileID: 5603319794363459518, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: 1474567115952843223, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: 8420318496059398158, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: -6057134463780675541, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
-    - {fileID: -1016258012288789929, guid: 8440abf3926bcee4cb71779c16320922, type: 3}
+    - {fileID: 5748981587790686239, guid: 46d33f3144b666f4992c26f772b7208e, type: 3}
+    - {fileID: -3216107359039569077, guid: 46d33f3144b666f4992c26f772b7208e, type: 3}
+    - {fileID: -6004100450763274989, guid: 46d33f3144b666f4992c26f772b7208e, type: 3}
+    - {fileID: 1733326665467993718, guid: 46d33f3144b666f4992c26f772b7208e, type: 3}
