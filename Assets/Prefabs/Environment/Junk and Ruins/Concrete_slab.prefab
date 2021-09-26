@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1137573706660030190}
   - component: {fileID: 637668097684941670}
   - component: {fileID: 6686861764451388415}
+  - component: {fileID: 6680394660605741438}
   m_Layer: 0
   m_Name: Concrete_slab
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2466697264884175305}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.989203, y: -0.01, z: 27.598396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6680394660605741438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466697264884175305}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5042467, y: 2.8379881, z: 5.8645325}
+  m_Center: {x: 0.0000011728629, y: 1.4189938, z: 0.000033634202}
