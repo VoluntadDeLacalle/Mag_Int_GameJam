@@ -43,8 +43,12 @@ public class PanelComponentFade : MonoBehaviour
         fadeType = (FadeType)currentFadeType;
 
         StartCoroutine(DoFade(canvasGroup.alpha, (int)fadeType));
+    }
 
-        Debug.Log(gameObject.name);
+    [ContextMenu("FadeInOut")]
+    public void FadeOutAndIn()
+    {
+        StartCoroutine(DoSpecialFade(canvasGroup.alpha, 1));
     }
 
     IEnumerator DoFade(float start, float end)
@@ -58,6 +62,28 @@ public class PanelComponentFade : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    IEnumerator DoSpecialFade(float start, float end)
+    {
+        float counter = 0f;
+
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, counter / duration);
+
+            yield return null;
+        }
+
+        StartCoroutine(WaitDuringFade());
+    }
+
+    IEnumerator WaitDuringFade()
+    {
+        yield return new WaitForSeconds(duration / 2);
+
+        StartCoroutine(DoFade(canvasGroup.alpha, 0));
     }
 
     void OnDisable()

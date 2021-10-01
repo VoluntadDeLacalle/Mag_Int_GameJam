@@ -17,7 +17,7 @@ public class HUDControls : MonoBehaviour
         inventoryUI.SetActive(false);
         craftingUI.SetActive(false);
         pauseUI.SetActive(false);
-        winScreenUI.SetActive(false);
+        //winScreenUI.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
@@ -25,7 +25,7 @@ public class HUDControls : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.E) && Player.Instance.IsAlive())
         {
             if (craftingUI.activeSelf)
             {
@@ -38,7 +38,7 @@ public class HUDControls : MonoBehaviour
 
             toggleOpt(inventoryUI);
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.C) && Player.Instance.IsAlive())
         {
             if (inventoryUI.activeSelf)
             {
@@ -65,13 +65,16 @@ public class HUDControls : MonoBehaviour
             toggleOpt(pauseUI);
         }
 
-        if (pickUpUIText.activeSelf && Time.timeScale == 0.0f)
+        if (Player.Instance.IsAlive())
         {
-            pickUpUIText.SetActive(false);
-        }
-        else if (!pickUpUIText.activeSelf && Time.timeScale == 1.0f)
-        {
-            pickUpUIText.SetActive(true);
+            if (pickUpUIText.activeSelf && Time.timeScale == 0.0f)
+            {
+                pickUpUIText.SetActive(false);
+            }
+            else if (!pickUpUIText.activeSelf && Time.timeScale == 1.0f)
+            {
+                pickUpUIText.SetActive(true);
+            }
         }
     }
 

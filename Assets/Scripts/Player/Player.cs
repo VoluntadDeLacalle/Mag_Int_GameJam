@@ -24,6 +24,9 @@ public class Player : SingletonMonoBehaviour<Player>
     public BackpackFill backpackFill;
     public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
+    public PanelComponentFade panelFade;
+
+    public float deathTime = 3;
 
     [Header("Personal Player Variables")]
     public Transform origin = null;
@@ -172,5 +175,22 @@ public class Player : SingletonMonoBehaviour<Player>
 
         health.OnHealthDepleated.RemoveAllListeners();
         health.OnHealthDepleated.AddListener(Die);
+
+        StartCoroutine(StartFade());
+    }
+
+    IEnumerator StartFade()
+    {
+        yield return new WaitForSeconds(deathTime);
+
+        panelFade.FadeOutAndIn();
+        StartCoroutine(RespawnTime());
+    }
+
+    IEnumerator RespawnTime()
+    {
+        yield return new WaitForSeconds(panelFade.duration);
+
+        Respawn();
     }
 }
