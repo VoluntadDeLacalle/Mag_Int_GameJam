@@ -6,6 +6,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI itemHighlight;
+    public Transform pickupTransform;
     public float pickupRadius = 3;
     public LayerMask playerMask;
     public List<Transform> raycastOrigins = new List<Transform>();
@@ -19,7 +20,7 @@ public class Pickup : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, pickupRadius);
+        Gizmos.DrawWireSphere(pickupTransform.position, pickupRadius);
 
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         for (int i = 0; i < raycastOrigins.Count; i++)
@@ -53,7 +54,7 @@ public class Pickup : MonoBehaviour
 
     void CheckItemsInRange()
     {
-        Collider[] collidersInRange = Physics.OverlapSphere(transform.position, pickupRadius);
+        Collider[] collidersInRange = Physics.OverlapSphere(pickupTransform.position, pickupRadius);
         currentRaycasts.Clear();
         currentItemsInRange.Clear();
 

@@ -188,6 +188,16 @@ public class CraftingController : MonoBehaviour
         resetButton.SetActive(false);
     }
 
+    void ToggleAllPrimaryCraftingLists(bool setActive)
+    {
+        foreach (Button currentCraftingModButton in primaryCraftingList.GetComponentsInChildren<Button>(true))
+        {
+            currentCraftingModButton.interactable = setActive;
+        }
+
+        resetButton.GetComponentInChildren<Button>(true).interactable = setActive;
+    }
+
     void WarningResult()
     {
         warningCalled = true;
@@ -376,12 +386,18 @@ public class CraftingController : MonoBehaviour
         if (!warningCalled)
         {
             warningPanel.SetActive(true);
+            ToggleAllPrimaryCraftingLists(false);
             warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
-            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(chassisPrimaryButton, componentPrimaryButtons, gripPrimaryButton); warningCalled = false; }, delegate { warningCalled = false; });
+            warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ResetCurrentChassis(chassisPrimaryButton, componentPrimaryButtons, gripPrimaryButton); warningCalled = false; ToggleAllPrimaryCraftingLists(true); }, delegate { warningCalled = false; ToggleAllPrimaryCraftingLists(true); });
         }
         else
         {
             chassisPrimaryButton.secondaryCraftingList.gameObject.SetActive(false);
+
+            GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
+            DisableVisualItem(visualChassis);
+            EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
+            itemViewer.SwitchPlayerAnimLayer(0);
 
             for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
             {
@@ -512,8 +528,9 @@ public class CraftingController : MonoBehaviour
                     if (!warningCalled)
                     {
                         warningPanel.SetActive(true);
+                        ToggleAllPrimaryCraftingLists(false);
                         warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
-                        warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewComponent(componentIndex, componentList, componentTransformIndex, parentButton); warningCalled = false; }, delegate { warningCalled = false; });
+                        warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewComponent(componentIndex, componentList, componentTransformIndex, parentButton); warningCalled = false; ToggleAllPrimaryCraftingLists(true); }, delegate { warningCalled = false; ToggleAllPrimaryCraftingLists(true); });
                     }
                     else
                     {
@@ -646,8 +663,9 @@ public class CraftingController : MonoBehaviour
                 if (!warningCalled)
                 {
                     warningPanel.SetActive(true);
+                    ToggleAllPrimaryCraftingLists(false);
                     warningPanel.GetComponent<WarningMessageUI>().SetWarning(warning, delegate { WarningResult(); }, delegate { WarningResult(); });
-                    warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewGrip(gripIndex, parentButton); warningCalled = false; }, delegate { warningCalled = false; });
+                    warningPanel.GetComponent<WarningMessageUI>().AddWarningDelegate(delegate { ChooseNewGrip(gripIndex, parentButton); warningCalled = false; ToggleAllPrimaryCraftingLists(true); }, delegate { warningCalled = false; ToggleAllPrimaryCraftingLists(true); });
                 }
                 else
                 {
