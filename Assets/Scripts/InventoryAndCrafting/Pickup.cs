@@ -109,11 +109,17 @@ public class Pickup : MonoBehaviour
 
         if (currentItemsInRange.Count > 0)
         {
+            if (!Player.Instance.vThirdPersonInput.CanMove())
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (Time.timeScale != 0.0f || Player.Instance.vThirdPersonInput.CanMove())
                 {
                     PickupItem();
+                    Player.Instance.anim.SetTrigger("PickupTrigger");
                 }
             }
         }
@@ -123,6 +129,11 @@ public class Pickup : MonoBehaviour
     {
         int randNumb = Random.Range(0, currentItemsInRange.Count);
         Item tempItem = currentItemsInRange[randNumb];
+
+        Vector3 itemDir = (tempItem.gameObject.transform.position - Player.Instance.transform.position).normalized;
+        itemDir.y = 0;
+        Player.Instance.transform.rotation = Quaternion.LookRotation(itemDir);
+
         if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
         {
             Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());

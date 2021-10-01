@@ -25,7 +25,7 @@ public class HUDControls : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Player.Instance.IsAlive())
+        if (Input.GetKeyDown(KeyCode.Q) && Player.Instance.IsAlive())
         {
             if (craftingUI.activeSelf)
             {

@@ -120,6 +120,17 @@ public class Player : SingletonMonoBehaviour<Player>
         anim.SetBool("IsStrafing", false);
     }
 
+    public void PlayerStopMove()
+    {
+        anim.ResetTrigger("PickupTrigger");
+        vThirdPersonInput.ShouldMove(false);
+    }
+
+    public void PlayerStartMove()
+    {
+        vThirdPersonInput.ShouldMove(true);
+    }
+
     private void ResetVariables()
     {
         anim.SetBool("IsActivated", false);
