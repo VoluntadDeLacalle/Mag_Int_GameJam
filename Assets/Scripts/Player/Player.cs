@@ -18,15 +18,19 @@ public class Player : SingletonMonoBehaviour<Player>
     public Pickup pickup;
     public PlayerItemHandler itemHandler;
 
-    [Header("Juice Variables")]
+    [Header("Death Variables")]
+    public PanelComponentFade panelFade;
+    public float deathTime = 3;
+
+    [Header("Ragdoll Variables")]
     public Ragdoll ragdoll;
     public Transform deathCameraTarget;
-    public BackpackFill backpackFill;
     public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
-    public PanelComponentFade panelFade;
 
-    public float deathTime = 3;
+    [Header("Juice Variables")]
+    public BackpackFill backpackFill;
+    public Emoter playerEmoter;
 
     [Header("Personal Player Variables")]
     public Transform origin = null;
@@ -45,6 +49,8 @@ public class Player : SingletonMonoBehaviour<Player>
 
         ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
         originalCameraHeight = vThirdPersonCamera.height;
+
+        playerEmoter.InitEmoter(anim, true);
 
         if (origin == null)
         {
@@ -203,5 +209,18 @@ public class Player : SingletonMonoBehaviour<Player>
         yield return new WaitForSeconds(panelFade.duration);
 
         Respawn();
+    }
+
+    void Update()
+    {
+        if (!isAlive)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f)
+        {
+            playerEmoter.PlayEmote("EmoteTrigger");
+        }
     }
 }
