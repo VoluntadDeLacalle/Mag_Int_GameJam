@@ -56,7 +56,7 @@ public class CraftingController : MonoBehaviour
     {
         for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
         {
-            if (Inventory.Instance.inventory[i] == null)
+            if (Inventory.Instance.inventory[i] == null || !Inventory.Instance.inventory[i].isRestored)
             {
                 continue;
             }

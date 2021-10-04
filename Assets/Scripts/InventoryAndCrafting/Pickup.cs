@@ -17,6 +17,10 @@ public class Pickup : MonoBehaviour
     private Dictionary<float, Ray> currentRaycasts = new Dictionary<float, Ray>();
     private List<Item> currentItemsInRange = new List<Item>();
 
+    private Item currentPickupItem = null;
+    private int currentPickupIndex = -1;
+    private bool updateText = false;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -92,49 +96,70 @@ public class Pickup : MonoBehaviour
     {
         CheckItemsInRange();
 
+        if (currentItemsInRange.Count == 0)
+        {
+            if (itemHighlight.text != "")
+            {
+                itemHighlight.text = "";
+            }
+
+            updateText = false;
+            return;
+        }
 
         if (itemHighlight == null || !Player.Instance.IsAlive())
         {
             return;
         }
 
-        if (currentItemsInRange.Count > 0 && itemHighlight.text == "")
+        if (updateText && !currentItemsInRange.Contains(currentPickupItem))
         {
-            itemHighlight.text = "Press 'E' to pick up item!";
-        }
-        else if (currentItemsInRange.Count == 0 && itemHighlight.text != "")
-        {
-            itemHighlight.text = "";
+            updateText = false;
         }
 
-        if (currentItemsInRange.Count > 0)
+        if (!updateText)
         {
-            if (!Player.Instance.vThirdPersonInput.CanMove())
+            currentPickupIndex = Random.Range(0, currentItemsInRange.Count);
+            currentPickupItem = currentItemsInRange[currentPickupIndex];
+
+            if (currentPickupItem.itemType == Item.TypeTag.scrap)
             {
-                return;
+                itemHighlight.text = $"Press 'E' to pick up {currentPickupItem.gameObject.GetComponent<ScrapItem>().scrapAmount} scrap!";
+            }
+            else
+            {
+                itemHighlight.text = "Press 'E' to pick up the item!";
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            updateText = true;
+        }
+        
+        if (!Player.Instance.vThirdPersonInput.CanMove())
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (Time.timeScale != 0.0f || Player.Instance.vThirdPersonInput.CanMove())
             {
-                if (Time.timeScale != 0.0f || Player.Instance.vThirdPersonInput.CanMove())
-                {
-                    PickupItem();
-                    Player.Instance.anim.SetTrigger("PickupTrigger");
-                }
+                PickupItem(currentPickupItem, currentPickupIndex);
+                Player.Instance.anim.SetTrigger("PickupTrigger");
             }
         }
     }
 
-    public void PickupItem()
+    public void PickupItem(Item tempItem, int randIndex)
     {
-        int randNumb = Random.Range(0, currentItemsInRange.Count);
-        Item tempItem = currentItemsInRange[randNumb];
-
         Vector3 itemDir = (tempItem.gameObject.transform.position - Player.Instance.transform.position).normalized;
         itemDir.y = 0;
         Player.Instance.transform.rotation = Quaternion.LookRotation(itemDir);
 
-        if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
+        if (tempItem.itemType == Item.TypeTag.scrap)
+        {
+            Inventory.Instance.AddScrap(tempItem);
+        }
+        else if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
         {
             Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
         }
@@ -143,6 +168,8 @@ public class Pickup : MonoBehaviour
             Inventory.Instance.AddToInventory(tempItem);
 
         }
-        currentItemsInRange.RemoveAt(randNumb);
+
+        currentItemsInRange.RemoveAt(randIndex);
+        updateText = false;
     }
 }

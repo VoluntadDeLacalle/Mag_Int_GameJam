@@ -14,6 +14,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
     public Transform dropTransform;
 
     [Header("Inventory Variables")]
+    public int amountOfScrap = 0;
     public GameObject inventoryItemPanel;
     public GameObject inventoryItemBox;
     [Range(3,6)]
@@ -22,6 +23,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
     [Header("UI Variables")]
     public GameObject inventoryPanel;
+    public TMPro.TextMeshProUGUI scrapText;
     public Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
     public TMPro.TextMeshProUGUI selectedItemDescription;
@@ -29,9 +31,10 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
     public GameObject dropItemButton;
     public GameObject equipItemButton;
     public GameObject unequipItemButton;
+    public GameObject restoreItemButton;
     private bool isActive = false;
-    private int dropIndex = -1;
-    private int equipIndex = -1;
+    //private int dropIndex = -1;
+    //private int equipIndex = -1;
 
     private ObjectPooler.Key inventoryItemUIKey = ObjectPooler.Key.InventoryItemUIButtons;
 
@@ -46,9 +49,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         if (inventoryPanel.activeSelf && !isActive)
         {
             isActive = true;
-            UpdateInventoryView();
-
-            dropIndex = -1;
+            InitInventory();
         }
         else if (!inventoryPanel.activeSelf && isActive)
         {
@@ -58,6 +59,17 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         }
     }
 
+    void InitInventory()
+    {
+        DisplayScrapAmount();
+        UpdateInventoryView();
+    }
+
+    void DisplayScrapAmount()
+    {
+        scrapText.text = $"Scrap: {amountOfScrap.ToString("D4")}";
+    }
+
     void ResetSelectedInfo()
     {
         selectedInspectorImage.sprite = null;
@@ -65,9 +77,15 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         selectedItemTitle.text = "";
         selectedItemDescription.text = "";
         selectedItemAttachedComponents.text = "";
+
         dropItemButton.SetActive(false);
+        dropItemButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
         equipItemButton.SetActive(false);
+        equipItemButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
         unequipItemButton.SetActive(false);
+        unequipItemButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        restoreItemButton.SetActive(false);
+        restoreItemButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
     }
 
     public void AddToInventory(Item newItem)
@@ -90,10 +108,49 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
+        newItem.isObtained = true;
+
         Player.Instance.backpackFill.IncreaseBackpack(20);
     }
 
-    public void DropFromInventory()
+    public void AddScrap(Item newItem)
+    {
+        ScrapItem currentScrap = newItem.gameObject.GetComponent<ScrapItem>();
+        int scrapAmount = currentScrap.scrapAmount;
+
+        if (amountOfScrap + scrapAmount > 9999)
+        {
+            amountOfScrap = 9999;
+        }
+        else
+        {
+            amountOfScrap += scrapAmount;
+        }
+
+        DisplayScrapAmount();
+
+
+        //Possibly change this?
+        Destroy(newItem.gameObject);
+    }
+
+    public void RemoveScrap(int itemToRestoreIndex, int amountToRemove)
+    {
+        if (amountOfScrap - amountToRemove < 0)
+        {
+            return;
+        }
+        else
+        {
+            amountOfScrap -= amountToRemove;
+            DisplayScrapAmount();
+
+            inventory[itemToRestoreIndex].isRestored = true;
+            ChangeInventoryInformation(itemToRestoreIndex);
+        }
+    }
+
+    public void DropFromInventory(int dropIndex)
     {
         if (dropIndex == -1)
         {
@@ -112,7 +169,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
         if (playerItemHandler.attachedItem != null && dropIndex == tempEquippedIndex)
         {
-            UnequipItem();
+            UnequipItem(tempEquippedIndex);
         }
 
         if (inventory[dropIndex].itemType == Item.TypeTag.chassis && inventory[dropIndex].chassisGripTransform.IsGripTransformOccupied())
@@ -131,6 +188,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             inventory[dropIndex].gameObject.SetActive(true);
         }
 
+        inventory[dropIndex].isObtained = false;
         inventory.RemoveAt(dropIndex);
         if (dropIndex == inventory.Count)
         {
@@ -168,10 +226,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
 
     public void ChangeInventoryInformation(int inventoryIndex)
     {
-        selectedItemAttachedComponents.text = "";
-        equipItemButton.SetActive(false);
-        unequipItemButton.SetActive(false);
-        equipIndex = -1;
+        ResetSelectedInfo();
 
         selectedInspectorImage.sprite = inventory[inventoryIndex].inventorySprite;
         selectedInspectorImage.color = new Color(1, 1, 1, 1);
@@ -180,44 +235,53 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         itemType = char.ToUpper(itemType[0]) + itemType.Substring(1);
         selectedItemTitle.text = $"{inventory[inventoryIndex].itemName} ({itemType})";
 
-        if (inventory[inventoryIndex].itemType == Item.TypeTag.chassis)
+        if (inventory[inventoryIndex].isRestored)
         {
-            equipIndex = inventoryIndex;
-
-            if (inventory[inventoryIndex].isEquipped)
+            if (inventory[inventoryIndex].itemType == Item.TypeTag.chassis)
             {
-                equipItemButton.SetActive(false);
-                unequipItemButton.SetActive(true);
-            }
-            else
-            {
-                unequipItemButton.SetActive(false);
-                equipItemButton.SetActive(true);
-            }
-
-            selectedItemAttachedComponents.text = "<b>Effectors</b>\n------------";
-
-            for (int i = 0; i < inventory[inventoryIndex].chassisComponentTransforms.Count; i++)
-            {
-                if (inventory[inventoryIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                if (inventory[inventoryIndex].isEquipped)
                 {
-                    selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisComponentTransforms[i].GetComponentTransformItem().itemName}";
+                    equipItemButton.SetActive(false);
+                    unequipItemButton.SetActive(true);
+                    unequipItemButton.GetComponent<Button>().onClick.AddListener(delegate { UnequipItem(inventoryIndex); });
+                }
+                else
+                {
+                    unequipItemButton.SetActive(false);
+                    equipItemButton.SetActive(true);
+                    equipItemButton.GetComponent<Button>().onClick.AddListener(delegate { EquipItem(inventoryIndex); });
+                }
+
+                selectedItemAttachedComponents.text = "<b>Effectors</b>\n------------";
+
+                for (int i = 0; i < inventory[inventoryIndex].chassisComponentTransforms.Count; i++)
+                {
+                    if (inventory[inventoryIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                    {
+                        selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisComponentTransforms[i].GetComponentTransformItem().itemName}";
+                    }
+                }
+                selectedItemAttachedComponents.text += "\n\n<b>Grip</b>\n------------";
+
+                if (inventory[inventoryIndex].chassisGripTransform.IsGripTransformOccupied())
+                {
+                    selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisGripTransform.GetGripTransformItem().itemName}";
                 }
             }
-            selectedItemAttachedComponents.text += "\n\n<b>Grip</b>\n------------";
-
-            if (inventory[inventoryIndex].chassisGripTransform.IsGripTransformOccupied())
-            {
-                selectedItemAttachedComponents.text += $"\n{inventory[inventoryIndex].chassisGripTransform.GetGripTransformItem().itemName}";
-            }
+        }
+        else
+        {
+            restoreItemButton.SetActive(true);
+            restoreItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { RemoveScrap(inventoryIndex, inventory[inventoryIndex].restorationScrapAmount); });
+            restoreItemButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Restore for {inventory[inventoryIndex].restorationScrapAmount} scrap";
         }
             
         selectedItemDescription.text = inventory[inventoryIndex].description;
         dropItemButton.SetActive(true);
-        dropIndex = inventoryIndex;
+        dropItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { DropFromInventory(inventoryIndex); });
     }
 
-    public void EquipItem()
+    public void EquipItem(int equipIndex)
     {
         if (equipIndex == -1)
         {
@@ -239,28 +303,28 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         unequipItemButton.SetActive(true);
     }
 
-    public void UnequipItem()
+    public void UnequipItem(int unequipIndex)
     {
-        if (equipIndex == -1)
+        if (unequipIndex == -1)
         {
             return;
         }
 
-        if (inventory[equipIndex].chassisGripTransform.IsGripTransformOccupied())
+        if (inventory[unequipIndex].chassisGripTransform.IsGripTransformOccupied())
         {
-            playerItemHandler.UnequipItem(inventory[equipIndex].chassisGripTransform.GetGripTransformItem());
+            playerItemHandler.UnequipItem(inventory[unequipIndex].chassisGripTransform.GetGripTransformItem());
         }
         else
         {
-            playerItemHandler.UnequipItem(equipIndex);
+            playerItemHandler.UnequipItem(unequipIndex);
         }
 
         GrabberEffector grabberEffector = null;
-        for (int i = 0; i < inventory[equipIndex].chassisComponentTransforms.Count; i++)
+        for (int i = 0; i < inventory[unequipIndex].chassisComponentTransforms.Count; i++)
         {
-            if (inventory[equipIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+            if (inventory[unequipIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
             {
-                grabberEffector = inventory[equipIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.GetComponent<GrabberEffector>();
+                grabberEffector = inventory[unequipIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.GetComponent<GrabberEffector>();
 
                 if (grabberEffector != null)
                 {
@@ -277,8 +341,8 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
             }
         }
 
-        inventory[equipIndex].isEquipped = false;
-        inventory[equipIndex].OnUnequip();
+        inventory[unequipIndex].isEquipped = false;
+        inventory[unequipIndex].OnUnequip();
 
         unequipItemButton.SetActive(false);
         equipItemButton.SetActive(true);

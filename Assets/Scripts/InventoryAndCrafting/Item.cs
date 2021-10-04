@@ -88,13 +88,18 @@ public class Item : MonoBehaviour
         effector,
         grip,
         ammo,
-        modifier
+        modifier,
+        scrap,
+        external
     };
     public TypeTag itemType;
     
     public string itemName;
     [TextArea]
     public string description;
+    public bool isObtained = false;
+    public bool isRestored = false;
+    public int restorationScrapAmount = 0;
     public bool isEquipped = false;
     public Vector3 localHandPos = Vector3.zero;
     public Vector3 localHandRot = Vector3.zero;
