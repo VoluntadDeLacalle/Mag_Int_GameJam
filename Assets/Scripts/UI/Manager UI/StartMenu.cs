@@ -6,43 +6,13 @@ using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public string loadSceneName;    
-
-    public Button startButton;
-    public Button optionsButton;
-    public Button quitButton;
-    public Button backButton;
-
-    public GameObject optionsUI;
-
-    public void Start()
+    public void LoadPlayScene()
     {
-        optionsUI.SetActive(false);
-    }
-
-    public void NewGame()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        SceneManager.LoadScene(loadSceneName);
-    }
-
-    public void Options()
-    {
-        
-        if (optionsUI.activeSelf)
-        {
-            optionsUI.SetActive(false);
-        }
-        else
-        {
-            optionsUI.SetActive(true);
-        }
+        SceneManager.LoadScene(GameManager.Instance.GetLastSavedScene());
     }
 
     public void QuitGame()
     {
-        Application.Quit();
-        Debug.Log("Quit");
+        GameManager.Instance.QuitGame();
     }
 }

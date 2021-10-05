@@ -21,13 +21,12 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
-        Cursor.lockState = CursorLockMode.None;
-        SceneManager.LoadScene("Start Menu");
+        LevelManager.Instance.LoadMainMenu();
     }
 
     public void QuitGame()
     {
         Debug.Log("Quiting game...");
-        Application.Quit();
+        LevelManager.Instance.QuitGame();
     }
 }

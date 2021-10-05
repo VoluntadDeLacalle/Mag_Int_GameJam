@@ -67,4 +67,19 @@ public class BackpackFill : MonoBehaviour
             }
         }
     }
+
+    public List<float> GetBlendWeights()
+    {
+        List<float> tempWeights = new List<float>();
+        tempWeights.Add(backpackRef.GetBlendShapeWeight(0));
+        tempWeights.Add(backpackRef.GetBlendShapeWeight(1));
+
+        return tempWeights;
+    }
+
+    public void SetBlendWeights(List<float> newWeights)
+    {
+        backpackRef.SetBlendShapeWeight(0, newWeights[0]);
+        backpackRef.SetBlendShapeWeight(1, newWeights[1]);
+    }
 }

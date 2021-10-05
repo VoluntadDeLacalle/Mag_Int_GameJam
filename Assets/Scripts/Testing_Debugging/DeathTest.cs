@@ -49,6 +49,7 @@ public class DeathTest : MonoBehaviour
 
     public void NewSpawnPoint()
     {
+        Debug.Log("called");
         Player.Instance.SetNewSpawnPoint(spawnPoint);
     }
 }

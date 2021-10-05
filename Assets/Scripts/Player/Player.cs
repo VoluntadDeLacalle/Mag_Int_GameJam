@@ -1,9 +1,10 @@
 using Invector.vCharacterController;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : SingletonMonoBehaviour<Player>
+public class Player : SingletonMonoBehaviour<Player>, ISaveable
 {
     [Header("Third Person Component Variables")]
     public vThirdPersonController vThirdPersonController;
@@ -38,6 +39,30 @@ public class Player : SingletonMonoBehaviour<Player>
     private bool isAlive = true;
 
     private float originalCameraHeight;
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            health = health.currentHealth,
+            backpackFillSizeWeights = backpackFill.GetBlendWeights()
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        health.currentHealth = saveData.health;
+        backpackFill.SetBlendWeights(saveData.backpackFillSizeWeights);
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public float health;
+        public List<float> backpackFillSizeWeights;
+    }
 
     new void Awake()
     {
@@ -107,14 +132,27 @@ public class Player : SingletonMonoBehaviour<Player>
 
     public void SetNewSpawnPoint(Transform spawnPoint)
     {
-        origin = spawnPoint;
+        origin.position = spawnPoint.position;
+        origin.rotation = spawnPoint.rotation;
+    }
+
+    public void Spawn(Transform spawnPoint = null)
+    {
+        if (spawnPoint != null)
+        {
+            origin.position = spawnPoint.position;
+            origin.rotation = spawnPoint.rotation;
+        }
+
+        Revived();
     }
 
     public void Respawn(Transform spawnPoint = null)
     {
         if (spawnPoint != null)
         {
-            origin = spawnPoint;
+            origin.position = spawnPoint.position;
+            origin.rotation = spawnPoint.rotation;
         }
 
         health.FullHeal();

@@ -3,50 +3,91 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization;
 
-public static class SaveSystem
+/// <summary>
+/// Uses code from "DapperDino" on Youtube: https://www.youtube.com/watch?v=f5GvfZfy3yk
+/// </summary>
+
+public class SaveSystem : MonoBehaviour
 {
-    /// <summary>
-    /// The generic passed in MUST be an instance of a class.
-    /// </summary>
-    /// <typeparam name="D"></typeparam>
-    /// <param name="dataToBeSaved"></param>
-    /// <param name="fileName"></param>
-    public static void SaveData<D>(D dataToBeSaved, string fileName) where D : class
+    public static string saveFileExtention = ".gav";
+
+    [ContextMenu("Save")]
+    public static void Save(string savePath)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/" + fileName;
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        D data = dataToBeSaved;
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        var state = LoadFile(savePath);
+        CaptureState(state);
+        SaveFile(state, savePath);
     }
 
-    /// <summary>
-    /// Will return only an instance of a class.
-    /// </summary>
-    /// <typeparam name="D"></typeparam>
-    /// <param name="fileName"></param>
-    /// <returns></returns>
-    public static D LoadData<D>(string fileName) where D : class
+    [ContextMenu("Load")]
+    public static void Load(string savePath)
     {
-        string path = Application.persistentDataPath + "/" + fileName;
-        if (File.Exists(path))
+        var state = LoadFile(savePath);
+        RestoreState(state);
+    }
+
+    public static void ResetSaveFile(string savePath)
+    {
+        string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";
+        if (File.Exists(trueSavePath))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            D data = formatter.Deserialize(stream) as D;
-            stream.Close();
-
-            return data;
+            File.Delete(trueSavePath);
         }
-        else
+    }
+
+    private static void SaveFile(object state, string savePath)
+    {
+        string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";
+        
+        var surrogateSelector = new SurrogateSelector();
+        surrogateSelector.AddSurrogate(typeof(Transform), new StreamingContext(StreamingContextStates.All), new TransformSurrogate());
+        surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), new Vector3Surrogate());
+
+        using (var stream = File.Open(trueSavePath, FileMode.Create))
         {
-            Debug.LogError("Save not found in: " + path);
-            return null;
+            var formatter = new BinaryFormatter { SurrogateSelector = surrogateSelector };
+            formatter.Serialize(stream, state);
+        }
+    }
+
+    private static Dictionary<string, object> LoadFile(string savePath)
+    {
+        string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";
+
+        var surrogateSelector = new SurrogateSelector();
+        surrogateSelector.AddSurrogate(typeof(Transform), new StreamingContext(StreamingContextStates.All), new TransformSurrogate());
+        surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), new Vector3Surrogate());
+
+        if (!File.Exists(trueSavePath))
+        {
+            return new Dictionary<string, object>();
+        }
+
+        using (FileStream stream = File.Open(trueSavePath, FileMode.Open))
+        {
+            var formatter = new BinaryFormatter { SurrogateSelector = surrogateSelector };
+            return (Dictionary<string, object>)formatter.Deserialize(stream);
+        }
+    }
+
+    private static void CaptureState(Dictionary<string, object> state)
+    {
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        {
+            state[saveable.Id] = saveable.CaptureState();
+        }
+    }
+
+    private static void RestoreState(Dictionary<string, object> state)
+    {
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        {
+            if (state.TryGetValue(saveable.Id, out object value))
+            {
+                saveable.RestoreState(value);
+            }
         }
     }
 }
