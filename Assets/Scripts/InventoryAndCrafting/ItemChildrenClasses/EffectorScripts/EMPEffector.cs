@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public class EMPEffector : Item
 {
     public int maxRadius = 5;
@@ -127,10 +128,8 @@ public class EMPEffector : Item
         currentRadius = 0;
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");

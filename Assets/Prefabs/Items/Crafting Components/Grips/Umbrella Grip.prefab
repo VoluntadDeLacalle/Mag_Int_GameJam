@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5345342537963771280}
   - component: {fileID: 2826262258515520550}
   - component: {fileID: 3081628348407457480}
+  - component: {fileID: 2290944187657956966}
   m_Layer: 0
   m_Name: Umbrella Grip
   m_TagString: Untagged
@@ -101,6 +102,9 @@ MonoBehaviour:
   itemName: Umbrella
   description: When activated, this grip will allow the player to hold it directly
     above their head.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0.13, y: -0.208, z: -0.673}
   localHandRot: {x: -7.137, y: 265.874, z: -251.222}
@@ -138,3 +142,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2290944187657956966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984294677714044246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: cf01dd81-f377-4479-88ad-3a045407e5d1
+  shouldCrossRef: 0

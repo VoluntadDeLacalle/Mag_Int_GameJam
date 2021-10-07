@@ -97,10 +97,8 @@ public class GrabberEffector : Item
         }
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");

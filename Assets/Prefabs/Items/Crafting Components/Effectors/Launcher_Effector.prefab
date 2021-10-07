@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 1208057350024505005}
   - component: {fileID: 8285449891082694711}
   - component: {fileID: 2553526102596225538}
+  - component: {fileID: 6407757368202005725}
   m_Layer: 0
   m_Name: Launcher_Effector
   m_TagString: Untagged
@@ -146,6 +147,9 @@ MonoBehaviour:
   itemType: 1
   itemName: Launcher
   description: Will launch an attached ammo components with a straight trajectory.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
@@ -206,6 +210,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6407757368202005725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265953499735078979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5a19a64c-3e09-4c14-8f4f-fdd614c66b37
+  shouldCrossRef: 0
 --- !u!1 &6121580628178395451
 GameObject:
   m_ObjectHideFlags: 0

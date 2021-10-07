@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class ModifierItem : Item
 {
     public enum ModifierType
@@ -96,10 +98,8 @@ public class ModifierItem : Item
         currentChassis = null;
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.modifier)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not Modifier!");

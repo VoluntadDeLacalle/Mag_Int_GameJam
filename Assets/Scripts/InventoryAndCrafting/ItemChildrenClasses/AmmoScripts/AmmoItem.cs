@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class AmmoItem : Item
 {
     public ObjectPooler.Key ammoPrefabKey;
@@ -79,10 +81,8 @@ public class AmmoItem : Item
         }
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.ammo)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not Ammo!");

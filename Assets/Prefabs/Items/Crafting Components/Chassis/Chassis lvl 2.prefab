@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2802277009358915056}
   - component: {fileID: 7248374308797228949}
   - component: {fileID: 8770009134334407828}
+  - component: {fileID: 6668805804073402923}
   m_Layer: 0
   m_Name: Chassis lvl 2
   m_TagString: Untagged
@@ -102,6 +103,9 @@ MonoBehaviour:
   itemType: 0
   itemName: Lvl. 2 Chassis
   description: This is a chassis with 2 component slots.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0.115, y: 0.258, z: 0.089}
   localHandRot: {x: 247.774, y: -35.449, z: 18.32}
@@ -140,6 +144,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6668805804073402923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743427729513621986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 98ba6361-c386-41f9-9955-4f6f673d4b98
+  shouldCrossRef: 0
 --- !u!1 &6434050501037188977
 GameObject:
   m_ObjectHideFlags: 0

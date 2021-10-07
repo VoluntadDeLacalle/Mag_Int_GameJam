@@ -12036,6 +12036,22 @@ PrefabInstance:
       propertyPath: m_InitialState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1565346166628245061, guid: 5c625229f1921a04da8d40b6f3952414,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565346166628245061, guid: 5c625229f1921a04da8d40b6f3952414,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[1].key
+      value: 
+      objectReference: {fileID: -8963873818352509120, guid: 179908d09d0c4114aacf47a819768c2a,
+        type: 2}
+    - target: {fileID: 1565346166628245061, guid: 5c625229f1921a04da8d40b6f3952414,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[1].value
+      value: 
+      objectReference: {fileID: 1558500128}
     - target: {fileID: 1565346167053827487, guid: 5c625229f1921a04da8d40b6f3952414,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12350,6 +12366,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 0.000015050173
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157926164335640910, guid: 5c625229f1921a04da8d40b6f3952414,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157926164335640910, guid: 5c625229f1921a04da8d40b6f3952414,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8847131403475857824, guid: 5c625229f1921a04da8d40b6f3952414,
         type: 3}
@@ -13133,6 +13159,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6095481070308545732, guid: b333b798092122843a48269852ad58cd,
     type: 3}
   m_PrefabInstance: {fileID: 1336401903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1558500128 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4831589986215151879, guid: 5c625229f1921a04da8d40b6f3952414,
+    type: 3}
+  m_PrefabInstance: {fileID: 1236620715}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1559150737
 GameObject:

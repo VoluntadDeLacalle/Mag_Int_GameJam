@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8548997402553588285}
   - component: {fileID: 8621712595810415930}
   - component: {fileID: 274772089127773550}
+  - component: {fileID: 114344380673898053}
   m_Layer: 0
   m_Name: Simple Grip
   m_TagString: Untagged
@@ -99,6 +100,9 @@ MonoBehaviour:
   itemType: 2
   itemName: Simple
   description: This is a simple handle grip.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0.1299, y: -0.069, z: -0.304}
   localHandRot: {x: 7.4171076, y: 85.27686, z: 249.89804}
@@ -136,3 +140,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114344380673898053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2536757659613034670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 04b83206-4406-4223-8285-febfd3c8cdaf
+  shouldCrossRef: 0

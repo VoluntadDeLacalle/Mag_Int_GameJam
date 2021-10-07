@@ -298,7 +298,7 @@ public class CraftingController : MonoBehaviour
             {
                 GameObject visualGrip = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject];
                 EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandPos, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandRot);
-                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
+                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
 
                 itemViewer.SwitchPlayerAnimLayer((int)chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
             }
@@ -708,7 +708,7 @@ public class CraftingController : MonoBehaviour
                     GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
                     GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
                     EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                    EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
+                    EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
 
                     itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
 
@@ -744,7 +744,7 @@ public class CraftingController : MonoBehaviour
                 GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
                 GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
                 EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.componentTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
+                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
 
                 itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
 

@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 5359292409737074398}
   - component: {fileID: 277203622749127327}
   - component: {fileID: 8810325434434881288}
+  - component: {fileID: 2596858422946317559}
   m_Layer: 0
   m_Name: EMP Effector
   m_TagString: Untagged
@@ -264,6 +265,9 @@ MonoBehaviour:
   itemName: EMP
   description: This effector will shoot a beam in whatever direction the effector
     is pointing. This beam will disable certain electrical equipment.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
@@ -304,6 +308,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17293167, y: 0.42399597, z: 0.25627518}
   m_Center: {x: -0.00068187714, y: 0.20503944, z: -0.037130356}
+--- !u!114 &2596858422946317559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349418763419235299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: e4b4abbd-073b-4ed1-9e4f-0051c38789bf
+  shouldCrossRef: 0
 --- !u!1 &3932378678705062470
 GameObject:
   m_ObjectHideFlags: 0

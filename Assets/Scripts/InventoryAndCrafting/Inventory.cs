@@ -113,6 +113,27 @@ public class Inventory : SingletonMonoBehaviour<Inventory>
         Player.Instance.backpackFill.IncreaseBackpack(20);
     }
 
+    public void LoadAddToInventory(Item newItem)
+    {
+        inventory.Add(newItem);
+
+        if (newItem.itemType == Item.TypeTag.chassis && newItem.chassisGripTransform.IsGripTransformOccupied())
+        {
+            Item tempItem = newItem.chassisGripTransform.GetGripTransformItem();
+            tempItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            tempItem.gameObject.GetComponent<Collider>().enabled = false;
+            tempItem.gameObject.SetActive(false);
+            tempItem.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            newItem.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            newItem.gameObject.GetComponent<Collider>().enabled = false;
+            newItem.gameObject.SetActive(false);
+            newItem.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
     public void AddScrap(Item newItem)
     {
         ScrapItem currentScrap = newItem.gameObject.GetComponent<ScrapItem>();

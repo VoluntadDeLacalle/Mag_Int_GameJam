@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class GripItem : Item
 {
     public enum GripType
@@ -43,10 +45,8 @@ public class GripItem : Item
         Player.Instance.anim.SetBool("IsActivated", false);
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.grip)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not Grip!");

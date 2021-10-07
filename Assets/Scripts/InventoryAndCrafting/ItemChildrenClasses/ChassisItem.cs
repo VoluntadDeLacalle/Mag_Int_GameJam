@@ -33,8 +33,10 @@ public class ChassisItem : Item
         Player.Instance.anim.SetBool("IsActivated", false);
     }
 
-    void LateUpdate()
+    new void LateUpdate()
     {
+        base.LateUpdate();
+
         //Check to see if chassis active should run
         if (itemType != TypeTag.chassis)
         {

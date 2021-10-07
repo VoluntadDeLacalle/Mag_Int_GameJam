@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization;
+using System;
 
 /// <summary>
 /// Uses code from "DapperDino" on Youtube: https://www.youtube.com/watch?v=f5GvfZfy3yk
@@ -44,6 +45,9 @@ public class SaveSystem : MonoBehaviour
         var surrogateSelector = new SurrogateSelector();
         surrogateSelector.AddSurrogate(typeof(Transform), new StreamingContext(StreamingContextStates.All), new TransformSurrogate());
         surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), new Vector3Surrogate());
+        surrogateSelector.AddSurrogate(typeof(Item), new StreamingContext(StreamingContextStates.All), new ItemSurrogate());
+        surrogateSelector.AddSurrogate(typeof(ChassisComponentTransform), new StreamingContext(StreamingContextStates.All), new ChassisComponentTransformSurrogate());
+        surrogateSelector.AddSurrogate(typeof(ChassisGripTransform), new StreamingContext(StreamingContextStates.All), new ChassisGripTransformSurrogate());
 
         using (var stream = File.Open(trueSavePath, FileMode.Create))
         {
@@ -57,8 +61,12 @@ public class SaveSystem : MonoBehaviour
         string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";
 
         var surrogateSelector = new SurrogateSelector();
+        //Transform and Vector3
         surrogateSelector.AddSurrogate(typeof(Transform), new StreamingContext(StreamingContextStates.All), new TransformSurrogate());
         surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), new Vector3Surrogate());
+        surrogateSelector.AddSurrogate(typeof(Item), new StreamingContext(StreamingContextStates.All), new ItemSurrogate());
+        surrogateSelector.AddSurrogate(typeof(ChassisComponentTransform), new StreamingContext(StreamingContextStates.All), new ChassisComponentTransformSurrogate());
+        surrogateSelector.AddSurrogate(typeof(ChassisGripTransform), new StreamingContext(StreamingContextStates.All), new ChassisGripTransformSurrogate());
 
         if (!File.Exists(trueSavePath))
         {
@@ -74,7 +82,7 @@ public class SaveSystem : MonoBehaviour
 
     private static void CaptureState(Dictionary<string, object> state)
     {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>(true))
         {
             state[saveable.Id] = saveable.CaptureState();
         }
@@ -82,7 +90,7 @@ public class SaveSystem : MonoBehaviour
 
     private static void RestoreState(Dictionary<string, object> state)
     {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>(true))
         {
             if (state.TryGetValue(saveable.Id, out object value))
             {

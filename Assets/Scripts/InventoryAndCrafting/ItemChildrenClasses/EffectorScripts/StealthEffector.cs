@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class StealthEffector : Item
 {
     [Header("Stealth Variables")]
@@ -146,10 +147,8 @@ public class StealthEffector : Item
         }
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");

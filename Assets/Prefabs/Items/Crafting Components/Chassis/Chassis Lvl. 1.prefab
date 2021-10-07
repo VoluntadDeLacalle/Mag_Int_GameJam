@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7435740430083289663}
   - component: {fileID: 6969511869206212065}
   - component: {fileID: 3037537322718732015}
+  - component: {fileID: 1541304497435315140}
   m_Layer: 0
   m_Name: Chassis Lvl. 1
   m_TagString: Untagged
@@ -160,6 +161,9 @@ MonoBehaviour:
   itemType: 0
   itemName: Lvl. 1 Chassis
   description: This is a chassis with one component slot.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0.062, y: 0.221, z: 0.063}
   localHandRot: {x: 128.1, y: 151.688, z: -10.816}
@@ -168,6 +172,20 @@ MonoBehaviour:
   - componentTransform: {fileID: 6955212821588163272}
   chassisGripTransform:
     componentTransform: {fileID: 741102308809108176}
+--- !u!114 &1541304497435315140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517475959782425465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3bef897e-7289-4999-960e-5cb43d5cb9e9
+  shouldCrossRef: 0
 --- !u!1 &4718765319688027001
 GameObject:
   m_ObjectHideFlags: 0

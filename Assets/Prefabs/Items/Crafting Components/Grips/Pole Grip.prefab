@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5978214009297426071}
   - component: {fileID: 1129399706590503680}
   - component: {fileID: 7826866020923807220}
+  - component: {fileID: 1420696916553759136}
   m_Layer: 0
   m_Name: Pole Grip
   m_TagString: Untagged
@@ -99,6 +100,9 @@ MonoBehaviour:
   itemType: 2
   itemName: Pole
   description: Allows for an extension of your current hold.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0.096, y: -0.373, z: -0.724}
   localHandRot: {x: -19.554, y: 260.538, z: -238.524}
@@ -136,3 +140,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06829147, y: 1.3740822, z: 0.10544036}
   m_Center: {x: 0, y: -0.6846033, z: 0}
+--- !u!114 &1420696916553759136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652268627475117329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 85d31291-c81c-455e-9e19-5b512f5aa7d3
+  shouldCrossRef: 0

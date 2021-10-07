@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4361290496904740679}
   - component: {fileID: 4361290496904740672}
   - component: {fileID: 4361290496904740676}
+  - component: {fileID: 977830950035321267}
   m_Layer: 0
   m_Name: StealthEffector
   m_TagString: Untagged
@@ -101,6 +102,9 @@ MonoBehaviour:
   itemName: Concealer
   description: Will camouflage player and any attached objects when activated. Works
     within a radius and can be used to evade an enemy's gaze.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
@@ -153,6 +157,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &977830950035321267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361290496904740673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 34bacd28-2f89-4876-aa8f-31987c2b0324
+  shouldCrossRef: 0
 --- !u!1 &4361290497296752335
 GameObject:
   m_ObjectHideFlags: 0

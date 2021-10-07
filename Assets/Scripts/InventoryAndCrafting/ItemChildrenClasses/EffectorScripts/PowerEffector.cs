@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class PowerEffector : Item
 {
     public int maxDistance = 5;
@@ -130,18 +131,18 @@ public class PowerEffector : Item
         hasFired = false;
     }
 
-    new void Update()
+    void Update()
     {
-        base.Update();
-
         if (itemType != TypeTag.effector)
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
         }
     }
 
-    private void LateUpdate()
+    new void LateUpdate()
     {
+        base.LateUpdate();
+
         if (hasFired && !hasDrawnLine)
         {
             Vector3[] positions = { shotTransform.position, shotTransform.position + (shotTransform.position - transform.position).normalized * maxDistance };

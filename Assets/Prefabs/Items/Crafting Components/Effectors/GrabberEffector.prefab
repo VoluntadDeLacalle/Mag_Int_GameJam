@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 1359011765174645726}
   - component: {fileID: 1359011765174645723}
   - component: {fileID: 1359011765174645727}
+  - component: {fileID: 5210208393671956296}
   m_Layer: 0
   m_Name: GrabberEffector
   m_TagString: Untagged
@@ -132,6 +133,9 @@ MonoBehaviour:
   itemName: Grabber
   description: Will pick up one object when activated within its reach. To drop a
     grabbed object, press control and the left mouse button.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
@@ -172,6 +176,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5210208393671956296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359011765174645720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 527c2dfa-bcd1-451c-afa8-fce4e54f0dc3
+  shouldCrossRef: 0
 --- !u!1 &1359011766886776585
 GameObject:
   m_ObjectHideFlags: 0
