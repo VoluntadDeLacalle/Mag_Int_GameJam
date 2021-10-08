@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3672690595840364223}
   - component: {fileID: 8009583458387915559}
   - component: {fileID: 8548309392274834436}
+  - component: {fileID: 323917726000356950}
   m_Layer: 0
   m_Name: Detector Effector
   m_TagString: Untagged
@@ -181,13 +182,16 @@ MonoBehaviour:
   itemType: 1
   itemName: Dectector
   description: It detects mines I suppose.
+  isObtained: 0
+  isRestored: 0
+  restorationScrapAmount: 0
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
   inventorySprite: {fileID: 21300000, guid: 8c4d630a592256148bbb9ae9b10907a3, type: 3}
   chassisComponentTransforms: []
   chassisGripTransform:
-    componentTransform: {fileID: 0}
+    gripTransform: {fileID: 0}
   maxRadius: 5
   radiusGrowthTime: 1
   detectorMoveThreshold: 0.1
@@ -224,3 +228,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.20041916, y: 0.3893649, z: 0.11716766}
   m_Center: {x: -0.037319023, y: 0.19037926, z: 0.036092643}
+--- !u!114 &323917726000356950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041755308545817714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 7fdc736f-3388-4c5c-ab47-ddeefbdf7ab1
+  shouldCrossRef: 0

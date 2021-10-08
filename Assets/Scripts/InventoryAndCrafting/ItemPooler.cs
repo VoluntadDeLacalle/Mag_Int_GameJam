@@ -8,7 +8,7 @@ public class ItemPooler : SingletonMonoBehaviour<ItemPooler>
     [SerializeField]
     private List<GameObject> gameItems = new List<GameObject>();
 
-    public Dictionary<string, Item> itemDictionary = new Dictionary<string, Item>();
+    public Dictionary<string, GameObject> itemDictionary = new Dictionary<string, GameObject>();
 
     new void Awake()
     {
@@ -19,70 +19,24 @@ public class ItemPooler : SingletonMonoBehaviour<ItemPooler>
         {
             Item currentGameItem = gameItems[i].GetComponent<Item>();
 
-
             if (currentGameItem != null)
             {
-                bool previousActive = gameItems[i].activeSelf;
-                gameItems[i].SetActive(false);
-                GameObject currentGameObject = Instantiate(gameItems[i], this.gameObject.transform);
-                gameItems[i].SetActive(previousActive);
+                if (!itemDictionary.ContainsKey(currentGameItem.itemName))
+                {
+                    itemDictionary.Add(currentGameItem.itemName, gameItems[i]);
+                }
             }
         }
     }
 
-    private void Start()
-    {
-        for (int i = 0; i < gameItems.Count; i++)
-        {
-            Item currentItem = gameItems[i].GetComponent<Item>();
-            if (currentItem == null)
-            {
-                continue;
-            }
-
-            if (!itemDictionary.ContainsKey(currentItem.itemName))
-            {
-                itemDictionary.Add(currentItem.itemName, currentItem);
-            }
-        }
-    }
-
-    public void ResetCurrentDictionary()
-    {
-        itemDictionary.Clear();
-    }
-
-    public GameObject GetItemByName(string itemName, Item currentItemRef)
+    public GameObject InstantiateItemByName(string itemName)
     {
         if (!itemDictionary.ContainsKey(itemName))
         {
             Debug.LogError($"Item Dictionary does not contain current item: {itemName}");
             return null;
         }
-        else
-        {
-            if (itemDictionary[itemName].gameObject.activeSelf)
-            {
-                return null;
-            }
-        }
 
-        itemDictionary[itemName].GetComponent<Item>().LoadItem(currentItemRef);
-        itemDictionary[itemName].gameObject.SetActive(true);
-        currentItemRef.gameObject.SetActive(false);
-
-        return itemDictionary[itemName].gameObject;
-    }
-
-    public void RepoolItemByName(string itemName)
-    {
-        if (!itemDictionary.ContainsKey(itemName))
-        {
-            Debug.LogError($"Item Dictionary does not contain current item: {itemName}");
-            return;
-        }
-
-        itemDictionary[itemName].transform.parent = this.gameObject.transform;
-        itemDictionary[itemName].gameObject.SetActive(false);
+        return Instantiate(itemDictionary[itemName]);
     }
 }

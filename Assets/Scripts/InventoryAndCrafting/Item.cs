@@ -88,12 +88,39 @@ public class ChassisGripTransform
 
     public void ResetGripTransform()
     {
+        if (currentGrip == null)
+        {
+            return;
+        }
+
         currentGrip.isEquipped = false;
         currentGrip.OnUnequip();
 
         isOccupied = false;
         currentGrip = null;
     }
+}
+
+[Serializable]
+public struct ChassisDataModel
+{
+    public string itemName;
+    public Transform itemTransform;
+    public bool isObtained;
+    public bool isRestored;
+    public bool isEquipped;
+    public List<ItemDataModel?> componentItemModels;
+    public ItemDataModel? gripItemModel;
+}
+
+[Serializable]
+public struct ItemDataModel
+{
+    public string itemName;
+    public Transform itemTransform;
+    public bool isObtained;
+    public bool isRestored;
+    public bool isEquipped;
 }
 
 [Serializable]
@@ -131,180 +158,143 @@ public class Item : MonoBehaviour, ISaveable
     {
         if (itemType == TypeTag.chassis)
         {
-            return new SaveData
+            List<ItemDataModel?> tempComponentModels = new List<ItemDataModel?>();
+            for (int i = 0; i < chassisComponentTransforms.Count; i++)
             {
-                isActive = this.gameObject.activeInHierarchy,
-                currentPosition = transform,
+                ItemDataModel? currentItemDataModel;
+                if (chassisComponentTransforms[i].IsComponentTransformOccupied())
+                {
+                    Item currentComponent = chassisComponentTransforms[i].GetComponentTransformItem();
+                    currentItemDataModel = new ItemDataModel 
+                    {
+                        itemName = currentComponent.itemName,
+                        itemTransform = currentComponent.gameObject.transform,
+                        isObtained = currentComponent.isObtained,
+                        isRestored = currentComponent.isRestored,
+                        isEquipped = currentComponent.isEquipped
+                    };
+
+                    tempComponentModels.Add(currentItemDataModel);
+                }
+                else
+                {
+                    currentItemDataModel = null;
+                    tempComponentModels.Add(currentItemDataModel);
+                }
+            }
+
+            ItemDataModel? tempGripModel;
+            if (chassisGripTransform.IsGripTransformOccupied())
+            {
+                Item currentGripItem = chassisGripTransform.GetGripTransformItem();
+                tempGripModel = new ItemDataModel
+                {
+                    itemName = currentGripItem.itemName,
+                    itemTransform = currentGripItem.gameObject.transform,
+                    isObtained = currentGripItem.isObtained,
+                    isRestored = currentGripItem.isRestored,
+                    isEquipped = currentGripItem.isEquipped
+                };
+            }
+            else
+            {
+                tempGripModel = null;
+            }
+
+
+            return new ChassisDataModel
+            {
+                itemName = itemName,
+                itemTransform = transform,
                 isObtained = isObtained,
                 isRestored = isRestored,
                 isEquipped = isEquipped,
-                chassisComponentTransforms = chassisComponentTransforms,
-                chassisGripTransform = chassisGripTransform
+                componentItemModels = new List<ItemDataModel?>(tempComponentModels),
+                gripItemModel = tempGripModel
             };
         }
         else
         {
-            return new SaveData
+            return new ItemDataModel
             {
-                isActive = this.gameObject.activeInHierarchy,
-                currentPosition = transform,
+                itemName = itemName,
+                itemTransform = transform,
                 isObtained = isObtained,
                 isRestored = isRestored,
-                isEquipped = isEquipped
+                isEquipped = isEquipped,
             };
         }
     }
 
     public void RestoreState(object state)
     {
-        var saveData = (SaveData)state;
-
-        this.gameObject.SetActive(saveData.isActive);
-        transform.position = saveData.currentPosition.position;
-        transform.rotation = saveData.currentPosition.rotation;
-        isObtained = saveData.isObtained;
-        isRestored = saveData.isRestored;
-        isEquipped = saveData.isEquipped;
-
-        if (itemType == TypeTag.chassis)
+        if (itemType != TypeTag.chassis)
         {
-            for (int i = 0; i < chassisComponentTransforms.Count; i++)
+            var savedItemDataModel = (ItemDataModel)state;
+
+            if (savedItemDataModel.isObtained || savedItemDataModel.isEquipped)
             {
-                if (saveData.chassisComponentTransforms[i].IsComponentTransformOccupied())
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                transform.position = savedItemDataModel.itemTransform.position;
+                transform.rotation = savedItemDataModel.itemTransform.rotation;
+                isObtained = savedItemDataModel.isObtained;
+                isRestored = savedItemDataModel.isRestored;
+                isEquipped = savedItemDataModel.isEquipped;
+            }
+        }
+        else
+        {
+            var savedChassisDataModel = (ChassisDataModel)state;
+
+            if (savedChassisDataModel.isObtained)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                transform.position = savedChassisDataModel.itemTransform.position;
+                transform.rotation = savedChassisDataModel.itemTransform.rotation;
+                isObtained = savedChassisDataModel.isObtained;
+                isRestored = savedChassisDataModel.isRestored;
+                isEquipped = savedChassisDataModel.isEquipped;
+
+                for (int i = 0; i < savedChassisDataModel.componentItemModels.Count; i++)
                 {
                     chassisComponentTransforms[i].ResetComponentTransform();
-                    chassisComponentTransforms[i].AddNewComponentTransform(saveData.chassisComponentTransforms[i].GetComponentTransformItem());
-                }
-            }
+                    if (savedChassisDataModel.componentItemModels[i].HasValue)
+                    {
+                        GameObject currentComponentGameObject = ItemPooler.Instance.InstantiateItemByName(savedChassisDataModel.componentItemModels[i].Value.itemName);
 
-            if (saveData.chassisGripTransform.IsGripTransformOccupied())
-            {
+                        currentComponentGameObject.transform.parent = gameObject.transform;
+                        currentComponentGameObject.gameObject.transform.position = chassisComponentTransforms[i].componentTransform.position;
+                        currentComponentGameObject.gameObject.transform.rotation = chassisComponentTransforms[i].componentTransform.rotation;
+                        currentComponentGameObject.gameObject.SetActive(true);
+
+                        chassisComponentTransforms[i].AddNewComponentTransform(currentComponentGameObject.GetComponent<Item>());
+                    }
+                }
+
                 chassisGripTransform.ResetGripTransform();
-                chassisGripTransform.AddNewGripTransform(saveData.chassisGripTransform.GetGripTransformItem());
-            }
-        }
-
-        //Add item to inventory and update non-equipped chassis' and other items
-        if ((isObtained && !isEquipped))
-        {
-            if (!Inventory.Instance.inventory.Contains(this))
-            {
-                Inventory.Instance.LoadAddToInventory(this);
-            }
-
-            if (itemType == TypeTag.chassis)
-            {
-                for (int i = 0; i < chassisComponentTransforms.Count; i++)
+                if (savedChassisDataModel.gripItemModel.HasValue)
                 {
-                    if (chassisComponentTransforms[i].IsComponentTransformOccupied())
-                    {
-                        Item currentComponent = chassisComponentTransforms[i].GetComponentTransformItem();
-                        GameObject currentComponentGO = currentComponent.gameObject;
+                    GameObject currentGripGameObject = ItemPooler.Instance.InstantiateItemByName(savedChassisDataModel.gripItemModel.Value.itemName);
 
-                        currentComponentGO.transform.parent = gameObject.transform;
-                        currentComponentGO.gameObject.transform.position = chassisComponentTransforms[i].componentTransform.position;
-                        currentComponentGO.gameObject.transform.rotation = chassisComponentTransforms[i].componentTransform.rotation;
-                        currentComponent.isEquipped = true;
-                        currentComponent.OnEquip();
-
-                        currentComponentGO.gameObject.SetActive(false);
-                    }
-                }
-
-                if (chassisGripTransform.IsGripTransformOccupied())
-                {
-                    Item currentGrip = chassisGripTransform.GetGripTransformItem();
-                    GameObject currentGripGO = currentGrip.gameObject;
-
-                    gameObject.transform.parent = currentGripGO.transform;
-                    gameObject.transform.position = currentGripGO.transform.position;
-                    gameObject.transform.localRotation = Quaternion.Euler(0, -currentGrip.localHandRot.y, 0);
-                    currentGrip.isEquipped = true;
-                    currentGrip.OnEquip();
-
-                    gameObject.SetActive(false);
-                }
-            }
-        }
-
-        //Updates the current equipped item.
-        if (isEquipped)
-        {
-            if (itemType == TypeTag.chassis)
-            {
-                if (!Inventory.Instance.inventory.Contains(this))
-                {
-                    Inventory.Instance.LoadAddToInventory(this);
-                }
-
-                for (int i = 0; i < chassisComponentTransforms.Count; i++)
-                {
-                    if (chassisComponentTransforms[i].IsComponentTransformOccupied())
-                    {
-                        Item currentComponent = chassisComponentTransforms[i].GetComponentTransformItem();
-                        GameObject currentComponentGO = currentComponent.gameObject;
-
-                        currentComponentGO.transform.parent = gameObject.transform;
-                        currentComponentGO.gameObject.transform.position = chassisComponentTransforms[i].componentTransform.position;
-                        currentComponentGO.gameObject.transform.rotation = chassisComponentTransforms[i].componentTransform.rotation;
-                        currentComponent.isEquipped = true;
-                        currentComponent.OnEquip();
-
-                        if (Inventory.Instance.inventory.Contains(currentComponent))
-                        {
-                            Inventory.Instance.inventory.Remove(currentComponent);
-                        }
-
-                        currentComponentGO.gameObject.SetActive(true);
-                    }
-                }
-
-                if (chassisGripTransform.IsGripTransformOccupied())
-                {
-                    Item currentGrip = chassisGripTransform.GetGripTransformItem();
-                    GameObject currentGripGO = currentGrip.gameObject;
-                    Inventory.Instance.playerItemHandler.EquipItem(currentGrip);
-
-                    gameObject.transform.parent = currentGripGO.transform;
-                    gameObject.transform.position = currentGripGO.transform.position;
-                    gameObject.transform.localRotation = Quaternion.Euler(0, -currentGrip.localHandRot.y, 0);
-                    currentGrip.isEquipped = true;
-                    currentGrip.OnEquip();
-
-                    if (Inventory.Instance.inventory.Contains(currentGrip))
-                    {
-                        Inventory.Instance.inventory.Remove(currentGrip);
-                    }
-
+                    gameObject.transform.parent = currentGripGameObject.transform;
+                    gameObject.transform.position = currentGripGameObject.transform.position;
+                    gameObject.transform.localRotation = Quaternion.Euler(0, -currentGripGameObject.GetComponent<Item>().localHandRot.y, 0);
                     gameObject.SetActive(true);
-                }
-                else
-                {
-                    Inventory.Instance.playerItemHandler.EquipItem(this);
+
+                    currentGripGameObject.transform.position = savedChassisDataModel.itemTransform.position;
+                    currentGripGameObject.transform.rotation = savedChassisDataModel.itemTransform.rotation;
+
+                    chassisGripTransform.AddNewGripTransform(currentGripGameObject.GetComponent<Item>());
                 }
             }
-        }
-
-        AddItemToVisualDictionary();
-    }
-
-    [Serializable]
-    private struct SaveData
-    {
-        public bool isActive;
-        public Transform currentPosition;
-        public bool isObtained;
-        public bool isRestored;
-        public bool isEquipped;
-        public List<ChassisComponentTransform> chassisComponentTransforms;
-        public ChassisGripTransform chassisGripTransform;
-    }
-
-    private void OnEnable()
-    {
-        if (!ItemPooler.Instance.itemDictionary.ContainsKey(itemName))
-        {
-            ItemPooler.Instance.itemDictionary.Add(itemName, this);
         }
     }
 

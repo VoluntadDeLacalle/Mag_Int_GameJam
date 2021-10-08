@@ -10,7 +10,6 @@ public class SaveableEntity : MonoBehaviour
 
     public string Id => id;
     public bool shouldCrossRef = false;
-    public bool isItem = false;
 
     [ContextMenu("Generate Id")]
     private void GenerateId() => id = Guid.NewGuid().ToString();
