@@ -20,11 +20,10 @@ public class CraftingController : MonoBehaviour
     private int currentChassisIndex = -1;
     private bool warningCalled = false;
 
-    private List<Item> chassisList = new List<Item>();
-    private List<Item> effectorList = new List<Item>();
-    private List<Item> modifierList = new List<Item>();
-    private List<Item> ammoList = new List<Item>();
-    private List<Item> gripList = new List<Item>();
+    private List<ItemDataModel> effectorList = new List<ItemDataModel>();
+    private List<ItemDataModel> modifierList = new List<ItemDataModel>();
+    private List<ItemDataModel> ammoList = new List<ItemDataModel>();
+    private List<ItemDataModel> gripList = new List<ItemDataModel>();
 
 
     [Header("Item Viewer Variables")]
@@ -54,74 +53,71 @@ public class CraftingController : MonoBehaviour
 
     void OnEnableCraftingPanel()
     {
-        for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+        for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
         {
-            if (Inventory.Instance.inventory[i] == null || !Inventory.Instance.inventory[i].isRestored)
+            if (!Inventory.Instance.chassisDataModels[i].isRestored)
             {
                 continue;
             }
 
-            switch (Inventory.Instance.inventory[i].itemType)
+            for (int j = 0; j < Inventory.Instance.chassisDataModels[i].componentItemModels.Count; j++)
             {
-                case Item.TypeTag.chassis:
-                    foreach (Item childrenItem in Inventory.Instance.inventory[i].gameObject.GetComponentsInChildren<Item>())
+                if (Inventory.Instance.chassisDataModels[i].componentItemModels[j].HasValue)
+                {
+                    Item.TypeTag currentComponentType;
+                    ItemPooler.Instance.GetItemType(Inventory.Instance.chassisDataModels[i].componentItemModels[j].Value.itemName, out currentComponentType);
+                    switch (currentComponentType)
                     {
-                        if (childrenItem.gameObject == Inventory.Instance.inventory[i].gameObject)
-                        {
-                            continue;
-                        }
-
-                        switch (childrenItem.itemType)
-                        {
-                            case Item.TypeTag.effector:
-                                Item tempChildEffectorItem = childrenItem;
-                                effectorList.Add(tempChildEffectorItem);
-                                break;
-                            case Item.TypeTag.modifier:
-                                Item tempChildModifierItem = childrenItem;
-                                modifierList.Add(tempChildModifierItem);
-                                break;
-                            case Item.TypeTag.ammo:
-                                Item tempChildAmmoItem = childrenItem;
-                                ammoList.Add(tempChildAmmoItem);
-                                break;
-                        }
+                        case Item.TypeTag.effector:
+                            effectorList.Add(Inventory.Instance.chassisDataModels[i].componentItemModels[j].Value);
+                            break;
+                        case Item.TypeTag.modifier:
+                            modifierList.Add(Inventory.Instance.chassisDataModels[i].componentItemModels[j].Value);
+                            break;
+                        case Item.TypeTag.ammo:
+                            ammoList.Add(Inventory.Instance.chassisDataModels[i].componentItemModels[j].Value);
+                            break;
                     }
+                }
+            }
 
-                    if (Inventory.Instance.inventory[i].chassisGripTransform.IsGripTransformOccupied())
-                    {
-                        Item tempChildGripItem = Inventory.Instance.inventory[i].chassisGripTransform.GetGripTransformItem();
-                        gripList.Add(tempChildGripItem);
-                    }
+            if (Inventory.Instance.chassisDataModels[i].gripItemModel.HasValue)
+            {
+                gripList.Add(Inventory.Instance.chassisDataModels[i].gripItemModel.Value);
+            }
+        }
 
-                    Item tempChassisItem = Inventory.Instance.inventory[i];
-                    chassisList.Add(tempChassisItem);
+        for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
+        {
+            if (!Inventory.Instance.itemDataModels[i].isRestored)
+            {
+                continue;
+            }
 
-                    break;
+            Item.TypeTag currentItemType;
+            ItemPooler.Instance.GetItemType(Inventory.Instance.itemDataModels[i].itemName, out currentItemType);
+
+            switch (currentItemType)
+            {
                 case Item.TypeTag.effector:
-                    Item tempEffectorItem = Inventory.Instance.inventory[i];
-                    effectorList.Add(tempEffectorItem);
+                    effectorList.Add(Inventory.Instance.itemDataModels[i]);
                     break;
                 case Item.TypeTag.modifier:
-                    Item tempModifierItem = Inventory.Instance.inventory[i];
-                    modifierList.Add(tempModifierItem);
+                    modifierList.Add(Inventory.Instance.itemDataModels[i]);
                     break;
                 case Item.TypeTag.ammo:
-                    Item tempAmmoItem = Inventory.Instance.inventory[i];
-                    ammoList.Add(tempAmmoItem);
+                    ammoList.Add(Inventory.Instance.itemDataModels[i]);
                     break;
                 case Item.TypeTag.grip:
-                    Item tempGripItem = Inventory.Instance.inventory[i];
-                    gripList.Add(tempGripItem);
+                    gripList.Add(Inventory.Instance.itemDataModels[i]);
                     break;
             }
         }
 
         int startingChassis = -1;
-        for (int i = 0; i < chassisList.Count; i++)
+        for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
         {
-            if (chassisList[i].itemType == Item.TypeTag.chassis 
-                && chassisList[i].isEquipped)
+            if (Inventory.Instance.chassisDataModels[i].isEquipped)
             {
                 startingChassis = i;
             }
@@ -134,12 +130,11 @@ public class CraftingController : MonoBehaviour
     {
         DisableWholeVisualChassis();
 
-        for (int i = 0; i < chassisList.Count; i++)
+        for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
         {
-            DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[i].gameObject]);
+            DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[i].itemName]);
         }
 
-        chassisList.Clear();
         effectorList.Clear();
         modifierList.Clear();
         ammoList.Clear();
@@ -206,27 +201,27 @@ public class CraftingController : MonoBehaviour
     void DisableVisualItem(GameObject visualItem)
     {
         visualItem.SetActive(false);
-        visualItem.transform.SetParent(Inventory.Instance.visualItemParent.transform);
+        visualItem.transform.SetParent(ItemPooler.Instance.visualItemParent.transform);
     }
 
     void DisableWholeVisualChassis()
     {
         if (currentChassisIndex != -1)
         {
-            for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
+            for (int i = 0; i < Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels.Count; i++)
             {
-                if (chassisList[currentChassisIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].HasValue)
                 {
-                    DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject]);
+                    DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemName]);
                 }
             }
 
-            if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName]);
             }
 
-            Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].SetActive(false);
+            ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].SetActive(false);
         }
     }
 
@@ -253,18 +248,18 @@ public class CraftingController : MonoBehaviour
         visualItem.SetActive(true);
     }
 
-    int FindInventoryIndex(Item itemToFind)
-    {
-        for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
-        {
-            if (Inventory.Instance.inventory[i].gameObject == itemToFind.gameObject)
-            {
-                return i;
-            }
-        }
+    //int FindInventoryIndex(Item itemToFind)
+    //{
+    //    for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+    //    {
+    //        if (Inventory.Instance.inventory[i].gameObject == itemToFind.gameObject)
+    //        {
+    //            return i;
+    //        }
+    //    }
 
-        return -1;
-    }
+    //    return -1;
+    //}
 
     /// <summary>
     /// Sets a new chassis as the target of the crafting system.
@@ -281,37 +276,45 @@ public class CraftingController : MonoBehaviour
             SpawnSecondaryButtons(Item.TypeTag.chassis, chassisNoneSecondaryCraftingList.transform);
 
             DisableWholeVisualChassis();
+            itemViewer.SwitchPlayerAnimLayer(0);
 
-             currentChassisIndex = -1;
+            currentChassisIndex = -1;
             return;
         }
         else
         {
             DisableWholeVisualChassis();
             ///Get current chassis
-            Item currentChassis = chassisList[index];
             currentChassisIndex = index;
 
             ///Visualize current chassis
-            GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
-            if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
+            GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                GameObject visualGrip = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject];
-                EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandPos, chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().localHandRot);
-                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(Vector3.zero), true);
+                GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName];
 
-                itemViewer.SwitchPlayerAnimLayer((int)chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
+                Vector3 localHandPos, localHandRot;
+                ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName, out localHandPos, out localHandRot);
+
+                EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, localHandPos, localHandRot);
+                EnableVisualItem(visualChassis, visualGrip.transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualGripTransform().localPosition, Quaternion.Euler(0, localHandRot.y, 0), true);
+
+                GripItem.GripType gripType;
+                ItemPooler.Instance.GetGripAnimEnum(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName, out gripType);
+                itemViewer.SwitchPlayerAnimLayer((int)gripType);
             }
             else
             {
-                EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
+                Vector3 localHandPos, localHandRot;
+                ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out localHandPos, out localHandRot);
+                EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, localHandPos, localHandRot);
 
                 itemViewer.SwitchPlayerAnimLayer(0);
             }
 
             ///Spawn component buttons
             List<PrimaryCraftingUIDescriptor> resetComponentPrimaryButtons = new List<PrimaryCraftingUIDescriptor>();
-            List<Item> currentComponentList = new List<Item>();
+            List<ItemDataModel> currentComponentList = new List<ItemDataModel>();
             for (int i = 0; i < effectorList.Count; i++)
             {
                 currentComponentList.Add(effectorList[i]);
@@ -327,17 +330,17 @@ public class CraftingController : MonoBehaviour
                 currentComponentList.Add(ammoList[i]);
             }
 
-            for (int i = 0; i < currentChassis.chassisComponentTransforms.Count; i++)
+            for (int i = 0; i < Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels.Count; i++)
             {
                 int currentcomponentTransformIndex = i;
                 string componentItemName = "None";
                 Sprite componentItemIcon = null;
                 bool currentPointIsOccupied = false;
 
-                if (currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].IsComponentTransformOccupied())
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[currentcomponentTransformIndex].HasValue)
                 {
-                    componentItemName = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().itemName;
-                    componentItemIcon = currentChassis.chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().inventorySprite;
+                    componentItemName = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[currentcomponentTransformIndex].Value.itemName;
+                    ItemPooler.Instance.GetItemSprite(componentItemName, out componentItemIcon);
                     currentPointIsOccupied = true;
                 }
 
@@ -347,26 +350,28 @@ public class CraftingController : MonoBehaviour
 
                 if (currentPointIsOccupied)
                 {
-                    GameObject visualEffector = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[currentcomponentTransformIndex].GetComponentTransformItem().gameObject];
-                    EnableVisualItem(visualEffector, visualChassis.transform, chassisList[currentChassisIndex].chassisComponentTransforms[currentcomponentTransformIndex].componentTransform.localPosition, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[currentcomponentTransformIndex].componentTransform.rotation);
+                    GameObject visualEffector = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[currentcomponentTransformIndex].Value.itemName];
+                    EnableVisualItem(visualEffector, visualChassis.transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[currentcomponentTransformIndex].localPosition, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[currentcomponentTransformIndex].rotation);
                 }
 
                 resetComponentPrimaryButtons.Add(componentSecondaryCraftingList.gameObject.GetComponentInParent<PrimaryCraftingUIDescriptor>());
             }
 
             ///Spawn chassis button
+            Sprite chassisSprite;
+            ItemPooler.Instance.GetItemSprite(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out chassisSprite);
             GameObject chassisSecondaryCraftingList =
-                SpawnPrimaryButton("Chassis", currentChassis.itemName, currentChassis.inventorySprite, ref heightSpacing);
+                SpawnPrimaryButton("Chassis", Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, chassisSprite, ref heightSpacing);
                 SpawnSecondaryButtons(Item.TypeTag.chassis, chassisSecondaryCraftingList.transform);
             PrimaryCraftingUIDescriptor resetChassisPrimaryButton = chassisSecondaryCraftingList.GetComponentInParent<PrimaryCraftingUIDescriptor>();
 
             ///Spawn grip button
             string gripItemName = "None";
             Sprite gripItemIcon = null;
-            if (currentChassis.chassisGripTransform.IsGripTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                gripItemName = currentChassis.chassisGripTransform.GetGripTransformItem().itemName;
-                gripItemIcon = currentChassis.chassisGripTransform.GetGripTransformItem().inventorySprite;
+                gripItemName = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName;
+                ItemPooler.Instance.GetItemSprite(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName, out gripItemIcon);
             }
             GameObject gripSecondaryCraftingList = 
                 SpawnPrimaryButton("Grip", gripItemName, gripItemIcon, ref heightSpacing);
@@ -394,42 +399,107 @@ public class CraftingController : MonoBehaviour
         {
             chassisPrimaryButton.secondaryCraftingList.gameObject.SetActive(false);
 
-            GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
+            GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
             DisableVisualItem(visualChassis);
-            EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
+            Vector3 chassisLocalHandPos, chassisLocalHandRot;
+            ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out chassisLocalHandPos, out chassisLocalHandRot);
+            EnableVisualEquippedItem(visualChassis, itemViewer.handAttachment, chassisLocalHandPos, chassisLocalHandRot);
             itemViewer.SwitchPlayerAnimLayer(0);
 
-            for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
+            for (int i = 0; i < Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels.Count; i++)
             {
                 componentPrimaryButtons[i].SetButtonInformation($"Component {i + 1}", "None", null);
                 componentPrimaryButtons[i].secondaryCraftingList.gameObject.SetActive(false);
 
-                if (chassisList[currentChassisIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].HasValue)
                 {
-                    DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject]);
+                    DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemName]);
 
                     ///Removes component for current slot if there is one.
-                    chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.transform.parent = null;
-                    chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject.SetActive(false);
+                    if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                    {
+                        Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
 
-                    Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem());
-                    chassisList[currentChassisIndex].chassisComponentTransforms[i].ResetComponentTransform();
+                        Inventory.Instance.AddToInventory(currentComponentItem.chassisComponentTransforms[i].GetComponentTransformItem(), false);
+                        currentComponentItem.chassisComponentTransforms[i].ResetComponentTransform();
+                    }
+                    else
+                    {
+                        ItemDataModel tempItemDataModel = new ItemDataModel
+                        {
+                            itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemName,
+                            itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemPosition,
+                            itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemRotation,
+                            isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.isObtained,
+                            isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.isRestored,
+                            isEquipped = false,
+                        };
+
+                        Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i] = tempItemDataModel;
+                        Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value);
+                    }
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i] = null;
                 }
             }
 
             gripPrimaryButton.SetButtonInformation("Grip", "None", null);
             gripPrimaryButton.secondaryCraftingList.gameObject.SetActive(false);
 
-            if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName]);
 
                 ///Removes grip from current slot if there is one.
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.transform.parent = null;
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.SetActive(false);
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                {
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                    Inventory.Instance.playerItemHandler.EquipItem(currentComponentItem);
 
-                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem());
-                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+                    Inventory.Instance.AddToInventory(currentComponentItem.chassisGripTransform.GetGripTransformItem(), false);
+                    currentComponentItem.chassisGripTransform.ResetGripTransform();
+                }
+                else
+                {
+                    ItemDataModel? tempItemDataModel = new ItemDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isRestored,
+                        isEquipped = false,
+                    };
+
+                    ChassisDataModel tempChassisGripDataModel = new ChassisDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                        isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                        componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                        gripItemModel = tempItemDataModel,
+                    };
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value);
+                }
+
+                ChassisDataModel tempChassisDataModel = new ChassisDataModel
+                {
+                    itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                    itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                    itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                    isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                    isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                    isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                    componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                    gripItemModel = null,
+                };
+
+                Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisDataModel;
             }
         }
     }
@@ -441,56 +511,122 @@ public class CraftingController : MonoBehaviour
     /// <param name="componentList"></param>
     /// <param name="componentTransformIndex"></param>
     /// <param name="parentButton"></param>
-    void ChooseNewComponent(int componentIndex, List<Item> componentList, int componentTransformIndex, GameObject parentButton)
+    void ChooseNewComponent(int componentIndex, List<ItemDataModel> componentList, int componentTransformIndex, GameObject parentButton)
     {
         if (componentIndex == -1)
         {   
             parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", "None", null);
             
-            if (chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].IsComponentTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].HasValue)
             {
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemName]);
 
                 ///Removes component for current slot if there is one.
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.transform.parent = null;
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.SetActive(false);
-                
-                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem());
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].ResetComponentTransform();
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                {
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+
+                    Inventory.Instance.AddToInventory(currentComponentItem.chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem(), false);
+                    currentComponentItem.chassisComponentTransforms[componentTransformIndex].ResetComponentTransform();
+                }
+                else
+                {
+                    ItemDataModel tempItemDataModel = new ItemDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.isRestored,
+                        isEquipped = false,
+                    };
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModel;
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value);
+                }
+
+                Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = null;
             }
             return;
         }
         else
         {
-            if (chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].IsComponentTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].HasValue)
             {
-                if (chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject == componentList[componentIndex].gameObject)
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemName == componentList[componentIndex].itemName)
                 {
                     return;
                 }
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemName]);
 
                 ///Removes whatever component was in the slot prior to a new one being added.
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.transform.parent = null;
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem().gameObject.SetActive(false);
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                {
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
 
-                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem());
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].ResetComponentTransform();
+                    Inventory.Instance.AddToInventory(currentComponentItem.chassisComponentTransforms[componentTransformIndex].GetComponentTransformItem(), false);
+                    currentComponentItem.chassisComponentTransforms[componentTransformIndex].ResetComponentTransform();
+                }
+                else
+                {
+                    ItemDataModel tempItemDataModel = new ItemDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value.isRestored,
+                        isEquipped = false,
+                    };
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModel;
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentIndex].Value);
+                }
+
+                Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = null;
             }
 
-            if (componentList[componentIndex].isEquipped)
+            bool isComponentinInventory = false;
+
+            for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
             {
-                Item attachedComponentChassis = componentList[componentIndex].gameObject.transform.parent.GetComponent<Item>();
-                if (attachedComponentChassis.gameObject == chassisList[currentChassisIndex].gameObject)
+                if (Inventory.Instance.itemDataModels[i].itemName == componentList[componentIndex].itemName)
                 {
-                    for (int i = 0; i < chassisList[currentChassisIndex].chassisComponentTransforms.Count; i++)
+                    isComponentinInventory = true;
+                    break;
+                }
+            }
+
+            if (!isComponentinInventory)
+            {
+                int attachedComponentChassisIndex = -1;
+                for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
+                {
+                    for (int j = 0; j < Inventory.Instance.chassisDataModels[i].componentItemModels.Count; j++)
                     {
-                        if (!chassisList[currentChassisIndex].chassisComponentTransforms[i].IsComponentTransformOccupied())
+                        if (Inventory.Instance.chassisDataModels[i].componentItemModels[j].HasValue)
+                        {
+                            if (Inventory.Instance.chassisDataModels[i].componentItemModels[j].Value.itemName == componentList[componentIndex].itemName)
+                            {
+                                attachedComponentChassisIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (attachedComponentChassisIndex == currentChassisIndex)
+                {
+                    GameObject localComponentGameObjectRef = null;
+                    ItemDataModel? localComponentItem = null;
+                    for (int i = 0; i < Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels.Count; i++)
+                    {
+                        if (!Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].HasValue)
                         {
                             continue;
                         }
 
-                        if (chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject == componentList[componentIndex].gameObject)
+                        if (Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemName == componentList[componentIndex].itemName)
                         {
                             foreach (PrimaryCraftingUIDescriptor currentButton in primaryCraftingList.GetComponentsInChildren<PrimaryCraftingUIDescriptor>())
                             {
@@ -501,8 +637,17 @@ public class CraftingController : MonoBehaviour
                                 }
                             }
 
-                            DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisComponentTransforms[i].GetComponentTransformItem().gameObject]);
-                            chassisList[currentChassisIndex].chassisComponentTransforms[i].ResetComponentTransform();
+                            DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i].Value.itemName]);
+
+                            localComponentItem = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[i].Value;
+                            if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                            {
+                                Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                                localComponentGameObjectRef = currentComponentItem.chassisComponentTransforms[i].GetComponentTransformItem().gameObject;
+                                currentComponentItem.chassisComponentTransforms[i].ResetComponentTransform();
+                            }
+
+                            Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[i] = null;
                             break;
                         }
                         else if(i == componentTransformIndex)
@@ -510,16 +655,54 @@ public class CraftingController : MonoBehaviour
                             continue;
                         }
                     }
-                    
-                    ///Moves component from one slot on current chassis to currently selected one.
-                    componentList[componentIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
-                    componentList[componentIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
-                    chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
+                    if (localComponentGameObjectRef != null)
+                    {
+                        Item localComponentItemRef = localComponentGameObjectRef.GetComponent<Item>();
 
-                    GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
-                    EnableVisualItem(visualComponent, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
+                        ///Moves component from one slot on current chassis to currently selected one.
+                        if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                        {
+                            Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
 
-                    parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentList[componentIndex].inventorySprite);
+                            localComponentGameObjectRef.transform.position = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.position;
+                            localComponentGameObjectRef.transform.rotation = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
+                            currentComponentItem.chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(localComponentGameObjectRef.GetComponent<Item>());
+                        }
+
+                        List<float> localComponentPosition = new List<float>();
+                        localComponentPosition.Add(localComponentItemRef.transform.position.x);
+                        localComponentPosition.Add(localComponentItemRef.transform.position.y);
+                        localComponentPosition.Add(localComponentItemRef.transform.position.z);
+
+                        List<float> localComponentRotation = new List<float>();
+                        localComponentRotation.Add(localComponentItemRef.transform.rotation.x);
+                        localComponentRotation.Add(localComponentItemRef.transform.rotation.y);
+                        localComponentRotation.Add(localComponentItemRef.transform.rotation.z);
+                        localComponentRotation.Add(localComponentItemRef.transform.rotation.w);
+
+                        ItemDataModel tempItemDataModel = new ItemDataModel
+                        {
+                            itemName = localComponentItemRef.itemName,
+                            itemPosition = localComponentPosition,
+                            itemRotation = localComponentRotation,
+                            isObtained = localComponentItemRef.isObtained,
+                            isRestored = localComponentItemRef.isRestored,
+                            isEquipped = localComponentItemRef.isEquipped,
+                        };
+                        Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModel;
+                    }
+                    else
+                    {
+                        Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = localComponentItem;
+                    }
+
+                    GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+                    GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
+                    EnableVisualItem(visualComponent, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].localPosition, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].rotation);
+
+                    Sprite componentSprite;
+                    ItemPooler.Instance.GetItemSprite(componentList[componentIndex].itemName, out componentSprite);
+                    parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentSprite);
                     return;
                 }
                 else
@@ -534,63 +717,157 @@ public class CraftingController : MonoBehaviour
                     }
                     else
                     {
-                        for (int i = 0; i < chassisList.Count; i++)
+                        GameObject otherComponentGameObjectRef = null;
+                        ItemDataModel? otherComponentItem = null;
+                        for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
                         {
-                            if (chassisList[i].gameObject == attachedComponentChassis.gameObject)
+                            if (i == attachedComponentChassisIndex)
                             {
-                                for(int j = 0; j < chassisList[i].chassisComponentTransforms.Count; j++)
+                                for(int j = 0; j < Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels.Count; j++)
                                 {
-                                    if (!chassisList[i].chassisComponentTransforms[j].IsComponentTransformOccupied())
+                                    if (!Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[j].HasValue)
                                     {
                                         continue;
                                     }
 
-                                    if(chassisList[i].chassisComponentTransforms[j].GetComponentTransformItem().gameObject == componentList[componentIndex].gameObject)
+                                    if(Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[j].Value.itemName == componentList[componentIndex].itemName)
                                     {
-                                        chassisList[i].chassisComponentTransforms[j].ResetComponentTransform();
+                                        otherComponentItem = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[j].Value;
+                                        if (Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].isEquipped)
+                                        {
+                                            Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                                            Item tempComponent = currentComponentItem.chassisComponentTransforms[j].GetComponentTransformItem();
+                                            currentComponentItem.chassisComponentTransforms[j].ResetComponentTransform();
+
+                                            Destroy(tempComponent.gameObject);
+                                        }
+                                        else if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                                        {
+                                            otherComponentGameObjectRef = ItemPooler.Instance.InstantiateItemByName(Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[j].Value.itemName);
+                                        }
+
+                                        Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels[j] = null;
                                         break;
                                     }
                                 }
                                 break;
                             }
                         }
-                        ///Removes component from other chassis and places it on this one.
-                        componentList[componentIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
-                        componentList[componentIndex].transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
-                        componentList[componentIndex].transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
-                        chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
+                        if (otherComponentGameObjectRef != null)
+                        {
+                            Item otherComponentItemRef = otherComponentGameObjectRef.GetComponent<Item>();
 
-                        GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
-                        EnableVisualItem(visualComponent, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
+                            ///Removes component from other chassis and places it on this one.
+                            if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                            {
+                                Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
 
-                        parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentList[componentIndex].inventorySprite);
+                                otherComponentGameObjectRef.transform.parent = currentComponentItem.gameObject.transform;
+                                otherComponentGameObjectRef.transform.position = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.position;
+                                otherComponentGameObjectRef.transform.rotation = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
+
+                                otherComponentGameObjectRef.GetComponent<Rigidbody>().isKinematic = true;
+                                otherComponentGameObjectRef.GetComponent<Collider>().enabled = false;
+                                otherComponentGameObjectRef.SetActive(true);
+
+                                currentComponentItem.chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(otherComponentGameObjectRef.GetComponent<Item>());
+                            }
+
+                            List<float> otherComponentPosition = new List<float>();
+                            otherComponentPosition.Add(otherComponentItemRef.transform.position.x);
+                            otherComponentPosition.Add(otherComponentItemRef.transform.position.y);
+                            otherComponentPosition.Add(otherComponentItemRef.transform.position.z);
+
+                            List<float> otherComponentRotation = new List<float>();
+                            otherComponentRotation.Add(otherComponentItemRef.transform.rotation.x);
+                            otherComponentRotation.Add(otherComponentItemRef.transform.rotation.y);
+                            otherComponentRotation.Add(otherComponentItemRef.transform.rotation.z);
+                            otherComponentRotation.Add(otherComponentItemRef.transform.rotation.w);
+
+                            ItemDataModel tempItemDataModel = new ItemDataModel
+                            {
+                                itemName = otherComponentItemRef.itemName,
+                                itemPosition = otherComponentPosition,
+                                itemRotation = otherComponentRotation,
+                                isObtained = otherComponentItemRef.isObtained,
+                                isRestored = otherComponentItemRef.isRestored,
+                                isEquipped = otherComponentItemRef.isEquipped,
+                            };
+                            Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModel;
+                        }
+                        else
+                        {
+                            Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = otherComponentItem;
+                        }
+                       
+
+                        GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+                        GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
+                        EnableVisualItem(visualComponent, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].localPosition, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].rotation);
+
+                        Sprite componentSprite;
+                        ItemPooler.Instance.GetItemSprite(componentList[componentIndex].itemName, out componentSprite);
+                        parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentSprite); 
                         return;
                     }
                 }
             }
             else
             {
-
-                ///Adds component into current slot, removes from inventory.
-                componentList[componentIndex].transform.parent = chassisList[currentChassisIndex].gameObject.transform;
-                componentList[componentIndex].gameObject.transform.position = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.position;
-                componentList[componentIndex].gameObject.transform.rotation = chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
-                componentList[componentIndex].gameObject.SetActive(true);
-                
-                chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(componentList[componentIndex]);
-                for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
+                int currentItemModelToAddIndex = -1;
+                for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
                 {
-                    if(Inventory.Instance.inventory[i].gameObject == componentList[componentIndex].gameObject)
+                    if (Inventory.Instance.itemDataModels[i].itemName == componentList[componentIndex].itemName)
                     {
-                        Inventory.Instance.inventory.RemoveAt(i);
+                        currentItemModelToAddIndex = i;
                         break;
                     }
                 }
+                if (currentItemModelToAddIndex == -1)
+                {
+                    Debug.LogError("Component not found!");
+                    return;
+                }
 
-                GameObject visualComponent = Inventory.Instance.visualItemDictionary[componentList[componentIndex].gameObject];
-                EnableVisualItem(visualComponent, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].transform, chassisList[currentChassisIndex].chassisComponentTransforms[componentTransformIndex].componentTransform.localPosition, Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].componentTransform.rotation);
+                ItemDataModel tempItemDataModelToAdd = new ItemDataModel
+                {
+                    itemName = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemName,
+                    itemPosition = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemPosition,
+                    itemRotation = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemRotation,
+                    isObtained = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].isObtained,
+                    isRestored = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].isRestored,
+                    isEquipped = true,
+                };
 
-                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentList[componentIndex].inventorySprite);
+                ///Adds component into current slot, removes from inventory.
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                {
+                    GameObject currentComponentObj = ItemPooler.Instance.InstantiateItemByName(componentList[componentIndex].itemName);
+                    currentComponentObj.GetComponent<Item>().LoadItemModelInfo(tempItemDataModelToAdd);
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+
+                    currentComponentObj.transform.parent = currentComponentItem.gameObject.transform;
+                    currentComponentObj.transform.position = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.position;
+                    currentComponentObj.transform.rotation = currentComponentItem.chassisComponentTransforms[componentTransformIndex].componentTransform.rotation;
+
+                    currentComponentObj.GetComponent<Rigidbody>().isKinematic = true;
+                    currentComponentObj.GetComponent<Collider>().enabled = false;
+                    currentComponentObj.SetActive(true);
+
+                    currentComponentItem.chassisComponentTransforms[componentTransformIndex].AddNewComponentTransform(currentComponentObj.GetComponent<Item>());
+                }
+                Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModelToAdd;
+                componentList[componentIndex] = tempItemDataModelToAdd;
+
+                GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+                GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
+                EnableVisualItem(visualComponent, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].localPosition, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].rotation);
+
+                Sprite componentSprite;
+                ItemPooler.Instance.GetItemSprite(componentList[componentIndex].itemName, out componentSprite);
+                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation($"Component { componentTransformIndex + 1 }", componentList[componentIndex].itemName, componentSprite);
+
+                Inventory.Instance.itemDataModels.RemoveAt(currentItemModelToAddIndex);
             }
         }
     }
@@ -606,58 +883,166 @@ public class CraftingController : MonoBehaviour
         {
             parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", "None", null);
 
-            if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName]);
 
                 ///Removes grip from current slot if there is one.
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.transform.parent = null;
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.SetActive(false);
-
-                EnableVisualEquippedItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject], itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
-                itemViewer.SwitchPlayerAnimLayer(0);
-                
-                if (chassisList[currentChassisIndex].isEquipped)
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
                 {
-                    Inventory.Instance.playerItemHandler.EquipItem(FindInventoryIndex(chassisList[currentChassisIndex]));
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                    Inventory.Instance.playerItemHandler.EquipItem(currentComponentItem);
+
+                    Inventory.Instance.AddToInventory(currentComponentItem.chassisGripTransform.GetGripTransformItem(), false);
+                    currentComponentItem.chassisGripTransform.ResetGripTransform();
                 }
                 else
                 {
-                    chassisList[currentChassisIndex].gameObject.SetActive(false);
+                    ItemDataModel? tempItemDataModel = new ItemDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isRestored,
+                        isEquipped = false,
+                    };
+
+                    ChassisDataModel tempChassisGripDataModel = new ChassisDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                        isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                        componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                        gripItemModel = tempItemDataModel,
+                    };
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value);
                 }
 
-                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem());
-                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+                ChassisDataModel tempChassisDataModel = new ChassisDataModel
+                {
+                    itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                    itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                    itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                    isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                    isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                    isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                    componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                    gripItemModel = null,
+                };
+
+                Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisDataModel;
+
+                Vector3 chassisLocalHandPos, chassisLocalHandRot;
+                ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out chassisLocalHandPos, out chassisLocalHandRot);
+                EnableVisualEquippedItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName], itemViewer.handAttachment, chassisLocalHandPos, chassisLocalHandRot);
+                itemViewer.SwitchPlayerAnimLayer(0);
             }
             return;
         }
         else
         {
-            if (chassisList[currentChassisIndex].chassisGripTransform.IsGripTransformOccupied())
+            if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.HasValue)
             {
-                if (chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject == gripList[gripIndex].gameObject)
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName == gripList[gripIndex].itemName)
                 {
                     return;
                 }
-                DisableVisualItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject]);
+                DisableVisualItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName]);
 
-                ///Removes whatever component was in the slot prior to a new one being added.
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.transform.parent = null;
-                chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem().gameObject.SetActive(false);
-
-                EnableVisualEquippedItem(Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject], itemViewer.handAttachment, chassisList[currentChassisIndex].localHandPos, chassisList[currentChassisIndex].localHandRot);
-                if (chassisList[currentChassisIndex].isEquipped)
+                ///Removes whatever grip was in the slot prior to a new one being added.
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
                 {
-                    Inventory.Instance.playerItemHandler.EquipItem(FindInventoryIndex(chassisList[currentChassisIndex]));
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                    Inventory.Instance.playerItemHandler.EquipItem(currentComponentItem);
+
+                    Inventory.Instance.AddToInventory(currentComponentItem.chassisGripTransform.GetGripTransformItem(), false);
+                    currentComponentItem.chassisGripTransform.ResetGripTransform();
                 }
-                
-                Inventory.Instance.AddToInventory(chassisList[currentChassisIndex].chassisGripTransform.GetGripTransformItem());
-                chassisList[currentChassisIndex].chassisGripTransform.ResetGripTransform();
+                else
+                {
+                    ItemDataModel? tempItemDataModel = new ItemDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value.isRestored,
+                        isEquipped = false,
+                    };
+
+                    ChassisDataModel tempChassisGripDataModel = new ChassisDataModel
+                    {
+                        itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                        itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                        itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                        isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                        isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                        isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                        componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                        gripItemModel = tempItemDataModel,
+                    };
+
+                    Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].gripItemModel.Value);
+                }
+
+                ChassisDataModel tempChassisDataModel = new ChassisDataModel
+                {
+                    itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                    itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                    itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                    isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                    isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                    isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                    componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                    gripItemModel = null,
+                };
+
+                Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisDataModel;
+
+                Vector3 chassisLocalHandPos, chassisLocalHandRot;
+                ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out chassisLocalHandPos, out chassisLocalHandRot);
+                EnableVisualEquippedItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName], itemViewer.handAttachment, chassisLocalHandPos, chassisLocalHandRot);    
             }
 
-            if (gripList[gripIndex].isEquipped)
+            bool isGripinInventory = false;
+
+            for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
             {
-                Item attachedGripChassis = gripList[gripIndex].GetComponentInChildren<ChassisItem>();
+                if (Inventory.Instance.itemDataModels[i].itemName == gripList[gripIndex].itemName)
+                {
+                    isGripinInventory = true;
+                    break;
+                }
+            }
+
+            if (!isGripinInventory)
+            {
+                int attachedComponentChassisIndex = -1;
+                for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
+                {
+                    if (Inventory.Instance.chassisDataModels[i].gripItemModel.HasValue)
+                    {
+                        if (Inventory.Instance.chassisDataModels[i].gripItemModel.Value.itemName == gripList[gripIndex].itemName)
+                        {
+                            attachedComponentChassisIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                GameObject otherGripGameObjectRef = null;
+                ItemDataModel? otherGripItem = null;
+                if (attachedComponentChassisIndex == currentChassisIndex)
+                {
+                    return;
+                }
 
                 string warning = "The grip you are trying to use is attached to a different object!";
                 if (!warningCalled)
@@ -669,103 +1054,245 @@ public class CraftingController : MonoBehaviour
                 }
                 else
                 {
-                    for (int i = 0; i < chassisList.Count; i++)
+                    if (attachedComponentChassisIndex != currentChassisIndex)
                     {
-                        if (!chassisList[i].chassisGripTransform.IsGripTransformOccupied())
+                        otherGripItem = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].gripItemModel.Value;
+                        if (Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].isEquipped)
                         {
-                            continue;
+                            Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                            Inventory.Instance.playerItemHandler.EquipItem(currentComponentItem);
+                            
+                            Item currentGrip = currentComponentItem.chassisGripTransform.GetGripTransformItem();
+                            currentComponentItem.chassisGripTransform.ResetGripTransform();
+
+                            Destroy(currentGrip.gameObject);
+                        }
+                        else if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                        {
+                            otherGripGameObjectRef = ItemPooler.Instance.InstantiateItemByName(Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].gripItemModel.Value.itemName);
                         }
 
-                        if (chassisList[i].gameObject == attachedGripChassis.gameObject)
+                        ChassisDataModel tempChassisDataModel = new ChassisDataModel
                         {
-                            if (chassisList[i].isEquipped)
-                            {
-                                Inventory.Instance.playerItemHandler.EquipItem(chassisList[i]);
-                            }
-                            else
-                            {
-                                chassisList[i].gameObject.SetActive(false);
-                            }
+                            itemName = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].itemName,
+                            itemPosition = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].itemPosition,
+                            itemRotation = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].itemRotation,
+                            isObtained = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].isObtained,
+                            isRestored = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].isRestored,
+                            isEquipped = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].isEquipped,
+                            componentItemModels = Inventory.Instance.chassisDataModels[attachedComponentChassisIndex].componentItemModels,
+                            gripItemModel = null,
+                        };
 
-                            chassisList[i].chassisGripTransform.ResetGripTransform();
-                            break;
-                        }
+                        Inventory.Instance.chassisDataModels[attachedComponentChassisIndex] = tempChassisDataModel;
                     }
 
-                    ///Removes grip from other chassis and places it on this one.
-                    if (chassisList[currentChassisIndex].isEquipped)
+                    if (otherGripGameObjectRef != null)
                     {
-                        Inventory.Instance.playerItemHandler.EquipItem(gripList[gripIndex]);
-                        chassisList[currentChassisIndex].isEquipped = true;
+                        Item currentGripItem = otherGripGameObjectRef.GetComponent<Item>();
+
+                        ///Removes grip from other chassis and places it on this one.
+                        if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                        {
+                            Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+
+                            currentComponentItem.gameObject.transform.parent = otherGripGameObjectRef.transform;
+                            currentComponentItem.gameObject.transform.position = otherGripGameObjectRef.gameObject.transform.position;
+                            currentComponentItem.gameObject.transform.localRotation = Quaternion.Euler(0, currentGripItem.localHandRot.y, 0);
+                            currentComponentItem.gameObject.SetActive(true);
+
+                            currentComponentItem.chassisGripTransform.AddNewGripTransform(currentGripItem);
+                            Inventory.Instance.playerItemHandler.EquipItem(currentGripItem);
+                        }
+
+                        List<float> currentGripPosition = new List<float>();
+                        currentGripPosition.Add(currentGripItem.transform.position.x);
+                        currentGripPosition.Add(currentGripItem.transform.position.y);
+                        currentGripPosition.Add(currentGripItem.transform.position.z);
+
+                        List<float> currentGripRotation = new List<float>();
+                        currentGripRotation.Add(currentGripItem.transform.rotation.x);
+                        currentGripRotation.Add(currentGripItem.transform.rotation.y);
+                        currentGripRotation.Add(currentGripItem.transform.rotation.z);
+                        currentGripRotation.Add(currentGripItem.transform.rotation.w);
+
+                        ItemDataModel? tempItemDataModel = new ItemDataModel
+                        {
+                            itemName = currentGripItem.itemName,
+                            itemPosition = currentGripPosition,
+                            itemRotation = currentGripRotation,
+                            isObtained = currentGripItem.isObtained,
+                            isRestored = currentGripItem.isRestored,
+                            isEquipped = currentGripItem.isEquipped,
+                        };
+
+                        ChassisDataModel tempChassisGripDataModel = new ChassisDataModel
+                        {
+                            itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                            itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                            itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                            isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                            isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                            isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                            componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                            gripItemModel = tempItemDataModel,
+                        };
+                        Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
+                    }
+                    else
+                    {
+                        ChassisDataModel tempChassisGripDataModel = new ChassisDataModel
+                        {
+                            itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                            itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                            itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                            isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                            isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                            isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                            componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                            gripItemModel = otherGripItem,
+                        };
+
+                        Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
                     }
 
-                    chassisList[currentChassisIndex].gameObject.transform.parent = gripList[gripIndex].transform;
-                    chassisList[currentChassisIndex].gameObject.transform.position = gripList[gripIndex].gameObject.transform.position;
-                    chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0);
-                    chassisList[currentChassisIndex].gameObject.SetActive(true);
-                    chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
+                    ///Visual
+                    GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];
+                        GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+                        Vector3 localGripHandPos, localGripHandRot;
+                        ItemPooler.Instance.GetItemHandLocals(gripList[gripIndex].itemName, out localGripHandPos, out localGripHandRot);
+                        EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, localGripHandPos, localGripHandRot);
+                        EnableVisualItem(visualChassis, visualGrip.transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualGripTransform().localPosition, Quaternion.Euler(0, localGripHandRot.y, 0), true);
 
-                    GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
-                    GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
-                    EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                    EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
+                        GripItem.GripType gripType;
+                        ItemPooler.Instance.GetGripAnimEnum(gripList[gripIndex].itemName, out gripType);
+                        itemViewer.SwitchPlayerAnimLayer((int)gripType);
 
-                    itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
-
-                    parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
+                        Sprite gripSprite;
+                        ItemPooler.Instance.GetItemSprite(gripList[gripIndex].itemName, out gripSprite);
+                        parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripSprite);
                     return;
                 }
             }
             else
             {
-
-                ///Adds grip into current slot, removes from inventory.
-                if (chassisList[currentChassisIndex].isEquipped)
+                int currentItemModelToAddIndex = -1;
+                for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
                 {
-                    Inventory.Instance.playerItemHandler.EquipItem(gripList[gripIndex]);
-                    chassisList[currentChassisIndex].isEquipped = true;
-                }
-
-                chassisList[currentChassisIndex].gameObject.transform.parent = gripList[gripIndex].transform;
-                chassisList[currentChassisIndex].gameObject.transform.position = gripList[gripIndex].gameObject.transform.position;
-                chassisList[currentChassisIndex].gameObject.transform.localRotation = Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0);
-                chassisList[currentChassisIndex].gameObject.SetActive(true);
-
-                chassisList[currentChassisIndex].chassisGripTransform.AddNewGripTransform(gripList[gripIndex]);
-                for (int i = 0; i < Inventory.Instance.inventory.Count; i++)
-                {
-                    if (Inventory.Instance.inventory[i].gameObject == gripList[gripIndex].gameObject)
+                    if (Inventory.Instance.itemDataModels[i].itemName == gripList[gripIndex].itemName)
                     {
-                        Inventory.Instance.inventory.RemoveAt(i);
+                        currentItemModelToAddIndex = i;
                         break;
                     }
                 }
+                if (currentItemModelToAddIndex == -1)
+                {
+                    Debug.LogError("Component not found!");
+                    return;
+                }
 
-                GameObject visualGrip = Inventory.Instance.visualItemDictionary[gripList[gripIndex].gameObject];
-                GameObject visualChassis = Inventory.Instance.visualItemDictionary[chassisList[currentChassisIndex].gameObject];
-                EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, gripList[gripIndex].localHandPos, gripList[gripIndex].localHandRot);
-                EnableVisualItem(visualChassis, visualGrip.transform, chassisList[currentChassisIndex].chassisGripTransform.gripTransform.localPosition, Quaternion.Euler(0, -gripList[gripIndex].localHandRot.y, 0), true);
+                ItemDataModel tempItemDataModelToAdd = new ItemDataModel
+                {
+                    itemName = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemName,
+                    itemPosition = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemPosition,
+                    itemRotation = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].itemRotation,
+                    isObtained = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].isObtained,
+                    isRestored = Inventory.Instance.itemDataModels[currentItemModelToAddIndex].isRestored,
+                    isEquipped = true,
+                };
 
-                itemViewer.SwitchPlayerAnimLayer((int)gripList[gripIndex].gameObject.GetComponent<GripItem>().gripType);
+                ChassisDataModel tempChassisGripDataModelToAdd = new ChassisDataModel
+                {
+                    itemName = Inventory.Instance.chassisDataModels[currentChassisIndex].itemName,
+                    itemPosition = Inventory.Instance.chassisDataModels[currentChassisIndex].itemPosition,
+                    itemRotation = Inventory.Instance.chassisDataModels[currentChassisIndex].itemRotation,
+                    isObtained = Inventory.Instance.chassisDataModels[currentChassisIndex].isObtained,
+                    isRestored = Inventory.Instance.chassisDataModels[currentChassisIndex].isRestored,
+                    isEquipped = Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped,
+                    componentItemModels = Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels,
+                    gripItemModel = tempItemDataModelToAdd,
+                };
 
-                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripList[gripIndex].inventorySprite);
+                ///Adds grip into current slot, removes from inventory.
+                if (Inventory.Instance.chassisDataModels[currentChassisIndex].isEquipped)
+                {
+                    GameObject currentGripObj = ItemPooler.Instance.InstantiateItemByName(gripList[gripIndex].itemName);
+                    Item currentGripItem = currentGripObj.GetComponent<Item>();
+                    currentGripItem.LoadItemModelInfo(tempItemDataModelToAdd);
+                    Item currentComponentItem = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
+                    
+                    currentComponentItem.gameObject.transform.parent = currentGripObj.transform;
+                    currentComponentItem.gameObject.transform.position = currentGripObj.gameObject.transform.position;
+                    currentComponentItem.gameObject.transform.localRotation = Quaternion.Euler(0, currentGripItem.localHandRot.y, 0);
+
+                    currentGripObj.GetComponent<Rigidbody>().isKinematic = true;
+                    currentGripObj.GetComponent<Collider>().enabled = false;
+                    currentGripObj.gameObject.SetActive(true);
+
+                    currentComponentItem.chassisGripTransform.AddNewGripTransform(currentGripItem);
+                    Inventory.Instance.playerItemHandler.EquipItem(currentGripItem);
+                }
+                Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModelToAdd;
+
+                ///Visual
+                GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];
+                GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
+                Vector3 localGripHandPos, localGripHandRot;
+                ItemPooler.Instance.GetItemHandLocals(gripList[gripIndex].itemName, out localGripHandPos, out localGripHandRot);
+                EnableVisualEquippedItem(visualGrip, itemViewer.handAttachment, localGripHandPos, localGripHandRot);
+                EnableVisualItem(visualChassis, visualGrip.transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualGripTransform().localPosition, Quaternion.Euler(0, localGripHandRot.y, 0), true);
+
+                GripItem.GripType gripType;
+                ItemPooler.Instance.GetGripAnimEnum(gripList[gripIndex].itemName, out gripType);
+                itemViewer.SwitchPlayerAnimLayer((int)gripType);
+
+                Sprite gripSprite;
+                ItemPooler.Instance.GetItemSprite(gripList[gripIndex].itemName, out gripSprite);
+                parentButton.GetComponentInParent<PrimaryCraftingUIDescriptor>().SetButtonInformation("Grip", gripList[gripIndex].itemName, gripSprite);
+
+                Inventory.Instance.itemDataModels.RemoveAt(currentItemModelToAddIndex);
             }
         }
 
     }
 
-    void SetEventTrigger(Item currentItem, out EventTrigger.Entry eventTypeEnter, out EventTrigger.Entry eventTypeExit)
+    void SetEventTrigger(ItemDataModel currentItemModel, out EventTrigger.Entry eventTypeEnter, out EventTrigger.Entry eventTypeExit)
     {
-        string itemType = (currentItem.itemType).ToString();
-        itemType = char.ToUpper(itemType[0]) + itemType.Substring(1);
-        string itemTitle = $"{currentItem.itemName} ({itemType})";
+        Item.TypeTag itemType;
+        ItemPooler.Instance.GetItemType(currentItemModel.itemName, out itemType);
+        string itemTypeStr = (itemType).ToString();
+        itemTypeStr = char.ToUpper(itemTypeStr[0]) + itemTypeStr.Substring(1);
+        string itemTitle = $"{currentItemModel.itemName} ({itemTypeStr})";
 
         eventTypeEnter = new EventTrigger.Entry();
         eventTypeEnter.eventID = EventTriggerType.PointerEnter;
         eventTypeExit = new EventTrigger.Entry();
         eventTypeExit.eventID = EventTriggerType.PointerExit;
 
-        eventTypeEnter.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().EnableTooltip(itemTitle, currentItem.description); });
+        string description;
+        ItemPooler.Instance.GetItemDescription(currentItemModel.itemName, out description);
+
+        eventTypeEnter.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().EnableTooltip(itemTitle, description); });
+        eventTypeExit.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
+    }
+
+    void SetEventTrigger(ChassisDataModel currentChassisModel, out EventTrigger.Entry eventTypeEnter, out EventTrigger.Entry eventTypeExit)
+    {
+        Item.TypeTag itemType;
+        ItemPooler.Instance.GetItemType(currentChassisModel.itemName, out itemType);
+        string itemTypeStr = (itemType).ToString();
+        itemTypeStr = char.ToUpper(itemTypeStr[0]) + itemTypeStr.Substring(1);
+        string itemTitle = $"{currentChassisModel.itemName} ({itemTypeStr})";
+
+        eventTypeEnter = new EventTrigger.Entry();
+        eventTypeEnter.eventID = EventTriggerType.PointerEnter;
+        eventTypeExit = new EventTrigger.Entry();
+        eventTypeExit.eventID = EventTriggerType.PointerExit;
+
+        string description;
+        ItemPooler.Instance.GetItemDescription(currentChassisModel.itemName, out description);
+
+        eventTypeEnter.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().EnableTooltip(itemTitle, description); });
         eventTypeExit.callback.AddListener((PointerEventData) => { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
     }
 
@@ -781,7 +1308,7 @@ public class CraftingController : MonoBehaviour
         return obj.GetComponent<PrimaryCraftingUIDescriptor>().internalCraftingList;
     }
 
-    void SpawnMultiComponentSecondaryButtons(List<Item> componentList, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
+    void SpawnMultiComponentSecondaryButtons(List<ItemDataModel> componentList, Transform secondaryButtonParent, int currentComponentIndexOnChassis)
     {
         GameObject noneObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
         noneObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(null, "None");
@@ -792,14 +1319,18 @@ public class CraftingController : MonoBehaviour
 
         for (int i = 0; i < componentList.Count; i++)
         {
-            Item.TypeTag typeTag = componentList[i].itemType;
+            Item.TypeTag typeTag;
+            string currentComponentName = componentList[i].itemName;
+            ItemPooler.Instance.GetItemType(currentComponentName, out typeTag);
 
             switch (typeTag)
             {
                 case Item.TypeTag.effector:
                     int effectorIndex = i;
                     GameObject effectorObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[effectorIndex].inventorySprite, componentList[effectorIndex].itemName);
+                    Sprite effectorSprite;
+                    ItemPooler.Instance.GetItemSprite(currentComponentName, out effectorSprite);
+                    effectorObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(effectorSprite, currentComponentName);
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(effectorIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     effectorObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
@@ -817,7 +1348,9 @@ public class CraftingController : MonoBehaviour
                 case Item.TypeTag.modifier:
                     int modifierIndex = i;
                     GameObject modifierObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    modifierObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[modifierIndex].inventorySprite, componentList[modifierIndex].itemName);
+                    Sprite modifierSprite;
+                    ItemPooler.Instance.GetItemSprite(currentComponentName, out modifierSprite);
+                    modifierObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(modifierSprite, currentComponentName);
                     modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(modifierIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     modifierObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
@@ -835,7 +1368,9 @@ public class CraftingController : MonoBehaviour
                 case Item.TypeTag.ammo:
                     int ammoIndex = i;
                     GameObject ammoObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    ammoObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(componentList[ammoIndex].inventorySprite, componentList[ammoIndex].itemName);
+                    Sprite ammoSprite;
+                    ItemPooler.Instance.GetItemSprite(currentComponentName, out ammoSprite);
+                    ammoObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(ammoSprite, currentComponentName);
                     ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewComponent(ammoIndex, componentList, currentComponentIndexOnChassis, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     ammoObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
@@ -869,18 +1404,25 @@ public class CraftingController : MonoBehaviour
             case Item.TypeTag.chassis:
                 noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(-1); });
 
-                for (int i = 0; i < chassisList.Count; i++)
+                for (int i = 0; i < Inventory.Instance.chassisDataModels.Count; i++)
                 {
+                    if (!Inventory.Instance.chassisDataModels[i].isRestored)
+                    {
+                        continue;
+                    }
+
                     int chassisIndex = i;
                     GameObject chassisObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    chassisObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(chassisList[chassisIndex].inventorySprite, chassisList[chassisIndex].itemName);
+                    Sprite chassisSprite;
+                    ItemPooler.Instance.GetItemSprite(Inventory.Instance.chassisDataModels[chassisIndex].itemName, out chassisSprite);
+                    chassisObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(chassisSprite, Inventory.Instance.chassisDataModels[chassisIndex].itemName);
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewChassis(chassisIndex); });
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     chassisObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });
 
                     EventTrigger.Entry chassisEventTypeEnter;
                     EventTrigger.Entry chassisEventTypeExit;
-                    SetEventTrigger(chassisList[chassisIndex], out chassisEventTypeEnter, out chassisEventTypeExit);
+                    SetEventTrigger(Inventory.Instance.chassisDataModels[chassisIndex], out chassisEventTypeEnter, out chassisEventTypeExit);
                     chassisObj.GetComponentInChildren<EventTrigger>().triggers.Add(chassisEventTypeEnter);
                     chassisObj.GetComponentInChildren<EventTrigger>().triggers.Add(chassisEventTypeExit);
 
@@ -888,7 +1430,7 @@ public class CraftingController : MonoBehaviour
                     chassisObj.SetActive(true);
                 }
 
-                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(chassisList.Count + 1);
+                secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().UpdateScrollParameters(Inventory.Instance.chassisDataModels.Count + 1);
                 break;
             case Item.TypeTag.grip:
                 noneObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(-1, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
@@ -897,7 +1439,9 @@ public class CraftingController : MonoBehaviour
                 {
                     int gripIndex = i;
                     GameObject gripObj = ObjectPooler.GetPooler(secondaryButtonUIKey).GetPooledObject();
-                    gripObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(gripList[gripIndex].inventorySprite, gripList[gripIndex].itemName);
+                    Sprite gripSprite;
+                    ItemPooler.Instance.GetItemSprite(gripList[gripIndex].itemName, out gripSprite);
+                    gripObj.GetComponent<ItemUIDescriptor>().ApplyDescriptors(gripSprite, gripList[gripIndex].itemName);
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChooseNewGrip(gripIndex, secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().gameObject); });
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { secondaryButtonParent.GetComponentInParent<PrimaryCraftingUIDescriptor>().DisableListItems(); });
                     gripObj.GetComponentInChildren<Button>().onClick.AddListener(delegate { tooltip.GetComponent<Tooltip>().DisableTooltip(); });

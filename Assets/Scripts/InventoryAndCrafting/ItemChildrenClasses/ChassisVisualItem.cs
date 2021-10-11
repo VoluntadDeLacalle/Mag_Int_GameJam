@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class ChassisVisualItem : VisualItem
 {
-    private List<ChassisComponentTransform> visualComponentTransforms = new List<ChassisComponentTransform>();
-    private ChassisGripTransform visualGripTransform;
+    public List<Transform> componentTransforms = new List<Transform>();
+    public Transform gripTransform;
 
-    public void AddVisualTransforms(List<ChassisComponentTransform> componentTransforms, ChassisGripTransform gripTransform)
+    public void AddVisualTransforms(List<ChassisComponentTransform> chassisComponentTransforms, ChassisGripTransform chassisGripTransform)
     {
-        for (int i = 0; i < componentTransforms.Count; i++)
+        for (int i = 0; i < chassisComponentTransforms.Count; i++)
         {
-            visualComponentTransforms.Add(componentTransforms[i]);
+            GameObject chassisComponentGO = new GameObject($"ComponentTransform{i}");
+            chassisComponentGO.transform.position = new Vector3(chassisComponentTransforms[i].componentTransform.position.x, chassisComponentTransforms[i].componentTransform.position.y, chassisComponentTransforms[i].componentTransform.position.z);
+            chassisComponentGO.transform.rotation = new Quaternion(chassisComponentTransforms[i].componentTransform.rotation.x, chassisComponentTransforms[i].componentTransform.rotation.y, chassisComponentTransforms[i].componentTransform.rotation.z, chassisComponentTransforms[i].componentTransform.rotation.w);
+            chassisComponentGO.transform.parent = this.gameObject.transform;
+            componentTransforms.Add(chassisComponentGO.transform);
         }
 
-        visualGripTransform = gripTransform;
+        GameObject chassisGripGO = new GameObject($"GripTransform");
+        chassisGripGO.transform.position = new Vector3(chassisGripTransform.gripTransform.position.x, chassisGripTransform.gripTransform.position.y, chassisGripTransform.gripTransform.position.z);
+        chassisGripGO.transform.rotation = new Quaternion(chassisGripTransform.gripTransform.rotation.x, chassisGripTransform.gripTransform.rotation.y, chassisGripTransform.gripTransform.rotation.z, chassisGripTransform.gripTransform.rotation.w);
+        chassisGripGO.transform.parent = this.gameObject.transform;
+        gripTransform = chassisGripGO.transform;
     }
 
-    public List<ChassisComponentTransform> GetVisualComponentTransforms()
+    public List<Transform> GetVisualComponentTransforms()
     {
-        return visualComponentTransforms;
+        return componentTransforms;
     }
 
-    public ChassisGripTransform GetVisualGripTransform()
+    public Transform GetVisualGripTransform()
     {
-        return visualGripTransform;
+        return gripTransform;
     }
 }

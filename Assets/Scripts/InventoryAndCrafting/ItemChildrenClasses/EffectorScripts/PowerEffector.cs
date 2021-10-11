@@ -139,10 +139,8 @@ public class PowerEffector : Item
         }
     }
 
-    new void LateUpdate()
+    void LateUpdate()
     {
-        base.LateUpdate();
-
         if (hasFired && !hasDrawnLine)
         {
             Vector3[] positions = { shotTransform.position, shotTransform.position + (shotTransform.position - transform.position).normalized * maxDistance };

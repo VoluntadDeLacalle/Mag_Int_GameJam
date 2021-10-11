@@ -45,16 +45,7 @@ public class GunEffector : Item
 
     void FindCurrentChassis()
     {
-        Inventory inventoryRef = Inventory.Instance;
-
-        for (int i = 0; i < inventoryRef.inventory.Count; i++)
-        {
-            if (inventoryRef.inventory[i].itemType == TypeTag.chassis && inventoryRef.inventory[i].isEquipped)
-            {
-                currentChassis = inventoryRef.inventory[i];
-                return;
-            }
-        }
+        currentChassis = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
     }
 
     void Update()

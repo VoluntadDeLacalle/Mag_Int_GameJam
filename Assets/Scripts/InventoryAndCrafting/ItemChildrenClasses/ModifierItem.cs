@@ -70,26 +70,7 @@ public class ModifierItem : Item
 
     void FindCurrentChassis()
     {
-        Inventory inventoryRef = Inventory.Instance;
-        for (int i = 0; i < inventoryRef.inventory.Count; i++)
-        {
-            if (inventoryRef.inventory[i].itemType == TypeTag.chassis)
-            {
-                for (int j = 0; j < inventoryRef.inventory[i].chassisComponentTransforms.Count; j++)
-                {
-                    if (!inventoryRef.inventory[i].chassisComponentTransforms[j].IsComponentTransformOccupied())
-                    {
-                        continue;
-                    }
-
-                    if (inventoryRef.inventory[i].chassisComponentTransforms[j].GetComponentTransformItem().gameObject == this.gameObject)
-                    {
-                        currentChassis = inventoryRef.inventory[i];
-                        return;
-                    }
-                }
-            }
-        }
+        currentChassis = Inventory.Instance.currentEquippedGO.GetComponent<Item>();
     }
 
     public override void OnUnequip()

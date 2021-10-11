@@ -22,6 +22,11 @@ public class SaveableEntity : MonoBehaviour
         }
     }
 
+    public void GenerateCloneIdSceneSpecific(string prefabId, string prefabName)
+    {
+        id = prefabId + prefabName + SceneManager.GetActiveScene().name;
+    }
+
     public object CaptureState()
     {
         var state = new Dictionary<string, object>();

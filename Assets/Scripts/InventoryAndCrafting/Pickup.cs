@@ -161,11 +161,11 @@ public class Pickup : MonoBehaviour
         }
         else if (tempItem.isEquipped == true && tempItem.itemType == Item.TypeTag.grip)
         {
-            Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>());
+            Inventory.Instance.AddToInventory(tempItem.GetComponentInChildren<ChassisItem>(), true);
         }
         else
         {
-            Inventory.Instance.AddToInventory(tempItem);
+            Inventory.Instance.AddToInventory(tempItem, true);
 
         }
 

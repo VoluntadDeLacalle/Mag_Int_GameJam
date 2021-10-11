@@ -135,6 +135,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         playerSpawnLocation.position = levelSpawnPoints[index].spawnPoint.position;
         playerSpawnLocation.rotation = levelSpawnPoints[index].spawnPoint.rotation;
 
+        
     }
 
     private void UnloadGame()
@@ -148,6 +149,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         Time.timeScale = 1.0f;
         //UnloadScene(sceneName);
 
+        ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
         SceneManager.LoadScene(sceneName);
     }
@@ -157,6 +159,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         Time.timeScale = 1.0f;
         UnloadGame();
 
+        ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
         SceneManager.LoadScene(GameManager.Instance.mainMenuName);
     }
@@ -165,6 +168,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     {
         UnloadGame();
 
+        ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.QuitGame();
     }
 }
