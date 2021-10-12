@@ -38,6 +38,12 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    public static bool DoesFileExist(string savePath)
+    {
+        string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";
+        return File.Exists(trueSavePath);
+    }
+
     private static void SaveFile(object state, string savePath)
     {
         string trueSavePath = $"{Application.persistentDataPath}/{savePath}{saveFileExtention}";

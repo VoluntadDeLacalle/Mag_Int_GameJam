@@ -49,7 +49,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     }
 
     [ContextMenu("ResetSaveFile")]
-    private void ResetSaveFiles()
+    public void ResetSaveFiles()
     {
         SaveSystem.ResetSaveFile(gameManagerSaveFile);
         SaveSystem.ResetSaveFile(levelManagerSaveFile);
@@ -96,6 +96,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
         SaveSystem.Save(sceneSaveFile);
         SaveSystem.Save(levelManagerSaveFile);
+    }
+
+    public bool HasSaveData()
+    {
+        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile);
+        return returnValue;
     }
 
     public string GetLastSavedScene()
