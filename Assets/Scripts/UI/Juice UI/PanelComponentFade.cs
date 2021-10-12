@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -15,6 +16,7 @@ public class PanelComponentFade : MonoBehaviour
     public FadeType fadeType = FadeType.FadeOut;
     public float duration;
     public bool onSceneLoad = false;
+    public UnityEvent OnFadeFinished;
 
     private CanvasGroup canvasGroup;
 
@@ -62,6 +64,8 @@ public class PanelComponentFade : MonoBehaviour
 
             yield return null;
         }
+
+        OnFadeFinished?.Invoke();
     }
 
     IEnumerator DoSpecialFade(float start, float end)

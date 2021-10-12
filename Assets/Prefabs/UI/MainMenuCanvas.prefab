@@ -296,13 +296,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfded015d651db648a6144433083e4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningPanel: {fileID: 679346054115641585}
+  MainMenuPanel: {fileID: 5854237319638777396}
   continueButton: {fileID: 7579002156070587891}
   mainMenuButtons:
   - {fileID: 4295491913296525510}
   - {fileID: 7579002156070587891}
   - {fileID: 6518056857731282277}
   - {fileID: 6044244988607173463}
+  warningPanel: {fileID: 679346054115641585}
+  mainTimelineDirector: {fileID: 0}
+  skipToTime: 0
 --- !u!1 &5854237319638777396
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +395,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &5490186710806277219
 MonoBehaviour:
@@ -409,6 +412,21 @@ MonoBehaviour:
   fadeType: 1
   duration: 2.5
   onSceneLoad: 0
+  OnFadeFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5854237319638777392}
+        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+        m_MethodName: set_blocksRaycasts
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1001 &17358208749016521
 PrefabInstance:
   m_ObjectHideFlags: 0

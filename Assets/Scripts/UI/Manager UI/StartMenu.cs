@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
-    public GameObject warningPanel;
+    [Header("Main Menu Functionality")]
+    public GameObject MainMenuPanel;
     public Button continueButton;
     public List<Button> mainMenuButtons = new List<Button>();
+    public GameObject warningPanel;
+
     private bool continueButtonOriginalState = false;
     private bool warningCalled = false;
+
+    [Header("Opening Cutscene Properties")]
+    public PlayableDirector mainTimelineDirector;
+    public int skipToTime = 0;
+    public GameObject UnwrappedJDRef;
+    public Vector3 JDEndPosition = Vector3.zero;
+
+    private bool hasSkipped = false;
 
     private void Start()
     {
@@ -24,6 +36,16 @@ public class StartMenu : MonoBehaviour
             continueButton.interactable = false;
             continueButtonOriginalState = false;
         }
+    }
+
+    private void SkipOPCutscene()
+    {
+        MainMenuPanel.GetComponent<CanvasGroup>().alpha = 1;
+        MainMenuPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        UnwrappedJDRef.transform.position = JDEndPosition;
+
+        mainTimelineDirector.time = skipToTime;
     }
 
     public void LoadPlay()
@@ -82,5 +104,14 @@ public class StartMenu : MonoBehaviour
     public void QuitGame()
     {
         GameManager.Instance.QuitGame();
+    }
+
+    private void Update()
+    {
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)) && !hasSkipped)
+        {
+            SkipOPCutscene();
+            hasSkipped = true;
+        }
     }
 }
