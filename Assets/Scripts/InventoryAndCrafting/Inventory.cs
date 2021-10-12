@@ -379,7 +379,8 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             currentDropGO.transform.parent = currentChassisItem.chassisGripTransform.GetGripTransformItem().gameObject.transform;
             currentDropGO = currentChassisItem.chassisGripTransform.GetGripTransformItem().gameObject;
         }
-            currentDropGO.transform.position = dropTransform.position;
+        currentDropGO.transform.position = dropTransform.position;
+        currentDropGO.transform.rotation = UnityEngine.Random.rotation;
 
         foreach (Item currentItem in currentDropGO.GetComponentsInChildren<Item>())
         {
