@@ -253,6 +253,12 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         }
 
         newItem.isObtained = true;
+
+        if (LevelManager.Instance.HasItemName(newItem.itemName))
+        {
+            LevelManager.Instance.RemoveItemName(newItem.itemName);
+        }
+
         GameManager.Instance.SaveScene();
 
         if (newItem.itemType == Item.TypeTag.chassis)
@@ -400,6 +406,12 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         }
 
         currentChassisItem.isObtained = false;
+
+        if (!LevelManager.Instance.HasItemName(currentChassisItem.itemName))
+        {
+            LevelManager.Instance.AddItemName(currentChassisItem.itemName);
+        }
+
         chassisDataModels.RemoveAt(dropIndex);
 
         ResetSelectedInfo();
@@ -450,11 +462,18 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
 
 
         currentItemGO.transform.position = dropTransform.position;
+        currentItemGO.transform.rotation = UnityEngine.Random.rotation;
         currentItemGO.GetComponent<Rigidbody>().isKinematic = false;
         currentItemGO.GetComponent<Collider>().enabled = true;
         currentItemGO.SetActive(true);
 
         currentItem.isObtained = false;
+
+        if (!LevelManager.Instance.HasItemName(currentItem.itemName))
+        {
+            LevelManager.Instance.AddItemName(currentItem.itemName);
+        }
+
         itemDataModels.RemoveAt(dropIndex);
 
         ResetSelectedInfo();

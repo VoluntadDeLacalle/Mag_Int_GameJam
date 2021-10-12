@@ -344,6 +344,9 @@ public class Item : MonoBehaviour, ISaveable
             gameObject.GetComponent<Collider>().enabled = false;
             gameObject.SetActive(true);
 
+            currentGripGameObject.transform.position = new Vector3(chassisDataModel.gripItemModel.Value.itemPosition[0], chassisDataModel.gripItemModel.Value.itemPosition[1], chassisDataModel.gripItemModel.Value.itemPosition[2]);
+            currentGripGameObject.transform.rotation = new Quaternion(chassisDataModel.gripItemModel.Value.itemRotation[0], chassisDataModel.gripItemModel.Value.itemRotation[1], chassisDataModel.gripItemModel.Value.itemRotation[2], chassisDataModel.gripItemModel.Value.itemRotation[3]);
+
             gameObject.transform.parent = currentGripGameObject.transform;
             gameObject.transform.position = currentGripGameObject.transform.position;
             gameObject.transform.localRotation = Quaternion.Euler(0, currentGripGameObject.GetComponent<Item>().localHandRot.y, 0);

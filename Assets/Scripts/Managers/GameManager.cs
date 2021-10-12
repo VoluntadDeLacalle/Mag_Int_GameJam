@@ -9,6 +9,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 {
     [Header("Save Files")]
     public string gameManagerSaveFile;
+    public string levelManagerSaveFile;
     public string sceneSaveFile;
 
     [Header("Scenes")]
@@ -51,6 +52,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     private void ResetSaveFiles()
     {
         SaveSystem.ResetSaveFile(gameManagerSaveFile);
+        SaveSystem.ResetSaveFile(levelManagerSaveFile);
         SaveSystem.ResetSaveFile(sceneSaveFile);
     }
 
@@ -70,6 +72,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         {
             if (scene.name != mainMenuName)
             {
+                SaveSystem.Load(levelManagerSaveFile);
                 SaveSystem.Load(sceneSaveFile);
             }
         }
@@ -92,6 +95,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         }
 
         SaveSystem.Save(sceneSaveFile);
+        SaveSystem.Save(levelManagerSaveFile);
     }
 
     public string GetLastSavedScene()

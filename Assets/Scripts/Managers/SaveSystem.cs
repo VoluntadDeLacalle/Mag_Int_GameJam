@@ -18,7 +18,7 @@ public class SaveSystem : MonoBehaviour
     public static void Save(string savePath)
     {
         var state = LoadFile(savePath);
-        CaptureState(state);
+        CaptureState(state, savePath);
         SaveFile(state, savePath);
     }
 
@@ -26,7 +26,7 @@ public class SaveSystem : MonoBehaviour
     public static void Load(string savePath)
     {
         var state = LoadFile(savePath);
-        RestoreState(state);
+        RestoreState(state, savePath);
     }
 
     public static void ResetSaveFile(string savePath)
@@ -80,21 +80,45 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    private static void CaptureState(Dictionary<string, object> state)
+    private static void CaptureState(Dictionary<string, object> state, string savePath)
     {
         foreach (var saveable in FindObjectsOfType<SaveableEntity>(true))
         {
-            state[saveable.Id] = saveable.CaptureState();
+            if (savePath == GameManager.Instance.gameManagerSaveFile && saveable.gameObject == GameManager.Instance.gameObject)
+            {
+                state[saveable.Id] = saveable.CaptureState();
+            }
+            else if (savePath == GameManager.Instance.levelManagerSaveFile && saveable.gameObject == LevelManager.Instance.gameObject)
+            {
+                state[saveable.Id] = saveable.CaptureState();
+            }
+            else if (savePath == GameManager.Instance.sceneSaveFile && saveable.gameObject != GameManager.Instance.gameObject
+                     && saveable.gameObject != LevelManager.Instance.gameObject)
+            {
+                state[saveable.Id] = saveable.CaptureState();
+            }
         }
     }
 
-    private static void RestoreState(Dictionary<string, object> state)
+    private static void RestoreState(Dictionary<string, object> state, string savePath)
     {
         foreach (var saveable in FindObjectsOfType<SaveableEntity>(true))
         {
             if (state.TryGetValue(saveable.Id, out object value))
             {
-                saveable.RestoreState(value);
+                if (savePath == GameManager.Instance.gameManagerSaveFile && saveable.gameObject == GameManager.Instance.gameObject)
+                {
+                    saveable.RestoreState(value);
+                }
+                else if (savePath == GameManager.Instance.levelManagerSaveFile && saveable.gameObject == LevelManager.Instance.gameObject)
+                {
+                    saveable.RestoreState(value);
+                }
+                else if (savePath == GameManager.Instance.sceneSaveFile && saveable.gameObject != GameManager.Instance.gameObject
+                         && saveable.gameObject != LevelManager.Instance.gameObject)
+                {
+                    saveable.RestoreState(value);
+                }
             }
         }
     }

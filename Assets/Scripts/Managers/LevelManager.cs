@@ -14,14 +14,18 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 {
     public List<LevelSpawnPoints> levelSpawnPoints = new List<LevelSpawnPoints>();
     public Transform playerSpawnLocation = null;
+
     private GameObject playerSpawnPointInitialGO;
+    private List<string> itemNamesOnAwake = new List<string>();
+    public List<string> addedItemNames = new List<string>();
 
     public object CaptureState()
     {
         return new SaveData
         {
             spawnPoints = levelSpawnPoints,
-            lastPlayerTransform = playerSpawnLocation
+            lastPlayerTransform = playerSpawnLocation,
+            addedItemNames = addedItemNames,
         };
     }
 
@@ -31,23 +35,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 
         List<LevelSpawnPoints> tempSpawnPoints = saveData.spawnPoints;
         Transform tempPlayerLocation = saveData.lastPlayerTransform;
-
-        //int spawnIndex = -1;
-        //for (int i = 0; i < tempSpawnPoints.Count; i++)
-        //{
-        //    if (tempSpawnPoints[i].fromSceneName == GameManager.Instance.GetLastSavedScene())
-        //    {
-        //        spawnIndex = i;
-        //        break;
-        //    }
-        //}
-
-        //if (spawnIndex != -1)
-        //{
-        //    Debug.Log("Spawn Location from scene to current.");
-        //    Player.Instance.Respawn(tempSpawnPoints[spawnIndex].spawnPoint);
-        //}
-        //else
         if(true)
         {
             if (tempPlayerLocation.position != playerSpawnPointInitialGO.transform.position || 
@@ -60,6 +47,16 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
                 Player.Instance.Spawn();
             }
         }
+
+        addedItemNames = new List<string>(saveData.addedItemNames);
+
+        for (int i = 0; i < addedItemNames.Count; i++)
+        {
+            if (!itemNamesOnAwake.Contains(addedItemNames[i]))
+            {
+                ItemPooler.Instance.InstantiateItemByName(addedItemNames[i]);
+            }
+        }
     }
 
     [System.Serializable]
@@ -67,6 +64,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     {
         public List<LevelSpawnPoints> spawnPoints;
         public Transform lastPlayerTransform;
+        public List<string> addedItemNames;
     }
 
     private void OnDrawGizmos()
@@ -89,6 +87,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     new void Awake()
     {
         base.Awake();
+
+        foreach(var currentItem in FindObjectsOfType<Item>())
+        {
+            itemNamesOnAwake.Add(currentItem.itemName);
+        }
 
         if (playerSpawnLocation == null)
         {
@@ -118,6 +121,21 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
                 Player.Instance.Spawn(levelSpawnPoints[index].spawnPoint);
             }
         }
+    }
+
+    public bool HasItemName(string itemName)
+    {
+        return addedItemNames.Contains(itemName);
+    }
+
+    public void AddItemName(string itemName)
+    {
+        addedItemNames.Add(itemName);
+    }
+
+    public void RemoveItemName(string itemName)
+    {
+        addedItemNames.Remove(itemName);
     }
 
     private void UnloadScene(string sceneName)
