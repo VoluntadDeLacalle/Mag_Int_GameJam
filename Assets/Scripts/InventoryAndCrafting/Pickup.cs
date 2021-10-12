@@ -166,7 +166,6 @@ public class Pickup : MonoBehaviour
         else
         {
             Inventory.Instance.AddToInventory(tempItem, true);
-
         }
 
         currentItemsInRange.RemoveAt(randIndex);

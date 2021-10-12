@@ -300,8 +300,10 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
 
         DisplayScrapAmount();
 
+        newItem.isObtained = true;
 
-        //Possibly change this?
+        GameManager.Instance.SaveScene();
+        
         Destroy(newItem.gameObject);
     }
 
