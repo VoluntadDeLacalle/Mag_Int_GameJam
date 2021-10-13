@@ -23,7 +23,7 @@ public class StealthEffector : Item
         for (int i = 0; i < stealthMats.Count; i++)
         {
             stealthMats[i].SetFloat("_StealthRadius", currentRadius);
-            stealthMats[i].SetVector("_StealthCenter", transform.position);
+            stealthMats[i].SetVector("_StealthCenter", stealthRadiusObj.transform.position);
             stealthMats[i].renderQueue = 3000;
         }
 
@@ -99,7 +99,7 @@ public class StealthEffector : Item
         for (int i = 0; i < stealthMats.Count; i++)
         {
             stealthMats[i].SetFloat("_StealthRadius", currentRadius);
-            stealthMats[i].SetVector("_StealthCenter", transform.position);
+            stealthMats[i].SetVector("_StealthCenter", stealthRadiusObj.transform.position);
         }
     }
 

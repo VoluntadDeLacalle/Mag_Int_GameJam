@@ -6,9 +6,21 @@ using UnityEngine;
 [Serializable]
 public class AmmoItem : Item
 {
+    [Header("Ammo Specific Variables")]
     public ObjectPooler.Key ammoPrefabKey;
+    public Transform spawnTransform;
+    
+    [Header("Juice Variables")]
+    public List<GameObject> juiceGameObjects = new List<GameObject>();
+    public float ammoActiveTimer = 0;
+    private int lastIndex = -1;
 
     private Item currentChassis = null;
+
+    private void Awake()
+    {
+        lastIndex = juiceGameObjects.Count - 1;
+    }
 
     public override void Activate()
     {
@@ -61,8 +73,33 @@ public class AmmoItem : Item
                     return;
                 }
 
-                currentAmmo.transform.position = transform.position;
+                currentAmmo.transform.position = spawnTransform.position;
+                currentAmmo.transform.rotation = UnityEngine.Random.rotation;
                 currentAmmo.SetActive(true);
+
+                juiceGameObjects[lastIndex].SetActive(false);
+                lastIndex--;
+                if (lastIndex < 0)
+                {
+                    lastIndex = 0;
+                }
+
+                StartCoroutine(SetJuiceActive());
+            }
+        }
+    }
+
+    IEnumerator SetJuiceActive()
+    {
+        yield return new WaitForSeconds(ammoActiveTimer);
+
+        if (lastIndex > -1 && lastIndex < juiceGameObjects.Count)
+        {
+            juiceGameObjects[lastIndex].SetActive(true);
+            lastIndex++;
+            if (lastIndex > juiceGameObjects.Count - 1)
+            {
+                lastIndex = juiceGameObjects.Count - 1;
             }
         }
     }

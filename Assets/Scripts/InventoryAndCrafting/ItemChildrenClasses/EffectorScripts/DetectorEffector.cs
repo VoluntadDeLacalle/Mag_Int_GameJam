@@ -23,7 +23,7 @@ public class DetectorEffector : Item
         for (int i = 0; i < detectableMats.Count; i++)
         {
             detectableMats[i].SetFloat("_Radius", currentRadius);
-            detectableMats[i].SetVector("_Center", transform.position);
+            detectableMats[i].SetVector("_Center", detectorRadiusObj.transform.position);
         }
 
         originalMaxRadius = maxRadius;
@@ -98,7 +98,7 @@ public class DetectorEffector : Item
         for (int i = 0; i < detectableMats.Count; i++)
         {
             detectableMats[i].SetFloat("_Radius", currentRadius);
-            detectableMats[i].SetVector("_Center", transform.position);
+            detectableMats[i].SetVector("_Center", detectorRadiusObj.transform.position);
         }
     }
 
