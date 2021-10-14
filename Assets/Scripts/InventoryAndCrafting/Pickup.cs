@@ -155,6 +155,15 @@ public class Pickup : MonoBehaviour
         itemDir.y = 0;
         Player.Instance.transform.rotation = Quaternion.LookRotation(itemDir);
 
+        if (QuestManager.Instance.IsCurrentQuestActive())
+        {
+            Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+            if (currentObjective != null)
+            {
+                currentObjective.AddGatheringItem(tempItem.itemName);
+            }
+        }
+
         if (tempItem.itemType == Item.TypeTag.scrap)
         {
             Inventory.Instance.AddScrap(tempItem);

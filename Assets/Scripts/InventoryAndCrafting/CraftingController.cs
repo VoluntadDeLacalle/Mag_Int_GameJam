@@ -799,7 +799,15 @@ public class CraftingController : MonoBehaviour
                         {
                             Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = otherComponentItem;
                         }
-                       
+
+                        if (QuestManager.Instance.IsCurrentQuestActive())
+                        {
+                            Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                            if (currentObjective != null)
+                            {
+                                currentObjective.CraftItem(otherComponentItem.Value.itemName);
+                            }
+                        }
 
                         GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
                         GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
@@ -858,6 +866,15 @@ public class CraftingController : MonoBehaviour
                 }
                 Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModelToAdd;
                 componentList[componentIndex] = tempItemDataModelToAdd;
+
+                if (QuestManager.Instance.IsCurrentQuestActive())
+                {
+                    Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                    if (currentObjective != null)
+                    {
+                        currentObjective.CraftItem(tempItemDataModelToAdd.itemName);
+                    }
+                }
 
                 GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
                 GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
@@ -1156,6 +1173,15 @@ public class CraftingController : MonoBehaviour
                         Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModel;
                     }
 
+                    if (QuestManager.Instance.IsCurrentQuestActive())
+                    {
+                        Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                        if (currentObjective != null)
+                        {
+                            currentObjective.CraftItem(otherGripItem.Value.itemName);
+                        }
+                    }
+
                     ///Visual
                     GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];
                         GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
@@ -1233,6 +1259,15 @@ public class CraftingController : MonoBehaviour
                     Inventory.Instance.playerItemHandler.EquipItem(currentGripItem);
                 }
                 Inventory.Instance.chassisDataModels[currentChassisIndex] = tempChassisGripDataModelToAdd;
+
+                if (QuestManager.Instance.IsCurrentQuestActive())
+                {
+                    Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                    if (currentObjective != null)
+                    {
+                        currentObjective.CraftItem(tempItemDataModelToAdd.itemName);
+                    }
+                }
 
                 ///Visual
                 GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];

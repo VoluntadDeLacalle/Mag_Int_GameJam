@@ -19,7 +19,9 @@ public class ObjectPooler : MonoBehaviour
         SecondaryCraftingUIButtons,
         GrenadeAmmo,
         RockAmmo,
-        ExplosionParticle
+        ExplosionParticle,
+        QuestStartParticle,
+        LocationTargetParticle
     }
 
     public Key key;

@@ -52,6 +52,11 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
             Debug.LogError("Textbox already active!");
             return;
         }
+        else if (textFile == null && newTalkerIcon == null)
+        {
+            return;
+        }
+
         autoAdavance = sAutoAdvance;
 
         textMesh.text = "";

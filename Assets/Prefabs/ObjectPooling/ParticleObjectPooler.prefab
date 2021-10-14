@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1363952196176378735}
   - component: {fileID: 1363952196176378732}
+  - component: {fileID: 7384982268583170202}
+  - component: {fileID: 494964803894667259}
   m_Layer: 0
   m_Name: ParticleObjectPooler
   m_TagString: Untagged
@@ -47,4 +49,38 @@ MonoBehaviour:
   willGrow: 0
   key: 5
   pooledObject: {fileID: 5208051516650667499, guid: d7295d5a7a244c04298ef42a8a456587,
+    type: 3}
+--- !u!114 &7384982268583170202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363952196176378734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eabcd1ec1b69f5a48b1efe8899e3d18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledAmount: 5
+  willGrow: 0
+  key: 6
+  pooledObject: {fileID: 404187152971084204, guid: 542723e0ae67e674ba5f712ab0cbf863,
+    type: 3}
+--- !u!114 &494964803894667259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363952196176378734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eabcd1ec1b69f5a48b1efe8899e3d18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledAmount: 5
+  willGrow: 0
+  key: 7
+  pooledObject: {fileID: 9102382466924883383, guid: 5e85929bac6f11940b983e10210a1fd3,
     type: 3}

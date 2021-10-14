@@ -122,8 +122,10 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(equip_Prop, new GUIContent("Is Equipped"));
                 break;
             case Item.TypeTag.scrap:
+                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 break;
             case Item.TypeTag.external:
+                EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 break;
         }
 

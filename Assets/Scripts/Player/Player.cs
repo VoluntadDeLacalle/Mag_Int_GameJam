@@ -256,6 +256,15 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             return;
         }
 
+        if (QuestManager.Instance.IsCurrentQuestActive())
+        {
+            Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+            if (currentObjective != null)
+            {
+                currentObjective.CheckLocation(transform.position);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f)
         {
             playerEmoter.PlayEmote("EmoteTrigger");
