@@ -184,6 +184,9 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     public TMPro.TextMeshProUGUI objectiveTextMesh;
     public GameObject objectiveTextBackground;
     public TMPro.TextMeshProUGUI generalInformationTextMesh;
+    public GameObject questFlavorBackground;
+    public TMPro.TextMeshProUGUI questFlavorTextMesh;
+    public float questFlavorTimer = 2f;
 
     [Header("Compass UI Variables")]
     public Compass compassRef;
@@ -384,6 +387,10 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         Debug.Log("Complete quest!");
         ResetQuestInfo();
         currentQuestIndex++;
+
+        questFlavorTextMesh.text = $"Quest Completed!";
+        questFlavorBackground.SetActive(true);
+        StartCoroutine(DeactivateQuestFlavor());
     }
 
     void SetObjectiveInfo()
@@ -460,6 +467,13 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         compassRef.ResetQuestMarker();
     }
 
+    IEnumerator DeactivateQuestFlavor()
+    {
+        yield return new WaitForSeconds(questFlavorTimer);
+
+        questFlavorBackground.SetActive(false);
+    }
+
     void TryStartQuest()
     {
         if (currentQuestIndex >= levelQuests.Count || currentQuestIndex == -1)
@@ -481,6 +495,10 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                         
                         compassRef.ResetQuestMarker();
                         InitQuestInfo();
+
+                        questFlavorTextMesh.text = $"Quest Accepted!\n{levelQuests[currentQuestIndex].questName}";
+                        questFlavorBackground.SetActive(true);
+                        StartCoroutine(DeactivateQuestFlavor());
 
                         generalInformationTextMesh.text = "";
                         if (questStartPE != null)
