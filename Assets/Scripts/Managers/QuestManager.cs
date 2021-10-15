@@ -180,8 +180,15 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 {
     [Header("UI Variables")]
     public TMPro.TextMeshProUGUI questTextMesh;
+    public GameObject questTextBackground;
     public TMPro.TextMeshProUGUI objectiveTextMesh;
+    public GameObject objectiveTextBackground;
     public TMPro.TextMeshProUGUI generalInformationTextMesh;
+
+    [Header("Compass UI Variables")]
+    public Compass compassRef;
+    public Sprite inactiveQuestMarker;
+    public Sprite locationQuestMarker;
 
     [Header("Questing Variables")]
     public bool activateFirstOnStart = false;
@@ -368,6 +375,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             locationStartPE = null;
         }
 
+        compassRef.ResetQuestMarker();
         SetObjectiveInfo();
     }
 
@@ -398,17 +406,25 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         if (currentObjective.goalType == Objective.GoalType.Gather)
         {
-            objectiveTextMesh.text = $"{currentObjective.objectiveDescription}\n{currentObjective.collectedAmount} out of {currentObjective.numberToCollect} {currentObjective.itemName}";
+            objectiveTextMesh.text = $"{currentObjective.objectiveDescription}\n • {currentObjective.collectedAmount} out of {currentObjective.numberToCollect} {currentObjective.itemName}";
         }
         else
         {
+            if (currentObjective.goalType == Objective.GoalType.Location && !compassRef.compassGO.activeInHierarchy)
+            {
+                compassRef.SetQuestMarker(locationQuestMarker, currentObjective.targetWorldPosition);
+            }
+
             objectiveTextMesh.text = currentObjective.objectiveDescription;
         }
+
+        objectiveTextBackground.SetActive(true);
     }
 
     void InitQuestInfo()
     {
         questTextMesh.text = levelQuests[currentQuestIndex].questName;
+        questTextBackground.SetActive(true);
 
         SetObjectiveInfo();
     }
@@ -437,6 +453,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     {
         questTextMesh.text = "";
         objectiveTextMesh.text = "";
+
+        questTextBackground.SetActive(false);
+        objectiveTextBackground.SetActive(false);
+
+        compassRef.ResetQuestMarker();
     }
 
     void TryStartQuest()
@@ -457,6 +478,8 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                     if (Input.GetKeyDown(KeyCode.R))
                     {
                         levelQuests[currentQuestIndex].Activate();
+                        
+                        compassRef.ResetQuestMarker();
                         InitQuestInfo();
 
                         generalInformationTextMesh.text = "";
@@ -509,6 +532,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             if (questStartPE == null)
             {
                 SpawnQuestStartPE();
+            }
+
+            if (!compassRef.compassGO.activeInHierarchy)
+            {
+                compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
             }
 
             TryStartQuest();
