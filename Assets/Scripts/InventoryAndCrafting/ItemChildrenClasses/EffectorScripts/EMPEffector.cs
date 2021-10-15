@@ -28,6 +28,15 @@ public class EMPEffector : Item
 
         if (Input.GetMouseButton(0))
         {
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.ActivateItem(itemName);
+                }
+            }
+
             if (currentRadius < maxRadius - 0.1f)
             {
                 currentRadius = Mathf.Lerp(currentRadius, maxRadius, radiusGrowthTime * Time.deltaTime);
@@ -135,7 +144,7 @@ public class EMPEffector : Item
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
         }
 
-        if (!Player.Instance.IsAlive())
+        if (!Player.Instance.IsAlive() || !Player.Instance.vThirdPersonInput.CanMove())
         {
             UpdateSphereNotAlive();
         }

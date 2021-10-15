@@ -47,9 +47,13 @@ public class ChassisItem : Item
             return;
         }
 
+        
         if (Input.GetMouseButtonDown(1))
         {
-            Player.Instance.anim.SetBool("IsActivated", true);
+            if (Player.Instance.vThirdPersonInput.CanMove())
+            {
+                Player.Instance.anim.SetBool("IsActivated", true);
+            }
         }
         else if (Input.GetMouseButtonUp(1))
         {

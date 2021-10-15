@@ -21,7 +21,19 @@ public class GripItem : Item
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Player.Instance.anim.SetBool("IsActivated", true);
+            if (Player.Instance.vThirdPersonInput.CanMove())
+            {
+                Player.Instance.anim.SetBool("IsActivated", true);
+                
+                if (QuestManager.Instance.IsCurrentQuestActive())
+                {
+                    Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                    if (currentObjective != null)
+                    {
+                        currentObjective.ActivateItem(itemName);
+                    }
+                }
+            }
         }
         else if (Input.GetMouseButtonUp(1))
         {

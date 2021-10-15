@@ -4060,7 +4060,7 @@ PrefabInstance:
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -4110,12 +4110,22 @@ PrefabInstance:
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[4].goalType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[4].itemName
       value: Dectector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].goalType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].itemName
+      value: Simple
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -4140,6 +4150,11 @@ PrefabInstance:
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[4].numberToCollect
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].numberToCollect
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
@@ -4174,6 +4189,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].activationRadius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].objectiveDescription
       value: Walk to this location.
       objectReference: {fileID: 0}
@@ -4200,7 +4220,12 @@ PrefabInstance:
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[4].objectiveDescription
-      value: Take it to this location.
+      value: Activate the Detector by pressing down the left mouse button.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].objectiveDescription
+      value: Now go get a simple grip and activate that with the right mouse button!
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -4245,6 +4270,16 @@ PrefabInstance:
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[4].targetWorldPosition.z
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].targetWorldPosition.x
+      value: -17.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[1].objectives.Array.data[5].targetWorldPosition.z
       value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 5473220045344181382, guid: d780ccb8d57c3f8418ecba13018de57e,

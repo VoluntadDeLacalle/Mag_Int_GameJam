@@ -46,6 +46,15 @@ public class PowerEffector : Item
             fireTimer = maxFireTimer;
             hasFired = true;
             hasDrawnLine = false;
+
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.ActivateItem(itemName);
+                }
+            }
         }
 
         if (hasFired)

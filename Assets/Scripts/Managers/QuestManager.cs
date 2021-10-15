@@ -81,7 +81,8 @@ public class Objective
         Gather,
         Craft,
         Location,
-        Talk
+        Talk,
+        Activate
     };
     public GoalType goalType = GoalType.Location;
     public string objectiveDescription = "";
@@ -155,6 +156,17 @@ public class Objective
         }
 
         return new KeyValuePair<TextAsset, Sprite>(null, null);
+    }
+
+    public void ActivateItem(string nItemName)
+    {
+        if (goalType == GoalType.Activate)
+        {
+            if (nItemName == itemName)
+            {
+                Complete();
+            }
+        }
     }
 
     private void Complete()

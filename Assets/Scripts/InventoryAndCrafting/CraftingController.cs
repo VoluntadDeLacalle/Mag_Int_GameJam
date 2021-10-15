@@ -546,6 +546,8 @@ public class CraftingController : MonoBehaviour
                 }
 
                 Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = null;
+
+                GameManager.Instance.SaveScene();
             }
             return;
         }
@@ -809,6 +811,8 @@ public class CraftingController : MonoBehaviour
                             }
                         }
 
+                        GameManager.Instance.SaveScene();
+
                         GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
                         GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
                         EnableVisualItem(visualComponent, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].localPosition, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].rotation);
@@ -876,6 +880,8 @@ public class CraftingController : MonoBehaviour
                     }
                 }
 
+                GameManager.Instance.SaveScene();
+                    
                 GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
                 GameObject visualComponent = ItemPooler.Instance.visualItemDictionary[componentList[componentIndex].itemName];
                 EnableVisualItem(visualComponent, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].transform, visualChassis.GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].localPosition, ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName].GetComponent<ChassisVisualItem>().GetVisualComponentTransforms()[componentTransformIndex].rotation);
@@ -959,6 +965,8 @@ public class CraftingController : MonoBehaviour
                 ItemPooler.Instance.GetItemHandLocals(Inventory.Instance.chassisDataModels[currentChassisIndex].itemName, out chassisLocalHandPos, out chassisLocalHandRot);
                 EnableVisualEquippedItem(ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName], itemViewer.handAttachment, chassisLocalHandPos, chassisLocalHandRot);
                 itemViewer.SwitchPlayerAnimLayer(0);
+
+                GameManager.Instance.SaveScene();
             }
             return;
         }
@@ -1182,6 +1190,8 @@ public class CraftingController : MonoBehaviour
                         }
                     }
 
+                    GameManager.Instance.SaveScene();
+
                     ///Visual
                     GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];
                         GameObject visualChassis = ItemPooler.Instance.visualItemDictionary[Inventory.Instance.chassisDataModels[currentChassisIndex].itemName];
@@ -1268,6 +1278,8 @@ public class CraftingController : MonoBehaviour
                         currentObjective.CraftItem(tempItemDataModelToAdd.itemName);
                     }
                 }
+
+                GameManager.Instance.SaveScene();
 
                 ///Visual
                 GameObject visualGrip = ItemPooler.Instance.visualItemDictionary[gripList[gripIndex].itemName];

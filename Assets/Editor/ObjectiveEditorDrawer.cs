@@ -21,9 +21,12 @@ public class ObjectiveEditorDrawer : PropertyDrawer
             Rect rectDescription = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(rectDescription, "Objective Description");
 
+            GUIStyle textAreaStyle = new GUIStyle(EditorStyles.textField);
+            textAreaStyle.wordWrap = true;
+
             EditorGUI.BeginChangeCheck();
             Rect rectTextArea = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * 3);
-            string input = EditorGUI.TextArea(rectTextArea, property.FindPropertyRelative("objectiveDescription").stringValue);
+            string input = EditorGUI.TextArea(rectTextArea, property.FindPropertyRelative("objectiveDescription").stringValue, textAreaStyle);
             if (EditorGUI.EndChangeCheck())
             {
                 property.FindPropertyRelative("objectiveDescription").stringValue = input;
@@ -64,6 +67,10 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     Rect rectNPCSprite = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
                     EditorGUI.PropertyField(rectNPCSprite, property.FindPropertyRelative("npcSprite"));
                     break;
+                case Objective.GoalType.Activate:
+                    Rect rectActivateItemName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(rectActivateItemName, property.FindPropertyRelative("itemName"));
+                    break;
             }
 
             
@@ -93,6 +100,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     break;
                 case Objective.GoalType.Talk:
                     totalLines += 7;
+                    break;
+                case Objective.GoalType.Activate:
+                    totalLines += 5;
                     break;
             }
         }

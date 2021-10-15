@@ -84,6 +84,15 @@ public class AmmoItem : Item
                     lastIndex = 0;
                 }
 
+                if (QuestManager.Instance.IsCurrentQuestActive())
+                {
+                    Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                    if (currentObjective != null)
+                    {
+                        currentObjective.ActivateItem(itemName);
+                    }
+                }
+
                 StartCoroutine(SetJuiceActive());
             }
         }

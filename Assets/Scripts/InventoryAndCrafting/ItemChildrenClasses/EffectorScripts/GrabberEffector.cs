@@ -22,6 +22,15 @@ public class GrabberEffector : Item
             if (Input.GetMouseButtonDown(0))
             {
                 TryGrab();
+
+                if (QuestManager.Instance.IsCurrentQuestActive())
+                {
+                    Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                    if (currentObjective != null)
+                    {
+                        currentObjective.ActivateItem(itemName);
+                    }
+                }
             }
         }
         else

@@ -43,6 +43,15 @@ public class CatapultEffector : Item
             {
                 catLauncher.Shoot(currentAttachedAmmo[i].gameObject.GetComponent<AmmoItem>().ammoPrefabKey);
             }
+
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.ActivateItem(itemName);
+                }
+            }
         }
     }
 
