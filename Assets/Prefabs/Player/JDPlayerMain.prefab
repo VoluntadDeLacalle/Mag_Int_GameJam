@@ -6446,7 +6446,15 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'R_Eye_jnt'\n\tTransform 'L_Eye_jnt'\n\tTransform
+    'R_Eye_jnt'\n\tTransform 'L_Eye_jnt'\n\tTransform 'R_Eye_jnt'\n\tTransform 'L_Eye_jnt'\n\tFrom
+    animation clip 'Chassis_Idle'\n\tFrom animation clip 'Simple Idle'\n\tFrom animation
+    clip 'Pole Idle'\n\tFrom animation clip 'Umbrella Idle'\n\tFrom animation clip
+    'Simple Aim Loop'\n\tFrom animation clip 'Simple Aim'\n\tFrom animation clip
+    'Simple Idle'\n\tFrom animation clip 'Simple Aim'\n\tFrom animation clip 'Simple
+    Aim Loop'\n\tFrom animation clip 'Pole Aim'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -6462,8 +6470,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45bda207e08b72488eca927208b0630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backpackFill: {fileID: 5418051064312731617}
+  vThirdPersonController: {fileID: 0}
   vThirdPersonInput: {fileID: 8577410081824312637}
+  vThirdPersonCamera: {fileID: 0}
+  anim: {fileID: 0}
+  primaryRigidbody: {fileID: 0}
+  primaryCollider: {fileID: 0}
+  health: {fileID: 0}
+  pickup: {fileID: 0}
+  itemHandler: {fileID: 0}
+  panelFade: {fileID: 0}
+  deathTime: 3
+  ragdoll: {fileID: 0}
+  deathCameraTarget: {fileID: 0}
+  clothPhysicsManager: {fileID: 0}
+  backpackBoneSpring: {fileID: 0}
+  backpackFill: {fileID: 5418051064312731617}
+  playerEmoter: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!114 &8577410081824312636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6512,7 +6536,7 @@ MonoBehaviour:
     m_Bits: 1
   groundMinDistance: 0.25
   groundMaxDistance: 0.5
-  slopeLimit: 75
+  slopeLimit: 45
 --- !u!114 &8577410081824312637
 MonoBehaviour:
   m_ObjectHideFlags: 0
