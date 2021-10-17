@@ -97,6 +97,17 @@ public class ChassisItem : Item
         //Handle the attached grip
         if (chassisGripTransform.IsGripTransformOccupied())
         {
+            if (chassisGripTransform.GetGripTransformItem() == null)
+            {
+                if (Player.Instance.anim.GetInteger("GripEnum") != 0)
+                {
+                    Player.Instance.anim.SetInteger("GripEnum", 0);
+                }
+
+                return;
+            }
+
+
             if (Player.Instance.anim.GetInteger("GripEnum") != (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType)
             {
                 Player.Instance.anim.SetInteger("GripEnum", (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);

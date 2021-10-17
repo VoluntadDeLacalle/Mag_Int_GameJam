@@ -88,6 +88,12 @@ public class MusicManager : MonoBehaviour
         CrossFade(s.clip);
     }
 
+    public void CrossFadeTo(string name, float fadeTime)
+    {
+        Song s = Array.Find(songList, song => song.name == name);
+        CrossFade(s.clip, fadeTime);
+    }
+
     public void CrossFadeTo(AudioClip audioClip)
     {
         CrossFade(audioClip);

@@ -669,11 +669,11 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
 
         if (currentChassisItem.chassisGripTransform.IsGripTransformOccupied())
         {
-            playerItemHandler.EquipItem(currentChassisItem.chassisGripTransform.GetGripTransformItem());
+            playerItemHandler.EquipItem(currentChassisItem.chassisGripTransform.GetGripTransformItem(), true);
         }
         else
         {
-            playerItemHandler.EquipItem(currentChassisItem);
+            playerItemHandler.EquipItem(currentChassisItem, true);
         }
 
         currentChassisItem.OnEquip();
