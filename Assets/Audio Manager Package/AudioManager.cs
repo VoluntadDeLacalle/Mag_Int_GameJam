@@ -370,6 +370,11 @@ public class AudioManager : MonoBehaviour
         MusicManager.Get().CrossFadeTo(name);
     }
 
+    public void CrossFadeTo(string name, float fadeTime)
+    {
+        MusicManager.Get().CrossFadeTo(name, fadeTime);
+    }
+
     public void CrossFadeTo(AudioClip audioClip)
     {
         MusicManager.Get().CrossFadeTo(audioClip);

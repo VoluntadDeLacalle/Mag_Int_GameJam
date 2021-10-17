@@ -36,7 +36,7 @@ public class PlayerItemHandler : MonoBehaviour
         attachedItem.transform.localRotation = Quaternion.Euler(newRot);
     }
 
-    public void EquipItem(Item itemToEquip)
+    public void EquipItem(Item itemToEquip, bool calledFromInventory = false)
     {
         if (equippedGO != null)
         {
@@ -47,13 +47,13 @@ public class PlayerItemHandler : MonoBehaviour
                 {
                     if (tempChassis.itemName != Inventory.Instance.currentEquippedGO.GetComponent<Item>().itemName)
                     {
-                        UnequipItem(equippedItem, true);
+                        UnequipItem(equippedItem, true, calledFromInventory);
                     }
                 }
             }
             else
             {
-                UnequipItem(equippedItem, true);
+                UnequipItem(equippedItem, true, calledFromInventory);
             }
         }
 
@@ -108,7 +108,7 @@ public class PlayerItemHandler : MonoBehaviour
         AttachItem(itemToEquip.localHandPos, itemToEquip.localHandRot);
     }
 
-    public void UnequipItem(Item itemToUnequip, bool calledFromHandler = false)
+    public void UnequipItem(Item itemToUnequip, bool calledFromHandler = false, bool calledFromInventory = false)
     {
         if (itemToUnequip.itemType != Item.TypeTag.grip)
         {
@@ -191,7 +191,13 @@ public class PlayerItemHandler : MonoBehaviour
         {
             if (itemToUnequip.itemType == Item.TypeTag.grip && calledFromHandler)
             {
+                GameObject chassis = itemToUnequip.GetComponentInChildren<ChassisItem>().gameObject;
                 itemToUnequip.GetComponentInChildren<ChassisItem>().gameObject.transform.parent = null;
+
+                if (calledFromInventory)
+                {
+                    Destroy(chassis);
+                }
             }
 
             Destroy(itemToUnequip.gameObject);

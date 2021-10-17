@@ -534,7 +534,6 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             {
                 if (!markerGO.activeInHierarchy)
                 {
-                    Debug.Log("Ran!");
                     SpawnMarkerGO(levelQuests[currentQuestIndex].questStartLocation, questActivationRadius, Color.green);
                 }
 
