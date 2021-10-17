@@ -48,8 +48,8 @@ public class AudioManager : MonoBehaviour
 
         foreach (Sound s in sounds)
         {
-            
-            switch(s.SoundType)
+
+            switch (s.SoundType)
             {
                 case Sound.soundType.midPriority:
                     s.source = gameObject.AddComponent<AudioSource>();
@@ -67,21 +67,21 @@ public class AudioManager : MonoBehaviour
                     break;
             }
 
-            if(s.clip == null)
+            if (s.clip == null)
             {
                 s.source.clip = Resources.Load<AudioClip>(s.fileName);
             }
             else
-            s.source.clip = s.clip;
+                s.source.clip = s.clip;
             s.source.volume = s.volume;
         }
 
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
-        foreach(Pool pool in pools)
+        foreach (Pool pool in pools)
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
-            for(int i = 0; i < pool.size; i++)
+            for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
@@ -97,7 +97,7 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Set Music to start in scene");
         }
 
-        
+
     }
 
     private void Start()
@@ -118,8 +118,14 @@ public class AudioManager : MonoBehaviour
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        s.source.pitch = UnityEngine.Random.Range(0.5f, 1.0f);
+        //s.source.pitch = UnityEngine.Random.Range(0.5f, 1.0f);
         s.source.Play();
+    }
+
+    public void Stop(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.Stop();
     }
 
     public AudioClip GetClip(string name)
@@ -144,9 +150,9 @@ public class AudioManager : MonoBehaviour
 
 
 
-    public void PlayFromPool(string name)
+    public void PlayFromPool(string name, string tag)
     {
-        string tag = "Sound";
+        //string tag = "Sound";
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -188,9 +194,9 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void PlayFromPoolRandomized(string name)
+    public void PlayFromPoolRandomized(string name, string tag)
     {
-        string tag = "Sound";
+        //string tag = "Sound";
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -227,13 +233,11 @@ public class AudioManager : MonoBehaviour
         obj.GetComponent<AudioSource>().Play();
 
         poolDictionary[tag].Enqueue(obj);
-
-
     }
 
-    public void PlayFromPool(string name, Vector3 location)
+    public void PlayFromPool(string name, Vector3 location, string tag)
     {
-        string tag = "Sound";
+        //string tag = "Sound";
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -268,13 +272,11 @@ public class AudioManager : MonoBehaviour
         obj.GetComponent<AudioSource>().Play();
 
         poolDictionary[tag].Enqueue(obj);
-
-
     }
 
-    public void PlayFromPool(string name, double time)
+    public void PlayFromPool(string name, double time, string tag)
     {
-        string tag = "Sound";
+        //string tag = "Sound";
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -310,9 +312,9 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PlayFromPool(string name, double time, Vector3 location)
+    public void PlayFromPool(string name, double time, Vector3 location, string tag)
     {
-        string tag = "Sound";
+        //string tag = "Sound";
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -346,14 +348,6 @@ public class AudioManager : MonoBehaviour
         obj.GetComponent<AudioSource>().PlayScheduled(AudioSettings.dspTime + time);
 
         poolDictionary[tag].Enqueue(obj);
-    }
-
-    public void countdown()
-    {
-        PlayFromPool("countdownA", Time.deltaTime + 0.0);
-        PlayFromPool("countdownA", Time.deltaTime + 1.0);
-        PlayFromPool("countdownA", Time.deltaTime + 2.0);
-        PlayFromPool("countdownB", Time.deltaTime + 3.0);
     }
 
     public void SetMusic(string name)
