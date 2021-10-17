@@ -28,7 +28,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2974971339988426441}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,6 +50,9 @@ MonoBehaviour:
   objectiveTextMesh: {fileID: 0}
   objectiveTextBackground: {fileID: 0}
   generalInformationTextMesh: {fileID: 0}
+  questFlavorBackground: {fileID: 0}
+  questFlavorTextMesh: {fileID: 0}
+  questFlavorTimer: 2
   compassRef: {fileID: 0}
   inactiveQuestMarker: {fileID: 21300000, guid: ae3f988587b20594e8388fffd288a156,
     type: 3}
@@ -58,6 +62,7 @@ MonoBehaviour:
   questActivationRadius: 3
   levelQuests: []
   currentQuestIndex: 0
+  markerGO: {fileID: 2974971339988426444}
 --- !u!114 &5636452110327323313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,3 +77,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5c5f138b-7cc6-4f48-8f81-e8ad19df8fb8
   shouldCrossRef: 0
+--- !u!1001 &3883427978782849012
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5636452110327323315}
+    m_Modifications:
+    - target: {fileID: 2066463385243904312, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+        type: 3}
+      propertyPath: m_Name
+      value: ObjectiveWorldMarker
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066463385243904317, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066463385243904317, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066463385243904317, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066463385243904317, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3f7abd0fa964de4e887e24c60d6cd86, type: 3}
+--- !u!1 &2974971339988426444 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2066463385243904312, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+    type: 3}
+  m_PrefabInstance: {fileID: 3883427978782849012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2974971339988426441 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2066463385243904317, guid: e3f7abd0fa964de4e887e24c60d6cd86,
+    type: 3}
+  m_PrefabInstance: {fileID: 3883427978782849012}
+  m_PrefabAsset: {fileID: 0}
