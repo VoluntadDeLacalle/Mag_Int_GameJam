@@ -12,7 +12,9 @@ public class LevelSpawnPoints
 
 public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 {
-    public string levelMusic;
+    public string levelMusic = string.Empty;
+    public bool shouldHaveAmbience = false;
+    public string ambienceSFX = string.Empty;
 
     [Header("Spawn Locations Variables")]
     public List<LevelSpawnPoints> levelSpawnPoints = new List<LevelSpawnPoints>();
@@ -127,7 +129,15 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
             }
         }
 
-        AudioManager.Get().CrossFadeTo(levelMusic, 2f);
+        if (levelMusic != string.Empty)
+        {
+            AudioManager.Get().CrossFadeTo(levelMusic, 2f);
+        }
+
+        if (shouldHaveAmbience)
+        {
+            AudioManager.Get().Play(ambienceSFX);
+        }
     }
 
     public bool HasItemName(string itemName)

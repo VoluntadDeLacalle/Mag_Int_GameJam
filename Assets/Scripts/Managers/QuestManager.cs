@@ -261,6 +261,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     {
         var saveData = (SaveData)state;
 
+        if (!HasNewQuest())
+        {
+            return;
+        }
+
         levelQuests[currentQuestIndex].isActive = false;
 
         markerGO.SetActive(false);

@@ -16,6 +16,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     public string mainMenuName = string.Empty;
     public List<string> sceneNames = new List<string>();
 
+    [Header("UI and Sound Management")]
+    public string menuClick;
+
     [SerializeField]
     private int currentSavedScene = 0;
     private bool hasLoadedInitially = false;

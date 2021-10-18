@@ -17,6 +17,7 @@ public class Sound
 
     public enum soundType{midPriority, highPriority, UI};
     public soundType SoundType;
+    public bool shouldLoop = false;
 
     [Range(0f, 1.0f)]
     public float volume;
