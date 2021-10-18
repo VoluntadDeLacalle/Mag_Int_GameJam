@@ -7,21 +7,34 @@ public class MixerControl : MonoBehaviour
 {
     public AudioMixer mixer;
     public AudioMixerSnapshot[] snapshots;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public float GetMasterVolume()
     {
-        
+        float mixerVol;
+        mixer.GetFloat("MasterVolume", out mixerVol);
+
+        return mixerVol;
     }
 
-    // Update is called once per frame
-    void Update()
+    public float GetMusicVolume()
     {
-        
+        float mixerVol;
+        mixer.GetFloat("MusicVolume", out mixerVol);
+
+        return mixerVol;
+    }
+
+    public float GetSoundVolume()
+    {
+        float mixerVol;
+        mixer.GetFloat("GameSoundsVolume", out mixerVol);
+
+        return mixerVol;
     }
 
     public void SetMasterVolume(float volume)
     {
+        Debug.Log("Called");
         mixer.SetFloat("MasterVolume", Mathf.Log(volume) * 20);
         if (volume == 0)
             mixer.SetFloat("MasterVolume", -80);
