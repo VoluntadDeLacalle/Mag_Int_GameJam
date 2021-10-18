@@ -205,6 +205,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     public Sprite inactiveQuestMarker;
     public Sprite locationQuestMarker;
 
+    [Header("Audio Variables")]
+    public string questStartSFX = string.Empty;
+    public string objectiveFinishSFX = string.Empty;
+    public string questFinishSFX = string.Empty;
+
     [Header("Questing Variables")]
     public bool activateFirstOnStart = false;
     public float questActivationRadius = 3f;
@@ -375,19 +380,34 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void CurrentObjectiveComplete()
     {
-        Debug.Log("Complete current Objective!");
-
         markerGO.SetActive(false);
 
         compassRef.ResetQuestMarker();
         SetObjectiveInfo();
+
+        if (!HasNewQuest())
+        {
+            return;
+        }
+
+        if (!levelQuests[currentQuestIndex].isCompleted || levelQuests[currentQuestIndex].isActive)
+        {
+            if (objectiveFinishSFX != string.Empty)
+            {
+               AudioManager.instance.Play(objectiveFinishSFX);
+            }
+        }
     }
 
     private void CurrentQuestComplete()
     {
-        Debug.Log("Complete quest!");
         ResetQuestInfo();
         currentQuestIndex++;
+
+        if (questFinishSFX != string.Empty)
+        {
+            AudioManager.instance.Play(questFinishSFX);
+        }
 
         questFlavorTextMesh.text = $"Quest Completed!";
         questFlavorBackground.SetActive(true);
@@ -487,6 +507,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                         
                         compassRef.ResetQuestMarker();
                         InitQuestInfo();
+
+                        if (questStartSFX != string.Empty)
+                        {
+                            AudioManager.instance.Play(questStartSFX);
+                        }
 
                         questFlavorTextMesh.text = $"Quest Accepted!\n{levelQuests[currentQuestIndex].questName}";
                         questFlavorBackground.SetActive(true);
