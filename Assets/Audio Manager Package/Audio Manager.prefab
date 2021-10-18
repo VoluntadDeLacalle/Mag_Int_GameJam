@@ -181,90 +181,105 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 32fc984366d47904b8ba62c5d6338566, type: 3}
     source: {fileID: 0}
     SoundType: 2
-    volume: 0.2
+    shouldLoop: 1
+    volume: 0.1
   - name: GateOpen
     fileName: 
     clip: {fileID: 8300000, guid: bac4c691b71d0e84cb3fea600eabf1dc, type: 3}
     source: {fileID: 0}
     SoundType: 1
+    shouldLoop: 0
     volume: 0.6
   - name: Explosion1
     fileName: 
     clip: {fileID: 8300000, guid: cd257b91ba799214b99549896a9ab359, type: 3}
     source: {fileID: 0}
     SoundType: 1
-    volume: 0.25
+    shouldLoop: 0
+    volume: 0.4
   - name: Explosion2
     fileName: 
     clip: {fileID: 8300000, guid: 7b1824ed693b00740af04f0e9200eaf9, type: 3}
     source: {fileID: 0}
     SoundType: 1
-    volume: 0.25
+    shouldLoop: 0
+    volume: 0.4
   - name: Explosion3
     fileName: 
     clip: {fileID: 8300000, guid: 3641e6b1819d8ed48bce632f13ac9d8c, type: 3}
     source: {fileID: 0}
     SoundType: 1
-    volume: 0.25
+    shouldLoop: 0
+    volume: 0.4
   - name: EffectorHumming
     fileName: 
     clip: {fileID: 8300000, guid: 7450cf8f9c3829147a8610f55d84ee36, type: 3}
     source: {fileID: 0}
-    SoundType: 1
+    SoundType: 2
+    shouldLoop: 1
     volume: 0.3
   - name: PowerShot
     fileName: 
     clip: {fileID: 8300000, guid: 33108be39d693094bb521c9f67a9ce20, type: 3}
     source: {fileID: 0}
     SoundType: 1
+    shouldLoop: 0
     volume: 0.3
   - name: DesertStepL
     fileName: 
     clip: {fileID: 8300000, guid: 47e4432f530187a4eaf809557541cbb0, type: 3}
     source: {fileID: 0}
     SoundType: 0
+    shouldLoop: 0
     volume: 0.25
   - name: DesertStepR
     fileName: 
     clip: {fileID: 8300000, guid: f8a22a52051be9740af315a171517da7, type: 3}
     source: {fileID: 0}
     SoundType: 0
+    shouldLoop: 0
     volume: 0.25
   - name: PlayerPowerDown
     fileName: 
     clip: {fileID: 8300000, guid: 3b06c4273211bc544956974cecc8cf5a, type: 3}
     source: {fileID: 0}
     SoundType: 1
+    shouldLoop: 0
     volume: 0.3
   - name: PlayerPowerDown
     fileName: 
     clip: {fileID: 8300000, guid: 3b06c4273211bc544956974cecc8cf5a, type: 3}
     source: {fileID: 0}
     SoundType: 1
+    shouldLoop: 0
     volume: 0.3
   - name: QuestStart
     fileName: 
     clip: {fileID: 8300000, guid: e6b28b03613a8e24da538123e1795a96, type: 3}
     source: {fileID: 0}
     SoundType: 2
+    shouldLoop: 0
     volume: 0.3
   - name: ObjectiveFinish
     fileName: 
     clip: {fileID: 8300000, guid: 234ea5454cbae6548add90748fee6ce8, type: 3}
     source: {fileID: 0}
     SoundType: 2
+    shouldLoop: 0
     volume: 0.3
   - name: QuestFinish
     fileName: 
     clip: {fileID: 8300000, guid: 93e0701e722cc48408c188855e4b3373, type: 3}
     source: {fileID: 0}
     SoundType: 2
+    shouldLoop: 0
     volume: 0.3
   - name: MenuSelect
     fileName: 
     clip: {fileID: 8300000, guid: ee026ceef9f2a514086c35366dcd8d6b, type: 3}
     source: {fileID: 0}
     SoundType: 2
+    shouldLoop: 0
     volume: 0.3
   midPriorityGroup: {fileID: 2645537736954844690, guid: 4d22186fc4e0a6a4892fa473a5ec1d85,
     type: 2}
@@ -275,10 +290,6 @@ MonoBehaviour:
     prefab: {fileID: 7308432289321493374, guid: 8bb3998cea65cae4c80cec7baff5ab8d,
       type: 3}
     size: 10
-  - name: LoopingSound
-    prefab: {fileID: 7308432289321493374, guid: 5e4f8aa9f6974254dbf40a3aab55d86e,
-      type: 3}
-    size: 5
   mixerControl: {fileID: 2718028678722813962}
   startingSong: {fileID: 8300000, guid: 488a5857a1700874183d9d5ff92fd9ea, type: 3}
 --- !u!114 &2718028678722813962

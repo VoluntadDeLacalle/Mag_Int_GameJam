@@ -9,7 +9,6 @@ public class Grenade : Explosive
     public float timer = 2;
 
     [Header("Juice Variables")]
-    public AudioSource triggerPullSFX;
     public float flashingSpeed = 2;
     public Color activatedcolor = Color.red;
 
@@ -45,7 +44,6 @@ public class Grenade : Explosive
             //hack for soundbite of grenade. Fix later with an audiomanager
             if (!hasPlayed)
             {
-                triggerPullSFX.Play();
                 glowActivatedColor = true;
                 hasPlayed = true;
             }

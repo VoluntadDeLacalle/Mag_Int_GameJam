@@ -74,6 +74,7 @@ public class AudioManager : MonoBehaviour
             else
                 s.source.clip = s.clip;
             s.source.volume = s.volume;
+            s.source.loop = s.shouldLoop;
         }
 
 
@@ -84,6 +85,7 @@ public class AudioManager : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
+                obj.transform.parent = this.gameObject.transform;
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }

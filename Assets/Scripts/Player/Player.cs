@@ -23,6 +23,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public PanelComponentFade panelFade;
     public float deathTime = 3;
 
+    [Header("Audio Variables")]
+    public string leftStepSFX = string.Empty;
+    public string rightStepSFX = string.Empty;
+    public string deathSFX = string.Empty;
+
     [Header("Ragdoll Variables")]
     public Ragdoll ragdoll;
     public Transform deathCameraTarget;
@@ -175,6 +180,22 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         vThirdPersonInput.ShouldMove(true);
     }
 
+    public void PlayerStepLeft()
+    {
+        if (leftStepSFX != string.Empty)
+        {
+            //AudioManager.Get().Play(leftStepSFX);
+        }
+    }
+
+    public void PlayerStepRight()
+    {
+        if (rightStepSFX != string.Empty)
+        {
+            //AudioManager.Get().Play(rightStepSFX);
+        }
+    }
+
     private void ResetVariables()
     {
         anim.SetBool("IsActivated", false);
@@ -208,6 +229,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private void Die()
     {
         isAlive = false;
+
+        if (deathSFX != string.Empty)
+        {
+            //AudioManager.Get().Play(deathSFX);
+        }
 
         vThirdPersonCamera.SetTarget(deathCameraTarget);
         if (vThirdPersonController.isGrounded)
@@ -265,7 +291,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f)
+        if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
         {
             playerEmoter.PlayEmote("EmoteTrigger");
         }

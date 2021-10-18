@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class WarningMessageUI : MonoBehaviour
 {
-    
+    public string menuClick = string.Empty;
     public TextMeshProUGUI warningMessageTextMesh;
     public Button buttonYes;
     public Button buttonNo;
@@ -19,6 +19,9 @@ public class WarningMessageUI : MonoBehaviour
 
         buttonYes.onClick.AddListener(delegate { ClearWarning(); });
         buttonNo.onClick.AddListener(delegate { ClearWarning(); });
+
+        buttonYes.onClick.AddListener(delegate { if (menuClick != string.Empty) { AudioManager.Get().Play(menuClick); } });
+        buttonNo.onClick.AddListener(delegate { if (menuClick != string.Empty) { AudioManager.Get().Play(menuClick); } });
     }
 
     public void AddWarningDelegate(UnityEngine.Events.UnityAction yesDelegate, UnityEngine.Events.UnityAction noDelegate)

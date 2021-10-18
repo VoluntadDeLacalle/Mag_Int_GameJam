@@ -9,7 +9,6 @@ public class Explosive : MonoBehaviour
     public float explosionDelay = 0.1f;
     public bool hasExploded = false;
     public string bombTag = "bomb";
-    public AudioSource explosionSFX;
 
     private float destroyDelay = 1f;
 
@@ -71,7 +70,9 @@ public class Explosive : MonoBehaviour
 
     private void PlayJuice()
     {
-        explosionSFX.Play();
+        int randNumb = Random.Range(1, 4);
+        string exlosionSFX = $"Explosion{randNumb}";
+        AudioManager.Get().PlayFromPool(exlosionSFX, transform.position, "Sound");
         GameObject spawnedParticle = ObjectPooler.GetPooler(explosionParticleKey).GetPooledObject();
         spawnedParticle.transform.position = transform.position;
         spawnedParticle.transform.rotation = transform.rotation;
