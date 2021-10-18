@@ -208,13 +208,9 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     [Header("Questing Variables")]
     public bool activateFirstOnStart = false;
     public float questActivationRadius = 3f;
+    public GameObject markerGO;
     [SerializeField] private List<Quest> levelQuests = new List<Quest>();
     public int currentQuestIndex = 0;
-
-    private GameObject questStartPE = null;
-    private GameObject locationStartPE = null;
-    private ObjectPooler.Key questStartKey = ObjectPooler.Key.QuestStartParticle;
-    private ObjectPooler.Key locationTargetKey = ObjectPooler.Key.LocationTargetParticle;
 
     public object CaptureState()
     {
@@ -267,17 +263,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         levelQuests[currentQuestIndex].isActive = false;
 
-        if (questStartPE != null)
-        {
-            questStartPE.SetActive(false);
-            questStartPE = null;
-        }
-
-        if (locationStartPE != null)
-        {
-            locationStartPE.SetActive(false);
-            locationStartPE = null;
-        }
+        markerGO.SetActive(false);
 
         for (int i = 0; i < saveData.questDataModels.Count; i++)
         {
@@ -366,6 +352,8 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                 levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(CurrentObjectiveComplete);
             }
         }
+
+        markerGO.SetActive(false);
     }
 
     private void Start()
@@ -383,12 +371,8 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     private void CurrentObjectiveComplete()
     {
         Debug.Log("Complete current Objective!");
-        
-        if (locationStartPE != null)
-        {
-            locationStartPE.SetActive(false);
-            locationStartPE = null;
-        }
+
+        markerGO.SetActive(false);
 
         compassRef.ResetQuestMarker();
         SetObjectiveInfo();
@@ -448,23 +432,14 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         SetObjectiveInfo();
     }
     
-    void SpawnQuestStartPE()
+    void SpawnMarkerGO(Vector3 position, float radius, Color color)
     {
         if (currentQuestIndex != -1)
         {
-            questStartPE = ObjectPooler.GetPooler(questStartKey).GetPooledObject();
-            questStartPE.transform.position = GetCurrentQuest().questStartLocation;
-            questStartPE.SetActive(true);
-        }
-    }
-
-    void SpawnLocationTargetPE()
-    {
-        if (currentQuestIndex != -1)
-        {
-            locationStartPE = ObjectPooler.GetPooler(locationTargetKey).GetPooledObject();
-            locationStartPE.transform.position = GetCurrentQuest().GetCurrentObjective().targetWorldPosition;
-            locationStartPE.SetActive(true);
+            markerGO.transform.position = position;
+            markerGO.transform.localScale = new Vector3(radius * 2, radius, radius * 2);
+            markerGO.GetComponent<Renderer>().material.SetColor("_MainColor", color);
+            markerGO.SetActive(true);
         }
     }
 
@@ -513,11 +488,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                         StartCoroutine(DeactivateQuestFlavor());
 
                         generalInformationTextMesh.text = "";
-                        if (questStartPE != null)
-                        {
-                            questStartPE.SetActive(false);
-                            questStartPE = null;
-                        }
+                        markerGO.SetActive(false);
                     }
                     break;
                 }
@@ -559,14 +530,17 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         if (!IsCurrentQuestActive())
         {
-            if (questStartPE == null)
+            if (GetCurrentQuest() != null)
             {
-                SpawnQuestStartPE();
-            }
+                if (!markerGO.activeInHierarchy)
+                {
+                    SpawnMarkerGO(levelQuests[currentQuestIndex].questStartLocation, questActivationRadius, Color.green);
+                }
 
-            if (!compassRef.compassGO.activeInHierarchy)
-            {
-                compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
+                if (!compassRef.compassGO.activeInHierarchy)
+                {
+                    compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
+                }
             }
 
             TryStartQuest();
@@ -576,9 +550,9 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             Objective currentObjective = GetCurrentQuest().GetCurrentObjective();
             if (currentObjective != null)
             {
-                if (currentObjective.goalType == Objective.GoalType.Location && locationStartPE == null)
+                if (currentObjective.goalType == Objective.GoalType.Location && !markerGO.activeInHierarchy)
                 {
-                    SpawnLocationTargetPE();
+                    SpawnMarkerGO(currentObjective.targetWorldPosition, currentObjective.activationRadius, Color.red);
                 }
             }
             

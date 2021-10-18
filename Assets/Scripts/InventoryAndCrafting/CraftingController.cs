@@ -146,6 +146,11 @@ public class CraftingController : MonoBehaviour
         itemViewer.SwitchPlayerAnimLayer(0);
 
         tooltip.GetComponent<Tooltip>().DisableTooltip();
+
+        ToggleAllPrimaryCraftingLists(true);
+        
+        warningCalled = false;
+        warningPanel.SetActive(false);
     }
 
     void DestroyPrimaryCraftingList()

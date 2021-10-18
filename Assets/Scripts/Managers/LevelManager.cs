@@ -12,10 +12,15 @@ public class LevelSpawnPoints
 
 public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 {
+    public string levelMusic;
+
+    [Header("Spawn Locations Variables")]
     public List<LevelSpawnPoints> levelSpawnPoints = new List<LevelSpawnPoints>();
     public Transform playerSpawnLocation = null;
 
     private GameObject playerSpawnPointInitialGO;
+
+    [Header("Item Management Variables")]
     private List<string> itemNamesOnAwake = new List<string>();
     public List<string> addedItemNames = new List<string>();
 
@@ -121,6 +126,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
                 Player.Instance.Spawn(levelSpawnPoints[index].spawnPoint);
             }
         }
+
+        AudioManager.Get().CrossFadeTo(levelMusic, 2f);
     }
 
     public bool HasItemName(string itemName)
