@@ -9,6 +9,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 {
     [Header("Save Files")]
     public string gameManagerSaveFile;
+    public string optionsSaveFile;
     public string levelManagerSaveFile;
     public string sceneSaveFile;
 
@@ -59,6 +60,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         SaveSystem.ResetSaveFile(sceneSaveFile);
     }
 
+    [ContextMenu("ResetOptionsFile")]
+    public void ResetOptionsFile()
+    {
+        SaveSystem.ResetSaveFile(optionsSaveFile);
+    }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -66,6 +73,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
+        SaveSystem.Load(optionsSaveFile);
+
         if (scene.name == mainMenuName && !hasLoadedInitially)
         {
             SaveSystem.Load(gameManagerSaveFile);
@@ -86,6 +95,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         SaveSystem.Save(gameManagerSaveFile);
     }
 
+    public void SaveOptionsManager()
+    {
+        SaveSystem.Save(optionsSaveFile);
+    }
+
     public void SaveScene()
     {
         for (int i = 0; i < sceneNames.Count; i++)
@@ -103,7 +117,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     public bool HasSaveData()
     {
-        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile);
+        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) && (SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile));
         return returnValue;
     }
 

@@ -94,14 +94,42 @@ public class SaveSystem : MonoBehaviour
             {
                 state[saveable.Id] = saveable.CaptureState();
             }
-            else if (savePath == GameManager.Instance.levelManagerSaveFile && saveable.gameObject == LevelManager.Instance.gameObject)
+            else if (savePath == GameManager.Instance.optionsSaveFile)
             {
-                state[saveable.Id] = saveable.CaptureState();
+                if(OptionsManager.Instance != null)
+                {
+                    if (saveable.gameObject == OptionsManager.Instance.gameObject)
+                    {
+                        state[saveable.Id] = saveable.CaptureState();
+                    }
+                }
             }
-            else if (savePath == GameManager.Instance.sceneSaveFile && saveable.gameObject != GameManager.Instance.gameObject
-                     && saveable.gameObject != LevelManager.Instance.gameObject)
+            else if (savePath == GameManager.Instance.levelManagerSaveFile)
             {
-                state[saveable.Id] = saveable.CaptureState();
+                if (LevelManager.Instance != null)
+                {
+                    if (saveable.gameObject == LevelManager.Instance.gameObject)
+                    {
+                        state[saveable.Id] = saveable.CaptureState();
+                    }
+                }
+            }
+            else if (savePath == GameManager.Instance.sceneSaveFile)
+            {
+                if (saveable.gameObject != GameManager.Instance.gameObject)
+                {
+                    if (LevelManager.Instance != null)
+                    {
+                        if (saveable.gameObject != LevelManager.Instance.gameObject)
+                        {
+                            state[saveable.Id] = saveable.CaptureState();
+                        }
+                    }
+                    else
+                    {
+                        state[saveable.Id] = saveable.CaptureState();
+                    }
+                }
             }
         }
     }
@@ -116,14 +144,40 @@ public class SaveSystem : MonoBehaviour
                 {
                     saveable.RestoreState(value);
                 }
-                else if (savePath == GameManager.Instance.levelManagerSaveFile && saveable.gameObject == LevelManager.Instance.gameObject)
+                else if (savePath == GameManager.Instance.optionsSaveFile)
                 {
-                    saveable.RestoreState(value);
+                    OptionsManager temp = saveable.gameObject.GetComponent<OptionsManager>();
+                    if (temp != null)
+                    {
+                        saveable.RestoreState(value);
+                    }
                 }
-                else if (savePath == GameManager.Instance.sceneSaveFile && saveable.gameObject != GameManager.Instance.gameObject
-                         && saveable.gameObject != LevelManager.Instance.gameObject)
+                else if (savePath == GameManager.Instance.levelManagerSaveFile)
                 {
-                    saveable.RestoreState(value);
+                    if (LevelManager.Instance != null)
+                    {
+                        if (saveable.gameObject == LevelManager.Instance.gameObject)
+                        {
+                            saveable.RestoreState(value);
+                        }
+                    }
+                }
+                else if (savePath == GameManager.Instance.sceneSaveFile)
+                {
+                    if (saveable.gameObject != GameManager.Instance.gameObject)
+                    {
+                        if (LevelManager.Instance != null)
+                        {
+                            if (saveable.gameObject != LevelManager.Instance.gameObject)
+                            {
+                                saveable.RestoreState(value);
+                            }
+                        }
+                        else
+                        {
+                            saveable.RestoreState(value);
+                        }
+                    }
                 }
             }
         }

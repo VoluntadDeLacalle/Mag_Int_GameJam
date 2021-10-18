@@ -180,22 +180,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         vThirdPersonInput.ShouldMove(true);
     }
 
-    public void PlayerStepLeft()
-    {
-        if (leftStepSFX != string.Empty)
-        {
-            //AudioManager.Get().Play(leftStepSFX);
-        }
-    }
-
-    public void PlayerStepRight()
-    {
-        if (rightStepSFX != string.Empty)
-        {
-            //AudioManager.Get().Play(rightStepSFX);
-        }
-    }
-
     private void ResetVariables()
     {
         anim.SetBool("IsActivated", false);

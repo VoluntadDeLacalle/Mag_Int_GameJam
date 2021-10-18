@@ -36,6 +36,8 @@ public class StartMenu : MonoBehaviour
             continueButton.interactable = false;
             continueButtonOriginalState = false;
         }
+
+        AudioManager.instance.CrossFadeTo("DistantMountains");
     }
 
     private void SkipOPCutscene()
