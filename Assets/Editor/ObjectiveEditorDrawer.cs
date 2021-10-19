@@ -44,6 +44,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     Rect rectGatherItemName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
                     EditorGUI.PropertyField(rectGatherItemName, property.FindPropertyRelative("itemName"));
 
+                    Rect rectGatherItemType = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(rectGatherItemType, property.FindPropertyRelative("itemType"));
+
                     Rect rectNumbToCollect = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
                     EditorGUI.PropertyField(rectNumbToCollect, property.FindPropertyRelative("numberToCollect"));
 
@@ -71,6 +74,10 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     Rect rectActivateItemName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
                     EditorGUI.PropertyField(rectActivateItemName, property.FindPropertyRelative("itemName"));
                     break;
+                case Objective.GoalType.Restore:
+                    Rect rectRestoreItemName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(rectRestoreItemName, property.FindPropertyRelative("itemName"));
+                    break;
             }
 
             
@@ -93,7 +100,7 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     totalLines += 5;
                     break;
                 case Objective.GoalType.Gather:
-                    totalLines += 7;
+                    totalLines += 8;
                     break;
                 case Objective.GoalType.Location:
                     totalLines += 6;
@@ -102,6 +109,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     totalLines += 7;
                     break;
                 case Objective.GoalType.Activate:
+                    totalLines += 5;
+                    break;
+                case Objective.GoalType.Restore:
                     totalLines += 5;
                     break;
             }

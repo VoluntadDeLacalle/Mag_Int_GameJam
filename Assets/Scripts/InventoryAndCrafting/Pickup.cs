@@ -160,7 +160,14 @@ public class Pickup : MonoBehaviour
             Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
             if (currentObjective != null)
             {
-                currentObjective.AddGatheringItem(tempItem.itemName);
+                if (tempItem.itemType == Item.TypeTag.scrap)
+                {
+                    currentObjective.AddGatheringScrap(tempItem.itemName, tempItem.GetComponent<ScrapItem>().scrapAmount);
+                }
+                else
+                {
+                    currentObjective.AddGatheringItem(tempItem.itemName);
+                }
             }
         }
 

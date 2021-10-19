@@ -22,6 +22,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
     private float maxContinueFlashTimer = 0;
 
     public Image talkerIcon;
+    public Sprite defaultNullIcon;
     public Animator talkerIconAnimator;
     public Animator textboxAnimator;
 
@@ -70,7 +71,14 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
             textLines = new List<string>(tempStr.Split('~'));
         }
 
-        talkerIcon.sprite = newTalkerIcon;
+        if (newTalkerIcon == null)
+        {
+            talkerIcon.sprite = defaultNullIcon;
+        }
+        else
+        {
+            talkerIcon.sprite = newTalkerIcon;
+        }
         textboxAnimator.SetBool("isEnabled", true);
 
         if (!autoAdavance)

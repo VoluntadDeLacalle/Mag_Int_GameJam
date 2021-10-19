@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DynamicNPCController : NPCCharacter
 {
+    public GameObject activationTextGO;
+    public TMPro.TextMeshPro npcTextMesh;
+
     public TextAsset basicTextFile = null;
     public Sprite talkerIcon = null;
 
@@ -12,6 +15,8 @@ public class DynamicNPCController : NPCCharacter
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, talkRadius);
         if (collidersInRange.Length == 0)
         {
+            activationTextGO.SetActive(false);
+            npcTextMesh.text = "";
             return;
         }
 
@@ -19,8 +24,31 @@ public class DynamicNPCController : NPCCharacter
         {
             if (collidersInRange[i].gameObject.GetComponentInChildren<Player>() != null)
             {
+                if (basicTextFile != null)
+                {
+                    activationTextGO.SetActive(true);
+                    npcTextMesh.text = $"Press 'T' to talk to {characterName}";
+                }
+                else
+                {
+                    if (QuestManager.Instance.IsCurrentQuestActive())
+                    {
+                        Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                        if (currentObjective != null)
+                        {
+                            if (currentObjective.npcName == characterName)
+                            {
+                                activationTextGO.SetActive(true);
+                                npcTextMesh.text = $"Press 'T' to talk to {characterName}";
+                            }
+                        }
+                    }
+                }
+
                 if (Input.GetKeyDown(KeyCode.T))
                 {
+                    activationTextGO.SetActive(false);
+
                     if (QuestManager.Instance.IsCurrentQuestActive())
                     {
                         Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();

@@ -17,9 +17,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     public string mainMenuName = string.Empty;
     public List<string> sceneNames = new List<string>();
 
-    [Header("UI and Sound Management")]
-    public string menuClick;
-
     [SerializeField]
     private int currentSavedScene = 0;
     private bool hasLoadedInitially = false;
@@ -117,7 +114,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     public bool HasSaveData()
     {
-        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) && (SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile));
+        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile);
         return returnValue;
     }
 
