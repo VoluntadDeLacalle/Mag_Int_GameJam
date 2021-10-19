@@ -43,15 +43,6 @@ public class OptionsManager : SingletonMonoBehaviour<OptionsManager>, ISaveable
     public Slider musicVolSlider;
     public Slider soundVolSlider;
 
-    new void Awake()
-    {
-        base.Awake();
-
-        AudioManager.Get().mixerControl.SetMasterVolume(masterVolSlider.value);
-        AudioManager.Get().mixerControl.SetMusicVolume(musicVolSlider.value);
-        AudioManager.Get().mixerControl.SetGameSoundsVolume(soundVolSlider.value);
-    }
-
     private void Start()
     {
         masterVolSlider.onValueChanged.AddListener(delegate { AudioManager.Get().mixerControl.SetMasterVolume(masterVolSlider.value); });

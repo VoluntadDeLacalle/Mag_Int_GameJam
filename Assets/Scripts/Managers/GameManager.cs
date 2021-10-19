@@ -114,7 +114,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     public bool HasSaveData()
     {
-        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) && (SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile));
+        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile);
         return returnValue;
     }
 

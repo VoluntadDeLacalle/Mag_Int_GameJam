@@ -82,7 +82,8 @@ public class Objective
         Craft,
         Location,
         Talk,
-        Activate
+        Activate,
+        Restore
     };
     public GoalType goalType = GoalType.Location;
     public string objectiveDescription = "";
@@ -94,6 +95,7 @@ public class Objective
     public Vector3 targetWorldPosition = Vector3.zero;
 
     public string itemName = "";
+    public Item.TypeTag itemType;
 
     public string npcName = "";
     public TextAsset npcDialogue = null;
@@ -109,6 +111,22 @@ public class Objective
             if (nItemName == itemName)
             {
                 collectedAmount++;
+            }
+
+            if (collectedAmount >= numberToCollect)
+            {
+                Complete();
+            }
+        }
+    }
+
+    public void AddGatheringScrap(string nItemName, int scrapAmount)
+    {
+        if (goalType == GoalType.Gather)
+        {
+            if (nItemName == itemName)
+            {
+                collectedAmount += scrapAmount;
             }
 
             if (collectedAmount >= numberToCollect)
@@ -169,7 +187,18 @@ public class Objective
         }
     }
 
-    private void Complete()
+    public void RestoreItem(string nItemName)
+    {
+        if (goalType == GoalType.Restore)
+        {
+            if (nItemName == itemName)
+            {
+                Complete();
+            }
+        }
+    }
+
+    public void Complete()
     {
         if (!isCompleted)
         {
@@ -397,6 +426,54 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                AudioManager.instance.Play(objectiveFinishSFX);
             }
         }
+
+        if (IsCurrentQuestActive())
+        {
+            CheckForPrecompletedItems();
+        }
+    }
+
+    private void CheckForPrecompletedItems()
+    {
+        Objective currentObjective = levelQuests[currentQuestIndex].GetCurrentObjective();
+
+        if (currentObjective != null)
+        {
+            if (currentObjective.goalType == Objective.GoalType.Gather)
+            {
+                if (currentObjective.itemType == Item.TypeTag.scrap)
+                {
+                    if (Inventory.Instance.amountOfScrap >= currentObjective.numberToCollect)
+                    {
+                        currentObjective.Complete();
+                        return;
+                    }
+                    else
+                    {
+                        currentObjective.collectedAmount += Inventory.Instance.amountOfScrap;
+                    }
+                }
+                else
+                {
+                    if (Inventory.Instance.Contains(currentObjective.itemName))
+                    {
+                        currentObjective.Complete();
+                        return;
+                    }
+                }
+            }
+            else if (currentObjective.goalType == Objective.GoalType.Restore)
+            {
+                if (Inventory.Instance.Contains(currentObjective.itemName))
+                {
+                    if (Inventory.Instance.IsItemRestored(currentObjective.itemName))
+                    {
+                        currentObjective.Complete();
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private void CurrentQuestComplete()
@@ -434,7 +511,15 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         if (currentObjective.goalType == Objective.GoalType.Gather)
         {
-            objectiveTextMesh.text = $"{currentObjective.objectiveDescription}\n • {currentObjective.collectedAmount} out of {currentObjective.numberToCollect} {currentObjective.itemName}";
+            if (currentObjective.itemType == Item.TypeTag.scrap)
+            {
+                objectiveTextMesh.text = $"{currentObjective.objectiveDescription}\n • {Inventory.Instance.amountOfScrap} out of {currentObjective.numberToCollect} {currentObjective.itemName}";
+            }
+            else
+            {
+                objectiveTextMesh.text = $"{currentObjective.objectiveDescription}\n • {currentObjective.collectedAmount} out of {currentObjective.numberToCollect} {currentObjective.itemName}";
+            }
+            
         }
         else
         {
@@ -516,6 +601,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                         questFlavorTextMesh.text = $"Quest Accepted!\n{levelQuests[currentQuestIndex].questName}";
                         questFlavorBackground.SetActive(true);
                         StartCoroutine(DeactivateQuestFlavor());
+
+                        if (levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Gather || levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Restore)
+                        {
+                            CheckForPrecompletedItems();
+                        }
 
                         generalInformationTextMesh.text = "";
                         markerGO.SetActive(false);

@@ -318,6 +318,15 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             amountOfScrap -= amountToRemove;
             DisplayScrapAmount();
 
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.RestoreItem(chassisDataModels[chassisIndex].itemName);
+                }
+            }
+
             ChassisDataModel tempChassisDataModel = new ChassisDataModel
             {
                 itemName = chassisDataModels[chassisIndex].itemName,
@@ -345,6 +354,15 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         {
             amountOfScrap -= amountToRemove;
             DisplayScrapAmount();
+
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.RestoreItem(itemDataModels[itemIndex].itemName);
+                }
+            }
 
             ItemDataModel tempItemDataModel = new ItemDataModel
             {
@@ -637,12 +655,87 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         dropItemButton.SetActive(true);
         dropItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { DropItemFromInventory(itemIndex); });
     }
-
-
-    /// <summary>
-    /// Change all of this
-    /// </summary>
     
+    public bool Contains(string itemName)
+    {
+        for (int i = 0; i < chassisDataModels.Count; i++)
+        {
+            if (chassisDataModels[i].itemName == itemName)
+            {
+                return true;
+            }
+
+            for (int j = 0; j < chassisDataModels[i].componentItemModels.Count; j++)
+            {
+                if (chassisDataModels[i].componentItemModels[j].HasValue)
+                {
+                    if (chassisDataModels[i].componentItemModels[j].Value.itemName == itemName)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (chassisDataModels[i].gripItemModel.HasValue)
+            {
+                if(chassisDataModels[i].gripItemModel.Value.itemName == itemName)
+                {
+                    return true;
+                }
+            }
+        }
+
+        for (int i = 0; i < itemDataModels.Count; i++)
+        {
+            if (itemDataModels[i].itemName == itemName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsItemRestored(string itemName)
+    {
+        for (int i = 0; i < chassisDataModels.Count; i++)
+        {
+            if (chassisDataModels[i].itemName == itemName)
+            {
+                return chassisDataModels[i].isRestored;
+            }
+
+            for (int j = 0; j < chassisDataModels[i].componentItemModels.Count; j++)
+            {
+                if (chassisDataModels[i].componentItemModels[j].HasValue)
+                {
+                    if (chassisDataModels[i].componentItemModels[j].Value.itemName == itemName)
+                    {
+                        return chassisDataModels[i].componentItemModels[j].Value.isRestored;
+                    }
+                }
+            }
+
+            if (chassisDataModels[i].gripItemModel.HasValue)
+            {
+                if (chassisDataModels[i].gripItemModel.Value.itemName == itemName)
+                {
+                    return chassisDataModels[i].gripItemModel.Value.isRestored;
+                }
+            }
+        }
+
+        for (int i = 0; i < itemDataModels.Count; i++)
+        {
+            if (itemDataModels[i].itemName == itemName)
+            {
+                return itemDataModels[i].isRestored;
+            }
+        }
+
+        return false;
+    }
+
     public void EquipItem(int equipIndex)
     {
         if (equipIndex == -1)
