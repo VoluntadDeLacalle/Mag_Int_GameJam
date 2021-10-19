@@ -49,7 +49,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         return new SaveData
         {
-            health = health.currentHealth,
             backpackFillSizeWeights = backpackFill.GetBlendWeights()
         };
     }
@@ -58,14 +57,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         var saveData = (SaveData)state;
 
-        health.currentHealth = saveData.health;
         backpackFill.SetBlendWeights(saveData.backpackFillSizeWeights);
     }
 
     [Serializable]
     private struct SaveData
     {
-        public float health;
         public List<float> backpackFillSizeWeights;
     }
 
