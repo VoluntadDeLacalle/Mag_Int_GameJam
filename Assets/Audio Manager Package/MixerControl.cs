@@ -34,7 +34,6 @@ public class MixerControl : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        Debug.Log("Called");
         mixer.SetFloat("MasterVolume", Mathf.Log(volume) * 20);
         if (volume == 0)
             mixer.SetFloat("MasterVolume", -80);

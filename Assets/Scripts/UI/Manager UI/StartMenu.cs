@@ -98,7 +98,9 @@ public class StartMenu : MonoBehaviour
         }
         else
         {
+            Debug.Log("Hmm");
             GameManager.Instance.ResetSaveFiles();
+            GameManager.Instance.currentSavedScene = 0;
             SceneManager.LoadScene(GameManager.Instance.GetLastSavedScene());
         }
     }

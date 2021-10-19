@@ -393,6 +393,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         }
 
         markerGO.SetActive(false);
+        compassRef.ResetQuestMarker();
     }
 
     private void Start()

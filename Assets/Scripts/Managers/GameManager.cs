@@ -18,7 +18,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     public List<string> sceneNames = new List<string>();
 
     [SerializeField]
-    private int currentSavedScene = 0;
+    public int currentSavedScene = 0;
     private bool hasLoadedInitially = false;
 
     public object CaptureState()
