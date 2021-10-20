@@ -285,7 +285,10 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         else
         {
             ContinueFlash();
-            AdvanceText();
+            if (autoAdavance)
+            {
+                AdvanceText();
+            }
         }
     }
 }

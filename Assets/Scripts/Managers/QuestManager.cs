@@ -574,7 +574,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     void TryStartQuest()
     {
-        if (currentQuestIndex >= levelQuests.Count || currentQuestIndex == -1)
+        if (currentQuestIndex >= levelQuests.Count || currentQuestIndex == -1 || !Player.Instance.vThirdPersonInput.CanMove())
         {
             return;
         }

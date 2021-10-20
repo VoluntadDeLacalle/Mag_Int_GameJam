@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CustomPropertyDrawer(typeof(Objective))]
 public class ObjectiveEditorDrawer : PropertyDrawer
@@ -80,7 +81,11 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     break;
             }
 
-            
+            Rect rectEventSpace = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(rectEventSpace, " ");
+
+            Rect rectEvent = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * 4);
+            EditorGUI.PropertyField(rectEvent, property.FindPropertyRelative("OnObjectiveComplete"));
         }
         
         EditorGUI.EndProperty();
@@ -97,24 +102,30 @@ public class ObjectiveEditorDrawer : PropertyDrawer
             switch (currentType)
             {
                 case Objective.GoalType.Craft:
-                    totalLines += 5;
+                    totalLines += 10;
                     break;
                 case Objective.GoalType.Gather:
-                    totalLines += 8;
+                    totalLines += 13;
                     break;
                 case Objective.GoalType.Location:
-                    totalLines += 6;
+                    totalLines += 11;
                     break;
                 case Objective.GoalType.Talk:
-                    totalLines += 7;
+                    totalLines += 12;
                     break;
                 case Objective.GoalType.Activate:
-                    totalLines += 5;
+                    totalLines += 10;
                     break;
                 case Objective.GoalType.Restore:
-                    totalLines += 5;
+                    totalLines += 10;
                     break;
             }
+
+            if (property.FindPropertyRelative("OnObjectiveComplete").arraySize > 0)
+            {
+                Debug.Log(property.FindPropertyRelative("OnObjectiveComplete").arraySize);
+                totalLines += (property.FindPropertyRelative("OnObjectiveComplete").arraySize) * 4;
+            }   
         }
 
         return EditorGUIUtility.singleLineHeight * totalLines + EditorGUIUtility.standardVerticalSpacing * (totalLines - 1);

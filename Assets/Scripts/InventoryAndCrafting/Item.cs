@@ -381,6 +381,7 @@ public class Item : MonoBehaviour, ISaveable
             interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
             interactionParticle.transform.position = transform.position;
             interactionParticle.transform.rotation = transform.rotation;
+            interactionParticle.transform.localScale = transform.localScale * 2;
             interactionParticle.transform.parent = gameObject.transform;
             interactionParticle.SetActive(true);
         }

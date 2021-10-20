@@ -45,7 +45,7 @@ public class DynamicNPCController : NPCCharacter
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.T))
+                if (Input.GetKeyDown(KeyCode.T) && Player.Instance.vThirdPersonInput.CanMove())
                 {
                     activationTextGO.SetActive(false);
 
