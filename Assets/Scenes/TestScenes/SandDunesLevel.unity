@@ -13539,6 +13539,11 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: f6e4a1b94184924499c2b4f9dfa1fca7, type: 3}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].numbOfEvents
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: levelQuests.Array.data[1].objectives.Array.data[0].numberToCollect
       value: 245
       objectReference: {fileID: 0}
@@ -14216,6 +14221,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1757360481}
@@ -14226,12 +14246,32 @@ PrefabInstance:
       objectReference: {fileID: 1757360482}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
@@ -14246,12 +14286,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Collider, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.Rigidbody, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UnityEngine.Rigidbody, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: UnityEngine.Rigidbody, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
       value: UnityEngine.Rigidbody, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
@@ -14273,6 +14333,11 @@ PrefabInstance:
         type: 3}
       propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368502491622608650, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelQuests.Array.data[3].objectives.Array.data[3].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5473220045344181382, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}

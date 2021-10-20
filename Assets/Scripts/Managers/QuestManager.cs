@@ -89,6 +89,7 @@ public class Objective
     public string objectiveDescription = "";
     public bool isCompleted = false;
 
+    public int numbOfEvents = 0;
     public UnityEvent OnObjectiveComplete;
 
     public float activationRadius = 3f;

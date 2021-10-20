@@ -84,6 +84,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
             Rect rectEventSpace = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(rectEventSpace, " ");
 
+            Rect rectNumbOfEvents = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(rectNumbOfEvents, property.FindPropertyRelative("numbOfEvents"));
+
             Rect rectEvent = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * 4);
             EditorGUI.PropertyField(rectEvent, property.FindPropertyRelative("OnObjectiveComplete"));
         }
@@ -102,30 +105,29 @@ public class ObjectiveEditorDrawer : PropertyDrawer
             switch (currentType)
             {
                 case Objective.GoalType.Craft:
-                    totalLines += 10;
-                    break;
-                case Objective.GoalType.Gather:
-                    totalLines += 13;
-                    break;
-                case Objective.GoalType.Location:
                     totalLines += 11;
                     break;
-                case Objective.GoalType.Talk:
+                case Objective.GoalType.Gather:
+                    totalLines += 14;
+                    break;
+                case Objective.GoalType.Location:
                     totalLines += 12;
                     break;
+                case Objective.GoalType.Talk:
+                    totalLines += 13;
+                    break;
                 case Objective.GoalType.Activate:
-                    totalLines += 10;
+                    totalLines += 11;
                     break;
                 case Objective.GoalType.Restore:
-                    totalLines += 10;
+                    totalLines += 11;
                     break;
             }
 
-            if (property.FindPropertyRelative("OnObjectiveComplete").arraySize > 0)
+            if (property.FindPropertyRelative("numbOfEvents").intValue > 0)
             {
-                Debug.Log(property.FindPropertyRelative("OnObjectiveComplete").arraySize);
-                totalLines += (property.FindPropertyRelative("OnObjectiveComplete").arraySize) * 4;
-            }   
+                totalLines += (property.FindPropertyRelative("numbOfEvents").intValue - 1) * 3;
+            }
         }
 
         return EditorGUIUtility.singleLineHeight * totalLines + EditorGUIUtility.standardVerticalSpacing * (totalLines - 1);
