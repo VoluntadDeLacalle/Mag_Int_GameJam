@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9058853997965438627}
   - component: {fileID: 5057063599377683774}
   - component: {fileID: 5655396945083871178}
+  - component: {fileID: 4141636399658774171}
   m_Layer: 0
   m_Name: Machinery_Halfpipe
   m_TagString: Untagged
@@ -25,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734373433315339605}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.958079e-15, y: 0, z: 9.4334755}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.6743, y: 3.6743, z: 3.6743}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4141636399658774171
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734373433315339605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.096445, y: 2.1642075, z: 2.3140807}
+  m_Center: {x: 0.18381117, y: 0.96108353, z: -0.0010045061}
