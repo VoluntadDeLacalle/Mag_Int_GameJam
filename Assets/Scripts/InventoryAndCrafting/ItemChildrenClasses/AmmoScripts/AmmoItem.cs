@@ -17,7 +17,7 @@ public class AmmoItem : Item
 
     private Item currentChassis = null;
 
-    private void Awake()
+    void Awake()
     {
         lastIndex = juiceGameObjects.Count - 1;
     }

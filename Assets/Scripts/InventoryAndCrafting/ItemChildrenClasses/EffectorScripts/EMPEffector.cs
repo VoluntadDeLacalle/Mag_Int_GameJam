@@ -14,7 +14,7 @@ public class EMPEffector : Item
     private float currentRadius = 0;
     private int originalMaxRadius = 0;
 
-    private void Awake()
+    void Awake()
     {
         originalMaxRadius = maxRadius;
     }

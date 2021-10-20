@@ -18,8 +18,8 @@ public class DetectorEffector : Item
     private float currentRadius = 0;
     private int originalMaxRadius = 0;
 
-    private void Awake()
-    {        
+    void Awake()
+    {
         for (int i = 0; i < detectableMats.Count; i++)
         {
             detectableMats[i].SetFloat("_Radius", currentRadius);
@@ -168,8 +168,10 @@ public class DetectorEffector : Item
         }
     }
 
-    private void OnDestroy()
+    new void OnDestroy()
     {
+        base.OnDestroy();
+
         for (int i = 0; i < detectableMats.Count; i++)
         {
             detectableMats[i].SetFloat("_Radius", 0);

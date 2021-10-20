@@ -20,8 +20,7 @@ public class ObjectPooler : MonoBehaviour
         GrenadeAmmo,
         RockAmmo,
         ExplosionParticle,
-        QuestStartParticle,
-        LocationTargetParticle
+        InteractionParticle
     }
 
     public Key key;
@@ -29,9 +28,7 @@ public class ObjectPooler : MonoBehaviour
 
     public static Dictionary<Key, ObjectPooler> dict = new Dictionary<Key, ObjectPooler>();
 
-
-
-    void Start()
+    void Awake()
     {
         dict[key] = this;
 

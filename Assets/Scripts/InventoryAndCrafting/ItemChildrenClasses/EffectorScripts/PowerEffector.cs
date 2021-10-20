@@ -24,7 +24,7 @@ public class PowerEffector : Item
     [Header("Modifier Variables")]
     public int amplifiedMaxDistance = 10;
 
-    private void Awake()
+    void Awake()
     {
         originalMaxDistance = maxDistance;
         maxFireTimer = fireTimer;

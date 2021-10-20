@@ -6,7 +6,7 @@ public class ChassisItem : Item
 {
     List<bool> currentSlotsFilled = new List<bool>();
 
-    private void Awake()
+    void Awake()
     {
         if (currentSlotsFilled.Count == 0)
         {

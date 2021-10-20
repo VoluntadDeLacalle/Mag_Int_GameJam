@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region Component Transform
 [System.Serializable]
 public class ChassisComponentTransform
 {
@@ -54,7 +55,9 @@ public class ChassisComponentTransform
         currentComponent = null;
     }
 }
+#endregion
 
+#region Grip Transform
 [System.Serializable]
 public class ChassisGripTransform
 {
@@ -100,7 +103,9 @@ public class ChassisGripTransform
         currentGrip = null;
     }
 }
+#endregion
 
+#region Data Models
 [Serializable]
 public struct ChassisDataModel
 {
@@ -124,11 +129,13 @@ public struct ItemDataModel
     public bool isRestored;
     public bool isEquipped;
 }
+#endregion
 
 [Serializable]
 [RequireComponent(typeof(SaveableEntity))]
 public class Item : MonoBehaviour, ISaveable
 {
+    #region Variables
     public enum TypeTag
     {
         chassis,
@@ -154,6 +161,12 @@ public class Item : MonoBehaviour, ISaveable
     public List<ChassisComponentTransform> chassisComponentTransforms = new List<ChassisComponentTransform>();
     public ChassisGripTransform chassisGripTransform;
 
+    private ObjectPooler.Key interactionKey = ObjectPooler.Key.InteractionParticle;
+    private GameObject interactionParticle;
+
+    #endregion
+
+    #region Saveables
     public object CaptureState()
     {
         List<float> currentPosition = new List<float>();
@@ -279,7 +292,9 @@ public class Item : MonoBehaviour, ISaveable
             }
         }
     }
+    #endregion
 
+    #region Gizmos
     private void OnDrawGizmos()
     {
         if (itemType == TypeTag.chassis)
@@ -300,7 +315,9 @@ public class Item : MonoBehaviour, ISaveable
             }
         }
     }
+    #endregion
 
+    #region Public Functions
     public void LoadItemModelInfo(ItemDataModel itemDataModel)
     {
         isObtained = itemDataModel.isObtained;
@@ -354,10 +371,35 @@ public class Item : MonoBehaviour, ISaveable
             chassisGripTransform.AddNewGripTransform(currentGripGameObject.GetComponent<Item>());
         }
     }
+    #endregion
 
+    #region Monobehaviour Functions
+    protected void Start()
+    {
+        if (!isObtained)
+        {
+            interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
+            interactionParticle.transform.position = transform.position;
+            interactionParticle.transform.rotation = transform.rotation;
+            interactionParticle.transform.parent = gameObject.transform;
+            interactionParticle.SetActive(true);
+        }
+    }
+
+    protected void OnDestroy()
+    {
+        if (interactionParticle != null)
+        {
+            interactionParticle.SetActive(false);
+        }
+    }
+    #endregion
+
+    #region Virtual Functions
     public virtual void OnEquip() { }
     public virtual void OnUnequip() { }
     public virtual void Activate() { }
     public virtual void ModifyComponent(ModifierItem.ModifierType modifierType) { }
     public virtual void UnmodifyComponent(ModifierItem.ModifierType modifierType) { }
+    #endregion
 }

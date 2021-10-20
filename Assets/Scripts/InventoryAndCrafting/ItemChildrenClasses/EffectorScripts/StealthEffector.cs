@@ -18,7 +18,7 @@ public class StealthEffector : Item
     private float currentRadius = 0;
     private int originalMaxRadius = 0;
 
-    private void Awake()
+    void Awake()
     {
         for (int i = 0; i < stealthMats.Count; i++)
         {
@@ -169,8 +169,10 @@ public class StealthEffector : Item
         }
     }
 
-    private void OnDestroy()
+    new void OnDestroy()
     {
+        base.OnDestroy();
+
         for (int i = 0; i < stealthMats.Count; i++)
         {
             stealthMats[i].SetFloat("_StealthRadius", 0);
