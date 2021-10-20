@@ -488,7 +488,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             AudioManager.instance.Play(questFinishSFX);
         }
 
-        questFlavorTextMesh.text = $"Quest Completed!";
+        questFlavorTextMesh.text = $"Protocol Completed!";
         questFlavorBackground.SetActive(true);
         StartCoroutine(DeactivateQuestFlavor());
     }
@@ -600,7 +600,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                             AudioManager.instance.Play(questStartSFX);
                         }
 
-                        questFlavorTextMesh.text = $"Quest Accepted!\n{levelQuests[currentQuestIndex].questName}";
+                        questFlavorTextMesh.text = $"Protocol Initiated.\n{levelQuests[currentQuestIndex].questName}";
                         questFlavorBackground.SetActive(true);
                         StartCoroutine(DeactivateQuestFlavor());
 
