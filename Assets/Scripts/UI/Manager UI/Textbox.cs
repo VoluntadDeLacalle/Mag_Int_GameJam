@@ -44,6 +44,8 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         maxAutoAdvanceTimer = autoAdvanceTimer;
         
         talkerIconAnimator.SetBool("isTalking", false);
+
+        textMesh.richText = true;
     }
 
     public void EnableTextbox(TextAsset textFile, Sprite newTalkerIcon, bool sAutoAdvance)
@@ -193,6 +195,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         {
             textMesh.text += textToType[textToTypeIndex];
             textToTypeIndex++;
+
             typeTimer = maxTypeTimer;
 
             if (textMesh.text == textToType)
@@ -200,6 +203,31 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
                 isTyping = false;
                 textMesh.text += $" {continueIcon}";
                 talkerIconAnimator.SetBool("isTalking", false);
+
+                return;
+            }
+
+            if (textToType[textToTypeIndex] == '<')
+            {
+                int endOfRich = textToType.IndexOf('>', textToTypeIndex);
+                Debug.Log(endOfRich);
+
+                if (endOfRich != -1 && endOfRich != textToTypeIndex)
+                {
+                    string tempSubString = textToType.Substring(textToTypeIndex, endOfRich - textToTypeIndex + 1);
+                    Debug.Log(tempSubString);
+                    textMesh.text += tempSubString;
+                    textToTypeIndex = endOfRich + 1;
+                }
+            }
+
+            if (textMesh.text == textToType)
+            {
+                isTyping = false;
+                textMesh.text += $" {continueIcon}";
+                talkerIconAnimator.SetBool("isTalking", false);
+
+                return;
             }
         }
     }

@@ -392,6 +392,7 @@ public class Item : MonoBehaviour, ISaveable
         if (interactionParticle != null)
         {
             interactionParticle.SetActive(false);
+            interactionParticle = null;
         }
     }
     #endregion

@@ -1,29 +1,48 @@
 using UnityEngine;
 
 public class ElectricalBox : Electrical
-{
-    public Color activatedColor;
+{ 
+    private MeshRenderer meshRenderer;
+
+    [Header("Electrical Box Variables")]
     public Color deactivatedColor;
+    public Color activatedColor;
 
-    public float activationTime = 5;
+    public float sparkleSize = 5; 
 
-    public GameObject activeObject;
-    public MeshRenderer meshRenderer;
+    private GameObject interactionParticle;
+    private ObjectPooler.Key interactionKey = ObjectPooler.Key.InteractionParticle;
 
-    private void Awake()
+
+    void Start()
     {
-        SetIsPowered(true);
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
+        interactionParticle.transform.position = transform.position;
+        interactionParticle.transform.rotation = transform.rotation;
+
+        interactionParticle.transform.parent = gameObject.transform;
+
+        interactionParticle.transform.localScale = new Vector3(transform.localScale.x + sparkleSize, transform.localScale.y + sparkleSize, transform.localScale.z + sparkleSize);
+        interactionParticle.SetActive(true);
     }
 
     private void Update()
     {
         if (IsPowered())
         {
-            meshRenderer.material.color = Color.Lerp(meshRenderer.material.color, activatedColor, activationTime * Time.deltaTime);
+            if (meshRenderer.material.color != activatedColor)
+            {
+                meshRenderer.material.color = activatedColor;
+            }
         }
         else
         {
-            meshRenderer.material.color = Color.Lerp(meshRenderer.material.color, deactivatedColor, activationTime * Time.deltaTime);
+            if (meshRenderer.material.color != deactivatedColor)
+            {
+                meshRenderer.material.color = deactivatedColor;
+            }
         }
     }
 }

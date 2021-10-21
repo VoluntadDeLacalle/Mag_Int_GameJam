@@ -379,6 +379,19 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         }
     }
 
+    public void RemoveScrap(int amountToRemove)
+    {
+        if (amountOfScrap - amountToRemove < 0)
+        {
+            return;
+        }
+        else
+        {
+            amountOfScrap -= amountToRemove;
+            DisplayScrapAmount();
+        }
+    }
+
 
     /// <summary>
     /// Update for chassis and item

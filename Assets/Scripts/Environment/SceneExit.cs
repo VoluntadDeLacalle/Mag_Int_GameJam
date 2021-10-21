@@ -33,6 +33,11 @@ public class SceneExit : MonoBehaviour
         }
     }
 
+    public void MoveToScene(string sceneName)
+    {
+        LevelManager.Instance.LoadNextActiveScene(sceneName);
+    }
+
     private void Update()
     {
         if (isPlayerInRange)

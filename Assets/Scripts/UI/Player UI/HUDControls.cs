@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class HUDControls : MonoBehaviour
 {
     public GameObject pauseUI;
+    public GameObject optionsUI;
     public GameObject pickUpUIText;
     public GameObject inventoryUI;
     public GameObject craftingUI;
@@ -63,6 +64,7 @@ public class HUDControls : MonoBehaviour
             }
 
             toggleOpt(pauseUI);
+            optionsUI.SetActive(false);
         }
 
         if (Player.Instance.IsAlive())
