@@ -13,6 +13,7 @@ public class DynamicNPCController : NPCCharacter
     void TryTalk()
     {
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, talkRadius);
+        
         if (collidersInRange.Length == 0)
         {
             activationTextGO.SetActive(false);
@@ -20,10 +21,13 @@ public class DynamicNPCController : NPCCharacter
             return;
         }
 
+        bool playerInRange = false;
+
         for (int i = 0; i < collidersInRange.Length; i++)
         {
             if (collidersInRange[i].gameObject.GetComponentInChildren<Player>() != null)
             {
+                playerInRange = true;
                 if (basicTextFile != null)
                 {
                     activationTextGO.SetActive(true);
@@ -63,6 +67,12 @@ public class DynamicNPCController : NPCCharacter
                         Textbox.Instance.EnableTextbox(basicTextFile, talkerIcon, false);
                     }
                 }
+            }
+
+            if (!playerInRange)
+            {
+                activationTextGO.SetActive(false);
+                npcTextMesh.text = "";
             }
         }
     }

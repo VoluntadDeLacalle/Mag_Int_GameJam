@@ -151,6 +151,11 @@ public class Pickup : MonoBehaviour
 
     public void PickupItem(Item tempItem, int randIndex)
     {
+        if (!currentItemsInRange.Contains(tempItem))
+        {
+            return;
+        }
+
         Vector3 itemDir = (tempItem.gameObject.transform.position - Player.Instance.transform.position).normalized;
         itemDir.y = 0;
         Player.Instance.transform.rotation = Quaternion.LookRotation(itemDir);

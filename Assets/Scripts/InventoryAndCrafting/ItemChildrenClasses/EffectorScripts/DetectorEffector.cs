@@ -168,10 +168,8 @@ public class DetectorEffector : Item
         }
     }
 
-    new void OnDestroy()
+    void OnDestroy()
     {
-        base.OnDestroy();
-
         for (int i = 0; i < detectableMats.Count; i++)
         {
             detectableMats[i].SetFloat("_Radius", 0);

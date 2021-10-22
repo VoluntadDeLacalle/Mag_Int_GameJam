@@ -193,33 +193,24 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
         typeTimer -= Time.deltaTime;
         if (typeTimer <= 0)
         {
-            textMesh.text += textToType[textToTypeIndex];
-            textToTypeIndex++;
-
-            typeTimer = maxTypeTimer;
-
-            if (textMesh.text == textToType)
-            {
-                isTyping = false;
-                textMesh.text += $" {continueIcon}";
-                talkerIconAnimator.SetBool("isTalking", false);
-
-                return;
-            }
-
             if (textToType[textToTypeIndex] == '<')
             {
                 int endOfRich = textToType.IndexOf('>', textToTypeIndex);
-                Debug.Log(endOfRich);
 
                 if (endOfRich != -1 && endOfRich != textToTypeIndex)
                 {
                     string tempSubString = textToType.Substring(textToTypeIndex, endOfRich - textToTypeIndex + 1);
-                    Debug.Log(tempSubString);
                     textMesh.text += tempSubString;
-                    textToTypeIndex = endOfRich + 1;
+                    textToTypeIndex = endOfRich;
                 }
             }
+            else
+            {
+                textMesh.text += textToType[textToTypeIndex];
+            }
+
+            textToTypeIndex++;
+            typeTimer = maxTypeTimer;
 
             if (textMesh.text == textToType)
             {

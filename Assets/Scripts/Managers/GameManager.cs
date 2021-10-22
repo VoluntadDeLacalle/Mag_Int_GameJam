@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 {
@@ -137,10 +140,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
         if (Application.isEditor)
         {
-            if (EditorApplication.isPlaying)
-            {
-                EditorApplication.isPlaying = false;
-            }
+            #if UNITY_EDITOR
+                if (EditorApplication.isPlaying)
+                {
+                    EditorApplication.isPlaying = false;
+                }
+            #endif
         }
         else
         {

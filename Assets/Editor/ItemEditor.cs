@@ -17,7 +17,8 @@ public class ItemEditor : Editor
         localHandRot_Prop,
         image_Prop,
         componentTransforms_Prop,
-        gripTransform_Prop;
+        gripTransform_Prop,
+        interactable_Prop;
 
     private void OnEnable()
     {
@@ -33,6 +34,7 @@ public class ItemEditor : Editor
         image_Prop = serializedObject.FindProperty("inventorySprite");
         componentTransforms_Prop = serializedObject.FindProperty("chassisComponentTransforms");
         gripTransform_Prop = serializedObject.FindProperty("chassisGripTransform");
+        interactable_Prop = serializedObject.FindProperty("interactableOnStart");
     }
 
     public override void OnInspectorGUI()
@@ -128,6 +130,9 @@ public class ItemEditor : Editor
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
                 break;
         }
+
+        EditorGUILayout.LabelField("");
+        EditorGUILayout.PropertyField(interactable_Prop, new GUIContent("Interactable On Start"));
 
         EditorGUILayout.LabelField("");
         EditorGUILayout.LabelField("Player Local Information", EditorStyles.boldLabel);

@@ -39,6 +39,7 @@ public class GunEffector : Item
             for (int i = 0; i < currentAttachedAmmo.Count; i++)
             {
                 gunLauncher.Shoot(currentAttachedAmmo[i].gameObject.GetComponent<AmmoItem>().ammoPrefabKey);
+                currentAttachedAmmo[i].gameObject.GetComponent<AmmoItem>().DisableUnwrappedJuice();
             }
 
             if (QuestManager.Instance.IsCurrentQuestActive())

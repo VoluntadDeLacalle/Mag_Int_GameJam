@@ -161,6 +161,8 @@ public class Item : MonoBehaviour, ISaveable
     public List<ChassisComponentTransform> chassisComponentTransforms = new List<ChassisComponentTransform>();
     public ChassisGripTransform chassisGripTransform;
 
+    public bool interactableOnStart = true;
+
     private ObjectPooler.Key interactionKey = ObjectPooler.Key.InteractionParticle;
     private GameObject interactionParticle;
 
@@ -371,12 +373,25 @@ public class Item : MonoBehaviour, ISaveable
             chassisGripTransform.AddNewGripTransform(currentGripGameObject.GetComponent<Item>());
         }
     }
+
+    public void SpawnInteractable()
+    {
+        if (interactionParticle == null)
+        {
+            interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
+            interactionParticle.transform.position = transform.position;
+            interactionParticle.transform.rotation = transform.rotation;
+            interactionParticle.transform.localScale = transform.localScale * 2;
+            interactionParticle.transform.parent = gameObject.transform;
+            interactionParticle.SetActive(true);
+        }
+    }
     #endregion
 
     #region Monobehaviour Functions
     protected void Start()
     {
-        if (!isObtained)
+        if ((!isObtained || !isEquipped) && interactableOnStart)
         {
             interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
             interactionParticle.transform.position = transform.position;
@@ -387,11 +402,17 @@ public class Item : MonoBehaviour, ISaveable
         }
     }
 
-    protected void OnDestroy()
+    protected void OnDisable()
     {
         if (interactionParticle != null)
         {
             interactionParticle.SetActive(false);
+            
+            if (ObjectPooler.GetPooler(interactionKey).gameObject != null)
+            {
+                interactionParticle.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
+            }
+
             interactionParticle = null;
         }
     }

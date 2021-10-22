@@ -169,10 +169,8 @@ public class StealthEffector : Item
         }
     }
 
-    new void OnDestroy()
+    void OnDestroy()
     {
-        base.OnDestroy();
-
         for (int i = 0; i < stealthMats.Count; i++)
         {
             stealthMats[i].SetFloat("_StealthRadius", 0);

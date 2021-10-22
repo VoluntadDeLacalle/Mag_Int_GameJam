@@ -140,6 +140,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         }
     }
 
+    public void CrossFadeTo(string songName)
+    {
+        AudioManager.Get().CrossFadeTo(songName);
+    }
+
     public bool HasItemName(string itemName)
     {
         return addedItemNames.Contains(itemName);

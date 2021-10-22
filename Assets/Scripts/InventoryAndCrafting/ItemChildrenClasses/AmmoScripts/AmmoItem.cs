@@ -77,13 +77,6 @@ public class AmmoItem : Item
                 currentAmmo.transform.rotation = UnityEngine.Random.rotation;
                 currentAmmo.SetActive(true);
 
-                juiceGameObjects[lastIndex].SetActive(false);
-                lastIndex--;
-                if (lastIndex < 0)
-                {
-                    lastIndex = 0;
-                }
-
                 if (QuestManager.Instance.IsCurrentQuestActive())
                 {
                     Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
@@ -93,12 +86,23 @@ public class AmmoItem : Item
                     }
                 }
 
-                StartCoroutine(SetJuiceActive());
+                DisableUnwrappedJuice();
             }
         }
     }
 
-    IEnumerator SetJuiceActive()
+    public void DisableUnwrappedJuice()
+    {
+        juiceGameObjects[lastIndex].SetActive(false);
+        lastIndex--;
+        if (lastIndex < 0)
+        {
+            lastIndex = 0;
+        }
+        StartCoroutine(SetJuiceActive());
+    }
+
+    public IEnumerator SetJuiceActive()
     {
         yield return new WaitForSeconds(ammoActiveTimer);
 

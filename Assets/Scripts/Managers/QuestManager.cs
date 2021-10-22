@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [System.Serializable]
 public class Quest
@@ -354,10 +357,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             Gizmos.DrawLine(currentStartPosition, currentStartPosition + Vector3.up);
 
             Gizmos.DrawWireSphere(currentStartPosition, questActivationRadius);
-
-            GUIStyle startStyle = new GUIStyle();
-            startStyle.normal.textColor = Color.green;
-            Handles.Label(currentStartPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, start position.", startStyle);
+            #if UNITY_EDITOR
+                GUIStyle startStyle = new GUIStyle();
+                startStyle.normal.textColor = Color.green;
+                Handles.Label(currentStartPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, start position.", startStyle);
+            #endif
 
             for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
             {
@@ -370,9 +374,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
                     Gizmos.DrawWireSphere(currentLocationPosition, levelQuests[i].GetGizmosInformation()[j].activationRadius);
 
-                    GUIStyle locationStyle = new GUIStyle();
-                    locationStyle.normal.textColor = Color.red;
-                    Handles.Label(currentLocationPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, Objective {j + 1}, target.", locationStyle);
+                    #if UNITY_EDITOR
+                        GUIStyle locationStyle = new GUIStyle();
+                        locationStyle.normal.textColor = Color.red;
+                        Handles.Label(currentLocationPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, Objective {j + 1}, target.", locationStyle);
+                    #endif
                 }
             }
         }
