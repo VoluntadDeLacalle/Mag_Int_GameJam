@@ -206,8 +206,8 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         primaryRigidbody.MovePosition(origin.position);
         transform.rotation = origin.rotation;
 
-        anim.enabled = false;
-        anim.enabled = true;
+        vThirdPersonCamera.transform.LookAt(deathCameraTarget);
+        vThirdPersonCamera.SetTarget(gameObject.transform);
     }
 
     private void Die()
