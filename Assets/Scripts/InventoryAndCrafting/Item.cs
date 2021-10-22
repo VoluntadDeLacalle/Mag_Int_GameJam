@@ -407,10 +407,14 @@ public class Item : MonoBehaviour, ISaveable
         if (interactionParticle != null)
         {
             interactionParticle.SetActive(false);
-            
-            if (ObjectPooler.GetPooler(interactionKey).gameObject != null)
+
+            if (ObjectPooler.GetPooler(interactionKey) != null)
             {
-                interactionParticle.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
+                if (ObjectPooler.GetPooler(interactionKey).gameObject != null)
+                {
+                    GameObject temp = interactionParticle;
+                    temp.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
+                }
             }
 
             interactionParticle = null;

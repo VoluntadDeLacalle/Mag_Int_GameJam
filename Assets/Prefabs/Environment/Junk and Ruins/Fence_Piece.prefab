@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 7113786454440735146}
   - component: {fileID: 422106664159940691}
   - component: {fileID: 8710081385816811643}
+  - component: {fileID: 5561661319903668980}
   m_Layer: 0
   m_Name: Fence_Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7113786454440735146
 Transform:
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6222441182444776570}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.0689173, y: -0.01, z: 23.032515}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5561661319903668980
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222441182444776570}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.194726, y: 4.179592, z: 0.418008}
+  m_Center: {x: 0.00012801708, y: 2.0898, z: 0.15311229}

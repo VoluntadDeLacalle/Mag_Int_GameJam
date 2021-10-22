@@ -205,6 +205,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         transform.position = origin.position;
         primaryRigidbody.MovePosition(origin.position);
         transform.rotation = origin.rotation;
+
+        anim.enabled = false;
+        anim.enabled = true;
     }
 
     private void Die()
@@ -219,11 +222,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         vThirdPersonCamera.SetTarget(deathCameraTarget);
         if (vThirdPersonController.isGrounded)
         {
-            vThirdPersonCamera.height = deathCameraTarget.position.y;
+            vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
         }
         else
         {
-            vThirdPersonCamera.height = deathCameraTarget.position.y - transform.position.y;
+            vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
         }
 
         if (itemHandler.GetEquippedItem() != null)

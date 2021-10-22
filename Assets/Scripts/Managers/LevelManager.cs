@@ -131,7 +131,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 
         if (levelMusic != string.Empty)
         {
-            AudioManager.Get().CrossFadeTo(levelMusic, 2f);
+            AudioManager.Get().CrossFadeTo(levelMusic);
         }
 
         if (shouldHaveAmbience)
