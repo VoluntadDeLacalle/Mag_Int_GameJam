@@ -104,7 +104,7 @@ public class PowerEffector : Item
             Enemy currentEnemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
             if (currentEnemy != null)
             {
-                currentEnemy.health.TakeDamage(100);
+                currentEnemy.SetStun();
             }
         }
     }

@@ -11,7 +11,8 @@ public class EnemyStateMachine : MonoBehaviour
         Patrol,
         Attack,
         Chase,
-        LostPlayer
+        LostPlayer,
+        Stunned
     }
 
     public StateType state = StateType.Patrol;
@@ -23,7 +24,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Start()
     {
-        OnStateEnter();
+        OnStateEnter(state);
     }
 
     void Update()
@@ -63,6 +64,10 @@ public class EnemyStateMachine : MonoBehaviour
 
                 enemy.enemyFOV.FindPlayer();
                 break;
+            case StateType.Stunned:
+                //enemy.enemyBehavior.Stunned();
+
+                break;
         }
     }
 
@@ -88,11 +93,12 @@ public class EnemyStateMachine : MonoBehaviour
             return;
         }
 
+        StateType previousState = state;
         state = newState;
-        OnStateEnter();
+        OnStateEnter(previousState);
     }
 
-    private void OnStateEnter()
+    private void OnStateEnter(StateType previousState)
     {
         switch (state)
         {
@@ -114,7 +120,15 @@ public class EnemyStateMachine : MonoBehaviour
 
                 break;
             case StateType.LostPlayer:
-                enemy.enemyBehavior.SetLastKnowPosition(Player.Instance.transform.position);
+                if (previousState != StateType.Stunned)
+                {
+                    enemy.enemyBehavior.SetLastKnowPosition(Player.Instance.transform.position);
+                }
+
+                break;
+
+            case StateType.Stunned:
+                enemy.enemyBehavior.StartStun();
 
                 break;
         }

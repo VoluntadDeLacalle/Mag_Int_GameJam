@@ -95,6 +95,11 @@ public class Enemy : MonoBehaviour
         health.TakeDamage(100);
     }
 
+    public void SetStun()
+    {
+        enemyStateMachine.switchState(EnemyStateMachine.StateType.Stunned);
+    }
+
     void GetAllMaterials()
     {
         foreach (Renderer rend in GetComponentsInChildren<Renderer>())
