@@ -23,6 +23,11 @@ public class Explosive : MonoBehaviour
     //Searches for nearby object in a defined radius and applies a force to those objects
     protected void Explode()
     {
+        if (hasExploded)
+        {
+            return;
+        }
+
         hasExploded = true;
 
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();

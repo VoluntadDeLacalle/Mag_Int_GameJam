@@ -168,7 +168,11 @@ MonoBehaviour:
   baseSpeed: 3.5
   currentSpeed: 0
   shouldAct: 1
-  patrolPoints: []
+  patrolPoints:
+  - patrolTransform: {fileID: 0}
+    restTime: 1
+  - patrolTransform: {fileID: 0}
+    restTime: 1
   patrolSpeed: 3.5
   shouldRest: 0
   hasRested: 0

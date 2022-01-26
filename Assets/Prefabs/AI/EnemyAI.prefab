@@ -133,7 +133,7 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.1
+  m_GroundCheckDistance: 0.3
 --- !u!114 &7431464691104038381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   shouldRest: 0
   hasRested: 0
   innerAttackRadius: 2
-  outerAttackRadius: 6
+  outerAttackRadius: 5
   attackTimer: 2
   chaseRadius: 15
   chaseSpeed: 0.9
@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af5e602257f3b4bbd9734da56af20a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ragdollColliders: []
 --- !u!136 &518141049678423899
 CapsuleCollider:
   m_ObjectHideFlags: 0
