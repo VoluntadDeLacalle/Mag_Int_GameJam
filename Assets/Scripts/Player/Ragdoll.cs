@@ -5,7 +5,8 @@ using UnityEngine;
 public class Ragdoll : MonoBehaviour
 {
     private List<Rigidbody> ragdollRigidbodies = new List<Rigidbody>();
-    private List<Collider> ragdollColliders = new List<Collider>();
+    [HideInInspector] public List<Collider> ragdollColliders = new List<Collider>();
+    private bool isRagdolled = false;
 
     public void GetAllRagdolls(Rigidbody primaryRigidbody, Collider primaryCollider)
     {
@@ -43,6 +44,8 @@ public class Ragdoll : MonoBehaviour
         {
             ragdollRigidbodies[i].isKinematic = !shouldToggle;
         }
+
+        isRagdolled = shouldToggle;
     }
 
     public void UnwrapRagdoll()
@@ -56,6 +59,11 @@ public class Ragdoll : MonoBehaviour
         {
             ragdollRigidbodies[i].isKinematic = true;
         }
+    }
+
+    public bool IsRagdolled()
+    {
+        return isRagdolled;
     }
 
     public void ExplodeRagdoll(float explosionForce, Vector3 explosionPosition, float explosionRadius)

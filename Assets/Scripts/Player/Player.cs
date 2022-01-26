@@ -127,6 +127,27 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    public void KnockOut()
+    {
+        if (!ragdoll.IsRagdolled())
+        {
+            vThirdPersonCamera.SetTarget(deathCameraTarget);
+            if (vThirdPersonController.isGrounded)
+            {
+                vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
+            }
+            else
+            {
+                vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
+            }
+
+            vThirdPersonInput.ShouldMove(false);
+            
+            ToggleRagdoll(true);
+            StartCoroutine(RegainConsciousnessTime());
+        }
+    }
+
     public bool IsAlive()
     {
         return isAlive;
@@ -158,6 +179,21 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         health.FullHeal();
+    }
+
+    public void RegainConsciousness()
+    {
+        vThirdPersonCamera.height = originalCameraHeight;
+        vThirdPersonCamera.SetTarget(gameObject.transform);
+        ToggleRagdoll(false);
+
+        transform.position = ragdoll.ragdollColliders[0].transform.position;
+        primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
+
+        vThirdPersonCamera.transform.LookAt(deathCameraTarget);
+        vThirdPersonCamera.SetTarget(gameObject.transform);
+
+        vThirdPersonInput.ShouldMove(true);
     }
 
     public void CantUseChassis()
@@ -241,15 +277,22 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         health.OnHealthDepleated.RemoveAllListeners();
         health.OnHealthDepleated.AddListener(Die);
 
-        StartCoroutine(StartFade());
+        StartCoroutine(StartFade(RespawnTime()));
     }
 
-    IEnumerator StartFade()
+    IEnumerator StartFade(IEnumerator RespawnType)
     {
         yield return new WaitForSeconds(deathTime);
 
         panelFade.FadeOutAndIn();
-        StartCoroutine(RespawnTime());
+        StartCoroutine(RespawnType);
+    }
+
+    IEnumerator RegainConsciousnessTime()
+    {
+        yield return new WaitForSeconds(deathTime * 1.5f);
+
+        RegainConsciousness();
     }
 
     IEnumerator RespawnTime()

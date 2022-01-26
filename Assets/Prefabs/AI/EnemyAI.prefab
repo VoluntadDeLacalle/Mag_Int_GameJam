@@ -80,7 +80,7 @@ MonoBehaviour:
   enemyFOV: {fileID: 2028812607382518539}
   enemyMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   anim: {fileID: 4572298134194464255}
   primaryRigidbody: {fileID: 8902401526490286429}
   primaryCollider: {fileID: 518141049678423899}
@@ -169,6 +169,8 @@ MonoBehaviour:
   - patrolTransform: {fileID: 0}
     restTime: 0
   patrolSpeed: 0.5
+  shouldRest: 0
+  hasRested: 0
   innerAttackRadius: 2
   outerAttackRadius: 6
   attackTimer: 2
@@ -180,6 +182,7 @@ MonoBehaviour:
   maxTurnAngle: 60
   turnSpeed: 5
   searchTimer: 1
+  stunTimer: 3
   explosionParticleKey: 5
 --- !u!114 &2028812607382518539
 MonoBehaviour:
