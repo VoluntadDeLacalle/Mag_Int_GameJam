@@ -11,6 +11,7 @@ public class Explosive : MonoBehaviour
     public string bombTag = "bomb";
 
     private float destroyDelay = 1f;
+    private bool hasPlayedJuice = false;
 
     ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
 
@@ -23,11 +24,6 @@ public class Explosive : MonoBehaviour
     //Searches for nearby object in a defined radius and applies a force to those objects
     protected void Explode()
     {
-        if (hasExploded)
-        {
-            return;
-        }
-
         hasExploded = true;
 
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
@@ -35,7 +31,9 @@ public class Explosive : MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
+
         PlayJuice();
+        hasPlayedJuice = true;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
@@ -75,6 +73,11 @@ public class Explosive : MonoBehaviour
 
     private void PlayJuice()
     {
+        if (hasPlayedJuice)
+        {
+            return;
+        }
+
         int randNumb = Random.Range(1, 4);
         string exlosionSFX = $"Explosion{randNumb}";
         AudioManager.Get().PlayFromPool(exlosionSFX, transform.position, "Sound");
