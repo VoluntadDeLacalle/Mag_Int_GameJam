@@ -187,8 +187,8 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         vThirdPersonCamera.SetTarget(gameObject.transform);
         ToggleRagdoll(false);
 
-        transform.position = ragdoll.ragdollColliders[0].transform.position;
         primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
+        transform.position = ragdoll.ragdollColliders[0].transform.position;
 
         vThirdPersonCamera.transform.LookAt(deathCameraTarget);
         vThirdPersonCamera.SetTarget(gameObject.transform);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class JunkerFOV : MonoBehaviour
 {
@@ -78,6 +79,19 @@ public class JunkerFOV : MonoBehaviour
                     if (hitInfo.collider != Player.Instance.primaryCollider)
                     {
                         continue;
+                    }
+
+                    NavMeshPath navPath = new NavMeshPath();
+                    if (junker.nav.CalculatePath(targets[i].position, navPath))
+                    {
+                        if (navPath.status != NavMeshPathStatus.PathComplete)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
                     }
 
                     if (junker.stateMachine.GetCurrentState() == JunkerStateMachine.StateType.Patrol)

@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 6744824533144554431}
   - component: {fileID: 7884839320903899028}
   - component: {fileID: 1251006774993316588}
-  - component: {fileID: 5261297469747125861}
+  - component: {fileID: 7113178542316498747}
   m_Layer: 13
   m_Name: JunkerBotAI
   m_TagString: Untagged
@@ -111,7 +111,7 @@ MonoBehaviour:
   anim: {fileID: 6697093571604498823}
   junkerScoop: {fileID: 7767250636600189359}
   primaryRigidbody: {fileID: 0}
-  primaryCollider: {fileID: 5261297469747125861}
+  primaryCollider: {fileID: 0}
   playerScoopingForce: 1500
   showActRadius: 1
   showChaseRadius: 1
@@ -168,18 +168,14 @@ MonoBehaviour:
   baseSpeed: 3.5
   currentSpeed: 0
   shouldAct: 1
-  patrolPoints:
-  - patrolTransform: {fileID: 0}
-    restTime: 1
-  - patrolTransform: {fileID: 0}
-    restTime: 1
+  patrolPoints: []
   patrolSpeed: 3.5
   shouldRest: 0
   hasRested: 0
   innerActRadius: 2
   outerActRadius: 6
   chaseRadius: 15
-  chaseSpeed: 6
+  chaseSpeed: 4.5
   updatePositionDist: 0.2
 --- !u!114 &1251006774993316588
 MonoBehaviour:
@@ -197,8 +193,8 @@ MonoBehaviour:
   detectionRadius: 11
   viewAngle: 210
   visibleTargets: []
---- !u!136 &5261297469747125861
-CapsuleCollider:
+--- !u!65 &7113178542316498747
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -207,10 +203,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.78
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.8, z: 1}
+  m_Center: {x: 0, y: 0.4, z: 0.06}
 --- !u!1 &312245427540163140
 GameObject:
   m_ObjectHideFlags: 0

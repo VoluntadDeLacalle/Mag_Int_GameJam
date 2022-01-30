@@ -58,11 +58,68 @@ public class JunkerBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Start of Patrol functions
+    /// </summary>
+
+    private void MakeNewPatrolPoint()
+    {
+        if (patrolPoints.Count > 0)
+        {
+            patrolPoints.RemoveRange(1, patrolPoints.Count - 2);
+            patrolPoints[0].patrolTransform.position = transform.position;
+            patrolPoints[0].patrolTransform.rotation = transform.rotation;
+            patrolPoints[0].restTime = -1;
+        }
+        else
+        {
+            GameObject patrolGO = new GameObject();
+            patrolGO.name = "PatrolPoint1";
+            patrolGO.transform.parent = gameObject.transform.root;
+            patrolGO.transform.position = transform.position;
+            patrolGO.transform.rotation = transform.rotation;
+
+            PatrolPoint newPatrolPoint = new PatrolPoint();
+            newPatrolPoint.patrolTransform = patrolGO.transform;
+            newPatrolPoint.restTime = -1;
+
+            patrolPoints.Add(newPatrolPoint);
+        }
+    }
+
+    private bool CanReachPatrolPoint()
+    {
+        for (int i = 0; i < patrolPoints.Count; i++)
+        {
+            UnityEngine.AI.NavMeshPath tempPath = new UnityEngine.AI.NavMeshPath();
+            if (junker.nav.CalculatePath(patrolPoints[i].patrolTransform.position, tempPath))
+            {
+                if (tempPath.status != UnityEngine.AI.NavMeshPathStatus.PathComplete)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private int FindClosestPatrolPoint()
     {
         if (patrolPoints.Count == 0)
         {
-            return -1;
+            MakeNewPatrolPoint();
+            return 0;
+        }
+
+        if (!CanReachPatrolPoint())
+        {
+            MakeNewPatrolPoint();
+            return 0;
         }
 
         float minDistance = Vector3.Distance(transform.position, patrolPoints[0].patrolTransform.position);
@@ -87,9 +144,11 @@ public class JunkerBehavior : MonoBehaviour
         return minIndex;
     }
 
-    /// <summary>
-    /// Start of Patrol functions
-    /// </summary>
+    private void RotateTowards(Vector3 target)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(target.x, 0, target.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
+    }
 
     private void Rest(float currentRestTime)
     {
@@ -121,7 +180,6 @@ public class JunkerBehavior : MonoBehaviour
 
         if (junker.nav.remainingDistance < junker.nav.stoppingDistance)
         {
-            Debug.Log("Test");
             if (patrolPoints[currentPatrolPointIndex].restTime != 0 && !hasRested && !shouldRest)
             {
                 shouldRest = true;
@@ -146,8 +204,19 @@ public class JunkerBehavior : MonoBehaviour
                     junker.shouldScoop = true;
                 }
             }
+            else if (patrolPoints[currentPatrolPointIndex].restTime == -1)
+            {
+                if (!junker.shouldScoop)
+                {
+                    junker.shouldScoop = true;
+                }
+            }
         }
     }
+
+    /// <summary>
+    /// Start of Chase functions
+    /// </summary>
 
     public void SetLastKnowPosition(Vector3 lastKnowPos)
     {
@@ -162,19 +231,36 @@ public class JunkerBehavior : MonoBehaviour
 
     public void Chase()
     {
-        if (!junker.junkerFOV.FindPlayer())
+        Vector3 tempPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 tempLast = new Vector3(lastKnownPosition.x, 0, lastKnownPosition.z);
+        if (!junker.junkerFOV.FindPlayer() && Vector3.Distance(tempPos, tempLast) < junker.nav.stoppingDistance)
         {
             junker.stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
             return;
         }
+
+        UnityEngine.AI.NavMeshPath tempPath = new UnityEngine.AI.NavMeshPath();
+        if (junker.nav.CalculatePath(Player.Instance.transform.position, tempPath))
+        {
+            if (tempPath.status != UnityEngine.AI.NavMeshPathStatus.PathComplete)
+            {
+                junker.stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
+                return;
+            }
+        }
+
         Vector3 playerPos = Player.Instance.transform.position;
 
-        if (Vector3.Distance(playerPos, lastKnownPosition) > updatePositionDist)
+        if (Vector3.Distance(playerPos, lastKnownPosition) > updatePositionDist && junker.junkerFOV.FindPlayer())
         {
             lastKnownPosition = playerPos;
             junker.nav.SetDestination(lastKnownPosition);
         }
     }
+
+    /// <summary>
+    /// Start of Act functions
+    /// </summary>
 
     public void PerformAction()
     {
@@ -187,6 +273,7 @@ public class JunkerBehavior : MonoBehaviour
     {
         if (shouldRest)
         {
+            RotateTowards(patrolPoints[currentPatrolPointIndex].patrolTransform.forward);
 
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
