@@ -31,6 +31,7 @@ public class JunkerBot : MonoBehaviour
 
     private bool isAlive = true;
     private bool isDead = false;
+    public bool isDisabled = false;
     [HideInInspector] public bool shouldScoop = true;
 
     public bool IsAlive()
@@ -54,11 +55,38 @@ public class JunkerBot : MonoBehaviour
         Player.Instance.ragdoll.ExplodeRagdoll(playerScoopingForce, Player.Instance.transform.position, 2f);
     }
 
+    public void ToggleActive(bool isActive)
+    {
+        primaryRigidbody.isKinematic = isActive;
+
+        if (isActive)
+        {
+            nav.enabled = isActive;
+            nav.isStopped = !isActive;
+        }
+        else
+        {
+            nav.isStopped = !isActive;
+            nav.enabled = isActive;
+        }
+
+        isDisabled = !isActive;
+
+        if (isActive)
+        {
+            gameObject.layer = junkerMask;
+        }
+        else
+        {
+            gameObject.layer = 0;
+        }
+    }
+
     void Update()
     {
         if (junkerScoop.IsPlayerInRange())
         {
-            if (stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act)
+            if (stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act && !isDisabled)
             {
                 stateMachine.switchState(JunkerStateMachine.StateType.Act);
                 Player.Instance.KnockOut();

@@ -10,7 +10,8 @@ public class JunkerStateMachine : MonoBehaviour
     {
         Patrol,
         Act,
-        Chase
+        Chase,
+        Disabled
     }
 
     public StateType state = StateType.Patrol;
@@ -110,6 +111,9 @@ public class JunkerStateMachine : MonoBehaviour
                 {
                     switchState(StateType.Patrol);
                 }
+                break;
+            case StateType.Disabled:
+                junker.behavior.Disable();
                 break;
         }
     }

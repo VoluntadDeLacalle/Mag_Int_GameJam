@@ -106,6 +106,12 @@ public class PowerEffector : Item
             {
                 currentEnemy.SetStun();
             }
+
+            JunkerBot currentJunker = hitInfo.collider.gameObject.GetComponent<JunkerBot>();
+            if (currentJunker != null)
+            {
+                currentJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+            }
         }
     }
 

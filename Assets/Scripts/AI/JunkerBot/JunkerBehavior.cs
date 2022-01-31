@@ -269,6 +269,16 @@ public class JunkerBehavior : MonoBehaviour
         junker.nav.isStopped = true;
     }
 
+    /// <summary>
+    /// Start of Disabled functions
+    /// </summary>
+    
+    public void Disable()
+    {
+        junker.ToggleActive(false);
+        junker.anim.SetBool("IsDisabled", true);
+    }
+
     private void Update()
     {
         if (shouldRest)

@@ -63,6 +63,16 @@ public class GrabberEffector : Item
                     Grab(tempRB.gameObject, collidersInRange[i], tempRB);
                     return;
                 }
+                else
+                {
+                    JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
+                    if (junkerInRange != null)
+                    {
+                        junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                        Grab(tempRB.gameObject, collidersInRange[i], tempRB);
+                        return;
+                    }
+                }
             }
         }
     }

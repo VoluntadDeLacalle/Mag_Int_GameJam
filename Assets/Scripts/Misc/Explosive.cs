@@ -52,6 +52,14 @@ public class Explosive : MonoBehaviour
                 continue;
             }
 
+            JunkerBot tempJunker = nearbyObject.GetComponent<JunkerBot>();
+            if (tempJunker != null)
+            {
+                tempJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                tempJunker.primaryRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                continue;
+            }
+
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -93,6 +101,7 @@ public class Explosive : MonoBehaviour
     {
         GetComponent<MeshRenderer>().enabled = true;
         hasExploded = false;
+        hasPlayedJuice = false;
     }
 
     void DisableAfterTime(GameObject objectToDisable, float time = 0)
