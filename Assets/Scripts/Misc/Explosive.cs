@@ -55,7 +55,15 @@ public class Explosive : MonoBehaviour
             JunkerBot tempJunker = nearbyObject.GetComponent<JunkerBot>();
             if (tempJunker != null)
             {
-                tempJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                if (tempJunker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Disabled)
+                {
+                    tempJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                }
+                else
+                {
+                    tempJunker.ResetDisabledTimer();
+                }
+                
                 tempJunker.primaryRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
                 continue;
             }

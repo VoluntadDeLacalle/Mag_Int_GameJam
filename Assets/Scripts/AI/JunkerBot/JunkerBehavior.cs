@@ -66,7 +66,11 @@ public class JunkerBehavior : MonoBehaviour
     {
         if (patrolPoints.Count > 0)
         {
-            patrolPoints.RemoveRange(1, patrolPoints.Count - 2);
+            if (patrolPoints.Count > 1)
+            {
+                patrolPoints.RemoveRange(1, patrolPoints.Count - 2);
+            }
+            
             patrolPoints[0].patrolTransform.position = transform.position;
             patrolPoints[0].patrolTransform.rotation = transform.rotation;
             patrolPoints[0].restTime = -1;
@@ -276,7 +280,6 @@ public class JunkerBehavior : MonoBehaviour
     public void Disable()
     {
         junker.ToggleActive(false);
-        junker.anim.SetBool("IsDisabled", true);
     }
 
     private void Update()

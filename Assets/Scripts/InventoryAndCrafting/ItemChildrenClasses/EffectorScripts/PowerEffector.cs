@@ -110,7 +110,14 @@ public class PowerEffector : Item
             JunkerBot currentJunker = hitInfo.collider.gameObject.GetComponent<JunkerBot>();
             if (currentJunker != null)
             {
-                currentJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                if (currentJunker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Disabled)
+                {
+                    currentJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                }
+                else
+                {
+                    currentJunker.ResetDisabledTimer();
+                }
             }
         }
     }

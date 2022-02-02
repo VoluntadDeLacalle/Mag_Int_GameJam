@@ -20,6 +20,10 @@ public class JunkerBot : MonoBehaviour
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
 
+    [Header("Disabled Variables")]
+    public float disabledTimer = 5f;
+    private float maxDisabledTimer = 0f;
+
     [Header("Juice Variables")]
     [Range(1000, 2500)]
     public float playerScoopingForce = 1500;
@@ -31,8 +35,14 @@ public class JunkerBot : MonoBehaviour
 
     private bool isAlive = true;
     private bool isDead = false;
-    public bool isDisabled = false;
+    private bool isDisabled = false;
+    private bool isGrabbed = false;
     [HideInInspector] public bool shouldScoop = true;
+
+    private void Awake()
+    {
+        maxDisabledTimer = disabledTimer;
+    }
 
     public bool IsAlive()
     {
@@ -48,6 +58,16 @@ public class JunkerBot : MonoBehaviour
         stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
 
         junkerScoop.SetPlayerInRange(false);
+    }
+
+    public void ResetDisabledTimer()
+    {
+        disabledTimer = maxDisabledTimer;
+    }
+
+    public void GrabToggle(bool gotGrabbed)
+    {
+        isGrabbed = gotGrabbed;
     }
 
     public void ScoopPlayer()
@@ -71,10 +91,11 @@ public class JunkerBot : MonoBehaviour
         }
 
         isDisabled = !isActive;
+        anim.SetBool("IsDisabled", !isActive);
 
         if (isActive)
         {
-            gameObject.layer = junkerMask;
+            gameObject.layer = transform.GetChild(0).gameObject.layer;
         }
         else
         {
@@ -90,6 +111,22 @@ public class JunkerBot : MonoBehaviour
             {
                 stateMachine.switchState(JunkerStateMachine.StateType.Act);
                 Player.Instance.KnockOut();
+            }
+        }
+
+        if (isDisabled && !isGrabbed)
+        {
+
+            disabledTimer -= Time.deltaTime;
+            if (disabledTimer <= 0)
+            {
+                ResetDisabledTimer();
+                ToggleActive(true);
+
+                if (stateMachine.GetCurrentState() == JunkerStateMachine.StateType.Disabled)
+                {
+                    stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
+                }
             }
         }
     }
