@@ -89,35 +89,10 @@ public class PowerEffector : Item
         RaycastHit hitInfo;
         if (Physics.Raycast(currentShot, out hitInfo, maxDistance)) 
         {
-            Electrical currentElectricalComponent = hitInfo.collider.gameObject.GetComponent<Electrical>();
-            if (currentElectricalComponent != null)
+            EffectorActions effectorActions = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
+            if (effectorActions != null)
             {
-                if (!currentElectricalComponent.IsPowered())
-                {
-                    currentElectricalComponent.SetIsPowered(true);
-                    return;
-                }
-
-                return;
-            }
-
-            Enemy currentEnemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
-            if (currentEnemy != null)
-            {
-                currentEnemy.SetStun();
-            }
-
-            JunkerBot currentJunker = hitInfo.collider.gameObject.GetComponent<JunkerBot>();
-            if (currentJunker != null)
-            {
-                if (currentJunker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Disabled)
-                {
-                    currentJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
-                }
-                else
-                {
-                    currentJunker.ResetDisabledTimer();
-                }
+                effectorActions.PowerEffectorAction();
             }
         }
     }

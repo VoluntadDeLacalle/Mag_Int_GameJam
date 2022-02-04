@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 3620824313594683265}
   - component: {fileID: 1574913855148550987}
   - component: {fileID: 8121274462719598050}
+  - component: {fileID: 4892133123363924365}
   - component: {fileID: 151612136050906152}
   - component: {fileID: 151612136050906153}
   m_Layer: 0
-  m_Name: Landmine
+  m_Name: landmine
   m_TagString: bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,6 +107,19 @@ MonoBehaviour:
   boxBounds: {x: 0.8, y: 0.2, z: 0.8}
   turnOnDetectorMat: 0
   detectorMat: {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
+--- !u!114 &4892133123363924365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673356041734814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034ca8c1f059d034da94b347a784e58c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landmine: {fileID: 8121274462719598050}
 --- !u!65 &151612136050906152
 BoxCollider:
   m_ObjectHideFlags: 0

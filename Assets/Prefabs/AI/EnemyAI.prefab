@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2028812607382518539}
   - component: {fileID: 504474670914868558}
   - component: {fileID: 2104568346939274660}
+  - component: {fileID: 1821047400390650968}
   - component: {fileID: 518141049678423899}
   - component: {fileID: 8902401526490286429}
   m_Layer: 11
@@ -234,6 +235,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollColliders: []
+--- !u!114 &1821047400390650968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2885941687948907514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae61758cf4abf94db9d847b954c5fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 5748663641504115622}
 --- !u!136 &518141049678423899
 CapsuleCollider:
   m_ObjectHideFlags: 0

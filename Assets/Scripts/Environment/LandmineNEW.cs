@@ -33,9 +33,14 @@ public class LandmineNEW : Explosive
 
         if (collidersInBox.Length > 0)
         {
-            hasExploded = true;
-            Explode();
+            ActivateExplosion();
         }
+    }
+
+    public void ActivateExplosion()
+    {
+        hasExploded = true;
+        Explode();
     }
 
     private void FixedUpdate()

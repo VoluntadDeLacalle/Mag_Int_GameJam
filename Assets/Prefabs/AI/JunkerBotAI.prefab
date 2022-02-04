@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6744824533144554431}
   - component: {fileID: 7884839320903899028}
   - component: {fileID: 1251006774993316588}
+  - component: {fileID: 13019232272446188}
   - component: {fileID: 7113178542316498747}
   - component: {fileID: 4477814198879206400}
   m_Layer: 13
@@ -113,6 +114,7 @@ MonoBehaviour:
   junkerScoop: {fileID: 7767250636600189359}
   primaryRigidbody: {fileID: 4477814198879206400}
   primaryCollider: {fileID: 7113178542316498747}
+  disabledTimer: 5
   playerScoopingForce: 1500
   showActRadius: 1
   showChaseRadius: 1
@@ -194,6 +196,19 @@ MonoBehaviour:
   detectionRadius: 11
   viewAngle: 210
   visibleTargets: []
+--- !u!114 &13019232272446188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97715140199467335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d913b18a4c4c3048bc2345cef4db277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  junker: {fileID: 705149799524424993}
 --- !u!65 &7113178542316498747
 BoxCollider:
   m_ObjectHideFlags: 0

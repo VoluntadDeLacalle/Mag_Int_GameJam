@@ -44,27 +44,10 @@ public class Explosive : MonoBehaviour
                 continue;
             }
 
-            Enemy tempEnemy = null;
-            tempEnemy = nearbyObject.GetComponent<Enemy>();
-            if (tempEnemy != null)
+            EffectorActions effectorActions = nearbyObject.GetComponent<EffectorActions>();
+            if (effectorActions != null)
             {
-                tempEnemy.Explode(explosionForce, transform.position, explosionRadius);
-                continue;
-            }
-
-            JunkerBot tempJunker = nearbyObject.GetComponent<JunkerBot>();
-            if (tempJunker != null)
-            {
-                if (tempJunker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Disabled)
-                {
-                    tempJunker.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
-                }
-                else
-                {
-                    tempJunker.ResetDisabledTimer();
-                }
-                
-                tempJunker.primaryRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                effectorActions.ExplosiveAction(explosionForce, transform.position, explosionRadius);
                 continue;
             }
 

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2542902072251847463}
   - component: {fileID: 2542902072251847456}
   - component: {fileID: 2542902072251847460}
+  - component: {fileID: 2449173058068443270}
   m_Layer: 0
   m_Name: ElectricalBox
   m_TagString: Untagged
@@ -131,3 +132,16 @@ MonoBehaviour:
   deactivatedColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   activatedColor: {r: 1, g: 0.97778857, b: 0, a: 1}
   sparkleSize: 5
+--- !u!114 &2449173058068443270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542902072251847457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c19c488c273a146b4f29f25c98d34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricalComponent: {fileID: 2542902072251847460}
