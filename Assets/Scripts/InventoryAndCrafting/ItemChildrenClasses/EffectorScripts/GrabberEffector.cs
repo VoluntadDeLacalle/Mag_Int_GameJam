@@ -109,6 +109,7 @@ public class GrabberEffector : Item
             tempJunker.primaryRigidbody.angularVelocity = Vector3.zero;
 
             tempJunker.GrabToggle(false);
+            currentAttachedObj = null;
             return tempJunker.gameObject;
         }
 

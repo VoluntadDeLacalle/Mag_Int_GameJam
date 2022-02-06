@@ -1635,6 +1635,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Power Effector
       objectReference: {fileID: 0}
+    - target: {fileID: 8306066814339715135, guid: 1936e417fe303854e8b16d102c73fb74,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1936e417fe303854e8b16d102c73fb74, type: 3}
 --- !u!1001 &1099725425
@@ -2187,7 +2192,7 @@ PrefabInstance:
     - target: {fileID: 832420581456873950, guid: 852e3cb124b6c6745b7f362bc7601c74,
         type: 3}
       propertyPath: patrolPoints.Array.data[1].restTime
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 832420581456873950, guid: 852e3cb124b6c6745b7f362bc7601c74,
         type: 3}
@@ -2203,11 +2208,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PatrolTransforms
-      objectReference: {fileID: 0}
-    - target: {fileID: 5341649290811621958, guid: 852e3cb124b6c6745b7f362bc7601c74,
-        type: 3}
-      propertyPath: m_AngularSpeed
-      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 7744932671469458554, guid: 852e3cb124b6c6745b7f362bc7601c74,
         type: 3}

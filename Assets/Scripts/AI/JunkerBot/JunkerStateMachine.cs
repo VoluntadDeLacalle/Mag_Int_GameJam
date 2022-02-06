@@ -104,6 +104,7 @@ public class JunkerStateMachine : MonoBehaviour
 
                 break;
             case StateType.Chase:
+                junker.anim.SetBool("IsWalking", true);
                 junker.nav.speed = junker.behavior.chaseSpeed;
                 junker.behavior.SetLastKnowPosition(Player.Instance.transform.position);
 

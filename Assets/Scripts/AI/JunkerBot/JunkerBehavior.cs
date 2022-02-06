@@ -148,10 +148,19 @@ public class JunkerBehavior : MonoBehaviour
         return minIndex;
     }
 
-    private void RotateTowards(Vector3 target)
+    private bool RotateTowards(Vector3 target)
     {
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(target.x, 0, target.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
+
+        if (Mathf.Abs(Quaternion.Angle(transform.rotation, lookRotation)) < 5)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     private void Rest(float currentRestTime)
@@ -286,13 +295,27 @@ public class JunkerBehavior : MonoBehaviour
     {
         if (shouldRest)
         {
-            RotateTowards(patrolPoints[currentPatrolPointIndex].patrolTransform.forward);
+            if (!RotateTowards(patrolPoints[currentPatrolPointIndex].patrolTransform.forward))
+            {
+                if (junker.anim.GetBool("IsWalking"))
+                {
+                    junker.anim.SetBool("IsWalking", false);
+                }
+            }
 
             restTimer -= Time.deltaTime;
             if (restTimer <= 0)
             {
                 shouldRest = false;
                 hasRested = true;
+            }
+        }
+
+        if (junker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Disabled)
+        {
+            if (junker.nav.remainingDistance > junker.nav.stoppingDistance)
+            {
+                junker.anim.SetBool("IsWalking", true);
             }
         }
     }
