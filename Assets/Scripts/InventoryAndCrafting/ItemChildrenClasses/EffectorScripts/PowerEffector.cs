@@ -42,18 +42,7 @@ public class PowerEffector : Item
         fireTimer -= Time.deltaTime;
         if (fireTimer <= 0 && Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButton(1))
-            {
-                Ray tempRay = Crosshair.Instance.GetCrosshairPosition();
-                Vector3 endPoint = tempRay.origin + tempRay.direction;
-
-                UpdatePowerDetection(new Ray(shotTransform.position, (shotTransform.position - endPoint)));
-            }
-            else
-            {
-                UpdatePowerDetection(new Ray(shotTransform.position, (shotTransform.position - transform.position).normalized * maxDistance));
-            }
-
+            UpdatePowerDetection(new Ray(shotTransform.position, (shotTransform.position - transform.position).normalized * maxDistance));
 
             fireTimer = maxFireTimer;
             hasFired = true;

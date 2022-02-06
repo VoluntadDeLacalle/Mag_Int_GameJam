@@ -88,16 +88,29 @@ public class HUDControls : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    crosshairImage.SetActive(true);
+                    if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                    {
+                        crosshairImage.SetActive(true);
+                        Player.Instance.aimingRig.weight = 1;
+                    }
+                    
                 }
                 else if (Input.GetMouseButtonUp(1))
                 {
-                    crosshairImage.SetActive(false);
+                    if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                    {
+                        crosshairImage.SetActive(false);
+                        Player.Instance.aimingRig.weight = 0;
+                    }
                 }
             }
             else
             {
-                crosshairImage.SetActive(false);
+                if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                {
+                    crosshairImage.SetActive(false);
+                    Player.Instance.aimingRig.weight = 0;
+                }
             }
         }
     }

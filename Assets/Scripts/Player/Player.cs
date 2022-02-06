@@ -13,6 +13,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     [Header("Other Component Variables")]
     public Animator anim;
+    public UnityEngine.Animations.Rigging.Rig aimingRig;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
@@ -321,6 +322,15 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
         {
             playerEmoter.PlayEmote("EmoteTrigger");
+        }
+
+        if (anim.GetInteger("GripEnum") > 0 && !vThirdPersonController.strafeSpeed.rotateWithCamera)
+        {
+            vThirdPersonController.strafeSpeed.rotateWithCamera = true;
+        }
+        else if (anim.GetInteger("GripEnum") <= 0 && vThirdPersonController.strafeSpeed.rotateWithCamera)
+        {
+            vThirdPersonController.strafeSpeed.rotateWithCamera = false;
         }
     }
 }
