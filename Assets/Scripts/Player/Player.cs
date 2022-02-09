@@ -128,6 +128,14 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    public void FallDeath()
+    {
+        vThirdPersonCamera.transform.rotation = Quaternion.LookRotation(transform.position - vThirdPersonCamera.transform.position);
+        vThirdPersonCamera.target = null;
+
+        health.TakeDamage(100);
+    }
+
     public void KnockOut()
     {
         if (!ragdoll.IsRagdolled())
@@ -237,6 +245,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
+        vThirdPersonCamera.target = gameObject.transform;
         ToggleRagdoll(false);
 
         transform.position = origin.position;
