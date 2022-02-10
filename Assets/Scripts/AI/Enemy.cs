@@ -147,7 +147,6 @@ public class Enemy : MonoBehaviour
     {
         if (isDead)
         {
-
             deathTimer -= Time.deltaTime;
             if (deathTimer <= 0)
             {

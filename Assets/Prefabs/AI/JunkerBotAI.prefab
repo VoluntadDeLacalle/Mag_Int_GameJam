@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 7884839320903899028}
   - component: {fileID: 1251006774993316588}
   - component: {fileID: 13019232272446188}
+  - component: {fileID: 2781449648469764900}
   - component: {fileID: 7113178542316498747}
   - component: {fileID: 4477814198879206400}
   m_Layer: 13
@@ -114,8 +115,10 @@ MonoBehaviour:
   junkerScoop: {fileID: 7767250636600189359}
   primaryRigidbody: {fileID: 4477814198879206400}
   primaryCollider: {fileID: 7113178542316498747}
+  health: {fileID: 2781449648469764900}
   disabledTimer: 5
   playerScoopingForce: 1500
+  deathTimer: 2
   showActRadius: 1
   showChaseRadius: 1
   showFOV: 1
@@ -209,6 +212,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   junker: {fileID: 705149799524424993}
+--- !u!114 &2781449648469764900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97715140199467335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a194529fb1fbf24d9d3edfc5186a06b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  currentHealth: 0
+  startAtMaxHealth: 1
+  OnHealthDepleated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthRestored:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &7113178542316498747
 BoxCollider:
   m_ObjectHideFlags: 0

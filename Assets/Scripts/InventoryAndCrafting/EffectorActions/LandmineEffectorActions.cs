@@ -10,4 +10,12 @@ public class LandmineEffectorActions : EffectorActions
     {
         landmine.ActivateExplosion();
     }
+
+    public override void ExplosiveAction(float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    {
+        if (!landmine.hasExploded)
+        {
+            landmine.DoDelayExplosion(landmine.explosionDelay);
+        }
+    }
 }

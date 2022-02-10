@@ -86,4 +86,27 @@ public class Ragdoll : MonoBehaviour
             ragdollRigidbodies[i].AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
         }
     }
+
+    public void ApplyRagdollForce(Vector3 velocityDir, float velocityMagnitude)
+    {
+        velocityDir = velocityDir.normalized;
+        
+        if (ragdollRigidbodies[0] != null)
+        {
+            if (ragdollRigidbodies[0].isKinematic)
+            {
+                Debug.Log("Ragdoll Rigidbodies are kinematic");
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+
+        for (int i = 0; i < ragdollRigidbodies.Count; i++)
+        {
+            ragdollRigidbodies[i].velocity = velocityDir * velocityMagnitude;
+        }
+    }
 }

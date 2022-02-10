@@ -12,6 +12,17 @@ public class Oil : MonoBehaviour
             if (playerCheck != null)
             {
                 playerCheck.FallDeath();
+                return;
+            }
+        }
+
+        JunkerBot junkerCheck = other.gameObject.GetComponent<JunkerBot>();
+        if (junkerCheck != null)
+        {
+            if (junkerCheck.IsAlive())
+            {
+                junkerCheck.KillJunker();
+                return;
             }
         }
     }
@@ -24,6 +35,17 @@ public class Oil : MonoBehaviour
             if (playerCheck != null)
             {
                 playerCheck.FallDeath();
+                return;
+            }
+        }
+
+        JunkerBot junkerCheck = other.gameObject.GetComponent<JunkerBot>();
+        if (junkerCheck != null)
+        {
+            if (junkerCheck.IsAlive())
+            {
+                junkerCheck.KillJunker();
+                return;
             }
         }
     }

@@ -107,7 +107,7 @@ public class Explosive : MonoBehaviour
         objectToDisable.SetActive(false);
     }
 
-    protected void DoDelayExplosion(float delayTime)
+    public void DoDelayExplosion(float delayTime)
     {
         StartCoroutine(DelayExplosion(explosionDelay));
     }

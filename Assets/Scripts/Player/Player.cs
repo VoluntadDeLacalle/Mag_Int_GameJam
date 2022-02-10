@@ -22,7 +22,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     [Header("Death Variables")]
     public PanelComponentFade panelFade;
+    public float deathCamRotSpeed = 2f;
     public float deathTime = 3;
+    
 
     [Header("Audio Variables")]
     public string leftStepSFX = string.Empty;
@@ -43,6 +45,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Transform origin = null;
 
     private bool isAlive = true;
+    private bool isDeadFalling = false;
 
     private float originalCameraHeight;
 
@@ -130,9 +133,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     public void FallDeath()
     {
-        vThirdPersonCamera.transform.rotation = Quaternion.LookRotation(transform.position - vThirdPersonCamera.transform.position);
+        isDeadFalling = true;
         vThirdPersonCamera.target = null;
 
+        health.OnHealthDepleated.AddListener(delegate { ragdoll.ApplyRagdollForce(primaryRigidbody.velocity, primaryRigidbody.velocity.magnitude); });
         health.TakeDamage(100);
     }
 
@@ -242,6 +246,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private void Revived()
     {
         isAlive = true;
+        isDeadFalling = false;
 
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
@@ -316,6 +321,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         if (!isAlive)
         {
+            if (isDeadFalling)
+            {
+                Quaternion playerLookRot = Quaternion.LookRotation(transform.position - vThirdPersonCamera.transform.position);
+                vThirdPersonCamera.transform.rotation = Quaternion.Slerp(vThirdPersonCamera.transform.rotation, playerLookRot, deathCamRotSpeed * Time.deltaTime); ;
+            }
+            
             return;
         }
 

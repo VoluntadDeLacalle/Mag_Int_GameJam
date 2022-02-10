@@ -19,14 +19,17 @@ public class JunkerBot : MonoBehaviour
     public JunkerScoop junkerScoop;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
+    public Health health;
 
     [Header("Disabled Variables")]
+    public GameObject rootObject;
     public float disabledTimer = 5f;
     private float maxDisabledTimer = 0f;
 
     [Header("Juice Variables")]
     [Range(1000, 2500)]
     public float playerScoopingForce = 1500;
+    public float deathTimer = 2f;
 
     [Header("Debugging")]
     public bool showActRadius = true;
@@ -42,6 +45,8 @@ public class JunkerBot : MonoBehaviour
     private void Awake()
     {
         maxDisabledTimer = disabledTimer;
+
+        health.OnHealthDepleated.AddListener(Die);
     }
 
     public bool IsAlive()
@@ -103,8 +108,32 @@ public class JunkerBot : MonoBehaviour
         }
     }
 
+    public void KillJunker()
+    {
+        health.TakeDamage(100);
+    }
+
+    private void Die()
+    {
+        isAlive = false;
+        isDead = true;
+
+        health.OnHealthDepleated.RemoveAllListeners();
+        health.OnHealthDepleated.AddListener(Die);
+    }
+
     void Update()
     {
+        if (isDead)
+        {
+            deathTimer -= Time.deltaTime;
+            if (deathTimer <= 0)
+            {
+                primaryCollider.enabled = false;
+                gameObject.SetActive(false);
+            }
+        }
+
         if (junkerScoop.IsPlayerInRange())
         {
             if (stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act && !isDisabled)

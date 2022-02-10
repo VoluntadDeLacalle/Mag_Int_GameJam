@@ -71,7 +71,7 @@ public class GrabberEffector : Item
                         junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
                         junkerInRange.GrabToggle(true);
 
-                        Grab(tempRB.gameObject.transform.root.gameObject, collidersInRange[i], tempRB);
+                        Grab(junkerInRange.rootObject, collidersInRange[i], tempRB);
                         return;
                     }
                 }
