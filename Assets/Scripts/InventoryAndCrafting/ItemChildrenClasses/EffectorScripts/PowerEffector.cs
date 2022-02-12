@@ -33,8 +33,8 @@ public class PowerEffector : Item
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(currentRay);
+        //Gizmos.color = Color.black;
+        //Gizmos.DrawRay(currentRay);
     }
 
     public override void Activate()
@@ -42,7 +42,8 @@ public class PowerEffector : Item
         fireTimer -= Time.deltaTime;
         if (fireTimer <= 0 && Input.GetMouseButtonDown(0))
         {
-            UpdatePowerDetection();
+            UpdatePowerDetection(new Ray(shotTransform.position, (shotTransform.position - transform.position).normalized * maxDistance));
+
             fireTimer = maxFireTimer;
             hasFired = true;
             hasDrawnLine = false;
@@ -69,28 +70,18 @@ public class PowerEffector : Item
         }
     }
 
-    void UpdatePowerDetection()
+    void UpdatePowerDetection(Ray firedRay)
     {
-        Ray currentShot = new Ray(shotTransform.position, (shotTransform.position - transform.position).normalized * maxDistance);
+        Ray currentShot = firedRay;
+        currentRay = currentShot;
+
         RaycastHit hitInfo;
         if (Physics.Raycast(currentShot, out hitInfo, maxDistance)) 
         {
-            Electrical currentElectricalComponent = hitInfo.collider.gameObject.GetComponent<Electrical>();
-            if (currentElectricalComponent != null)
+            EffectorActions effectorActions = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
+            if (effectorActions != null)
             {
-                if (!currentElectricalComponent.IsPowered())
-                {
-                    currentElectricalComponent.SetIsPowered(true);
-                    return;
-                }
-
-                return;
-            }
-
-            Enemy currentEnemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
-            if (currentEnemy != null)
-            {
-                currentEnemy.health.TakeDamage(100);
+                effectorActions.PowerEffectorAction();
             }
         }
     }
@@ -152,7 +143,9 @@ public class PowerEffector : Item
     {
         if (hasFired && !hasDrawnLine)
         {
-            Vector3[] positions = { shotTransform.position, shotTransform.position + (shotTransform.position - transform.position).normalized * maxDistance };
+            Vector3 endPoint = currentRay.origin + currentRay.direction;
+
+            Vector3[] positions = { shotTransform.position, shotTransform.position - (shotTransform.position - endPoint) * maxDistance};
             lineRenderer.SetPositions(positions);
             lineRenderer.enabled = true;
             hasDrawnLine = true;

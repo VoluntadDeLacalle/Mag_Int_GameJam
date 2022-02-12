@@ -11,6 +11,7 @@ public class Explosive : MonoBehaviour
     public string bombTag = "bomb";
 
     private float destroyDelay = 1f;
+    private bool hasPlayedJuice = false;
 
     ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
 
@@ -30,7 +31,9 @@ public class Explosive : MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
+
         PlayJuice();
+        hasPlayedJuice = true;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
@@ -41,11 +44,10 @@ public class Explosive : MonoBehaviour
                 continue;
             }
 
-            Enemy tempEnemy = null;
-            tempEnemy = nearbyObject.GetComponent<Enemy>();
-            if (tempEnemy != null)
+            EffectorActions effectorActions = nearbyObject.GetComponent<EffectorActions>();
+            if (effectorActions != null)
             {
-                tempEnemy.Explode(explosionForce, transform.position, explosionRadius);
+                effectorActions.ExplosiveAction(explosionForce, transform.position, explosionRadius);
                 continue;
             }
 
@@ -70,6 +72,11 @@ public class Explosive : MonoBehaviour
 
     private void PlayJuice()
     {
+        if (hasPlayedJuice)
+        {
+            return;
+        }
+
         int randNumb = Random.Range(1, 4);
         string exlosionSFX = $"Explosion{randNumb}";
         AudioManager.Get().PlayFromPool(exlosionSFX, transform.position, "Sound");
@@ -85,6 +92,7 @@ public class Explosive : MonoBehaviour
     {
         GetComponent<MeshRenderer>().enabled = true;
         hasExploded = false;
+        hasPlayedJuice = false;
     }
 
     void DisableAfterTime(GameObject objectToDisable, float time = 0)
@@ -99,7 +107,7 @@ public class Explosive : MonoBehaviour
         objectToDisable.SetActive(false);
     }
 
-    protected void DoDelayExplosion(float delayTime)
+    public void DoDelayExplosion(float delayTime)
     {
         StartCoroutine(DelayExplosion(explosionDelay));
     }

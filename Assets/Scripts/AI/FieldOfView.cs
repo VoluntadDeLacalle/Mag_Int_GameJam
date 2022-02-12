@@ -20,7 +20,7 @@ public class FieldOfView : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (enemy.showFOV)
+        if (enemy != null && enemy.showFOV)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, detectionRadius);

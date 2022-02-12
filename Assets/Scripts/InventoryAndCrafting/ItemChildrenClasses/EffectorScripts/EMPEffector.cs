@@ -86,15 +86,10 @@ public class EMPEffector : Item
 
         for (int i = 0; i < collidersInRange.Length; i++)
         {
-            Electrical currentElectricalComponent = collidersInRange[i].gameObject.GetComponent<Electrical>();
-            if (currentElectricalComponent == null)
+            EffectorActions effectorActions = collidersInRange[i].gameObject.GetComponent<EffectorActions>();
+            if (effectorActions != null)
             {
-                continue;
-            }
-
-            if (currentElectricalComponent.IsPowered())
-            {
-                currentElectricalComponent.SetIsPowered(false);
+                effectorActions.EMPEffectorAction();
             }
         }
     }

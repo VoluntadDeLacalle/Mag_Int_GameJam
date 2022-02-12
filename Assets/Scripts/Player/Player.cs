@@ -13,6 +13,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     [Header("Other Component Variables")]
     public Animator anim;
+    public UnityEngine.Animations.Rigging.Rig aimingRig;
     public Rigidbody primaryRigidbody;
     public Collider primaryCollider;
     public Health health;
@@ -21,7 +22,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     [Header("Death Variables")]
     public PanelComponentFade panelFade;
+    public float deathCamRotSpeed = 2f;
     public float deathTime = 3;
+    
 
     [Header("Audio Variables")]
     public string leftStepSFX = string.Empty;
@@ -42,6 +45,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Transform origin = null;
 
     private bool isAlive = true;
+    private bool isDeadFalling = false;
 
     private float originalCameraHeight;
 
@@ -127,6 +131,36 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    public void FallDeath()
+    {
+        isDeadFalling = true;
+        vThirdPersonCamera.target = null;
+
+        health.OnHealthDepleated.AddListener(delegate { ragdoll.ApplyRagdollForce(primaryRigidbody.velocity, primaryRigidbody.velocity.magnitude); });
+        health.TakeDamage(100);
+    }
+
+    public void KnockOut()
+    {
+        if (!ragdoll.IsRagdolled())
+        {
+            vThirdPersonCamera.SetTarget(deathCameraTarget);
+            if (vThirdPersonController.isGrounded)
+            {
+                vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
+            }
+            else
+            {
+                vThirdPersonCamera.height = deathCameraTarget.localPosition.y;
+            }
+
+            vThirdPersonInput.ShouldMove(false);
+            
+            ToggleRagdoll(true);
+            StartCoroutine(RegainConsciousnessTime());
+        }
+    }
+
     public bool IsAlive()
     {
         return isAlive;
@@ -158,6 +192,21 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         health.FullHeal();
+    }
+
+    public void RegainConsciousness()
+    {
+        vThirdPersonCamera.height = originalCameraHeight;
+        vThirdPersonCamera.SetTarget(gameObject.transform);
+        ToggleRagdoll(false);
+
+        primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
+        transform.position = ragdoll.ragdollColliders[0].transform.position;
+
+        vThirdPersonCamera.transform.LookAt(deathCameraTarget);
+        vThirdPersonCamera.SetTarget(gameObject.transform);
+
+        vThirdPersonInput.ShouldMove(true);
     }
 
     public void CantUseChassis()
@@ -197,9 +246,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private void Revived()
     {
         isAlive = true;
+        isDeadFalling = false;
 
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
+        vThirdPersonCamera.target = gameObject.transform;
         ToggleRagdoll(false);
 
         transform.position = origin.position;
@@ -241,15 +292,22 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         health.OnHealthDepleated.RemoveAllListeners();
         health.OnHealthDepleated.AddListener(Die);
 
-        StartCoroutine(StartFade());
+        StartCoroutine(StartFade(RespawnTime()));
     }
 
-    IEnumerator StartFade()
+    IEnumerator StartFade(IEnumerator RespawnType)
     {
         yield return new WaitForSeconds(deathTime);
 
         panelFade.FadeOutAndIn();
-        StartCoroutine(RespawnTime());
+        StartCoroutine(RespawnType);
+    }
+
+    IEnumerator RegainConsciousnessTime()
+    {
+        yield return new WaitForSeconds(deathTime * 1.5f);
+
+        RegainConsciousness();
     }
 
     IEnumerator RespawnTime()
@@ -263,6 +321,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         if (!isAlive)
         {
+            if (isDeadFalling)
+            {
+                Quaternion playerLookRot = Quaternion.LookRotation(transform.position - vThirdPersonCamera.transform.position);
+                vThirdPersonCamera.transform.rotation = Quaternion.Slerp(vThirdPersonCamera.transform.rotation, playerLookRot, deathCamRotSpeed * Time.deltaTime); ;
+            }
+            
             return;
         }
 
@@ -278,6 +342,15 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
         {
             playerEmoter.PlayEmote("EmoteTrigger");
+        }
+
+        if (anim.GetInteger("GripEnum") > 0 && !vThirdPersonController.strafeSpeed.rotateWithCamera)
+        {
+            vThirdPersonController.strafeSpeed.rotateWithCamera = true;
+        }
+        else if (anim.GetInteger("GripEnum") <= 0 && vThirdPersonController.strafeSpeed.rotateWithCamera)
+        {
+            vThirdPersonController.strafeSpeed.rotateWithCamera = false;
         }
     }
 }

@@ -22,8 +22,8 @@ public class EnemyBehavior : MonoBehaviour
     public List<PatrolPoint> patrolPoints = new List<PatrolPoint>();
     public float patrolSpeed = 0.5f;
     private int currentPatrolPointIndex = 0;
-    private bool shouldRest = false;
-    private bool hasRested = false;
+    public bool shouldRest = false;
+    public bool hasRested = false;
     private float restTimer = 0;
 
     [Header("Attack Variables")]
@@ -57,6 +57,11 @@ public class EnemyBehavior : MonoBehaviour
     private Vector3 initialForward;
     private float initialEulerY;
 
+    [Header("Stunned Variables")]
+    public float stunTimer = 3f;
+    private bool isStunned = false;
+    private float maxStunTimer = 0;
+
     [Header("Juice")]
     public ObjectPooler.Key explosionParticleKey = ObjectPooler.Key.ExplosionParticle;
 
@@ -68,6 +73,7 @@ public class EnemyBehavior : MonoBehaviour
         maxAttackTimer = attackTimer;
         maxSearchTimer = searchTimer;
         initialTurnRight = turnRight;
+        maxStunTimer = stunTimer;
     }
 
     void OnDrawGizmosSelected()
@@ -285,6 +291,7 @@ public class EnemyBehavior : MonoBehaviour
         if (enemy.nav.remainingDistance > enemy.nav.stoppingDistance)
         {
             enemy.thirdPersonCharacter.Move(enemy.nav.desiredVelocity, false, false);
+            Debug.Log("First");
         }
         else
         {
@@ -295,10 +302,12 @@ public class EnemyBehavior : MonoBehaviour
                 shouldRest = true;
                 Rest(lostSearchTime);
                 StartSearch();
+                Debug.Log("Second");
             }
             else if (hasRested && !shouldRest)
             {
                 hasRested = false;
+                Debug.Log("Third");
 
                 enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.Patrol);
             }
@@ -344,6 +353,34 @@ public class EnemyBehavior : MonoBehaviour
         {
             enemy.thirdPersonCharacter.TurnCharacter(-turnSpeed, turnSpeed);
         }
+    }
+
+    /// <summary>
+    /// Stunned
+    /// </summary>
+    
+    public void StartStun()
+    {
+        isStunned = true;
+        stunTimer = maxStunTimer;
+
+        if (!enemy.nav.isStopped || enemy.nav.hasPath)
+        {
+            enemy.thirdPersonCharacter.Move(Vector3.zero, false, false);
+            enemy.nav.SetDestination(transform.position);
+            enemy.nav.isStopped = true;
+        }
+
+        enemy.anim.SetBool("IsStunned", true);
+
+        isAttacking = false;
+        shouldRest = false;
+        hasRested = false;
+    }
+
+    public void Stunned()
+    {
+
     }
 
     /// <summary>
@@ -467,6 +504,21 @@ public class EnemyBehavior : MonoBehaviour
                 isAttacking = false;
                 attackTimer = maxAttackTimer;
                 enemy.anim.SetBool("IsAttacking", false);
+            }
+        }
+
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0)
+            {
+                isStunned = false;
+                stunTimer = maxStunTimer;
+
+                enemy.anim.SetBool("IsStunned", false);
+                enemy.enemyStateMachine.switchState(EnemyStateMachine.StateType.LostPlayer);
+
+                enemy.nav.isStopped = false;
             }
         }
     }

@@ -6,11 +6,17 @@ using UnityEngine.UI;
 
 public class HUDControls : MonoBehaviour
 {
+    [Header("Player UI")]
     public GameObject pauseUI;
     public GameObject optionsUI;
+
+    [Header("Pickup and Item UI")]
     public GameObject pickUpUIText;
     public GameObject inventoryUI;
     public GameObject craftingUI;
+
+    [Header("Misc. UI")]
+    public GameObject crosshairImage;
     public GameObject winScreenUI;
 
     void Start()
@@ -76,6 +82,35 @@ public class HUDControls : MonoBehaviour
             else if (!pickUpUIText.activeSelf && Time.timeScale == 1.0f)
             {
                 pickUpUIText.SetActive(true);
+            }
+
+            if (!pauseUI.activeSelf && Time.timeScale == 1.0f)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                    {
+                        crosshairImage.SetActive(true);
+                        Player.Instance.aimingRig.weight = 1;
+                    }
+                    
+                }
+                else if (Input.GetMouseButtonUp(1))
+                {
+                    if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                    {
+                        crosshairImage.SetActive(false);
+                        Player.Instance.aimingRig.weight = 0;
+                    }
+                }
+            }
+            else
+            {
+                if (Player.Instance.anim.GetInteger("GripEnum") > 0)
+                {
+                    crosshairImage.SetActive(false);
+                    Player.Instance.aimingRig.weight = 0;
+                }
             }
         }
     }

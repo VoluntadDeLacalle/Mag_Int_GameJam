@@ -5,7 +5,8 @@ using UnityEngine;
 public class Ragdoll : MonoBehaviour
 {
     private List<Rigidbody> ragdollRigidbodies = new List<Rigidbody>();
-    private List<Collider> ragdollColliders = new List<Collider>();
+    [HideInInspector] public List<Collider> ragdollColliders = new List<Collider>();
+    private bool isRagdolled = false;
 
     public void GetAllRagdolls(Rigidbody primaryRigidbody, Collider primaryCollider)
     {
@@ -43,6 +44,8 @@ public class Ragdoll : MonoBehaviour
         {
             ragdollRigidbodies[i].isKinematic = !shouldToggle;
         }
+
+        isRagdolled = shouldToggle;
     }
 
     public void UnwrapRagdoll()
@@ -56,6 +59,11 @@ public class Ragdoll : MonoBehaviour
         {
             ragdollRigidbodies[i].isKinematic = true;
         }
+    }
+
+    public bool IsRagdolled()
+    {
+        return isRagdolled;
     }
 
     public void ExplodeRagdoll(float explosionForce, Vector3 explosionPosition, float explosionRadius)
@@ -76,6 +84,29 @@ public class Ragdoll : MonoBehaviour
         for (int i = 0; i < ragdollRigidbodies.Count; i++)
         {
             ragdollRigidbodies[i].AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
+        }
+    }
+
+    public void ApplyRagdollForce(Vector3 velocityDir, float velocityMagnitude)
+    {
+        velocityDir = velocityDir.normalized;
+        
+        if (ragdollRigidbodies[0] != null)
+        {
+            if (ragdollRigidbodies[0].isKinematic)
+            {
+                Debug.Log("Ragdoll Rigidbodies are kinematic");
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+
+        for (int i = 0; i < ragdollRigidbodies.Count; i++)
+        {
+            ragdollRigidbodies[i].velocity = velocityDir * velocityMagnitude;
         }
     }
 }

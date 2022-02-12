@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 400850131964366884}
   - component: {fileID: 3620824313594683265}
   - component: {fileID: 1574913855148550987}
-  - component: {fileID: 591635994474738609}
+  - component: {fileID: 8121274462719598050}
+  - component: {fileID: 4892133123363924365}
   - component: {fileID: 151612136050906152}
   - component: {fileID: 151612136050906153}
   m_Layer: 0
-  m_Name: Landmine
+  m_Name: landmine
   m_TagString: bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1070673356041734814}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.19342427, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9044703222267899542}
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070673356041734814}
-  m_Mesh: {fileID: -8689642310555654980, guid: 7737a1788ab56cc4f9c991b0023b3e1d, type: 3}
+  m_Mesh: {fileID: -7196876567986600244, guid: 280e996cd9d9f0c4988d9ee6d4bc88a7, type: 3}
 --- !u!23 &1574913855148550987
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,7 +86,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &591635994474738609
+--- !u!114 &8121274462719598050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +95,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070673356041734814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd24d329753e9fc45afc041c5e9ac5f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8866ca551574ac6498d2691347937f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 4
@@ -102,11 +103,23 @@ MonoBehaviour:
   explosionDelay: 0.1
   hasExploded: 0
   bombTag: bomb
-  explosionSFX: {fileID: 0}
   colliderTransform: {fileID: 9044703222267899542}
-  boxBounds: {x: 0.8, y: 0.2, z: 0.8}
+  boxBounds: {x: 0.9, y: 0.2, z: 0.9}
   turnOnDetectorMat: 0
   detectorMat: {fileID: 2100000, guid: 7e6c9506ae7d6df49baaba2095851ee6, type: 2}
+--- !u!114 &4892133123363924365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673356041734814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034ca8c1f059d034da94b347a784e58c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landmine: {fileID: 8121274462719598050}
 --- !u!65 &151612136050906152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118,8 +131,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 1.2, z: 1.4}
-  m_Center: {x: 0, y: -0.52, z: 0}
+  m_Size: {x: 1.4, y: 0.2, z: 1.4}
+  m_Center: {x: 0, y: -0.16, z: 0}
 --- !u!54 &151612136050906153
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -160,7 +173,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7399671888146576778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.72, z: 0}
+  m_LocalPosition: {x: 0, y: 0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400850131964366884}
