@@ -27,7 +27,7 @@ public class JunkerBot : MonoBehaviour
     private float maxDisabledTimer = 0f;
 
     [Header("Juice Variables")]
-    [Range(1000, 2500)]
+    [Range(1000, 9999)]
     public float playerScoopingForce = 1500;
     public float deathTimer = 2f;
 
@@ -40,7 +40,10 @@ public class JunkerBot : MonoBehaviour
     private bool isDead = false;
     private bool isDisabled = false;
     private bool isGrabbed = false;
+
     [HideInInspector] public bool shouldScoop = true;
+    private bool resetScoop = false;
+    private float shouldScoopTimer = 0f;
 
     private void Awake()
     {
@@ -59,6 +62,7 @@ public class JunkerBot : MonoBehaviour
         anim.ResetTrigger("StartAction");
         nav.isStopped = false;
 
+        
         shouldScoop = false;
         stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
 
@@ -73,11 +77,14 @@ public class JunkerBot : MonoBehaviour
     public void GrabToggle(bool gotGrabbed)
     {
         isGrabbed = gotGrabbed;
+        ResetDisabledTimer();
     }
 
     public void ScoopPlayer()
     {
         Player.Instance.ragdoll.ExplodeRagdoll(playerScoopingForce, Player.Instance.transform.position, 2f);
+        shouldScoopTimer = Player.Instance.unconsciousTime;
+        resetScoop = true;
     }
 
     public void ToggleActive(bool isActive)
@@ -140,6 +147,17 @@ public class JunkerBot : MonoBehaviour
             {
                 stateMachine.switchState(JunkerStateMachine.StateType.Act);
                 Player.Instance.KnockOut();
+            }
+        }
+
+        if (resetScoop)
+        {
+
+            shouldScoopTimer -= Time.deltaTime;
+            if (shouldScoopTimer <= 0)
+            {
+                resetScoop = false;
+                shouldScoop = true;
             }
         }
 

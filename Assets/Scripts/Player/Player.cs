@@ -20,11 +20,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Pickup pickup;
     public PlayerItemHandler itemHandler;
 
-    [Header("Death Variables")]
+    [Header("Death & Unconscious Variables")]
     public PanelComponentFade panelFade;
     public float deathCamRotSpeed = 2f;
     public float deathTime = 3;
-    
+    public float unconsciousTime = 4.5f;
+
 
     [Header("Audio Variables")]
     public string leftStepSFX = string.Empty;
@@ -305,7 +306,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     IEnumerator RegainConsciousnessTime()
     {
-        yield return new WaitForSeconds(deathTime * 1.5f);
+        yield return new WaitForSeconds(unconsciousTime);
 
         RegainConsciousness();
     }

@@ -73,7 +73,7 @@ public class HUDControls : MonoBehaviour
             optionsUI.SetActive(false);
         }
 
-        if (Player.Instance.IsAlive())
+        if (Player.Instance.IsAlive() && !Player.Instance.ragdoll.IsRagdolled())
         {
             if (pickUpUIText.activeSelf && Time.timeScale == 0.0f)
             {

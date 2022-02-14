@@ -58,23 +58,18 @@ public class GrabberEffector : Item
 
             if(tempRB != null)
             {
-                if (!tempRB.isKinematic)
+                JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
+                if (junkerInRange != null)
                 {
-                    Grab(tempRB.gameObject, collidersInRange[i], tempRB);
+                    junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                    junkerInRange.GrabToggle(true);
+
+                    Grab(junkerInRange.gameObject, collidersInRange[i], tempRB);
                     return;
                 }
-                else
-                {
-                    JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
-                    if (junkerInRange != null)
-                    {
-                        junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
-                        junkerInRange.GrabToggle(true);
 
-                        Grab(junkerInRange.rootObject, collidersInRange[i], tempRB);
-                        return;
-                    }
-                }
+                Grab(tempRB.gameObject, collidersInRange[i], tempRB);
+                return;
             }
         }
     }
@@ -102,6 +97,7 @@ public class GrabberEffector : Item
         if (tempJunker != null)
         {
             currentAttachedObj.transform.parent = null;
+            tempJunker.gameObject.transform.parent = tempJunker.rootObject.transform;
             tempJunker.primaryCollider.enabled = true;
 
             tempJunker.primaryRigidbody.isKinematic = false;

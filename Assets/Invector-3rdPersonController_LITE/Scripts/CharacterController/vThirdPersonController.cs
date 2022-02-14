@@ -42,7 +42,7 @@ namespace Invector.vCharacterController
         {
             if (lockRotation) return;
 
-            bool validInput = input != Vector3.zero || (isStrafing ? strafeSpeed.rotateWithCamera : freeSpeed.rotateWithCamera);
+            bool validInput = input != Vector3.zero || (isStrafing ? strafeSpeed.rotateWithCamera : freeSpeed.rotateWithCamera) && Player.Instance.IsAlive() && !Player.Instance.ragdoll.IsRagdolled();
 
             if (validInput)
             {
