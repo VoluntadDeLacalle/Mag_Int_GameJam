@@ -30,6 +30,7 @@ public class JunkerBot : MonoBehaviour
     [Range(1000, 9999)]
     public float playerScoopingForce = 1500;
     public float deathTimer = 2f;
+    public GameObject squirmVFX;
 
     [Header("Debugging")]
     public bool showActRadius = true;
@@ -78,6 +79,9 @@ public class JunkerBot : MonoBehaviour
     {
         isGrabbed = gotGrabbed;
         ResetDisabledTimer();
+
+        anim.SetBool("IsPanicking", true);
+        squirmVFX.SetActive(true);
     }
 
     public void ScoopPlayer()
@@ -169,6 +173,9 @@ public class JunkerBot : MonoBehaviour
             {
                 ResetDisabledTimer();
                 ToggleActive(true);
+
+                anim.SetBool("IsPanicking", false);
+                squirmVFX.SetActive(false);
 
                 if (stateMachine.GetCurrentState() == JunkerStateMachine.StateType.Disabled)
                 {
