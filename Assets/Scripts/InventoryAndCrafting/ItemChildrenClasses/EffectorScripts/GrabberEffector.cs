@@ -77,7 +77,10 @@ public class GrabberEffector : Item
     void Grab(GameObject nObj, Collider nCollider, Rigidbody nRB)
     {
         currentAttachedObj = nObj;
-        nCollider.enabled = false;
+        nCollider.isTrigger = true;
+        Physics.IgnoreCollision(nCollider, Player.Instance.primaryCollider, true);
+        nObj.AddComponent<GrabberCollisionCheck>();
+        nObj.GetComponent<GrabberCollisionCheck>().grabberEffector = this;
 
         nRB.isKinematic = true;
         nRB.velocity = Vector3.zero;
@@ -98,7 +101,9 @@ public class GrabberEffector : Item
         {
             currentAttachedObj.transform.parent = null;
             tempJunker.gameObject.transform.parent = tempJunker.rootObject.transform;
-            tempJunker.primaryCollider.enabled = true;
+            tempJunker.primaryCollider.isTrigger = false;
+            Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
+            Destroy(tempJunker.GetComponent<GrabberCollisionCheck>());
 
             tempJunker.primaryRigidbody.isKinematic = false;
             tempJunker.primaryRigidbody.velocity = Vector3.zero;
@@ -110,7 +115,9 @@ public class GrabberEffector : Item
         }
 
         currentAttachedObj.transform.parent = null;
-        currentAttachedObj.GetComponent<Collider>().enabled = true;
+        currentAttachedObj.GetComponent<Collider>().isTrigger = false;
+        Physics.IgnoreCollision(currentAttachedObj.GetComponent<Collider>(), Player.Instance.primaryCollider, false);
+        Destroy(currentAttachedObj.GetComponent<GrabberCollisionCheck>());
 
         currentAttachedObj.GetComponent<Rigidbody>().isKinematic = false;
         currentAttachedObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
