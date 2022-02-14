@@ -12,6 +12,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public vThirdPersonCamera vThirdPersonCamera;
 
     [Header("Other Component Variables")]
+    public GameObject rootObj;
     public Animator anim;
     public UnityEngine.Animations.Rigging.Rig aimingRig;
     public Rigidbody primaryRigidbody;

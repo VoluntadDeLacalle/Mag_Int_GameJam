@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrabberCollisionCheck : MonoBehaviour
 {
     public GrabberEffector grabberEffector;
-    private float pickupBuffer = 10;
+    private float pickupBuffer = 15;
 
     private void OnTriggerStay(Collider other)
     {
@@ -20,7 +20,7 @@ public class GrabberCollisionCheck : MonoBehaviour
 
     private void Update()
     {
-        pickupBuffer -= Time.deltaTime * 3;
+        pickupBuffer -= 1;
 
         if (pickupBuffer < 0 && grabberEffector == null)
         {

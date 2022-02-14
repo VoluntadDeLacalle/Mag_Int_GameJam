@@ -113,6 +113,11 @@ public class HUDControls : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            crosshairImage.SetActive(false);
+            Player.Instance.aimingRig.weight = 0;
+        }
     }
 
     public void toggleOpt(GameObject uiName)
