@@ -5,26 +5,79 @@ using UnityEngine;
 public class GrabberCollisionCheck : MonoBehaviour
 {
     public GrabberEffector grabberEffector;
-    private float pickupBuffer = 15;
 
-    private void OnTriggerStay(Collider other)
+    private float colliderReduceSize = .2f;
+
+    private Vector3 boxColliderSize;
+    private float radius;
+    private float height;
+
+    private void Awake()
     {
-        if (pickupBuffer > 0)
+        BoxCollider boxCheck = GetComponent<BoxCollider>();
+        if (boxCheck != null)
         {
-            pickupBuffer--;
+            boxColliderSize = boxCheck.size;
+            boxCheck.size -= new Vector3(colliderReduceSize, colliderReduceSize, colliderReduceSize);
             return;
         }
 
+        SphereCollider sphereCheck = GetComponent<SphereCollider>();
+        if (sphereCheck != null)
+        {
+            radius = sphereCheck.radius;
+            sphereCheck.radius -= colliderReduceSize;
+            return;
+        }
+
+        CapsuleCollider capsuleCheck = GetComponent<CapsuleCollider>();
+        if (capsuleCheck != null)
+        {
+            radius = capsuleCheck.radius;
+            height = capsuleCheck.height;
+            capsuleCheck.radius -= colliderReduceSize;
+            capsuleCheck.height -= colliderReduceSize;
+            return;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
         grabberEffector.DropCurrentObj();
     }
 
     private void Update()
     {
-        pickupBuffer -= 1;
-
-        if (pickupBuffer < 0 && grabberEffector == null)
+        if (grabberEffector == null)
         {
             Destroy(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        BoxCollider boxCheck = GetComponent<BoxCollider>();
+        if (boxCheck != null)
+        {
+            boxCheck.size += new Vector3(colliderReduceSize, colliderReduceSize, colliderReduceSize);
+            return;
+        }
+
+        SphereCollider sphereCheck = GetComponent<SphereCollider>();
+        if (sphereCheck != null)
+        {
+            sphereCheck.radius += colliderReduceSize;
+            return;
+        }
+
+        CapsuleCollider capsuleCheck = GetComponent<CapsuleCollider>();
+        if (capsuleCheck != null)
+        {
+            radius = capsuleCheck.radius;
+            height = capsuleCheck.height;
+            capsuleCheck.radius += colliderReduceSize;
+            capsuleCheck.height += colliderReduceSize;
+            return;
         }
     }
 }

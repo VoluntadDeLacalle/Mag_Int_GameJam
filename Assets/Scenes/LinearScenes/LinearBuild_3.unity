@@ -895,6 +895,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 234746986}
+  - {fileID: 492529434}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3293,6 +3294,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 88.928
       objectReference: {fileID: 0}
+    - target: {fileID: 5490729350693694376, guid: 852e3cb124b6c6745b7f362bc7601c74,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7744932671469458554, guid: 852e3cb124b6c6745b7f362bc7601c74,
         type: 3}
       propertyPath: m_Name
@@ -3588,6 +3594,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486255945}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &492529433
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 155546401}
+    m_Modifications:
+    - target: {fileID: 2222801797510810833, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_Name
+      value: Oil (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 45.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ada3cef16592ced46bea7272e378fe53, type: 3}
+--- !u!4 &492529434 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2222801797510810834, guid: ada3cef16592ced46bea7272e378fe53,
+    type: 3}
+  m_PrefabInstance: {fileID: 492529433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &500652607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9545,6 +9626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 23.224
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490729350693694376, guid: 852e3cb124b6c6745b7f362bc7601c74,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7744932671469458554, guid: 852e3cb124b6c6745b7f362bc7601c74,
         type: 3}

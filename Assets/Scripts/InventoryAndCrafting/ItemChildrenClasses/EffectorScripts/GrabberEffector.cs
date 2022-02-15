@@ -53,16 +53,32 @@ public class GrabberEffector : Item
                 continue;
             }
 
+            MeshCollider meshCheck = collidersInRange[i].gameObject.GetComponent<MeshCollider>();
+            if (meshCheck != null)
+            {
+                if(meshCheck == collidersInRange[i])
+                {
+                    continue;
+                }
+            }
+
             Rigidbody tempRB = null;
             tempRB = collidersInRange[i].gameObject.GetComponentInChildren<Rigidbody>();
 
             if(tempRB != null)
             {
+                Elevator elevator = collidersInRange[i].gameObject.GetComponent<Elevator>();
+                if (elevator != null)
+                {
+                    continue;
+                }
+
                 JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
                 if (junkerInRange != null)
                 {
                     junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
                     junkerInRange.GrabToggle(true);
+                    junkerInRange.junkerScoop.scoopCollider.enabled = false;
 
                     Grab(junkerInRange.gameObject, collidersInRange[i], tempRB);
                     return;
@@ -78,7 +94,7 @@ public class GrabberEffector : Item
     {
         currentAttachedObj = nObj;
         nCollider.isTrigger = true;
-        Physics.IgnoreCollision(nCollider, Player.Instance.primaryCollider, true);
+        Physics.IgnoreCollision(nCollider, Player.Instance.GetComponent<Collider>(), true);
         nObj.AddComponent<GrabberCollisionCheck>();
         nObj.GetComponent<GrabberCollisionCheck>().grabberEffector = this;
 
@@ -104,6 +120,8 @@ public class GrabberEffector : Item
             tempJunker.primaryCollider.isTrigger = false;
             Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
             Destroy(tempJunker.GetComponent<GrabberCollisionCheck>());
+
+            tempJunker.junkerScoop.scoopCollider.enabled = true;
 
             tempJunker.primaryRigidbody.isKinematic = false;
             tempJunker.primaryRigidbody.velocity = Vector3.zero;

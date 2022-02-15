@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JunkerScoop : MonoBehaviour
 {
+    public Collider scoopCollider;
     private bool playerInRange = false;
 
     public bool IsPlayerInRange()
