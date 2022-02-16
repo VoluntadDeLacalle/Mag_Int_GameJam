@@ -35,9 +35,36 @@ public class DetectorEffector : Item
         {
             UpdateVisibility();
         }
+
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
+
+        if (batteryCheck != null)
+        {
+            if (!BatteryChargeUI.Instance.batteryUIObj.activeSelf)
+            {
+                BatteryChargeUI.Instance.ShowBatteryCharge(true);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                batteryCheck.ShouldDrainBattery(true);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                batteryCheck.ShouldDrainBattery(false);
+            }
+        }
         
         if (Input.GetMouseButton(0))
         {
+            if (batteryCheck != null)
+            {
+                if (batteryCheck.GetCurrentFill() == 0)
+                {
+                    return;
+                }
+            }
+
             if (QuestManager.Instance.IsCurrentQuestActive())
             {
                 Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
@@ -153,6 +180,16 @@ public class DetectorEffector : Item
             detectableMats[i].SetFloat("_Radius", 0);
             detectableMats[i].SetVector("_Center", Vector3.zero);
         }
+
+         Battery batteryCheck = gameObject.GetComponent<Battery>();
+
+        if (batteryCheck != null)
+        {
+            if (BatteryChargeUI.Instance.batteryUIObj.activeSelf)
+            {
+                BatteryChargeUI.Instance.ShowBatteryCharge(false);
+            }
+        }
     }
 
     void Update()
@@ -165,6 +202,15 @@ public class DetectorEffector : Item
         if (!Player.Instance.IsAlive() || !Player.Instance.vThirdPersonInput.CanMove())
         {
             UpdateSphereNotAlive();
+        }
+
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
+        if (batteryCheck != null)
+        {
+            if (batteryCheck.GetCurrentFill() == 0 && batteryCheck.GetBatteryDrainStatus())
+            {
+                UpdateSphereNotAlive();
+            }
         }
     }
 
