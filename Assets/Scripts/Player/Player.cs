@@ -1,3 +1,4 @@
+using BasicTools.ButtonInspector;
 using Invector.vCharacterController;
 using System;
 using System.Collections;
@@ -27,7 +28,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public float deathTime = 3;
     public float unconsciousTime = 4.5f;
 
-
     [Header("Audio Variables")]
     public string leftStepSFX = string.Empty;
     public string rightStepSFX = string.Empty;
@@ -49,7 +49,16 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private bool isAlive = true;
     private bool isDeadFalling = false;
 
+    Transform[] childTransforms;
+    private bool resetRagdoll = false;
+    private float ragdollTimer = 2f;
+
     private float originalCameraHeight;
+
+    [Header("Debug Buttons")]
+    [Button("Ragdoll Player", "KnockOut")]
+    [SerializeField]
+    public bool _killBtn;
 
     public object CaptureState()
     {
@@ -80,6 +89,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         health.OnHealthRestored.AddListener(Revived);
         health.OnHealthRestored.AddListener(ResetVariables);
 
+        childTransforms = gameObject.GetComponentsInChildren<Transform>();
         ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
         originalCameraHeight = vThirdPersonCamera.height;
 
@@ -102,6 +112,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         {
             primaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
             primaryRigidbody.isKinematic = shouldToggle;
+            PlayerIdleAnimator.Instance.UpdateIdleTransforms();
         }
         else
         {
@@ -142,7 +153,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         health.TakeDamage(100);
     }
 
-    public void KnockOut()
+    public void RagdollPlayer()
     {
         if (!ragdoll.IsRagdolled())
         {
@@ -157,10 +168,20 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             }
 
             vThirdPersonInput.ShouldMove(false);
-            
+
             ToggleRagdoll(true);
-            StartCoroutine(RegainConsciousnessTime());
         }
+    }
+
+    public void KnockOut()
+    {
+        if (ragdoll.IsRagdolled())
+        {
+            return;
+        }
+
+        RagdollPlayer();
+        StartCoroutine(RegainConsciousnessTime());  
     }
 
     public bool IsAlive()
@@ -197,13 +218,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     }
 
     public void RegainConsciousness()
-    {
-        vThirdPersonCamera.height = originalCameraHeight;
-        vThirdPersonCamera.SetTarget(gameObject.transform);
+    {   
         ToggleRagdoll(false);
 
-        primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
-        transform.position = ragdoll.ragdollColliders[0].transform.position;
+        //primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
+        //transform.position = ragdoll.ragdollColliders[0].transform.position;
 
         vThirdPersonCamera.transform.LookAt(deathCameraTarget);
         vThirdPersonCamera.SetTarget(gameObject.transform);
@@ -309,7 +328,26 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         yield return new WaitForSeconds(unconsciousTime);
 
-        RegainConsciousness();
+        vThirdPersonCamera.SetTarget(gameObject.transform);
+        ragdoll.ToggleRagdoll(false);
+        
+        Dictionary<Transform, Vector3> currentTransformWorldPos = new Dictionary<Transform, Vector3>();
+        for (int i = 1; i < childTransforms.Length; i++)
+        {
+            currentTransformWorldPos.Add(childTransforms[i], childTransforms[i].position);
+        }
+
+        transform.position = ragdoll.ragdollColliders[0].transform.position;
+
+        foreach(KeyValuePair<Transform, Vector3> transVect in currentTransformWorldPos)
+        {
+            if (PlayerIdleAnimator.Instance.idleTransforms.ContainsKey(transVect.Key.gameObject.name))
+            {
+                transVect.Key.position = transVect.Value;
+            }
+        }
+
+        resetRagdoll = true;
     }
 
     IEnumerator RespawnTime()
@@ -330,6 +368,28 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             }
             
             return;
+        }
+
+        if (resetRagdoll)
+        {
+            for (int i = 1; i < childTransforms.Length; i++)
+            {
+                if (PlayerIdleAnimator.Instance.idleTransforms.ContainsKey(childTransforms[i].gameObject.name))
+                {
+                    childTransforms[i].localPosition = Vector3.Lerp(childTransforms[i].localPosition, PlayerIdleAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Key, 2 * Time.deltaTime);
+                    childTransforms[i].localRotation = Quaternion.Slerp(childTransforms[i].localRotation, PlayerIdleAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Value, 2 * Time.deltaTime);
+                }
+            }
+
+            vThirdPersonCamera.height = Mathf.Lerp(vThirdPersonCamera.height, originalCameraHeight, 2 * Time.deltaTime);
+
+            ragdollTimer -= Time.deltaTime;
+            if (ragdollTimer <= 0)
+            {
+                resetRagdoll = false;
+                RegainConsciousness();
+                ragdollTimer = 2f;
+            }
         }
 
         if (QuestManager.Instance.IsCurrentQuestActive())

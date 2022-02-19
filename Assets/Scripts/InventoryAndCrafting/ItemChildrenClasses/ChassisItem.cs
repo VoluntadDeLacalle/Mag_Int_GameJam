@@ -25,12 +25,14 @@ public class ChassisItem : Item
         }
 
         Player.Instance.anim.SetInteger("GripEnum", 0);
+        PlayerIdleAnimator.Instance.SwitchPlayerAnimLayer(0);
     }
 
     public override void OnUnequip()
     {
         Player.Instance.anim.SetInteger("GripEnum", -1);
         Player.Instance.anim.SetBool("IsActivated", false);
+        PlayerIdleAnimator.Instance.SwitchPlayerAnimLayer(-1);
     }
 
     void LateUpdate()
@@ -102,6 +104,7 @@ public class ChassisItem : Item
                 if (Player.Instance.anim.GetInteger("GripEnum") != 0)
                 {
                     Player.Instance.anim.SetInteger("GripEnum", 0);
+                    PlayerIdleAnimator.Instance.SwitchPlayerAnimLayer(0);
                 }
 
                 return;
@@ -111,6 +114,7 @@ public class ChassisItem : Item
             if (Player.Instance.anim.GetInteger("GripEnum") != (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType)
             {
                 Player.Instance.anim.SetInteger("GripEnum", (int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
+                PlayerIdleAnimator.Instance.SwitchPlayerAnimLayer((int)chassisGripTransform.GetGripTransformItem().gameObject.GetComponent<GripItem>().gripType);
             }
 
             chassisGripTransform.GetGripTransformItem().Activate();
@@ -120,6 +124,7 @@ public class ChassisItem : Item
             if (Player.Instance.anim.GetInteger("GripEnum") != 0)
             {
                 Player.Instance.anim.SetInteger("GripEnum", 0);
+                PlayerIdleAnimator.Instance.SwitchPlayerAnimLayer(0);
             }
         }
     }
