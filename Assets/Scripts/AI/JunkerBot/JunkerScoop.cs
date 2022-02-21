@@ -29,7 +29,7 @@ public class JunkerScoop : MonoBehaviour
 
         if (playerCheck != null)
         {
-            if (!playerCheck.ragdoll.IsRagdolled())
+            if (Player.Instance.vThirdPersonInput.CanMove())
             {
                 playerInRange = true;
             }
@@ -48,7 +48,7 @@ public class JunkerScoop : MonoBehaviour
 
         if (playerCheck != null)
         {
-            if (!playerCheck.ragdoll.IsRagdolled())
+            if (Player.Instance.vThirdPersonInput.CanMove())
             {
                 playerInRange = true;
             }

@@ -43,8 +43,6 @@ public class JunkerBot : MonoBehaviour
     private bool isGrabbed = false;
 
     [HideInInspector] public bool shouldScoop = true;
-    private bool resetScoop = false;
-    private float shouldScoopTimer = 0f;
 
     private void Awake()
     {
@@ -87,8 +85,6 @@ public class JunkerBot : MonoBehaviour
     public void ScoopPlayer()
     {
         Player.Instance.ragdoll.ExplodeRagdoll(playerScoopingForce, Player.Instance.transform.position, 2f);
-        shouldScoopTimer = Player.Instance.unconsciousTime;
-        resetScoop = true;
     }
 
     public void ToggleActive(bool isActive)
@@ -154,15 +150,9 @@ public class JunkerBot : MonoBehaviour
             }
         }
 
-        if (resetScoop)
+        if (Player.Instance.vThirdPersonInput.CanMove() && !shouldScoop)
         {
-
-            shouldScoopTimer -= Time.deltaTime;
-            if (shouldScoopTimer <= 0)
-            {
-                resetScoop = false;
-                shouldScoop = true;
-            }
+            shouldScoop = true;
         }
 
         if (isDisabled && !isGrabbed)

@@ -3237,6 +3237,7 @@ MonoBehaviour:
   vThirdPersonController: {fileID: 1018390873774750509}
   vThirdPersonInput: {fileID: 1018390873774750508}
   vThirdPersonCamera: {fileID: 0}
+  rootObj: {fileID: 0}
   anim: {fileID: 1018390873774750510}
   aimingRig: {fileID: 6683593904315723057}
   primaryRigidbody: {fileID: 1018390873774750507}
@@ -3245,7 +3246,9 @@ MonoBehaviour:
   pickup: {fileID: 4577966725674352913}
   itemHandler: {fileID: 8741778327616787926}
   panelFade: {fileID: 0}
+  deathCamRotSpeed: 2
   deathTime: 3
+  unconsciousTime: 4.5
   leftStepSFX: DesertStepL
   rightStepSFX: DesertStepR
   deathSFX: PlayerPowerDown
@@ -3253,9 +3256,13 @@ MonoBehaviour:
   deathCameraTarget: {fileID: 1018390874279805762}
   clothPhysicsManager: {fileID: 1132397039742236586}
   backpackBoneSpring: {fileID: 1018390874107597246}
+  headBone: {fileID: 1018390873350671319}
+  backBone: {fileID: 1018390873648140984}
+  ragdollRaycastDistance: 1.5
   backpackFill: {fileID: 7279450582619209517}
   playerEmoter: {fileID: 3429464853875341103}
   origin: {fileID: 0}
+  _killBtn: 0
 --- !u!114 &1018390873774750509
 MonoBehaviour:
   m_ObjectHideFlags: 0

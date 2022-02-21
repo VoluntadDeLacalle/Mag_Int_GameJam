@@ -38,6 +38,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Transform deathCameraTarget;
     public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
+    public Transform headBone;
+    public Transform backBone;
+    public float ragdollRaycastDistance = 0;
 
     [Header("Juice Variables")]
     public BackpackFill backpackFill;
@@ -106,13 +109,18 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(backBone.position, backBone.position + backBone.up * ragdollRaycastDistance);
+    }
+
     void ToggleRagdoll(bool shouldToggle)
     {
         if (shouldToggle)
         {
             primaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
             primaryRigidbody.isKinematic = shouldToggle;
-            PlayerIdleAnimator.Instance.UpdateIdleTransforms();
         }
         else
         {
@@ -125,7 +133,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         clothPhysicsManager.enabled = !shouldToggle;
         backpackBoneSpring.enabled = !shouldToggle;
 
-        ragdoll.ToggleRagdoll(shouldToggle);
+
+        if ((shouldToggle && !ragdoll.IsRagdolled()) || (!shouldToggle && ragdoll.IsRagdolled()))
+        {
+            ragdoll.ToggleRagdoll(shouldToggle);
+        }
     }
 
     public void Explode(float explosionForce, Vector3 explosionPosition, float explosionRadius)
@@ -219,11 +231,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     public void RegainConsciousness()
     {   
-        ToggleRagdoll(false);
-
-        //primaryRigidbody.MovePosition(ragdoll.ragdollColliders[0].transform.position);
-        //transform.position = ragdoll.ragdollColliders[0].transform.position;
-
         vThirdPersonCamera.transform.LookAt(deathCameraTarget);
         vThirdPersonCamera.SetTarget(gameObject.transform);
 
@@ -245,6 +252,14 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public void PlayerStartMove()
     {
         vThirdPersonInput.ShouldMove(true);
+    }
+
+    public void PlayerStoodUp()
+    {
+        vThirdPersonCamera.height = originalCameraHeight; 
+        anim.SetFloat("StandBlend", -1);
+        anim.SetLayerWeight(4, 0);
+        RegainConsciousness();
     }
 
     private void ResetVariables()
@@ -328,6 +343,29 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         yield return new WaitForSeconds(unconsciousTime);
 
+        float ragdollBackAngle = ((backBone.up.y * ragdollRaycastDistance) - transform.forward.y);
+        Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
+                tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
+        
+        if (ragdollBackAngle > 0)
+        {
+            PlayerReferenceAnimator.Instance.SwitchPlayerAnimLayer(0);
+            anim.SetFloat("StandBlend", 0);
+
+            PlayerReferenceAnimator.Instance.transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
+        }
+        else
+        {
+            PlayerReferenceAnimator.Instance.SwitchPlayerAnimLayer(1);
+            anim.SetFloat("StandBlend", 1);
+
+            PlayerReferenceAnimator.Instance.transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        PlayerReferenceAnimator.Instance.UpdateIdleTransforms();
+
         vThirdPersonCamera.SetTarget(gameObject.transform);
         ragdoll.ToggleRagdoll(false);
         
@@ -339,9 +377,18 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         transform.position = ragdoll.ragdollColliders[0].transform.position;
 
-        foreach(KeyValuePair<Transform, Vector3> transVect in currentTransformWorldPos)
+        if (ragdollBackAngle > 0)
         {
-            if (PlayerIdleAnimator.Instance.idleTransforms.ContainsKey(transVect.Key.gameObject.name))
+            //transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
+        }
+        else
+        {
+            //transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
+        }
+
+        foreach (KeyValuePair<Transform, Vector3> transVect in currentTransformWorldPos)
+        {
+            if (PlayerReferenceAnimator.Instance.idleTransforms.ContainsKey(transVect.Key.gameObject.name))
             {
                 transVect.Key.position = transVect.Value;
             }
@@ -374,21 +421,32 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         {
             for (int i = 1; i < childTransforms.Length; i++)
             {
-                if (PlayerIdleAnimator.Instance.idleTransforms.ContainsKey(childTransforms[i].gameObject.name))
+                if (PlayerReferenceAnimator.Instance.idleTransforms.ContainsKey(childTransforms[i].gameObject.name))
                 {
-                    childTransforms[i].localPosition = Vector3.Lerp(childTransforms[i].localPosition, PlayerIdleAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Key, 2 * Time.deltaTime);
-                    childTransforms[i].localRotation = Quaternion.Slerp(childTransforms[i].localRotation, PlayerIdleAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Value, 2 * Time.deltaTime);
+                    childTransforms[i].localPosition = Vector3.Lerp(childTransforms[i].localPosition, PlayerReferenceAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Key, 2 * Time.deltaTime);
+                    childTransforms[i].rotation = Quaternion.Slerp(childTransforms[i].rotation, PlayerReferenceAnimator.Instance.idleTransforms[childTransforms[i].gameObject.name].Value, 2 * Time.deltaTime);
                 }
             }
-
-            vThirdPersonCamera.height = Mathf.Lerp(vThirdPersonCamera.height, originalCameraHeight, 2 * Time.deltaTime);
 
             ragdollTimer -= Time.deltaTime;
             if (ragdollTimer <= 0)
             {
                 resetRagdoll = false;
-                RegainConsciousness();
+                anim.SetLayerWeight(4, 1);
+                ToggleRagdoll(false);
                 ragdollTimer = 2f;
+
+                Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
+                        tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
+
+                if (anim.GetFloat("StandBlend") == 0)
+                {
+                    transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
+                }
             }
         }
 
