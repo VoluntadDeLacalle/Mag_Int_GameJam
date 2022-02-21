@@ -11,8 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.0000005, y: 2.0150201, z: 2.0000005}
-  m_Center: {x: 0, y: -0.007510185, z: 0}
+  m_Size: {x: 1.0000002, y: 1.0075101, z: 1.0000002}
+  m_Center: {x: 0, y: -0.0037550924, z: 0}
 --- !u!1001 &3105092058570969885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75,10 +75,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5c4593d0457933c4fa74e9abaea574ca,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 259b97be438e66345b2258625842a706, type: 2}
     - target: {fileID: 919132149155446097, guid: 5c4593d0457933c4fa74e9abaea574ca,
         type: 3}
       propertyPath: m_Name
-      value: ConcreteChunk
+      value: ConcreteChunk Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c4593d0457933c4fa74e9abaea574ca, type: 3}
