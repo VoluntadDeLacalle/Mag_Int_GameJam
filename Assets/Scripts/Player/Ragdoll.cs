@@ -110,4 +110,16 @@ public class Ragdoll : MonoBehaviour
             ragdollRigidbodies[i].velocity = velocityDir * velocityMagnitude;
         }
     }
+
+    public float TotalRigidbodyMagnitude()
+    {
+        float totalMag = 0;
+
+        for (int i = 0; i < ragdollRigidbodies.Count; i++)
+        {
+            totalMag += Mathf.Abs(ragdollRigidbodies[0].velocity.magnitude);
+        }
+
+        return totalMag;
+    }
 }

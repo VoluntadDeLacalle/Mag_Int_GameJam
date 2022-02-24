@@ -94,7 +94,7 @@ public class JunkerFOV : MonoBehaviour
                         return false;
                     }
 
-                    if (junker.stateMachine.GetCurrentState() == JunkerStateMachine.StateType.Patrol)
+                    if (junker.stateMachine.GetCurrentState() == JunkerStateMachine.StateType.Patrol && Player.Instance.vThirdPersonInput.CanMove())
                     {
                         junker.stateMachine.switchState(JunkerStateMachine.StateType.Chase);
                     }

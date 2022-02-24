@@ -26,7 +26,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public PanelComponentFade panelFade;
     public float deathCamRotSpeed = 2f;
     public float deathTime = 3;
-    public float unconsciousTime = 4.5f;
 
     [Header("Audio Variables")]
     public string leftStepSFX = string.Empty;
@@ -53,6 +52,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private bool isDeadFalling = false;
 
     Transform[] childTransforms;
+    private bool ragdollCheck = false;
     private bool resetRagdoll = false;
     private float ragdollTimer = 2f;
 
@@ -193,7 +193,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         RagdollPlayer();
-        StartCoroutine(RegainConsciousnessTime());  
     }
 
     public bool IsAlive()
@@ -341,13 +340,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     IEnumerator RegainConsciousnessTime()
     {
-        yield return new WaitForSeconds(unconsciousTime);
-
-        float ragdollBackAngle = ((backBone.up.y * ragdollRaycastDistance) - transform.forward.y);
         Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
                 tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
         
-        if (ragdollBackAngle > 0)
+        if ((backBone.up * ragdollRaycastDistance).y > backBone.position.y)
         {
             PlayerReferenceAnimator.Instance.SwitchPlayerAnimLayer(0);
             anim.SetFloat("StandBlend", 0);
@@ -376,15 +372,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         transform.position = ragdoll.ragdollColliders[0].transform.position;
-
-        if (ragdollBackAngle > 0)
-        {
-            //transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
-        }
-        else
-        {
-            //transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
-        }
 
         foreach (KeyValuePair<Transform, Vector3> transVect in currentTransformWorldPos)
         {
@@ -417,6 +404,22 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             return;
         }
 
+        if (ragdoll.IsRagdolled() && !ragdollCheck)
+        {
+            ragdollTimer -= Time.deltaTime;
+            if (ragdollTimer <= 0)
+            {
+                if (ragdoll.TotalRigidbodyMagnitude() < 1f)
+                {
+                    StartCoroutine(RegainConsciousnessTime());
+
+                    ragdollCheck = true;
+                    ragdollTimer = 2f;
+                }
+            }
+        }
+
+
         if (resetRagdoll)
         {
             for (int i = 1; i < childTransforms.Length; i++)
@@ -434,6 +437,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
                 resetRagdoll = false;
                 anim.SetLayerWeight(4, 1);
                 ToggleRagdoll(false);
+                ragdollCheck = false;
                 ragdollTimer = 2f;
 
                 Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
