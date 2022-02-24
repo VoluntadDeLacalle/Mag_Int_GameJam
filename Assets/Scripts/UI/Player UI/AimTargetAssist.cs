@@ -7,7 +7,9 @@ public class AimTargetAssist : MonoBehaviour
     private vThirdPersonCamera mainCamera;
 
     public GameObject aimTargetObj;
-    public float localDistFromCam = 4.5f;
+    [Range(4.5f, 20)]
+    public float localDistFromCam = 6.5f;
+    private float previousLocalDistFromCam = 0;
 
     private GameObject personalTargetObj;
 
@@ -15,6 +17,7 @@ public class AimTargetAssist : MonoBehaviour
     {
         mainCamera = Player.Instance.vThirdPersonCamera;
 
+        previousLocalDistFromCam = localDistFromCam;
         float posX = localDistFromCam / 6;
         float posY = localDistFromCam / 6;
         personalTargetObj = new GameObject();
@@ -23,8 +26,23 @@ public class AimTargetAssist : MonoBehaviour
         personalTargetObj.transform.rotation = Quaternion.identity;
     }
 
+    private void UpdateLocalDist()
+    {
+        previousLocalDistFromCam = localDistFromCam;
+        float posX = localDistFromCam / 6;
+        float posY = localDistFromCam / 6;
+        personalTargetObj.transform.parent = mainCamera.transform;
+        personalTargetObj.transform.localPosition = new Vector3(posX, posY, localDistFromCam);
+        personalTargetObj.transform.rotation = Quaternion.identity;
+    }
+
     private void Update()
     {
+        if (previousLocalDistFromCam != localDistFromCam)
+        {
+            UpdateLocalDist();
+        }
+
         aimTargetObj.transform.position = personalTargetObj.transform.position;
     }
 }

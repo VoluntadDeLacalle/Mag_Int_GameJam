@@ -162,6 +162,7 @@ public class JunkerBot : MonoBehaviour
             if (disabledTimer <= 0)
             {
                 ResetDisabledTimer();
+                junkerScoop.scoopCollider.isTrigger = true;
                 ToggleActive(true);
 
                 anim.SetBool("IsPanicking", false);
@@ -171,6 +172,13 @@ public class JunkerBot : MonoBehaviour
                 {
                     stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
                 }
+
+                return;
+            }
+
+            if(junkerScoop.scoopCollider.isTrigger)
+            {
+                junkerScoop.scoopCollider.isTrigger = false;
             }
         }
     }
