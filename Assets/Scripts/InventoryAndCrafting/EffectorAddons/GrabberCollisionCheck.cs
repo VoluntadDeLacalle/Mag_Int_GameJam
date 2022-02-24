@@ -43,7 +43,10 @@ public class GrabberCollisionCheck : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        grabberEffector.DropCurrentObj();
+        if (!other.isTrigger)
+        {
+            grabberEffector.DropCurrentObj();
+        }
     }
 
     private void Update()

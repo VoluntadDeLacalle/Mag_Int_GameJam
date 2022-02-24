@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
-    private bool isActivated;
+    [SerializeField] private bool isActivated;
     
     public bool startAtTop = false;
     public Transform topTransform;
@@ -13,10 +13,17 @@ public class Elevator : MonoBehaviour
     public float speed = 3;
 
     public float floorWaitingTimer = 5f;
-    private float maxFloorWaitingTimer = 0;
-    
+    private float maxFloorWaitingTimer = 0f;
+
+    public float elevatorStuckTimer = 4f;
+    private float maxElevatorStuckTimer = 0f;
+
+    public BoxCollider primaryCollider;
+    public BoxCollider triggerCollider;
+
     private bool shouldWait = true;
     private bool atBottomFloor;
+    private bool isStuck = false;
 
     public void ShouldActivate(bool shouldActivate)
     {
@@ -36,12 +43,59 @@ public class Elevator : MonoBehaviour
 
         atBottomFloor = !startAtTop;
         maxFloorWaitingTimer = floorWaitingTimer;
+        maxElevatorStuckTimer = elevatorStuckTimer;
     }
 
     private void Update()
     {
-        if (!isActivated)
+        if (!isActivated || isStuck)
         {
+            if (isStuck && isActivated)
+            {
+
+                elevatorStuckTimer -= Time.deltaTime;
+                if (elevatorStuckTimer <= 0)
+                {
+                    isStuck = false;
+                    elevatorStuckTimer = maxElevatorStuckTimer;
+                    atBottomFloor = true;
+
+                    return;
+                }
+
+                Collider[] collidersInRange = Physics.OverlapBox(transform.position + triggerCollider.center, triggerCollider.bounds.extents);
+                bool somethingUnderElevator = false;
+                if (collidersInRange.Length > 0)
+                {
+                    for (int i = 0; i < collidersInRange.Length; i++)
+                    {
+                        if (collidersInRange[i].gameObject.isStatic)
+                        {
+                            continue;
+                        }
+                        else if (collidersInRange[i] == primaryCollider)
+                        {
+                            continue;
+                        }
+                        else if (collidersInRange[i] == triggerCollider)
+                        {
+                            continue;
+                        }
+                        else if (collidersInRange[i].gameObject.transform.position.y < transform.position.y)
+                        {
+                            somethingUnderElevator = true;
+                            break;
+                        }
+                    }
+
+                    if (!somethingUnderElevator)
+                    {
+                        isStuck = false;
+                        elevatorStuckTimer = maxElevatorStuckTimer;
+                    }
+                }
+            }
+
             return;
         }
 
@@ -82,15 +136,64 @@ public class Elevator : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.transform.parent = this.transform.parent;
+        if (other.gameObject.transform.position.y > transform.position.y)
+        {
+            if (!other.gameObject.isStatic)
+            {
+                GrabberEffector grabberCheck = Player.Instance.gameObject.GetComponentInChildren<GrabberEffector>();
+                if (grabberCheck != null)
+                {
+                    if (grabberCheck.currentAttachedObj == other.gameObject)
+                    {
+                        return;
+                    }
+                }
+
+                other.gameObject.transform.parent = this.transform.parent;
+            }
+        }
+        else
+        {
+            if (atBottomFloor)
+            {
+                return;
+            }
+
+            Player playerCheck = other.gameObject.GetComponentInChildren<Player>();
+            if (playerCheck != null)
+            {
+                if (Player.Instance.IsAlive() && !Player.Instance.ragdoll.IsRagdolled())
+                {
+                    Player.Instance.FallDeath();
+                }
+                else if (Player.Instance.ragdoll.IsRagdolled())
+                {
+                    isStuck = true;
+                }
+            }
+            else
+            {
+                if (!other.gameObject.isStatic)
+                {
+                    isStuck = true;
+                }
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Player playerCheck = other.gameObject.GetComponent<Player>();
-        if (playerCheck != null)
+        if (other.gameObject.transform.position.y > transform.position.y)
         {
-            Player.Instance.transform.parent = Player.Instance.rootObj.transform;
+            Player playerCheck = other.gameObject.GetComponent<Player>();
+            if (playerCheck != null)
+            {
+                Player.Instance.transform.parent = Player.Instance.rootObj.transform;
+            }
+        }
+        else
+        {
+            isStuck = false;
         }
     }
 }
