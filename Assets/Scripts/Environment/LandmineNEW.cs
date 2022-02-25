@@ -6,6 +6,7 @@ public class LandmineNEW : Explosive
 {
     [Header("Landmine Variables")]
     public Transform colliderTransform;
+    public Vector3 boxCenter;
     public Vector3 boxBounds;
 
     public bool turnOnDetectorMat = false;
@@ -24,16 +25,26 @@ public class LandmineNEW : Explosive
         base.OnDrawGizmos();
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(colliderTransform.position, boxBounds * 2);
+        Gizmos.matrix = colliderTransform.localToWorldMatrix;
+
+        Gizmos.DrawWireCube(Vector3.zero, boxBounds * 2);
     }
 
     void CheckCollisions()
     {
-        Collider[] collidersInBox = Physics.OverlapBox(colliderTransform.position, boxBounds);
+        Collider[] collidersInBox = Physics.OverlapBox(colliderTransform.position, boxBounds, transform.rotation);
 
         if (collidersInBox.Length > 0)
         {
-            ActivateExplosion();
+            for (int i = 0; i < collidersInBox.Length; i++)
+            {
+                if (collidersInBox[i].gameObject != gameObject)
+                {
+                    Debug.Log(collidersInBox[i].gameObject.name + ", " + gameObject.name);
+                    ActivateExplosion();
+                    return;
+                }
+            }
         }
     }
 
@@ -41,6 +52,14 @@ public class LandmineNEW : Explosive
     {
         hasExploded = true;
         Explode();
+    }
+
+    private void Update()
+    {
+        if (colliderTransform.position != transform.position + boxCenter)
+        {
+            colliderTransform.position = transform.position + boxCenter;
+        }
     }
 
     private void FixedUpdate()
