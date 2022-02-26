@@ -193,18 +193,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e27d453b4ee16ae4c9fee8b60e40bebd, type: 3}
---- !u!65 &19852459 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 9190931122379606648, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-    type: 3}
-  m_PrefabInstance: {fileID: 9190931123620380155}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &19852460 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 9190931122379606661, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-    type: 3}
-  m_PrefabInstance: {fileID: 9190931123620380155}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &44868042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5237754162486390026, guid: ceed8d582fafa2846925de18d6cb293f,
@@ -6904,6 +6892,11 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.00000002142042
       objectReference: {fileID: 0}
+    - target: {fileID: 5631112755790248306, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_CullingMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5631112755790248309, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_Name
@@ -7189,26 +7182,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9190931122379606648, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9190931122379606649, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-        type: 3}
-      propertyPath: isActivated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9190931122379606649, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-        type: 3}
-      propertyPath: primaryCollider
-      value: 
-      objectReference: {fileID: 19852460}
-    - target: {fileID: 9190931122379606649, guid: dc247e0038c9faa4aa2e8f3f567d098b,
-        type: 3}
-      propertyPath: triggerCollider
-      value: 
-      objectReference: {fileID: 19852459}
     - target: {fileID: 9190931123414096130, guid: dc247e0038c9faa4aa2e8f3f567d098b,
         type: 3}
       propertyPath: m_RootOrder

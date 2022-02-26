@@ -154,7 +154,7 @@ public class Elevator : MonoBehaviour
         }
         else
         {
-            if (atBottomFloor)
+            if (atBottomFloor || isStuck)
             {
                 return;
             }
