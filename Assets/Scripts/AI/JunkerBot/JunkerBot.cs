@@ -27,8 +27,8 @@ public class JunkerBot : MonoBehaviour
     private float maxDisabledTimer = 0f;
 
     [Header("Juice Variables")]
-    [Range(1000, 9999)]
-    public float playerScoopingForce = 1500;
+    [Range(0, 100)]
+    public float playerScoopingForce = 30;
     public float deathTimer = 2f;
     public GameObject squirmVFX;
 

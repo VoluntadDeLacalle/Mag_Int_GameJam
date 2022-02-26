@@ -342,9 +342,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
                 tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
+
+        Debug.Log((backBone.up * ragdollRaycastDistance).y + ", " + backBone.position.y);
         
-        if ((backBone.up * ragdollRaycastDistance).y > backBone.position.y)
+        if (transform.position.y + (backBone.up * ragdollRaycastDistance).y > backBone.position.y)
         {
+            Debug.Log("In here");
             PlayerReferenceAnimator.Instance.SwitchPlayerAnimLayer(0);
             anim.SetFloat("StandBlend", 0);
 

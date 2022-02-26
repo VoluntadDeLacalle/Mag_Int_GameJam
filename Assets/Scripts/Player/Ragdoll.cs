@@ -84,7 +84,7 @@ public class Ragdoll : MonoBehaviour
 
         for (int i = 0; i < ragdollRigidbodies.Count; i++)
         {
-            ragdollRigidbodies[i].AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
+            ragdollRigidbodies[i].AddExplosionForce(explosionForce, explosionPosition, explosionRadius, 5f, ForceMode.Impulse);
         }
     }
 
