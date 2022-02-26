@@ -342,12 +342,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
                 tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
-
-        Debug.Log((backBone.up * ragdollRaycastDistance).y + ", " + backBone.position.y);
         
         if (transform.position.y + (backBone.up * ragdollRaycastDistance).y > backBone.position.y)
         {
-            Debug.Log("In here");
             PlayerReferenceAnimator.Instance.SwitchPlayerAnimLayer(0);
             anim.SetFloat("StandBlend", 0);
 
@@ -407,7 +404,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             return;
         }
 
-        if (ragdoll.IsRagdolled() && !ragdollCheck)
+        if (ragdoll.IsRagdolled() && !ragdollCheck && !isDeadFalling)
         {
             ragdollTimer -= Time.deltaTime;
             if (ragdollTimer <= 0)
@@ -422,9 +419,9 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             }
         }
 
-
         if (resetRagdoll)
         {
+
             for (int i = 1; i < childTransforms.Length; i++)
             {
                 if (PlayerReferenceAnimator.Instance.idleTransforms.ContainsKey(childTransforms[i].gameObject.name))
