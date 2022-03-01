@@ -150,7 +150,7 @@ public class JunkerBot : MonoBehaviour
             }
         }
 
-        if (Player.Instance.vThirdPersonInput.CanMove() && !shouldScoop)
+        if (Player.Instance.vThirdPersonInput.CanMove() && !Player.Instance.IsUnconscious() && !shouldScoop)
         {
             shouldScoop = true;
         }

@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 1018390873217044595}
   - component: {fileID: 1547648585121409000}
   - component: {fileID: 6703332415531687119}
+  - component: {fileID: 7181652275178357590}
   m_Layer: 9
   m_Name: JD_Root_jnt
   m_TagString: Untagged
@@ -239,6 +240,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &7181652275178357590
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873217044594}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.92, y: 0.265, z: 0.375}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1018390873217460729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,9 +3272,11 @@ MonoBehaviour:
   deathCameraTarget: {fileID: 1018390874279805762}
   clothPhysicsManager: {fileID: 1132397039742236586}
   backpackBoneSpring: {fileID: 1018390874107597246}
+  mainNavObs: {fileID: 7181652275178357590}
   headBone: {fileID: 1018390873350671319}
   backBone: {fileID: 1018390873648140984}
-  ragdollRaycastDistance: 1.5
+  footBone: {fileID: 1018390874804853021}
+  ragdollRaycastDistance: 3
   backpackFill: {fileID: 7279450582619209517}
   playerEmoter: {fileID: 3429464853875341103}
   origin: {fileID: 0}

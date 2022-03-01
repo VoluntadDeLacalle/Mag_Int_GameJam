@@ -37,8 +37,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Transform deathCameraTarget;
     public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
     public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
+    public UnityEngine.AI.NavMeshObstacle mainNavObs;
     public Transform headBone;
     public Transform backBone;
+    public Transform footBone;
     public float ragdollRaycastDistance = 0;
 
     [Header("Juice Variables")]
@@ -115,6 +117,14 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(backBone.position, backBone.position + backBone.up * ragdollRaycastDistance);
+
+        if (isUnconscious)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(headBone.position, headBone.position - (Vector3.up * ragdollRaycastDistance));
+            Gizmos.DrawLine(backBone.position, backBone.position - (Vector3.up * ragdollRaycastDistance));
+            Gizmos.DrawLine(footBone.position, footBone.position - (Vector3.up * ragdollRaycastDistance));
+        }
     }
 
     void ToggleRagdoll(bool shouldToggle)
@@ -123,6 +133,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         {
             primaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
             primaryRigidbody.isKinematic = shouldToggle;
+            mainNavObs.enabled = true;
         }
         else
         {
@@ -262,12 +273,46 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     public void PlayerStoodUp()
     {
-        vThirdPersonCamera.height = originalCameraHeight; 
-        anim.SetFloat("StandBlend", -1);
+        vThirdPersonCamera.height = originalCameraHeight;
         anim.SetLayerWeight(5, 0);
+        anim.SetFloat("StandBlend", -1);
         RegainConsciousness();
 
-        isUnconscious = false;
+        StartCoroutine(WaitToMoveAgain());
+    }
+
+    private float CheckClosestGroundDist()
+    {
+        float headCheck = Mathf.Infinity, backCheck = Mathf.Infinity, footCheck = Mathf.Infinity;
+        RaycastHit headInfo, backInfo, footInfo;
+
+        if (Physics.Raycast(headBone.position, -Vector3.up, out headInfo, ragdollRaycastDistance))
+        {
+            headCheck = Vector3.Distance(headBone.position, headInfo.point);
+        }
+
+        if (Physics.Raycast(backBone.position, -Vector3.up, out backInfo, ragdollRaycastDistance))
+        {
+            backCheck = Vector3.Distance(backBone.position, backInfo.point);
+        }
+
+        if (Physics.Raycast(footBone.position, -Vector3.up, out footInfo, ragdollRaycastDistance))
+        {
+            footCheck = Vector3.Distance(footBone.position, footInfo.point);
+        }
+
+        float finalDist = Mathf.Min(headCheck, backCheck, footCheck);
+
+        if (finalDist == Mathf.Infinity)
+        {
+            Debug.LogError("The ground could not be found!");
+            
+            return 0;
+        }
+        else
+        {
+            return finalDist;
+        }
     }
 
     private void ResetVariables()
@@ -380,13 +425,15 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             currentTransformWorldPos.Add(childTransforms[i], childTransforms[i].position);
         }
 
-        transform.position = ragdoll.ragdollColliders[0].transform.position;
+        float floorDist = CheckClosestGroundDist();
+
+        transform.position = new Vector3(ragdoll.ragdollColliders[0].transform.position.x, ragdoll.ragdollColliders[0].transform.position.y - floorDist, ragdoll.ragdollColliders[0].transform.position.z);
 
         foreach (KeyValuePair<Transform, Vector3> transVect in currentTransformWorldPos)
         {
             if (PlayerReferenceAnimator.Instance.idleTransforms.ContainsKey(transVect.Key.gameObject.name))
             {
-                transVect.Key.position = transVect.Value;
+                transVect.Key.position = new Vector3(transVect.Value.x, transVect.Value.y - floorDist, transVect.Value.z);
             }
         }
 
@@ -400,14 +447,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         Respawn();
     }
 
-    IEnumerator Waiting(float time)
+    IEnumerator RagdollWaitRotate()
     {
         yield return new WaitForEndOfFrame();
 
         Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
                         tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
-
-        Debug.Log("Before rotate");
 
         if (anim.GetFloat("StandBlend") == 0)
         {
@@ -419,6 +464,14 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         resetCameraHeight = true;
+    }
+
+    IEnumerator WaitToMoveAgain()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        isUnconscious = false;
+        mainNavObs.enabled = false;
     }
 
     void Update()
@@ -463,16 +516,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             ragdollTimer -= Time.deltaTime;
             if (ragdollTimer <= 0)
             {
-
-                Debug.Log("Before waiting");
-
                 resetRagdoll = false;
                 anim.SetLayerWeight(5, 1);
                 ToggleRagdoll(false);
                 ragdollCheck = false;
                 ragdollTimer = 2f;
 
-                StartCoroutine(Waiting(0.5f));
+                StartCoroutine(RagdollWaitRotate());
             }
         }
 
