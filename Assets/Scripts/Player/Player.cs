@@ -49,11 +49,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Transform origin = null;
 
     private bool isAlive = true;
+    private bool isUnconscious = false;
     private bool isDeadFalling = false;
 
     Transform[] childTransforms;
     private bool ragdollCheck = false;
     private bool resetRagdoll = false;
+    private bool resetCameraHeight = false;
     private float ragdollTimer = 2f;
 
     private float originalCameraHeight;
@@ -193,11 +195,18 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         RagdollPlayer();
+
+        isUnconscious = true;
     }
 
     public bool IsAlive()
     {
         return isAlive;
+    }
+
+    public bool IsUnconscious()
+    {
+        return isUnconscious;
     }
 
     public void SetNewSpawnPoint(Transform spawnPoint)
@@ -230,9 +239,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     public void RegainConsciousness()
     {   
-        vThirdPersonCamera.transform.LookAt(deathCameraTarget);
         vThirdPersonCamera.SetTarget(gameObject.transform);
-
         vThirdPersonInput.ShouldMove(true);
     }
 
@@ -257,8 +264,10 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         vThirdPersonCamera.height = originalCameraHeight; 
         anim.SetFloat("StandBlend", -1);
-        anim.SetLayerWeight(4, 0);
+        anim.SetLayerWeight(5, 0);
         RegainConsciousness();
+
+        isUnconscious = false;
     }
 
     private void ResetVariables()
@@ -391,6 +400,27 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         Respawn();
     }
 
+    IEnumerator Waiting(float time)
+    {
+        yield return new WaitForEndOfFrame();
+
+        Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
+                        tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
+
+        Debug.Log("Before rotate");
+
+        if (anim.GetFloat("StandBlend") == 0)
+        {
+            transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
+        }
+        else
+        {
+            transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
+        }
+
+        resetCameraHeight = true;
+    }
+
     void Update()
     {
         if (!isAlive)
@@ -421,7 +451,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         if (resetRagdoll)
         {
-
             for (int i = 1; i < childTransforms.Length; i++)
             {
                 if (PlayerReferenceAnimator.Instance.idleTransforms.ContainsKey(childTransforms[i].gameObject.name))
@@ -434,23 +463,28 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             ragdollTimer -= Time.deltaTime;
             if (ragdollTimer <= 0)
             {
+
+                Debug.Log("Before waiting");
+
                 resetRagdoll = false;
-                anim.SetLayerWeight(4, 1);
+                anim.SetLayerWeight(5, 1);
                 ToggleRagdoll(false);
                 ragdollCheck = false;
                 ragdollTimer = 2f;
 
-                Vector3 tempHeadBone = new Vector3(headBone.position.x, 0, headBone.position.z),
-                        tempBackBone = new Vector3(backBone.position.x, 0, backBone.position.z);
+                StartCoroutine(Waiting(0.5f));
+            }
+        }
 
-                if (anim.GetFloat("StandBlend") == 0)
-                {
-                    transform.rotation = Quaternion.LookRotation(tempHeadBone - tempBackBone);
-                }
-                else
-                {
-                    transform.rotation = Quaternion.LookRotation(tempBackBone - tempHeadBone);
-                }
+        if (resetCameraHeight)
+        {
+            vThirdPersonCamera.height = Mathf.Lerp(vThirdPersonCamera.height, originalCameraHeight, 2f * Time.deltaTime);
+
+            ragdollTimer -= Time.deltaTime;
+            if (ragdollTimer <= 0)
+            {
+                resetCameraHeight = false;
+                ragdollTimer = 2f;
             }
         }
 

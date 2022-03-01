@@ -29,7 +29,7 @@ public class JunkerScoop : MonoBehaviour
 
         if (playerCheck != null)
         {
-            if (Player.Instance.vThirdPersonInput.CanMove())
+            if (Player.Instance.vThirdPersonInput.CanMove() && !Player.Instance.IsUnconscious())
             {
                 playerInRange = true;
             }
@@ -48,7 +48,7 @@ public class JunkerScoop : MonoBehaviour
 
         if (playerCheck != null)
         {
-            if (Player.Instance.vThirdPersonInput.CanMove())
+            if (Player.Instance.vThirdPersonInput.CanMove() && !Player.Instance.IsUnconscious())
             {
                 playerInRange = true;
             }

@@ -3407,6 +3407,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1836966722}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1368124492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 826457205752946102, guid: 64031f1a3e524dc4684c205d898bc8dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 546624185215849299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1381668729 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5237754161210206741, guid: ceed8d582fafa2846925de18d6cb293f,
@@ -3756,6 +3762,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 74263774}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1481814360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481814361}
+  m_Layer: 0
+  m_Name: TempGrabber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1481814361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481814360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.471, y: 0.017, z: -26.672}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1516690160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4739648838314446052, guid: 8d6015d856cf42f4ab48c0a55bb57fb9,
@@ -4909,6 +4945,21 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.113337725
       objectReference: {fileID: 0}
+    - target: {fileID: 1941621836372887038, guid: 64031f1a3e524dc4684c205d898bc8dd,
+        type: 3}
+      propertyPath: grabbedObj
+      value: 
+      objectReference: {fileID: 1368124492}
+    - target: {fileID: 1941621836372887038, guid: 64031f1a3e524dc4684c205d898bc8dd,
+        type: 3}
+      propertyPath: grabberObj
+      value: 
+      objectReference: {fileID: 1481814360}
+    - target: {fileID: 1941621836372887038, guid: 64031f1a3e524dc4684c205d898bc8dd,
+        type: 3}
+      propertyPath: grabberRange
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2241595133409060988, guid: 64031f1a3e524dc4684c205d898bc8dd,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -4923,6 +4974,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 4536754772186945532, guid: 64031f1a3e524dc4684c205d898bc8dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5849900387174762695, guid: 64031f1a3e524dc4684c205d898bc8dd,
         type: 3}

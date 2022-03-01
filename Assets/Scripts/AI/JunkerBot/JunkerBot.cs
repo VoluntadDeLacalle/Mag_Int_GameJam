@@ -143,7 +143,7 @@ public class JunkerBot : MonoBehaviour
 
         if (junkerScoop.IsPlayerInRange())
         {
-            if (stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act && !isDisabled)
+            if (stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act && !isDisabled && !Player.Instance.IsUnconscious() && !Player.Instance.ragdoll.IsRagdolled())
             {
                 stateMachine.switchState(JunkerStateMachine.StateType.Act);
                 Player.Instance.KnockOut();

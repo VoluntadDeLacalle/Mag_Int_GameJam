@@ -130,6 +130,8 @@ namespace Invector.vCharacterController
             var Y = Input.GetAxis(rotateCameraYInput);
             var X = Input.GetAxis(rotateCameraXInput);
 
+            gameObject.GetComponent<Animator>().SetFloat("CameraHorizontal", Mathf.Clamp(Mathf.Abs(X), 0, 1));
+
             tpCamera.RotateCamera(X, Y);
         }
 
