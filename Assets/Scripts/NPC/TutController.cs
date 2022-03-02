@@ -102,10 +102,18 @@ public class TutController : MonoBehaviour
 
             Debug.Log("popped");
             grabbedObj = tempGrabbedObj;
-            hitOffset = grabbedObj.transform.position - grabberObj.transform.position;
-            hitDistance = Vector3.Distance(grabbedObj.transform.position, grabberObj.transform.position);
-            differenceRotation = grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation);
+            UnityEngine.Animations.ParentConstraint grabbedConstraint = grabbedObj.AddComponent<UnityEngine.Animations.ParentConstraint>();
+            UnityEngine.Animations.ConstraintSource grabberSource = new UnityEngine.Animations.ConstraintSource();
+            grabberSource.sourceTransform = grabberObj.transform;
+            grabberSource.weight = 1;
+            int sourceIndex = grabbedConstraint.AddSource(grabberSource);
+            grabbedConstraint.constraintActive = true;
+            grabbedConstraint.SetTranslationOffset(sourceIndex, grabbedObj.transform.position - grabberObj.transform.position);
+            grabbedConstraint.SetRotationOffset(sourceIndex, (grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
 
+            Debug.Log((grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
+
+            grabbedObj.GetComponent<Rigidbody>().isKinematic = true;
             grabbed = true;
         }
     }
@@ -114,10 +122,11 @@ public class TutController : MonoBehaviour
     {
         if (isRagdolled && grabbed)
         {
-            grabbedObj.GetComponent<Rigidbody>().isKinematic = true;
+            
 
-            grabbedObj.transform.position = grabberObj.transform.position + hitOffset;
-            grabbedObj.transform.rotation = Quaternion.Euler((grabberObj.transform.rotation * differenceRotation).eulerAngles);
+            //grabbedObj.transform.position = grabberObj.transform.position + hitOffset;
+            //grabbedObj.transform.RotateAround(grabberObj.transform.position, grabberObj.transform.right, 1 * Time.deltaTime);
+            //grabbedObj.transform.rotation = Quaternion.Euler((grabberObj.transform.rotation * differenceRotation).eulerAngles);
         }
     }
 }
