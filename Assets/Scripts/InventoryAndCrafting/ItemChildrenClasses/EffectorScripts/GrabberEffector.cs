@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GrabberEffector : Item
 {
+    [Header("Grabber Variables")]
     public Transform grabTransform;
     public float grabRadius = 0;
 
@@ -19,7 +20,7 @@ public class GrabberEffector : Item
     {
         if (currentAttachedObj == null)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
             {
                 TryGrab();
 
@@ -45,54 +46,78 @@ public class GrabberEffector : Item
     void TryGrab()
     {
         Collider[] collidersInRange = Physics.OverlapSphere(grabTransform.position, grabRadius);
-
-        for (int i = 0; i < collidersInRange.Length; i++)
+        if (collidersInRange.Length > 0)
         {
-            if (collidersInRange[i].gameObject == this.gameObject || collidersInRange[i].gameObject == Player.Instance.gameObject)
-            {
-                continue;
-            }
+            float min = Mathf.Infinity;
+            GameObject tempGrabbedObj = collidersInRange[0].gameObject;
+            Collider closestCollider = collidersInRange[0];
 
-            MeshCollider meshCheck = collidersInRange[i].gameObject.GetComponent<MeshCollider>();
-            if (meshCheck != null)
+            for (int i = 0; i < collidersInRange.Length; i++)
             {
-                if(meshCheck == collidersInRange[i])
-                {
-                    continue;
-                }
-            }
-
-            Rigidbody tempRB = null;
-            tempRB = collidersInRange[i].gameObject.GetComponentInChildren<Rigidbody>();
-
-            if(tempRB != null)
-            {
-                Elevator elevator = collidersInRange[i].gameObject.GetComponent<Elevator>();
-                if (elevator != null)
+                if (collidersInRange[i].gameObject == this.gameObject || collidersInRange[i].gameObject == Player.Instance.gameObject)
                 {
                     continue;
                 }
 
-                JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
-                if (junkerInRange != null)
+                Rigidbody rbCheck = collidersInRange[i].gameObject.GetComponent<Rigidbody>();
+                if (rbCheck == null)
                 {
-                    junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
-                    junkerInRange.GrabToggle(true);
-                    junkerInRange.junkerScoop.scoopCollider.enabled = false;
-
-                    Grab(junkerInRange.gameObject, collidersInRange[i], tempRB);
-                    return;
+                    continue;
                 }
 
-                Grab(tempRB.gameObject, collidersInRange[i], tempRB);
+                if (Vector3.Distance(collidersInRange[i].gameObject.transform.position, grabTransform.position) < min)
+                {
+                    min = Vector3.Distance(collidersInRange[i].gameObject.transform.position, grabTransform.position);
+                    tempGrabbedObj = collidersInRange[i].gameObject;
+                    closestCollider = collidersInRange[i];
+                }
+            }
+
+            Rigidbody secondaryRBCheck = tempGrabbedObj.GetComponent<Rigidbody>();
+            if (secondaryRBCheck == null)
+            {
+                Debug.Log("No Grabbables in range");
                 return;
             }
+
+            Elevator elevator = secondaryRBCheck.gameObject.GetComponent<Elevator>();
+            if (elevator != null)
+            {
+                return;
+            }
+
+            JunkerBot junkerInRange = secondaryRBCheck.gameObject.GetComponent<JunkerBot>();
+            if (junkerInRange != null)
+            {
+                junkerInRange.stateMachine.switchState(JunkerStateMachine.StateType.Disabled);
+                junkerInRange.GrabToggle(true);
+                junkerInRange.junkerScoop.scoopCollider.enabled = false;
+
+            }
+
+            Grab(tempGrabbedObj, closestCollider, secondaryRBCheck);
+            return;
         }
     }
 
     void Grab(GameObject nObj, Collider nCollider, Rigidbody nRB)
     {
+        Quaternion targetRot = Quaternion.identity * Quaternion.Inverse(nObj.transform.rotation);
+        Quaternion sourceRot = Quaternion.identity * Quaternion.Inverse(grabTransform.rotation);
+
+        grabTransform.rotation = Quaternion.Euler(-transform.rotation.eulerAngles);
+
         currentAttachedObj = nObj;
+        UnityEngine.Animations.ParentConstraint grabbedConstraint = nObj.AddComponent<UnityEngine.Animations.ParentConstraint>();
+        UnityEngine.Animations.ConstraintSource grabberSource = new UnityEngine.Animations.ConstraintSource();
+        grabberSource.sourceTransform = grabTransform;
+        grabberSource.weight = 1;
+
+        int sourceIndex = grabbedConstraint.AddSource(grabberSource);
+        grabbedConstraint.SetTranslationOffset(sourceIndex, nObj.transform.position - grabTransform.position);
+        grabbedConstraint.SetRotationOffset(sourceIndex, nObj.transform.rotation.eulerAngles);
+        grabbedConstraint.constraintActive = true;
+
         nCollider.isTrigger = true;
         Physics.IgnoreCollision(nCollider, Player.Instance.GetComponent<Collider>(), true);
         nObj.AddComponent<GrabberCollisionCheck>();
@@ -101,8 +126,6 @@ public class GrabberEffector : Item
         nRB.isKinematic = true;
         nRB.velocity = Vector3.zero;
         nRB.angularVelocity = Vector3.zero;
-
-        nObj.transform.parent = this.gameObject.transform;
     }
 
     public GameObject DropCurrentObj()
@@ -115,8 +138,8 @@ public class GrabberEffector : Item
         JunkerBot tempJunker = currentAttachedObj.GetComponentInChildren<JunkerBot>();
         if (tempJunker != null)
         {
-            currentAttachedObj.transform.parent = null;
-            tempJunker.gameObject.transform.parent = tempJunker.rootObject.transform;
+            Destroy(currentAttachedObj.GetComponent<UnityEngine.Animations.ParentConstraint>());
+
             tempJunker.primaryCollider.isTrigger = false;
             Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
             Destroy(tempJunker.GetComponent<GrabberCollisionCheck>());
@@ -129,10 +152,13 @@ public class GrabberEffector : Item
 
             tempJunker.GrabToggle(false);
             currentAttachedObj = null;
+
             return tempJunker.gameObject;
         }
 
-        currentAttachedObj.transform.parent = null;
+
+        Destroy(currentAttachedObj.GetComponent<UnityEngine.Animations.ParentConstraint>());
+
         currentAttachedObj.GetComponent<Collider>().isTrigger = false;
         Physics.IgnoreCollision(currentAttachedObj.GetComponent<Collider>(), Player.Instance.primaryCollider, false);
         Destroy(currentAttachedObj.GetComponent<GrabberCollisionCheck>());
