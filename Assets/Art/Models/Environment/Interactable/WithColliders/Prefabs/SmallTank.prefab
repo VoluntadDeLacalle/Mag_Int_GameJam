@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8519240518501279919}
   - component: {fileID: 5899323350059244645}
   - component: {fileID: 5052773754070909155}
+  - component: {fileID: 6976395613578624921}
   m_Layer: 0
   m_Name: SmallTank
   m_TagString: Untagged
@@ -95,3 +96,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.80000037, y: 0.9566045, z: 0.80000037}
   m_Center: {x: -0.0006372484, y: 0.4600709, z: -0.00015558308}
+--- !u!54 &6976395613578624921
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5394862810131692976}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
