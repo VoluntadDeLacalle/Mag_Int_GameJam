@@ -71,6 +71,7 @@ public class TutController : MonoBehaviour
 
     public void TestGrab()
     {
+        RaycastHit hitInfo;
         Collider[] collidersInRange = Physics.OverlapSphere(grabberObj.transform.position, grabberRange);
         float min = 50;
         GameObject tempGrabbedObj = collidersInRange[0].gameObject;
@@ -101,31 +102,31 @@ public class TutController : MonoBehaviour
 
             Debug.Log("popped");
             grabbedObj = tempGrabbedObj;
-
-            GameObject target = grabbedObj;
-            GameObject source = grabberObj;
-
-            Quaternion newRotation = Quaternion.Inverse(source.transform.rotation) * target.transform.rotation;
-            Vector3 direction = (source.transform.position - target.transform.position);
-
-            UnityEngine.Animations.ParentConstraint grabbedConstraint = target.AddComponent<UnityEngine.Animations.ParentConstraint>();
+            UnityEngine.Animations.ParentConstraint grabbedConstraint = grabbedObj.AddComponent<UnityEngine.Animations.ParentConstraint>();
             UnityEngine.Animations.ConstraintSource grabberSource = new UnityEngine.Animations.ConstraintSource();
-            grabberSource.sourceTransform = source.transform;
+            grabberSource.sourceTransform = grabberObj.transform;
             grabberSource.weight = 1;
             int sourceIndex = grabbedConstraint.AddSource(grabberSource);
             grabbedConstraint.constraintActive = true;
+            grabbedConstraint.SetTranslationOffset(sourceIndex, grabbedObj.transform.position - grabberObj.transform.position);
+            grabbedConstraint.SetRotationOffset(sourceIndex, (grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
 
-            grabbedConstraint.SetRotationOffset(sourceIndex, (Quaternion.Inverse(source.transform.rotation) * target.transform.rotation).eulerAngles);
+            Debug.Log((grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
 
-            direction = Quaternion.Euler(source.transform.rotation.eulerAngles) * direction;
-            Vector3 finalPos = (direction + target.transform.position) - source.transform.position;
-
-            grabbedConstraint.SetTranslationOffset(sourceIndex, finalPos);
-
-            Debug.Log(finalPos + ", " + (Quaternion.Inverse(source.transform.rotation) * target.transform.rotation).eulerAngles);
-
-            target.GetComponent<Rigidbody>().isKinematic = true;
+            grabbedObj.GetComponent<Rigidbody>().isKinematic = true;
             grabbed = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isRagdolled && grabbed)
+        {
+            
+
+            //grabbedObj.transform.position = grabberObj.transform.position + hitOffset;
+            //grabbedObj.transform.RotateAround(grabberObj.transform.position, grabberObj.transform.right, 1 * Time.deltaTime);
+            //grabbedObj.transform.rotation = Quaternion.Euler((grabberObj.transform.rotation * differenceRotation).eulerAngles);
         }
     }
 }
