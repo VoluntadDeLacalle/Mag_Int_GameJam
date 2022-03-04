@@ -74,9 +74,10 @@ public class TutController : MonoBehaviour
         RaycastHit hitInfo;
         Collider[] collidersInRange = Physics.OverlapSphere(grabberObj.transform.position, grabberRange);
         float min = 50;
-        GameObject tempGrabbedObj = collidersInRange[0].gameObject;
         if (collidersInRange.Length > 0) 
         {
+            GameObject tempGrabbedObj = collidersInRange[0].gameObject;
+
             for (int i = 0; i < collidersInRange.Length; i++)
             {
                 Rigidbody rbCheck = collidersInRange[i].gameObject.GetComponent<Rigidbody>();
@@ -102,18 +103,9 @@ public class TutController : MonoBehaviour
 
             Debug.Log("popped");
             grabbedObj = tempGrabbedObj;
-            UnityEngine.Animations.ParentConstraint grabbedConstraint = grabbedObj.AddComponent<UnityEngine.Animations.ParentConstraint>();
-            UnityEngine.Animations.ConstraintSource grabberSource = new UnityEngine.Animations.ConstraintSource();
-            grabberSource.sourceTransform = grabberObj.transform;
-            grabberSource.weight = 1;
-            int sourceIndex = grabbedConstraint.AddSource(grabberSource);
-            grabbedConstraint.constraintActive = true;
-            grabbedConstraint.SetTranslationOffset(sourceIndex, grabbedObj.transform.position - grabberObj.transform.position);
-            grabbedConstraint.SetRotationOffset(sourceIndex, (grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
+            FixedJoint grabbedJoint = grabbedObj.AddComponent<FixedJoint>();
+            grabbedJoint.connectedBody = grabberObj.GetComponent<Rigidbody>();
 
-            Debug.Log((grabbedObj.transform.rotation * Quaternion.Inverse(grabberObj.transform.rotation)).eulerAngles);
-
-            grabbedObj.GetComponent<Rigidbody>().isKinematic = true;
             grabbed = true;
         }
     }
