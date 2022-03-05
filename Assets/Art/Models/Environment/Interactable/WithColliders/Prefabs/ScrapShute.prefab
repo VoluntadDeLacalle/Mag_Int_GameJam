@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 4356435373925422012}
   - component: {fileID: 854260548647935001}
   - component: {fileID: 3187992426125633747}
-  - component: {fileID: 1448829044240220767}
+  - component: {fileID: 1622578813089748630}
+  - component: {fileID: 7846057489302954498}
+  - component: {fileID: 7607638434350764239}
   m_Layer: 0
   m_Name: ScrapShute
   m_TagString: Untagged
@@ -82,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1448829044240220767
-MeshCollider:
+--- !u!65 &1622578813089748630
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,7 +94,32 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8441664990355963829, guid: dd18245625ddef844a9f194fdd29559c, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 0.18752022, z: 1.0000004}
+  m_Center: {x: 0, y: -0.46746984, z: 0}
+--- !u!65 &7846057489302954498
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980894310998804742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1.06123, z: 0.1153938}
+  m_Center: {x: -5.039975e-16, y: -0.030615937, z: 0.44230402}
+--- !u!65 &7607638434350764239
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980894310998804742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1.0611881, z: 0.110795446}
+  m_Center: {x: 5.1695797e-16, y: -0.030633766, z: -0.44460273}
