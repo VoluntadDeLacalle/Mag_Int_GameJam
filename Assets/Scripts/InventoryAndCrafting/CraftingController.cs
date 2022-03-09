@@ -587,7 +587,7 @@ public class CraftingController : MonoBehaviour
                     };
 
                     Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = tempItemDataModel;
-                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentIndex].Value);
+                    Inventory.Instance.itemDataModels.Add(Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex].Value);
                 }
 
                 Inventory.Instance.chassisDataModels[currentChassisIndex].componentItemModels[componentTransformIndex] = null;
@@ -831,6 +831,7 @@ public class CraftingController : MonoBehaviour
             }
             else
             {
+                
                 int currentItemModelToAddIndex = -1;
                 for (int i = 0; i < Inventory.Instance.itemDataModels.Count; i++)
                 {
