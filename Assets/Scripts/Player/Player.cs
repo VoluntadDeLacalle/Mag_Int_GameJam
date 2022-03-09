@@ -349,6 +349,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     {
         isAlive = true;
         isDeadFalling = false;
+        mainNavObs.enabled = false;
 
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
@@ -489,6 +490,16 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     void Update()
     {
+        if (Input.GetKeyDown(vThirdPersonInput.sprintInput) && vThirdPersonController.isGrounded)
+        {
+            vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed + 2f;
+        }
+        else if ((Input.GetKeyUp(vThirdPersonInput.sprintInput) || !Input.GetKey(vThirdPersonInput.sprintInput)) && vThirdPersonController.isGrounded)
+        {
+            vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed;
+        }
+
+
         if (!isAlive)
         {
             if (isDeadFalling)
