@@ -283,36 +283,49 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     private float CheckClosestGroundDist()
     {
-        float headCheck = Mathf.Infinity, backCheck = Mathf.Infinity, footCheck = Mathf.Infinity;
-        RaycastHit headInfo, backInfo, footInfo;
+        float backCheck = Mathf.Infinity;
+        RaycastHit[] backHits = Physics.SphereCastAll(backBone.position, .2f, -Vector3.up, ragdollRaycastDistance);
 
-        if (Physics.Raycast(headBone.position, -Vector3.up, out headInfo, ragdollRaycastDistance))
+        if (backHits.Length > 0)
         {
-            headCheck = Vector3.Distance(headBone.position, headInfo.point);
+            for (int i = 0; i < backHits.Length; i++)
+            {
+                bool isPlayer = false;
+                for (int j = 0; j < ragdoll.ragdollColliders.Count; j++)
+                {
+                    if(backHits[i].collider == ragdoll.ragdollColliders[j])
+                    {
+                        isPlayer = true;
+                        break;
+                    }
+
+                    if (backHits[i].collider == primaryCollider)
+                    {
+                        isPlayer = true;
+                        break;
+                    }
+                }
+
+                if (isPlayer)
+                {
+                    continue;
+                }
+
+                if (backHits[i].distance < backCheck)
+                {
+                    backCheck = backHits[i].distance;
+                }
+            }
         }
 
-        if (Physics.Raycast(backBone.position, -Vector3.up, out backInfo, ragdollRaycastDistance))
-        {
-            backCheck = Vector3.Distance(backBone.position, backInfo.point);
-        }
-
-        if (Physics.Raycast(footBone.position, -Vector3.up, out footInfo, ragdollRaycastDistance))
-        {
-            footCheck = Vector3.Distance(footBone.position, footInfo.point);
-        }
-
-        float finalDist = Mathf.Min(headCheck, backCheck, footCheck);
-
-        if (finalDist == Mathf.Infinity)
+        if (backCheck == Mathf.Infinity)
         {
             Debug.LogError("The ground could not be found!");
-            
-            return 0;
+
+            return -1;
         }
-        else
-        {
-            return finalDist;
-        }
+
+        return backCheck;
     }
 
     private void ResetVariables()
@@ -494,10 +507,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             {
                 if (ragdoll.TotalRigidbodyMagnitude() < 1f)
                 {
-                    StartCoroutine(RegainConsciousnessTime());
+                    if(CheckClosestGroundDist() != -1)
+                    {
+                        StartCoroutine(RegainConsciousnessTime());
 
-                    ragdollCheck = true;
-                    ragdollTimer = 2f;
+                        ragdollCheck = true;
+                        ragdollTimer = 2f;
+                    }
                 }
             }
         }

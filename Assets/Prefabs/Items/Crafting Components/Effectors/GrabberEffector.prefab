@@ -142,8 +142,11 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   grabTransform: {fileID: 1359011765106444630}
   grabRadius: 0.14
+  breakTorque: 5000
+  breakForce: 5000
   currentAttachedObj: {fileID: 0}
 --- !u!65 &5272148457308298235
 BoxCollider:

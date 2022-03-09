@@ -51,7 +51,7 @@ public class JunkerFOV : MonoBehaviour
             float distToTarget = Vector3.Distance(transform.position, targets[i].transform.position);
 
             if (junker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Chase
-                || junker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act)
+                && junker.stateMachine.GetCurrentState() != JunkerStateMachine.StateType.Act)
             {
                 if (distToTarget > detectionRadius)
                 {

@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class GrabberEffector : Item
 {
+    [Header("Grab Effector Variables")]
     public Transform grabTransform;
     public float grabRadius = 0;
+    public float breakTorque = 0;
+    public float breakForce = 0;
 
     public GameObject currentAttachedObj = null;
+    private float currentAttachedMass = 0;
 
     private void OnDrawGizmos()
     {
@@ -91,21 +95,16 @@ public class GrabberEffector : Item
     {
         currentAttachedObj = nObj;
 
+        currentAttachedMass = nRB.mass;
+        nRB.mass = 1;
+
         FixedJoint addedJoint = nObj.AddComponent<FixedJoint>();
         addedJoint.connectedBody = this.gameObject.GetComponent<Rigidbody>();
-        //addedJoint.breakTorque = 5000;
         
-        //nCollider.isTrigger = true;
         Physics.IgnoreCollision(nCollider, Player.Instance.GetComponent<Collider>(), true);
         
-        //nObj.AddComponent<GrabberCollisionCheck>();
-        //nObj.GetComponent<GrabberCollisionCheck>().grabberEffector = this;
-
-        //nRB.isKinematic = true;
         nRB.velocity = Vector3.zero;
         nRB.angularVelocity = Vector3.zero;
-
-        //nObj.transform.parent = this.gameObject.transform;
     }
 
     public GameObject DropCurrentObj()
@@ -118,31 +117,23 @@ public class GrabberEffector : Item
         JunkerBot tempJunker = currentAttachedObj.GetComponentInChildren<JunkerBot>();
         if (tempJunker != null)
         {
-
-            //tempJunker.gameObject.transform.parent = tempJunker.rootObject.transform;
-            //tempJunker.primaryCollider.isTrigger = false;
-
             Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
             Destroy(tempJunker.gameObject.GetComponent<FixedJoint>());
 
             tempJunker.junkerScoop.scoopCollider.enabled = true;
-
-            //tempJunker.primaryRigidbody.isKinematic = false;
-            tempJunker.primaryRigidbody.velocity = Vector3.zero;
-            tempJunker.primaryRigidbody.angularVelocity = Vector3.zero;
+            tempJunker.primaryRigidbody.mass = currentAttachedMass;
+            currentAttachedMass = 0;
 
             tempJunker.GrabToggle(false);
             currentAttachedObj = null;
             return tempJunker.gameObject;
         }
 
-        //currentAttachedObj.GetComponent<Collider>().isTrigger = false;
         Physics.IgnoreCollision(currentAttachedObj.GetComponent<Collider>(), Player.Instance.primaryCollider, false);
         Destroy(currentAttachedObj.GetComponent<FixedJoint>());
 
-        //currentAttachedObj.GetComponent<Rigidbody>().isKinematic = false;
-        currentAttachedObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        currentAttachedObj.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        currentAttachedObj.GetComponent<Rigidbody>().mass = currentAttachedMass;
+        currentAttachedMass = 0;
 
         GameObject tempGO = currentAttachedObj;
         currentAttachedObj = null;
@@ -166,8 +157,10 @@ public class GrabberEffector : Item
 
         if (currentAttachedObj != null)
         {
-            if (currentAttachedObj.GetComponent<FixedJoint>().currentTorque.magnitude > 5000)
+            FixedJoint currentFixedJoint = currentAttachedObj.GetComponent<FixedJoint>();
+            if (currentFixedJoint.currentTorque.magnitude > breakTorque || currentFixedJoint.currentForce.magnitude > breakForce)
             {
+                Debug.Log("Tor: " + currentFixedJoint.currentTorque.magnitude + ", For: " + currentFixedJoint.currentForce.magnitude);
                 DropCurrentObj();
             }
         }

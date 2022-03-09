@@ -5,7 +5,7 @@ public class Explosive : MonoBehaviour
 {
     [Header("Explosion Variables")]
     public float explosionRadius = 3;
-    public float explosionForce = 500;
+    public float explosionForce = 30;
     public float explosionDelay = 0.1f;
     public bool hasExploded = false;
     public string bombTag = "bomb";

@@ -40,7 +40,6 @@ public class LandmineNEW : Explosive
             {
                 if (collidersInBox[i].gameObject != gameObject)
                 {
-                    Debug.Log(collidersInBox[i].gameObject.name + ", " + gameObject.name);
                     ActivateExplosion();
                     return;
                 }
