@@ -197,11 +197,14 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     public void LoadMainMenu()
     {
         Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.None;
         UnloadGame();
 
         ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
         SceneManager.LoadScene(GameManager.Instance.mainMenuName);
+
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void QuitGame()

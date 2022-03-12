@@ -58,6 +58,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private bool ragdollCheck = false;
     private bool resetRagdoll = false;
     private bool resetCameraHeight = false;
+    private bool exploded = false;
     private float ragdollTimer = 2f;
 
     private float originalCameraHeight;
@@ -161,11 +162,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         }
 
         health.OnHealthDepleated.AddListener(delegate { ragdoll.ExplodeRagdoll(explosionForce, explosionPosition, explosionRadius); });
-        health.TakeDamage(100);
+        health.TakeDamage(health.maxHealth);
 
         if (itemHandler.GetEquippedItem())
         {
-            health.OnHealthDepleated.AddListener(delegate { itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionPosition, explosionRadius); });
+            health.OnHealthDepleated.AddListener(delegate { itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce / 4, explosionPosition, explosionRadius, 0.0f, ForceMode.Impulse); });
+            exploded = true;
         }
     }
 
@@ -175,7 +177,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         vThirdPersonCamera.target = null;
 
         health.OnHealthDepleated.AddListener(delegate { ragdoll.ApplyRagdollForce(primaryRigidbody.velocity, primaryRigidbody.velocity.magnitude); });
-        health.TakeDamage(100);
+        health.TakeDamage(health.maxHealth);
     }
 
     public void RagdollPlayer()
@@ -204,6 +206,8 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         {
             return;
         }
+
+        health.TakeDamage(1);
 
         RagdollPlayer();
 
@@ -341,7 +345,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             itemHandler.GetEquippedItem().gameObject.GetComponent<Collider>().enabled = false;
             itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().isKinematic = true;
 
-            itemHandler.UnequipItem(itemHandler.GetEquippedItem());
+            //if (exploded)
+            //{
+            //    itemHandler.UnequipItem(itemHandler.GetEquippedItem());
+            //    exploded = false;
+            //}   
         }
     }
 
@@ -350,6 +358,12 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         isAlive = true;
         isDeadFalling = false;
         mainNavObs.enabled = false;
+        isUnconscious = false;
+
+        if (!vThirdPersonInput.CanMove())
+        {
+            vThirdPersonInput.ShouldMove(true);
+        }
 
         vThirdPersonCamera.height = originalCameraHeight;
         vThirdPersonCamera.SetTarget(gameObject.transform);
