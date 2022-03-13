@@ -181,7 +181,7 @@ public class DetectorEffector : Item
             detectableMats[i].SetVector("_Center", Vector3.zero);
         }
 
-         Battery batteryCheck = gameObject.GetComponent<Battery>();
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
 
         if (batteryCheck != null)
         {

@@ -5,20 +5,16 @@ using UnityEngine;
 [Serializable]
 public class PowerEffector : Item
 {
-    public int maxDistance = 5;
+    public float maxDistance = 5;
+    private float currentDistance = 0;
+    public float beamGrowTime = 0.5f;
+    public float raycastRadius = 0.2f;
     public Transform shotTransform;
     public LineRenderer lineRenderer;
 
-    public float fireTimer = 5;
-    private float maxFireTimer = 0;
-
-    public float rayDrawTimer = 2;
-    private float maxRayDrawTimer = 0;
-
-    private int originalMaxDistance = 0;
-    private bool hasFired = false;
-    private bool hasDrawnLine = false;
-
+    private float originalMaxDistance = 0;
+    private float collidedDistance = 0;
+    private bool hasCollided = false;
     private Ray currentRay;
 
     [Header("Modifier Variables")]
@@ -27,8 +23,7 @@ public class PowerEffector : Item
     void Awake()
     {
         originalMaxDistance = maxDistance;
-        maxFireTimer = fireTimer;
-        maxRayDrawTimer = rayDrawTimer;
+        lineRenderer.enabled = true;
     }
 
     private void OnDrawGizmos()
@@ -39,14 +34,39 @@ public class PowerEffector : Item
 
     public override void Activate()
     {
-        fireTimer -= Time.deltaTime;
-        if (fireTimer <= 0 && Input.GetMouseButtonDown(0))
+        if (currentDistance > 0)
         {
-            UpdatePowerDetection(new Ray(shotTransform.position, (shotTransform.position - transform.position).normalized * maxDistance));
+            UpdateBeamNotAlive();
+        }
 
-            fireTimer = maxFireTimer;
-            hasFired = true;
-            hasDrawnLine = false;
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
+
+        if (batteryCheck != null)
+        {
+            if (!BatteryChargeUI.Instance.batteryUIObj.activeSelf)
+            {
+                BatteryChargeUI.Instance.ShowBatteryCharge(true);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                batteryCheck.ShouldDrainBattery(true);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                batteryCheck.ShouldDrainBattery(false);
+            }
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            if (batteryCheck != null)
+            {
+                if (batteryCheck.GetCurrentFill() == 0)
+                {
+                    return;
+                }
+            }
 
             if (QuestManager.Instance.IsCurrentQuestActive())
             {
@@ -56,34 +76,86 @@ public class PowerEffector : Item
                     currentObjective.ActivateItem(itemName);
                 }
             }
-        }
 
-        if (hasFired)
-        {
-            rayDrawTimer -= Time.deltaTime;
-            if (rayDrawTimer <= 0)
+            if (!hasCollided)
             {
-                hasFired = false;
-                rayDrawTimer = maxRayDrawTimer;
-                lineRenderer.enabled = false;
+                if (currentDistance < maxDistance - 0.1f)
+                {
+                    currentDistance = Mathf.Lerp(currentDistance, maxDistance, beamGrowTime * Time.deltaTime);
+                    SetBeamDistance(currentDistance);
+                    return;
+                }
+                currentDistance = maxDistance;
+                SetBeamDistance(maxDistance);
             }
+            else
+            {
+                if (currentDistance < collidedDistance - 0.1f)
+                {
+                    currentDistance = Mathf.Lerp(currentDistance, collidedDistance, beamGrowTime * Time.deltaTime);
+                    SetBeamDistance(currentDistance);
+                    return;
+                }
+                currentDistance = collidedDistance;
+                SetBeamDistance(collidedDistance);
+            }
+        }
+        else
+        {
+            if (currentDistance > 0.1f)
+            {
+                currentDistance = Mathf.Lerp(currentDistance, 0, beamGrowTime * Time.deltaTime);
+                SetBeamDistance(currentDistance);
+                return;
+            }
+            currentDistance = 0;
+            SetBeamDistance(0.0f);
         }
     }
 
-    void UpdatePowerDetection(Ray firedRay)
+    void SetBeamDistance(float dist)
     {
-        Ray currentShot = firedRay;
+        UpdatePowerDetection(shotTransform.position, (shotTransform.position - transform.position).normalized);
+
+        Vector3 endPoint = currentRay.origin + currentRay.direction;
+
+        Vector3[] positions = { shotTransform.position, shotTransform.position - (shotTransform.position - endPoint) * dist };
+        lineRenderer.SetPositions(positions);
+    }
+
+    void UpdatePowerDetection(Vector3 origin, Vector3 direction)
+    {
+        Ray currentShot = new Ray(origin, direction);
         currentRay = currentShot;
 
         RaycastHit hitInfo;
-        if (Physics.Raycast(currentShot, out hitInfo, maxDistance)) 
+        if (Physics.SphereCast(currentShot, raycastRadius, out hitInfo, currentDistance)) 
         {
+            hasCollided = true;
+            collidedDistance = hitInfo.distance + 0.1f;
+
             EffectorActions effectorActions = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
             if (effectorActions != null)
             {
                 effectorActions.PowerEffectorAction();
             }
         }
+        else
+        {
+            hasCollided = false;
+            collidedDistance = 0;
+        }
+    }
+    void UpdateBeamNotAlive()
+    {
+        if (currentDistance > 0.1f)
+        {
+            currentDistance = Mathf.Lerp(currentDistance, 0, beamGrowTime * Time.deltaTime);
+            SetBeamDistance(currentDistance);
+            return;
+        }
+        currentDistance = 0;
+        SetBeamDistance(0.0f);
     }
 
     public override void ModifyComponent(ModifierItem.ModifierType modifierType)
@@ -116,7 +188,7 @@ public class PowerEffector : Item
 
     public override void OnEquip()
     {
-        fireTimer = 0;
+        currentDistance = 0;
     }
 
     public override void OnUnequip()
@@ -126,9 +198,17 @@ public class PowerEffector : Item
             UnmodifyComponent(modifierType);
         }
 
-        fireTimer = maxFireTimer;
-        rayDrawTimer = maxRayDrawTimer;
-        hasFired = false;
+        currentDistance = 0;
+
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
+
+        if (batteryCheck != null)
+        {
+            if (BatteryChargeUI.Instance.batteryUIObj.activeSelf)
+            {
+                BatteryChargeUI.Instance.ShowBatteryCharge(false);
+            }
+        }
     }
 
     void Update()
@@ -137,18 +217,19 @@ public class PowerEffector : Item
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
         }
-    }
 
-    void LateUpdate()
-    {
-        if (hasFired && !hasDrawnLine)
+        if (!Player.Instance.IsAlive() || !Player.Instance.vThirdPersonInput.CanMove())
         {
-            Vector3 endPoint = currentRay.origin + currentRay.direction;
+            UpdateBeamNotAlive();
+        }
 
-            Vector3[] positions = { shotTransform.position, shotTransform.position - (shotTransform.position - endPoint) * maxDistance};
-            lineRenderer.SetPositions(positions);
-            lineRenderer.enabled = true;
-            hasDrawnLine = true;
+        Battery batteryCheck = gameObject.GetComponent<Battery>();
+        if (batteryCheck != null)
+        {
+            if (batteryCheck.GetCurrentFill() == 0 && batteryCheck.GetBatteryDrainStatus())
+            {
+                UpdateBeamNotAlive();
+            }
         }
     }
 }
