@@ -8,7 +8,10 @@ public class LandmineEffectorActions : EffectorActions
 
     public override void PowerEffectorAction()
     {
-        landmine.ActivateExplosion();
+        if (!landmine.hasExploded)
+        {
+            landmine.ActivateExplosion();
+        }
     }
 
     public override void ExplosiveAction(float explosionForce, Vector3 explosionPosition, float explosionRadius)

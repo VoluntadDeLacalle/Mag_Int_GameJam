@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6301235521463417006}
   - component: {fileID: 8112824729736744036}
   - component: {fileID: 9166351607700322528}
+  - component: {fileID: 8140686091902465690}
   - component: {fileID: 8306066814339715135}
   - component: {fileID: 7840012654974856565}
   - component: {fileID: 472697491067735557}
@@ -145,12 +146,26 @@ MonoBehaviour:
   chassisGripTransform:
     gripTransform: {fileID: 0}
   interactableOnStart: 1
-  maxDistance: 2
+  maxDistance: 5
+  beamGrowTime: 8
+  raycastRadius: 0.2
   shotTransform: {fileID: 3345018427162573523}
   lineRenderer: {fileID: 8306066814339715135}
-  fireTimer: 2
-  rayDrawTimer: 0.5
   amplifiedMaxDistance: 10
+--- !u!114 &8140686091902465690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7752515112599629233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e1c1911e2111240808ea227983327a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rateOfBatteryDrain: 10
+  rateOfBatteryFill: 20
 --- !u!120 &8306066814339715135
 LineRenderer:
   m_ObjectHideFlags: 0
