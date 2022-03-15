@@ -142,10 +142,28 @@ public class PowerEffector : Item
         }
         else
         {
-            hasCollided = false;
-            collidedDistance = 0;
+            Collider[] collidersInRange = Physics.OverlapSphere(shotTransform.position, 0.1f);
+            if (collidersInRange.Length > 0 && Input.GetMouseButton(0))
+            {
+                Debug.Log("Colliding");
+
+                hasCollided = true;
+                collidedDistance = currentDistance;
+
+                EffectorActions effectorActions = collidersInRange[0].gameObject.GetComponent<EffectorActions>();
+                if (effectorActions != null)
+                {
+                    effectorActions.PowerEffectorAction();
+                }
+            }
+            else
+            {
+                hasCollided = false;
+                collidedDistance = 0;
+            }
         }
     }
+
     void UpdateBeamNotAlive()
     {
         if (currentDistance > 0.1f)
