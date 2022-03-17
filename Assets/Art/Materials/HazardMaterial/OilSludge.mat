@@ -21,14 +21,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OilSludge
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1c36a6c1f21d5c140b56333a7d18fc25,
+    type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _SPECULAR_SETUP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -73,6 +73,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_66f27286f3534c0d819fc29e24de05cb_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 4b7e1bcf41932284f8bfc26551f2dc59, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_67674717fbf7406b8a8168a4367b7aa1_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c46247a9c4487e344bff566faa665af8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 2800000, guid: c46247a9c4487e344bff566faa665af8, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -90,6 +98,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_561ccc3c9a2d4e1d8dba7945352c6c58: 0.0001
+    - Vector1_5c8cffa564d64afc931fa331916c26a5: 0
+    - Vector1_832354f8de6b46af93723278679f53b5: 0.61
+    - Vector1_8e8b35de85b3485eaf09f61cc3c25ca3: 5
+    - Vector1_b15fb2f51a804055b64e9634acf0290a: 0.0025
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -117,6 +130,8 @@ Material:
     - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
+    - Vector2_4c438969d68a470eaf70e9818b07acbd: {r: 3, g: 5, b: 0, a: 0}
+    - Vector2_a0c09fd971fb41c78b95c082ff5120ff: {r: 1, g: -2, b: 0, a: 0}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 16, g: 16, b: 16, a: 1}
