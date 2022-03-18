@@ -122,6 +122,14 @@ MonoBehaviour:
   playerScoopingForce: 25
   deathTimer: 2
   squirmVFX: {fileID: 8608842234039132250}
+  eyeRenderer: {fileID: 4214893569191658051}
+  neutralEyeColor: {r: 0, g: 0.8980392, b: 0.99215686, a: 1}
+  aggresiveEyeColor: {r: 0.99215686, g: 0.15686275, b: 0, a: 1}
+  disabledEyeColor: {r: 1, g: 1, b: 1, a: 1}
+  colorChangeTimer: 0.5
+  shouldChangeColor: 0
+  targetColor: {r: 1, g: 1, b: 1, a: 1}
+  maxColorChangeTimer: 0
   showActRadius: 1
   showChaseRadius: 1
   showFOV: 1

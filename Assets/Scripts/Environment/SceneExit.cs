@@ -2,50 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneExit : MonoBehaviour
+public class SceneExit : MonoBehaviour, ISaveable
 {
     public string nextSceneName = string.Empty;
-    private bool isPlayerInRange = false;
-    private void OnTriggerEnter(Collider other)
+    public string nextSceneSpawnLocationName = string.Empty;
+    public bool canUseExit = false;
+
+    private bool hasActivated = false;
+
+    public object CaptureState()
     {
-        if (other.gameObject.GetComponentInChildren<Player>() != null)
+        return new SaveData
         {
-            isPlayerInRange = true;
-        }
+            savedCanUseValue = canUseExit
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        canUseExit = saveData.savedCanUseValue;
+    }
+
+    [System.Serializable]
+    private struct SaveData
+    {
+        public bool savedCanUseValue;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.GetComponentInChildren<Player>() != null)
         {
-            if (!isPlayerInRange)
+            if (!hasActivated && canUseExit)
             {
-                isPlayerInRange = true;
+                hasActivated = true;
+                Player.Instance.vThirdPersonInput.ShouldMove(false);
+                Player.Instance.panelFade.Fade((int)PanelComponentFade.FadeType.FadeIn);
+                Player.Instance.panelFade.OnFadeFinished.AddListener(delegate { MoveToScene(); });
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void MoveToScene()
     {
-        if (other.gameObject.GetComponentInChildren<Player>() != null)
-        {
-            isPlayerInRange = false;
-        }
-    }
-
-    public void MoveToScene(string sceneName)
-    {
-        LevelManager.Instance.LoadNextActiveScene(sceneName);
-    }
-
-    private void Update()
-    {
-        if (isPlayerInRange)
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                LevelManager.Instance.LoadNextActiveScene(nextSceneName);
-            }
-        }
+        LevelManager.Instance.LoadNextActiveScene(nextSceneName, nextSceneSpawnLocationName);
     }
 }

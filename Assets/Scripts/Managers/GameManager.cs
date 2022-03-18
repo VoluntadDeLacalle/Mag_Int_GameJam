@@ -22,13 +22,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     [SerializeField]
     public int currentSavedScene = 0;
+    private string nextSceneSpawnLocationName = string.Empty;
     private bool hasLoadedInitially = false;
 
     public object CaptureState()
     {
         return new SaveData
         {
-            savedSceneIndex = currentSavedScene
+            savedSceneIndex = currentSavedScene,
+            spawnLocationName = nextSceneSpawnLocationName,
         };
     }
 
@@ -37,12 +39,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         var saveData = (SaveData)state;
 
         currentSavedScene = saveData.savedSceneIndex;
+        nextSceneSpawnLocationName = saveData.spawnLocationName;
     }
 
     [Serializable]
     private struct SaveData
     {
         public int savedSceneIndex;
+        public string spawnLocationName;
     }
 
     new void Awake()
@@ -88,6 +92,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
                 SaveSystem.Load(sceneSaveFile);
             }
         }
+    }
+
+    public void SetNextSpawnLocationName(string spawnLocationName)
+    {
+        nextSceneSpawnLocationName = spawnLocationName;
+    }
+
+    public string GetSpawnLocationName()
+    {
+        return nextSceneSpawnLocationName;
     }
 
     public void SaveGameManager()

@@ -48,17 +48,17 @@ public class PowerEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButton(1)) || (Input.GetMouseButton(0) && Input.GetMouseButton(1)))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 batteryCheck.ShouldDrainBattery(false);
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
         {
             if (batteryCheck != null)
             {
@@ -143,7 +143,8 @@ public class PowerEffector : Item
         else
         {
             Collider[] collidersInRange = Physics.OverlapSphere(shotTransform.position, 0.1f);
-            if (collidersInRange.Length > 0 && Input.GetMouseButton(0))
+            if (collidersInRange.Length > 0 && Input.GetMouseButton(0)
+                && collidersInRange[0].gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
                 Debug.Log("Colliding");
 

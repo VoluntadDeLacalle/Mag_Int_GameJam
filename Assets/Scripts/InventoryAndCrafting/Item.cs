@@ -412,8 +412,11 @@ public class Item : MonoBehaviour, ISaveable
             {
                 if (ObjectPooler.GetPooler(interactionKey).gameObject != null)
                 {
-                    GameObject temp = interactionParticle;
-                    temp.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
+                    if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().isLoaded)
+                    {
+                        GameObject temp = interactionParticle;
+                        temp.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
+                    }
                 }
             }
 

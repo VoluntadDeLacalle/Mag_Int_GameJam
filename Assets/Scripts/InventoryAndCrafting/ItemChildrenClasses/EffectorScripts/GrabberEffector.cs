@@ -23,7 +23,7 @@ public class GrabberEffector : Item
     {
         if (currentAttachedObj == null)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
             {
                 TryGrab();
 
@@ -39,7 +39,7 @@ public class GrabberEffector : Item
         }
         else
         {
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
             {
                 DropCurrentObj();
             }
@@ -118,7 +118,7 @@ public class GrabberEffector : Item
         if (tempJunker != null)
         {
             Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
-            Destroy(tempJunker.gameObject.GetComponent<FixedJoint>());
+            Destroy(tempJunker.GetComponent<FixedJoint>());
 
             tempJunker.junkerScoop.scoopCollider.enabled = true;
             tempJunker.primaryRigidbody.mass = currentAttachedMass;
