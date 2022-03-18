@@ -31,6 +31,16 @@ public class JunkerBot : MonoBehaviour
     public float playerScoopingForce = 30;
     public float deathTimer = 2f;
     public GameObject squirmVFX;
+    public Renderer eyeRenderer;
+    public Color neutralEyeColor = Color.blue;
+    public Color aggresiveEyeColor = Color.red;
+    public Color disabledEyeColor = Color.black;
+    public float colorChangeTimer = 0f;
+
+    [HideInInspector] public bool shouldChangeColor = false;
+    [HideInInspector] public Color targetColor = Color.white;
+    [HideInInspector] public float maxColorChangeTimer = 0f;
+    private Material currentMaterial;
 
     [Header("Debugging")]
     public bool showActRadius = true;
@@ -47,6 +57,9 @@ public class JunkerBot : MonoBehaviour
     private void Awake()
     {
         maxDisabledTimer = disabledTimer;
+        maxColorChangeTimer = colorChangeTimer;
+
+        currentMaterial = eyeRenderer.material;
 
         health.OnHealthDepleated.AddListener(Die);
     }
@@ -63,6 +76,7 @@ public class JunkerBot : MonoBehaviour
 
         
         shouldScoop = false;
+        Debug.Log("Stop Action before switch to patrol");
         stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
 
         junkerScoop.SetPlayerInRange(false);
@@ -131,6 +145,20 @@ public class JunkerBot : MonoBehaviour
 
     void Update()
     {
+        if (shouldChangeColor)
+        {
+            Color currentColor = currentMaterial.GetColor("_EmissionColor");
+            currentColor = Color.Lerp(currentColor, targetColor, maxColorChangeTimer * Time.deltaTime);
+            currentMaterial.SetColor("_EmissionColor", currentColor);
+
+            colorChangeTimer -= Time.deltaTime;
+            if (colorChangeTimer <= 0)
+            {
+                shouldChangeColor = false;
+                currentMaterial.SetColor("_EmissionColor", targetColor);
+            }
+        }
+
         if (isDead)
         {
             deathTimer -= Time.deltaTime;
