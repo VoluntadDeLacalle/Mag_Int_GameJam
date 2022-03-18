@@ -45,7 +45,7 @@ public class DetectorEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButton(1)) || (Input.GetMouseButton(0) && Input.GetMouseButton(1)))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }

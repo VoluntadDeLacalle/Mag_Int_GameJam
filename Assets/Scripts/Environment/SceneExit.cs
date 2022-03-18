@@ -47,7 +47,6 @@ public class SceneExit : MonoBehaviour, ISaveable
 
     public void MoveToScene()
     {
-        Debug.Log(nextSceneSpawnLocationName);
         LevelManager.Instance.LoadNextActiveScene(nextSceneName, nextSceneSpawnLocationName);
     }
 }
