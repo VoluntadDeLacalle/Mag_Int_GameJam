@@ -66,6 +66,7 @@ public class PanelComponentFade : MonoBehaviour
         }
 
         OnFadeFinished?.Invoke();
+        OnFadeFinished?.RemoveAllListeners();
     }
 
     IEnumerator DoSpecialFade(float start, float end)

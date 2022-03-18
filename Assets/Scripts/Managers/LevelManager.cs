@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelSpawnPoints
 {
     public string fromSceneName = "";
+    public string currentSpawnName = "";
     public Transform spawnPoint = null;
 }
 
@@ -42,6 +43,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 
         List<LevelSpawnPoints> tempSpawnPoints = saveData.spawnPoints;
         Transform tempPlayerLocation = saveData.lastPlayerTransform;
+
         if(true)
         {
             if (tempPlayerLocation.position != playerSpawnPointInitialGO.transform.position || 
@@ -116,8 +118,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
             int index = -1;
             for (int i = 0; i < levelSpawnPoints.Count; i++)
             {
-                if (lastSceneName == levelSpawnPoints[i].fromSceneName)
+                if (lastSceneName == levelSpawnPoints[i].fromSceneName
+                    && levelSpawnPoints[i].currentSpawnName == GameManager.Instance.GetSpawnLocationName())
                 {
+                    Debug.Log("work");
                     index = i;
                     break;
                 }
@@ -184,10 +188,11 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         playerSpawnLocation.rotation = Player.Instance.origin.rotation;
     }
 
-    public void LoadNextActiveScene(string sceneName)
+    public void LoadNextActiveScene(string sceneName, string nextSceneSpawnLocationName)
     {
         Time.timeScale = 1.0f;
         //UnloadScene(sceneName);
+        GameManager.Instance.SetNextSpawnLocationName(nextSceneSpawnLocationName);
 
         ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
