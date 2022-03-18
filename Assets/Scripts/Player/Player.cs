@@ -58,7 +58,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     private bool ragdollCheck = false;
     private bool resetRagdoll = false;
     private bool resetCameraHeight = false;
-    private bool exploded = false;
     private float ragdollTimer = 2f;
 
     private float originalCameraHeight;
@@ -167,7 +166,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         if (itemHandler.GetEquippedItem())
         {
             health.OnHealthDepleated.AddListener(delegate { itemHandler.GetEquippedItem().gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce / 4, explosionPosition, explosionRadius, 0.0f, ForceMode.Impulse); });
-            exploded = true;
         }
     }
 

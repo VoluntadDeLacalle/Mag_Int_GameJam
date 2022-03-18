@@ -48,17 +48,17 @@ public class PowerEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 batteryCheck.ShouldDrainBattery(false);
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
         {
             if (batteryCheck != null)
             {

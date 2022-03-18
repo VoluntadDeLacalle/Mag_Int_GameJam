@@ -23,7 +23,7 @@ public class GrabberEffector : Item
     {
         if (currentAttachedObj == null)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
             {
                 TryGrab();
 
@@ -39,7 +39,7 @@ public class GrabberEffector : Item
         }
         else
         {
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
             {
                 DropCurrentObj();
             }
@@ -118,7 +118,11 @@ public class GrabberEffector : Item
         if (tempJunker != null)
         {
             Physics.IgnoreCollision(tempJunker.primaryCollider, Player.Instance.primaryCollider, false);
-            Destroy(tempJunker.gameObject.GetComponent<FixedJoint>());
+            Vector3 junkerForce = Vector3.Cross(tempJunker.GetComponent<FixedJoint>().currentTorque, tempJunker.GetComponent<FixedJoint>().currentForce);
+            Destroy(tempJunker.GetComponent<FixedJoint>());
+
+            tempJunker.GetComponent<Rigidbody>().mass = currentAttachedMass;
+            tempJunker.GetComponent<Rigidbody>().AddForce(junkerForce * (currentAttachedMass / 4), ForceMode.Impulse);
 
             tempJunker.junkerScoop.scoopCollider.enabled = true;
             tempJunker.primaryRigidbody.mass = currentAttachedMass;
@@ -130,9 +134,11 @@ public class GrabberEffector : Item
         }
 
         Physics.IgnoreCollision(currentAttachedObj.GetComponent<Collider>(), Player.Instance.primaryCollider, false);
+        Vector3 force = Vector3.Cross(currentAttachedObj.GetComponent<FixedJoint>().currentTorque, currentAttachedObj.GetComponent<FixedJoint>().currentForce);
         Destroy(currentAttachedObj.GetComponent<FixedJoint>());
 
         currentAttachedObj.GetComponent<Rigidbody>().mass = currentAttachedMass;
+        currentAttachedObj.GetComponent<Rigidbody>().AddForce(force * (currentAttachedMass / 4), ForceMode.Impulse);
         currentAttachedMass = 0;
 
         GameObject tempGO = currentAttachedObj;
