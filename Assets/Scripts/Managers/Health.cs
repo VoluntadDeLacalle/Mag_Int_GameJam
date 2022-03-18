@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// Edited a script from https://github.com/aziztitu
 /// </summary>
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, ISaveable
 {
     public float maxHealth;
     public float currentHealth;
@@ -17,6 +17,34 @@ public class Health : MonoBehaviour
     [HideInInspector] public UnityEvent OnHealthRestored;
 
     private bool healthDepleted = false;
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            currentSavedHealth = currentHealth
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        if (saveData.currentSavedHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        else
+        {
+            currentHealth = saveData.currentSavedHealth;
+        }
+    }
+
+    [System.Serializable]
+    private struct SaveData
+    {
+        public float currentSavedHealth;
+    }
 
     private void Awake()
     {
@@ -53,6 +81,8 @@ public class Health : MonoBehaviour
             healthDepleted = false;
             OnHealthRestored?.Invoke();
         }
+
+        GameManager.Instance.SaveScene();
     }
 
     public void TakeDamage(float damage)

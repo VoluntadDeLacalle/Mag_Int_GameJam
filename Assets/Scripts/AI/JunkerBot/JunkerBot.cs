@@ -76,7 +76,6 @@ public class JunkerBot : MonoBehaviour
 
         
         shouldScoop = false;
-        Debug.Log("Stop Action before switch to patrol");
         stateMachine.switchState(JunkerStateMachine.StateType.Patrol);
 
         junkerScoop.SetPlayerInRange(false);
