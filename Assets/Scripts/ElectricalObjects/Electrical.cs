@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Electrical : MonoBehaviour
+public class Electrical : MonoBehaviour, ISaveable
 {
     [Header("Electrical Parent Class Variables")]
     public string electricalLayerName = "Electrical";
@@ -11,6 +11,27 @@ public class Electrical : MonoBehaviour
     public UnityEvent OnDeactived;
 
     protected bool isPowered = false;
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            poweredState = IsPowered()
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        SetIsPowered(saveData.poweredState);
+    }
+
+    [System.Serializable]
+    private struct SaveData
+    {
+        public bool poweredState;
+    }
 
     void Awake()
     {
@@ -34,6 +55,8 @@ public class Electrical : MonoBehaviour
         {
             OnDeactived?.Invoke();
         }
+
+        GameManager.Instance.SaveScene();
     }
 
     public bool IsPowered()
