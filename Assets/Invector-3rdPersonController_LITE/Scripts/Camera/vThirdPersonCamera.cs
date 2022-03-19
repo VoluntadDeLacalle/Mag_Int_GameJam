@@ -8,6 +8,7 @@ public class vThirdPersonCamera : MonoBehaviour
     public Transform target;
     [Tooltip("Lerp speed between Camera States")]
     public GameObject lerpTarget;
+    public float lerpSpeed = 5f;
     public float smoothCameraRotation = 12f;
     [Tooltip("What layer will be culled")]
     public LayerMask cullingLayer = 1 << 0;
@@ -22,7 +23,9 @@ public class vThirdPersonCamera : MonoBehaviour
     public float yMouseSensitivity = 3f;
     public float yMinLimit = -40f;
     public float yMaxLimit = 80f;
-    public float lerpSpeed = 5f;
+
+    private float lerpTimer = 0;
+    private float maxLerpTimer = 0;
 
     #endregion
 
@@ -86,6 +89,10 @@ public class vThirdPersonCamera : MonoBehaviour
 
         distance = defaultDistance;
         currentHeight = height;
+
+        lerpTimer = lerpSpeed * Time.deltaTime;
+        maxLerpTimer = lerpTimer;
+        lerpTimer = 0;
     }
 
     void FixedUpdate()
@@ -167,15 +174,45 @@ public class vThirdPersonCamera : MonoBehaviour
         desired_cPos = targetPos + new Vector3(0, height, 0);
 
         //insert conditional here for aiming
-        if (Input.GetMouseButton(1))
+        if (Player.Instance.anim.GetInteger("GripEnum") == 2)
         {
-            current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.deltaTime);
+            if (Input.GetMouseButtonDown(1))
+            {
+                lerpTimer = maxLerpTimer;
+            }
+            else if (Input.GetMouseButton(1))
+            {
+                current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.deltaTime);
+
+                lerpTimer -= Time.deltaTime;
+                if (lerpTimer <= 0)
+                {
+                    current_cPos = lerpTarget.transform.position;
+                }
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                if (lerpTimer <= 0)
+                {
+                    lerpTimer = maxLerpTimer;
+                }
+            }
+            else
+            {
+                current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.deltaTime);
+
+                lerpTimer -= Time.deltaTime;
+                if (lerpTimer <= 0)
+                {
+                    current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+                }
+            }
         }
         else
         {
-            current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.deltaTime);
-            //current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+            current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
         }
+        
         
         RaycastHit hitInfo;
 
