@@ -1,3 +1,4 @@
+using BasicTools.ButtonInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ public class LiquidDrain : MonoBehaviour, ISaveable
     public bool shouldDrain = false;
     public bool hasDrainedPrior = false;
     public float drainSpeed = 5f;
+
+    [Header("Debugging Buttons")]
+    [Button("Drain Oil", "StartDraining")]
+    [SerializeField] private bool _btnDrain;
 
     public object CaptureState()
     {
