@@ -7,6 +7,7 @@ public class vThirdPersonCamera : MonoBehaviour
 
     public Transform target;
     [Tooltip("Lerp speed between Camera States")]
+    public GameObject lerpTarget;
     public float smoothCameraRotation = 12f;
     [Tooltip("What layer will be culled")]
     public LayerMask cullingLayer = 1 << 0;
@@ -21,6 +22,7 @@ public class vThirdPersonCamera : MonoBehaviour
     public float yMouseSensitivity = 3f;
     public float yMinLimit = -40f;
     public float yMaxLimit = 80f;
+    public float lerpSpeed = 5f;
 
     #endregion
 
@@ -57,6 +59,8 @@ public class vThirdPersonCamera : MonoBehaviour
     private float cullingMinDist = 0.1f;
 
     #endregion
+
+    
 
     void Start()
     {
@@ -161,7 +165,18 @@ public class vThirdPersonCamera : MonoBehaviour
         var targetPos = new Vector3(currentTarget.position.x, currentTarget.position.y + offSetPlayerPivot, currentTarget.position.z);
         currentTargetPos = targetPos;
         desired_cPos = targetPos + new Vector3(0, height, 0);
-        current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+
+        //insert conditional here for aiming
+        if (Input.GetMouseButton(1))
+        {
+            current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.deltaTime);
+            //current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+        }
+        
         RaycastHit hitInfo;
 
         ClipPlanePoints planePoints = _camera.NearClipPlanePoints(current_cPos + (camDir * (distance)), clipPlaneMargin);
