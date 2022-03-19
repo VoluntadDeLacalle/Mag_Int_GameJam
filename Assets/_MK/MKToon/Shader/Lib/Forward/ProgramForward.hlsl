@@ -129,7 +129,7 @@
 		#endif
 	}
 
-	///Stealth Delcarations
+	/*//Stealth Delcarations
 	float3 _StealthCenter;
 	float _StealthRadius;
 	float _StealthOpacity;
@@ -149,7 +149,7 @@
 			uint index = (uint(uv.x) % 4) * 4 + uint(uv.y) % 4;
 			Out = In - DITHER_THRESHOLDS[index];
 		}
-	///End Stealth Declarations
+	///End Stealth Declarations*/
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// FRAGMENT SHADER
@@ -176,7 +176,7 @@
 			PASS_FLIPBOOK_UV_ARG(vertexOutput.flipbookUV)
 		);
 
-		///Gavin Stuff starts here
+		/*//Gavin Stuff starts here
 		float4 tempColor = _AlbedoColor;
 		float3 tempCenter = _StealthCenter;
 		float3 tempWorldPos = vertexOutput.positionWorld.xyz;
@@ -189,7 +189,7 @@
 			tempScreenPos = vertexOutput.positionClip;
 		#endif
 		#ifdef MK_POS_NULL_CLIP
-			tempScreenPos = vertexOutput.positionClip;
+			tempScreenPos = vertexOutput.nullClip;
 		#endif
 		tempScreenPos = tempScreenPos / _StealthDitherSize;
 		float ditherResult;
@@ -201,16 +201,16 @@
 		float ditherOutput = predicate ? 1 : ditherResult;
 
 		tempColor.xyz = tempColor.xyz * mainColorOutput;
-		tempColor.a = alphaOutput;
+		tempColor.a = alphaOutput * tempColor.a;
 		float4 tempEmission = _StealthEmission * emissionOutput;
 		#ifdef MK_EMISSION	
 			tempColor.xyz = tempColor.xyz + tempEmission.xyz;
 		#endif
 		//tempColor.a = tempColor.a * ditherOutput;
-		///Gavin Stuff ends here
+		///Gavin Stuff ends here*/
 
 		
-		Surface surface = InitSurface(surfaceData, PASS_TEXTURE_2D(_AlbedoMap, SAMPLER_REPEAT_MAIN), tempColor);
+		Surface surface = InitSurface(surfaceData, PASS_TEXTURE_2D(_AlbedoMap, SAMPLER_REPEAT_MAIN), _AlbedoColor);
 		MKPBSData pbsData = ComputePBSData(surface, surfaceData);
 
 		#ifdef MK_LIT
@@ -244,7 +244,7 @@
 		//Finalize the output
 		Composite(surface, surfaceData, pbsData);
 
-		surface.final.a = tempColor.a;
+		//surface.final.a = tempColor.a;
 
 		return surface.final;
 	}

@@ -190,7 +190,7 @@ Shader "MK/Toon/URP/Standard/Physically Based + Outline"
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
+		Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		// FORWARD BASE

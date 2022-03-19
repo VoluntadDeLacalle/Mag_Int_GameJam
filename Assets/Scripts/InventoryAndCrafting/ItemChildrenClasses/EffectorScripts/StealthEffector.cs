@@ -20,12 +20,12 @@ public class StealthEffector : Item
 
     void Awake()
     {
-        for (int i = 0; i < stealthMats.Count; i++)
-        {
-            stealthMats[i].SetFloat("_StealthRadius", currentRadius);
-            stealthMats[i].SetVector("_StealthCenter", stealthRadiusObj.transform.position);
-            stealthMats[i].renderQueue = 3000;
-        }
+        //for (int i = 0; i < stealthMats.Count; i++)
+        //{
+        //    stealthMats[i].SetFloat("_StealthRadius", currentRadius);
+        //    stealthMats[i].SetVector("_StealthCenter", stealthRadiusObj.transform.position);
+        //    stealthMats[i].renderQueue = 3000;
+        //}
 
         originalMaxRadius = maxRadius;
     }
@@ -70,8 +70,8 @@ public class StealthEffector : Item
 
             for (int i = 0; i < stealthMats.Count; i++)
             {
-                stealthMats[i].SetFloat("_StealthRadius", 0);
-                stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
+                //stealthMats[i].SetFloat("_StealthRadius", 0);
+                //stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
             }
         }
     }
@@ -89,8 +89,8 @@ public class StealthEffector : Item
 
         for (int i = 0; i < stealthMats.Count; i++)
         {
-            stealthMats[i].SetFloat("_StealthRadius", 0);
-            stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
+            //stealthMats[i].SetFloat("_StealthRadius", 0);
+            //stealthMats[i].SetVector("_StealthCenter", Vector3.zero);
         }
     }
 
