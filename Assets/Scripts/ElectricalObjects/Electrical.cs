@@ -24,7 +24,7 @@ public class Electrical : MonoBehaviour, ISaveable
     {
         var saveData = (SaveData)state;
 
-        SetIsPowered(saveData.poweredState);
+        SetIsPowered(saveData.poweredState, true);
     }
 
     [System.Serializable]
@@ -43,7 +43,7 @@ public class Electrical : MonoBehaviour, ISaveable
         }
     }
 
-    public void SetIsPowered(bool shouldPower)
+    public void SetIsPowered(bool shouldPower, bool onSceneLoad = false)
     {
         isPowered = shouldPower;
 
@@ -56,7 +56,10 @@ public class Electrical : MonoBehaviour, ISaveable
             OnDeactived?.Invoke();
         }
 
-        GameManager.Instance.SaveScene();
+        if (!onSceneLoad)
+        {
+            GameManager.Instance.SaveScene();
+        }
     }
 
     public bool IsPowered()

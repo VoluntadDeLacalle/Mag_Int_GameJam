@@ -120,6 +120,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         {
             if (sceneNames[i] == SceneManager.GetActiveScene().name)
             {
+                Debug.Log(sceneNames[i]);
                 currentSavedScene = i;
                 break;
             }
@@ -169,7 +170,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     private void Update()
     {
-        Debug.Log(nextSceneSpawnLocationName);
+        //Debug.Log(nextSceneSpawnLocationName);
     }
 
     //private void OnApplicationQuit()

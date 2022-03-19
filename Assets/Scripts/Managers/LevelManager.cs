@@ -113,6 +113,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     void Start()
     {
         string lastSceneName = GameManager.Instance.GetLastSavedScene();
+        Debug.Log("Last Scene: " + lastSceneName + ", Current Scene: " + SceneManager.GetActiveScene().name);
         if (SceneManager.GetActiveScene().name != lastSceneName)
         {
             int index = -1;
@@ -121,6 +122,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
                 if (lastSceneName == levelSpawnPoints[i].fromSceneName
                     && levelSpawnPoints[i].currentSpawnName == GameManager.Instance.GetSpawnLocationName())
                 {
+                    Debug.Log("True");
                     index = i;
                     break;
                 }
