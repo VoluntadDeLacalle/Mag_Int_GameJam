@@ -167,6 +167,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         }
     }
 
+    private void Update()
+    {
+        Debug.Log(nextSceneSpawnLocationName);
+    }
+
     //private void OnApplicationQuit()
     //{
     //    if (Application.isEditor)

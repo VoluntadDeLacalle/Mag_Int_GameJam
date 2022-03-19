@@ -48,7 +48,7 @@
 		#endif
 
 		///Stealth stuff
-		vertexOutput.positionWorld.xyz = ComputeObjectToWorldSpace(VERTEX_INPUT.vertex.xyz);
+		//vertexOutput.positionWorld.xyz = ComputeObjectToWorldSpace(VERTEX_INPUT.vertex.xyz);
 		///End of Stealth stuff
 
 		#if defined(MK_OUTLINE_HULL_ORIGIN)
@@ -115,7 +115,7 @@
 		return vertexOutput;
 	}
 
-	///Stealth Delcarations
+	/*Stealth Delcarations
 	float3 _StealthCenter;
 	float _StealthRadius;
 	float _StealthOpacity;
@@ -135,7 +135,7 @@
 			uint index = (uint(uv.x) % 4) * 4 + uint(uv.y) % 4;
 			Out = In - DITHER_THRESHOLDS[index];
 		}
-	///End Stealth Declarations
+	///End Stealth Declarations */
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// FRAGMENT SHADER
@@ -162,7 +162,7 @@
 			PASS_FLIPBOOK_UV_ARG(vertexOutput.flipbookUV)
 		);
 
-		///Gavin Stuff starts here
+		/*Gavin Stuff starts here
 		float4 tempColor = _AlbedoColor;
 		float3 tempCenter = _StealthCenter;
 		float3 tempWorldPos = vertexOutput.positionWorld.xyz;
@@ -190,14 +190,14 @@
 		tempColor.a = alphaOutput;
 		float4 tempEmission = _StealthEmission * emissionOutput;
 		//tempColor.a = tempColor.a * ditherOutput;
-		///Gavin Stuff ends here
+		///Gavin Stuff ends here */
 
 		Surface surface = InitSurface(surfaceData, PASS_TEXTURE_2D(_AlbedoMap, SAMPLER_REPEAT_MAIN), autoLP4(_OutlineColor.rgb, _AlbedoColor.a));
 		MKPBSData pbsData = ComputePBSData(surface, surfaceData);
 		Composite(surface, surfaceData, pbsData);
 
-		surface.final.xyz = surface.final.xyz + tempEmission.xyz;
-		surface.final.a = tempColor.a;
+		//surface.final.xyz = surface.final.xyz + tempEmission.xyz;
+		//surface.final.a = tempColor.a;
 
 		return surface.final;
 	}
