@@ -9,18 +9,17 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Pole Grip Mat
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
-  m_ShaderKeywords: _ALPHACLIPPING_ON _FRESNELHIGHLIGHTS_ON _MK_ALBEDO_MAP _MK_ALPHA_CLIPPING
-    _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_BLEND_CUSTOM _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
-    _MK_FRESNEL_HIGHLIGHTS _MK_LIGHT_CEL _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_PBS_MAP_0
-    _MK_RECEIVE_SHADOWS _MK_SPECULAR_ISOTROPIC _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON
-    _WRAPPEDLIGHTING_ON
+  m_ShaderKeywords: _FRESNELHIGHLIGHTS_ON _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+    _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_FRESNEL_HIGHLIGHTS
+    _MK_LIGHT_CEL _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_PBS_MAP_0 _MK_RECEIVE_SHADOWS
+    _MK_SPECULAR_ISOTROPIC _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    IGNOREPROJECTOR: true
-    RenderType: TransparentCutout
+    IGNOREPROJECTOR: False
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -184,15 +183,15 @@ Material:
     m_Floats:
     - _AdvancedTab: 0
     - _AlphaClip: 0
-    - _AlphaClipping: 1
+    - _AlphaClipping: 0
     - _AlphaCutoff: 0.01
     - _Anisotropy: 0
     - _Artistic: 0
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 1
-    - _Blend: 4
-    - _BlendDst: 10
-    - _BlendSrc: 5
+    - _Blend: 0
+    - _BlendDst: 0
+    - _BlendSrc: 1
     - _Brightness: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
