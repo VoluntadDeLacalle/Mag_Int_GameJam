@@ -5,12 +5,17 @@ using UnityEngine;
 [Serializable]
 public class PowerEffector : Item
 {
+    [Header("Power Specific Variables")]
     public float maxDistance = 5;
     private float currentDistance = 0;
     public float beamGrowTime = 0.5f;
-    public float raycastRadius = 0.2f;
     public Transform shotTransform;
+    
+    [Header("Juice Variables")]
     public LineRenderer lineRenderer;
+    public GameObject baseBeam;
+    public GameObject collisionBeam;
+    public GameObject sparks;
 
     private float originalMaxDistance = 0;
     private float collidedDistance = 0;
@@ -24,12 +29,6 @@ public class PowerEffector : Item
     {
         originalMaxDistance = maxDistance;
         lineRenderer.enabled = true;
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.black;
-        //Gizmos.DrawRay(currentRay);
     }
 
     public override void Activate()
@@ -64,8 +63,25 @@ public class PowerEffector : Item
             {
                 if (batteryCheck.GetCurrentFill() == 0)
                 {
+                    if (collisionBeam.activeSelf)
+                    {
+                        collisionBeam.SetActive(false);
+                    }
+
+                    if (sparks.activeSelf)
+                    {
+                        sparks.SetActive(false);
+                    }
+
+                    hasCollided = false;
+
                     return;
                 }
+            }
+
+            if (!baseBeam.activeSelf)
+            {
+                baseBeam.SetActive(true);
             }
 
             if (QuestManager.Instance.IsCurrentQuestActive())
@@ -79,6 +95,17 @@ public class PowerEffector : Item
 
             if (!hasCollided)
             {
+                if (collisionBeam.activeSelf)
+                {
+                    Debug.Log("Turned off");
+                    collisionBeam.SetActive(false);
+                }
+
+                if (sparks.activeSelf)
+                {
+                    sparks.SetActive(false);
+                }
+
                 if (currentDistance < maxDistance - 0.1f)
                 {
                     currentDistance = Mathf.Lerp(currentDistance, maxDistance, beamGrowTime * Time.deltaTime);
@@ -90,18 +117,24 @@ public class PowerEffector : Item
             }
             else
             {
-                if (currentDistance < collidedDistance - 0.1f)
-                {
-                    currentDistance = Mathf.Lerp(currentDistance, collidedDistance, beamGrowTime * Time.deltaTime);
-                    SetBeamDistance(currentDistance);
-                    return;
-                }
                 currentDistance = collidedDistance;
-                SetBeamDistance(collidedDistance);
+                SetBeamDistance(currentDistance);
             }
         }
         else
         {
+            if (collisionBeam.activeSelf)
+            {
+                collisionBeam.SetActive(false);
+            }
+
+            if (sparks.activeSelf)
+            {
+                sparks.SetActive(false);
+            }
+
+            hasCollided = false;
+
             if (currentDistance > 0.1f)
             {
                 currentDistance = Mathf.Lerp(currentDistance, 0, beamGrowTime * Time.deltaTime);
@@ -110,6 +143,11 @@ public class PowerEffector : Item
             }
             currentDistance = 0;
             SetBeamDistance(0.0f);
+
+            if (baseBeam.activeSelf)
+            {
+                baseBeam.SetActive(false);
+            }
         }
     }
 
@@ -117,9 +155,7 @@ public class PowerEffector : Item
     {
         UpdatePowerDetection(shotTransform.position, (shotTransform.position - transform.position).normalized);
 
-        Vector3 endPoint = currentRay.origin + currentRay.direction;
-
-        Vector3[] positions = { shotTransform.position, shotTransform.position - (shotTransform.position - endPoint) * dist };
+        Vector3[] positions = { shotTransform.position, shotTransform.position + (shotTransform.position - transform.position).normalized * dist };
         lineRenderer.SetPositions(positions);
     }
 
@@ -129,7 +165,17 @@ public class PowerEffector : Item
         currentRay = currentShot;
 
         RaycastHit hitInfo;
-        if (Physics.SphereCast(currentShot, raycastRadius, out hitInfo, currentDistance)) 
+        bool raycast;
+        if (hasCollided)
+        {
+            raycast = Physics.Raycast(currentShot, out hitInfo, collidedDistance);
+        }
+        else
+        {
+            raycast = Physics.Raycast(currentShot, out hitInfo, currentDistance);
+        }
+
+        if (raycast) 
         {
             hasCollided = true;
             collidedDistance = hitInfo.distance + 0.1f;
@@ -139,6 +185,19 @@ public class PowerEffector : Item
             {
                 effectorActions.PowerEffectorAction();
             }
+
+            if (!collisionBeam.activeSelf)
+            {
+                collisionBeam.SetActive(true);
+            }
+
+            if (!sparks.activeSelf)
+            {
+                sparks.SetActive(true);
+            }
+
+            collisionBeam.transform.position = hitInfo.point;
+            sparks.transform.position = hitInfo.point;
         }
         else
         {
@@ -146,7 +205,6 @@ public class PowerEffector : Item
             if (collidersInRange.Length > 0 && Input.GetMouseButton(0)
                 && collidersInRange[0].gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
-                Debug.Log("Colliding");
 
                 hasCollided = true;
                 collidedDistance = currentDistance;
@@ -175,6 +233,11 @@ public class PowerEffector : Item
         }
         currentDistance = 0;
         SetBeamDistance(0.0f);
+
+        if (baseBeam.activeSelf)
+        {
+            baseBeam.SetActive(false);
+        }
     }
 
     public override void ModifyComponent(ModifierItem.ModifierType modifierType)
@@ -250,5 +313,7 @@ public class PowerEffector : Item
                 UpdateBeamNotAlive();
             }
         }
+
+        Debug.Log(currentDistance);
     }
 }
