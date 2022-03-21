@@ -13,6 +13,7 @@ public class vThirdPersonCamera : MonoBehaviour
     public float smoothCameraRotation = 12f;
     [Tooltip("What layer will be culled")]
     public LayerMask cullingLayer = 1 << 0;
+    public float playerAimCullingDistance = 1.5f;
     [Tooltip("Debug purposes, lock the camera behind the character for better align the states")]
     public bool lockCamera;
 
@@ -25,10 +26,12 @@ public class vThirdPersonCamera : MonoBehaviour
     public float yMinLimit = -40f;
     public float yMaxLimit = 80f;
 
+    private AimTargetAssist aimAssist;
+
     private float lerpTimer = 0;
     private float maxLerpTimer = 0;
     private bool shouldMove = false;
-    private float frameSpamLimiter = 0;
+    private bool playerRaycastBool = false;
 
     #endregion
 
@@ -93,6 +96,8 @@ public class vThirdPersonCamera : MonoBehaviour
         distance = defaultDistance;
         currentHeight = height;
 
+        aimAssist = GetComponent<AimTargetAssist>();
+
         lerpTimer = lerpSpeed * Time.deltaTime;
         maxLerpTimer = lerpTimer;
         lerpTimer = 0;
@@ -122,6 +127,18 @@ public class vThirdPersonCamera : MonoBehaviour
         {
             yMinLimit = -40;
             yMaxLimit = 80;
+        }
+
+        Vector3 playerRaycastOrigin = Player.Instance.itemHandler.itemDetection.pickupTransform.position;
+        Vector3 playerRaycastDir = (aimAssist.aimTargetObj.transform.position - playerRaycastOrigin).normalized;
+
+        if (!playerRaycastBool)
+        {
+            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, playerAimCullingDistance, LayerMask.NameToLayer("Player"));
+        }
+        else
+        {
+            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, playerAimCullingDistance + 0.5f, LayerMask.NameToLayer("Player"));
         }
     }
 
@@ -185,6 +202,21 @@ public class vThirdPersonCamera : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (Player.Instance == null)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.magenta;
+
+        Vector3 playerRaycastOrigin = Player.Instance.itemHandler.itemDetection.pickupTransform.position;
+        Vector3 playerRaycastDir = (aimAssist.aimTargetObj.transform.position - playerRaycastOrigin).normalized;
+        Ray playerCollisionRay = new Ray(playerRaycastOrigin, Player.Instance.transform.forward);
+        Gizmos.DrawLine(playerRaycastOrigin, playerRaycastOrigin + playerRaycastDir * playerAimCullingDistance);
+    }
+
     void LerpCamera()
     {
         if (Player.Instance.anim.GetInteger("GripEnum") == 2)
@@ -231,19 +263,28 @@ public class vThirdPersonCamera : MonoBehaviour
         camDir = camDir.normalized;
 
         Vector3 targetPos;
-        if (!shouldMove)
+        if (!shouldMove || playerRaycastBool)
         {
             targetPos = new Vector3(currentTarget.position.x, currentTarget.position.y + offSetPlayerPivot, currentTarget.position.z);
         }
         else
         {
-            targetPos = new Vector3(lerpTarget.transform.position.x, lerpTarget.transform.position.y + offSetPlayerPivot, lerpTarget.transform.position.z);
+            Vector3 tempTargetPos = currentTarget.position + lerpTarget.transform.position;
+            targetPos = new Vector3(tempTargetPos.x, tempTargetPos.y + offSetPlayerPivot, tempTargetPos.z);
         }
         
         currentTargetPos = targetPos;
         desired_cPos = targetPos + new Vector3(0, height, 0);
 
-        LerpCamera();
+        
+        if (playerRaycastBool)
+        {
+            current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+        }
+        else
+        {
+            LerpCamera();
+        }
         
         
         RaycastHit hitInfo;
