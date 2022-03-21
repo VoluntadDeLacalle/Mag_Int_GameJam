@@ -230,7 +230,16 @@ public class vThirdPersonCamera : MonoBehaviour
 
         camDir = camDir.normalized;
 
-        var targetPos = new Vector3(currentTarget.position.x, currentTarget.position.y + offSetPlayerPivot, currentTarget.position.z);
+        Vector3 targetPos;
+        if (!shouldMove)
+        {
+            targetPos = new Vector3(currentTarget.position.x, currentTarget.position.y + offSetPlayerPivot, currentTarget.position.z);
+        }
+        else
+        {
+            targetPos = new Vector3(lerpTarget.transform.position.x, lerpTarget.transform.position.y + offSetPlayerPivot, lerpTarget.transform.position.z);
+        }
+        
         currentTargetPos = targetPos;
         desired_cPos = targetPos + new Vector3(0, height, 0);
 

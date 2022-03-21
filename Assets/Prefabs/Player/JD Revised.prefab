@@ -14221,8 +14221,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3838745179044285136}
+  - component: {fileID: 2128365342112237401}
   m_Layer: 9
-  m_Name: lerpPos
+  m_Name: LerpPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14242,6 +14243,19 @@ Transform:
   m_Father: {fileID: 1018390873774750511}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2128365342112237401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502793193977895685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd33b30fc9f0d9e48b0363db7a464419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!1 &7400741575159274540
 GameObject:
   m_ObjectHideFlags: 0
@@ -14402,12 +14416,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db4097b20021a3642952143d934e1c92, type: 3}
---- !u!4 &1021534229902029518 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4286869954607192, guid: db4097b20021a3642952143d934e1c92,
-    type: 3}
-  m_PrefabInstance: {fileID: 1018390875151125142}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1132397039742236586 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114023759507881276, guid: db4097b20021a3642952143d934e1c92,
@@ -14420,6 +14428,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1446143d2dd8ec9418e07f18d96fadd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1021534229902029518 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4286869954607192, guid: db4097b20021a3642952143d934e1c92,
+    type: 3}
+  m_PrefabInstance: {fileID: 1018390875151125142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1436313701558595732
 PrefabInstance:
   m_ObjectHideFlags: 0
