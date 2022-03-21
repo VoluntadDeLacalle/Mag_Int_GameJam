@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5341651447662971007}
   - component: {fileID: 2236935686923787100}
   - component: {fileID: 3061757242201603946}
+  - component: {fileID: 1662530328174619066}
   m_Layer: 0
   m_Name: Scrap [TEST]
   m_TagString: Untagged
@@ -155,3 +156,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4989fe67-ef8a-4311-974a-eb5468efe001
   shouldCrossRef: 0
+--- !u!114 &1662530328174619066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341651447662970992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 1
+  rimColor: {r: 1, g: 0, b: 0.91448736, a: 0}
+  maxRimSize: 1.25
+  minRimSize: 5
+  pausePulseTimer: 2
+  pulseSpeed: 2

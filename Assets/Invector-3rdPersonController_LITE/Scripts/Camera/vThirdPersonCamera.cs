@@ -1,4 +1,5 @@
 ﻿using Invector;
+using System.Collections;
 using UnityEngine;
 
 public class vThirdPersonCamera : MonoBehaviour
@@ -26,6 +27,8 @@ public class vThirdPersonCamera : MonoBehaviour
 
     private float lerpTimer = 0;
     private float maxLerpTimer = 0;
+    private bool shouldMove = false;
+    private float frameSpamLimiter = 0;
 
     #endregion
 
@@ -95,6 +98,33 @@ public class vThirdPersonCamera : MonoBehaviour
         lerpTimer = 0;
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
+        {
+            shouldMove = !shouldMove;
+            lerpTimer = maxLerpTimer;
+
+            
+        }
+
+        if ((Input.GetMouseButton(1) && !shouldMove) || (!Input.GetMouseButton(1) && shouldMove))
+        {
+            shouldMove = !shouldMove;
+        }
+
+        if (shouldMove)
+        {
+            yMinLimit = -20;
+            yMaxLimit = 45;
+        }
+        else
+        {
+            yMinLimit = -40;
+            yMaxLimit = 80;
+        }
+    }
+
     void FixedUpdate()
     {
         if (target == null || targetLookAt == null) return;
@@ -155,6 +185,37 @@ public class vThirdPersonCamera : MonoBehaviour
         }
     }
 
+    void LerpCamera()
+    {
+        if (Player.Instance.anim.GetInteger("GripEnum") == 2)
+        {
+            if (shouldMove)
+            {
+                current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.fixedDeltaTime);
+
+                lerpTimer -= Time.deltaTime;
+                if (lerpTimer <= 0 || Vector3.Distance(current_cPos, lerpTarget.transform.position) < 0.05f)
+                {
+                    current_cPos = lerpTarget.transform.position;
+                }
+            }
+            else
+            {
+                current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.fixedDeltaTime);
+
+                lerpTimer -= Time.deltaTime;
+                if (lerpTimer <= 0 || Vector3.Distance(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0)) < 0.05f)
+                {
+                    current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+                }
+            }
+        }
+        else
+        {
+            current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
+        }
+    }
+
     /// <summary>
     /// Camera behaviour
     /// </summary>    
@@ -173,45 +234,7 @@ public class vThirdPersonCamera : MonoBehaviour
         currentTargetPos = targetPos;
         desired_cPos = targetPos + new Vector3(0, height, 0);
 
-        //insert conditional here for aiming
-        if (Player.Instance.anim.GetInteger("GripEnum") == 2)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                lerpTimer = maxLerpTimer;
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.deltaTime);
-
-                lerpTimer -= Time.deltaTime;
-                if (lerpTimer <= 0)
-                {
-                    current_cPos = lerpTarget.transform.position;
-                }
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                if (lerpTimer <= 0)
-                {
-                    lerpTimer = maxLerpTimer;
-                }
-            }
-            else
-            {
-                current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.deltaTime);
-
-                lerpTimer -= Time.deltaTime;
-                if (lerpTimer <= 0)
-                {
-                    current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
-                }
-            }
-        }
-        else
-        {
-            current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);
-        }
+        LerpCamera();
         
         
         RaycastHit hitInfo;
