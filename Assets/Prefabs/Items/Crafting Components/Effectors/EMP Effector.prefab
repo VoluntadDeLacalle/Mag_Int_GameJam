@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 277203622749127327}
   - component: {fileID: 8810325434434881288}
   - component: {fileID: 2596858422946317559}
+  - component: {fileID: 7577544204700263601}
   m_Layer: 0
   m_Name: EMP Effector
   m_TagString: Untagged
@@ -275,6 +276,7 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   maxRadius: 5
   radiusGrowthTime: 1
   EMPRadiusObj: {fileID: 2551432859122333448}
@@ -322,6 +324,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: e4b4abbd-073b-4ed1-9e4f-0051c38789bf
   shouldCrossRef: 0
+--- !u!114 &7577544204700263601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349418763419235299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1 &3932378678705062470
 GameObject:
   m_ObjectHideFlags: 0

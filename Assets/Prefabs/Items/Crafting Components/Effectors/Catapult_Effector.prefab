@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 3795340867877432842}
   - component: {fileID: 8194488185966157769}
   - component: {fileID: 7795277433103204582}
+  - component: {fileID: 6677998943049693097}
   m_Layer: 0
   m_Name: Catapult_Effector
   m_TagString: Untagged
@@ -239,6 +240,7 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   catLauncher: {fileID: 6850780969025205451}
   amplifiedBulletThrust: 100
 --- !u!114 &6850780969025205451
@@ -307,6 +309,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5268dd0a-95e1-4823-a221-7b5219d8ec6c
   shouldCrossRef: 0
+--- !u!114 &6677998943049693097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5109041005396574715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1 &6954905439345086234
 GameObject:
   m_ObjectHideFlags: 0

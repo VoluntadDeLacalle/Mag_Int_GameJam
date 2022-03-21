@@ -163,9 +163,6 @@ public class Item : MonoBehaviour, ISaveable
 
     public bool interactableOnStart = true;
 
-    private ObjectPooler.Key interactionKey = ObjectPooler.Key.InteractionParticle;
-    private GameObject interactionParticle;
-
     #endregion
 
     #region Saveables
@@ -373,56 +370,17 @@ public class Item : MonoBehaviour, ISaveable
             chassisGripTransform.AddNewGripTransform(currentGripGameObject.GetComponent<Item>());
         }
     }
-
-    public void SpawnInteractable()
-    {
-        if (interactionParticle == null)
-        {
-            interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
-            interactionParticle.transform.position = transform.position;
-            interactionParticle.transform.rotation = transform.rotation;
-            interactionParticle.transform.localScale = transform.localScale * 2;
-            interactionParticle.transform.parent = gameObject.transform;
-            interactionParticle.SetActive(true);
-        }
-    }
     #endregion
 
     #region Monobehaviour Functions
     protected void Start()
     {
-        if ((!isObtained || !isEquipped) && interactableOnStart)
-        {
-            interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
-            interactionParticle.transform.position = transform.position;
-            interactionParticle.transform.rotation = transform.rotation;
-            interactionParticle.transform.localScale = transform.localScale * 2;
-            interactionParticle.transform.parent = gameObject.transform;
-            interactionParticle.SetActive(true);
-        }
+        Interactables interactable = GetComponent<Interactables>();
+        bool shouldPulse = ((!isObtained || !isEquipped) && interactableOnStart);
+
+        interactable.ShouldPulse(shouldPulse);
     }
 
-    protected void OnDisable()
-    {
-        if (interactionParticle != null)
-        {
-            interactionParticle.SetActive(false);
-
-            if (ObjectPooler.GetPooler(interactionKey) != null)
-            {
-                if (ObjectPooler.GetPooler(interactionKey).gameObject != null)
-                {
-                    if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().isLoaded)
-                    {
-                        GameObject temp = interactionParticle;
-                        temp.transform.parent = ObjectPooler.GetPooler(interactionKey).gameObject.transform;
-                    }
-                }
-            }
-
-            interactionParticle = null;
-        }
-    }
     #endregion
 
     #region Virtual Functions

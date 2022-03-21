@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6969511869206212065}
   - component: {fileID: 3037537322718732015}
   - component: {fileID: 1541304497435315140}
+  - component: {fileID: 5734086472101990186}
   m_Layer: 0
   m_Name: Chassis Lvl. 1
   m_TagString: Untagged
@@ -172,6 +173,7 @@ MonoBehaviour:
   - componentTransform: {fileID: 6955212821588163272}
   chassisGripTransform:
     gripTransform: {fileID: 741102308809108176}
+  interactableOnStart: 1
 --- !u!114 &1541304497435315140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +188,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3bef897e-7289-4999-960e-5cb43d5cb9e9
   shouldCrossRef: 0
+--- !u!114 &5734086472101990186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517475959782425465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1 &4718765319688027001
 GameObject:
   m_ObjectHideFlags: 0

@@ -313,7 +313,5 @@ public class PowerEffector : Item
                 UpdateBeamNotAlive();
             }
         }
-
-        Debug.Log(currentDistance);
     }
 }

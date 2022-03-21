@@ -120,7 +120,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         {
             if (sceneNames[i] == SceneManager.GetActiveScene().name)
             {
-                Debug.Log(sceneNames[i]);
+                //Debug.Log(sceneNames[i]);
                 currentSavedScene = i;
                 break;
             }

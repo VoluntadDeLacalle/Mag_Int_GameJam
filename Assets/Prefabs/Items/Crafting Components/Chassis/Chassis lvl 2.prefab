@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7248374308797228949}
   - component: {fileID: 8770009134334407828}
   - component: {fileID: 6668805804073402923}
+  - component: {fileID: 3997382184629178008}
   m_Layer: 0
   m_Name: Chassis lvl 2
   m_TagString: Untagged
@@ -115,6 +116,7 @@ MonoBehaviour:
   - componentTransform: {fileID: 3586494554635558187}
   chassisGripTransform:
     gripTransform: {fileID: 3815401242111434679}
+  interactableOnStart: 1
 --- !u!65 &7248374308797228949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -158,6 +160,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 98ba6361-c386-41f9-9955-4f6f673d4b98
   shouldCrossRef: 0
+--- !u!114 &3997382184629178008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743427729513621986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1 &6434050501037188977
 GameObject:
   m_ObjectHideFlags: 0

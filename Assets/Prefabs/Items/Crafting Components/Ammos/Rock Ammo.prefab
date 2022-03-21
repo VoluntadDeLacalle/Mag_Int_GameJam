@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 5287263839314278241}
   - component: {fileID: 4739648838314446053}
   - component: {fileID: 5016976737963119849}
+  - component: {fileID: 4888638666166880286}
   m_Layer: 0
   m_Name: Rock Ammo
   m_TagString: Untagged
@@ -182,6 +183,7 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   ammoPrefabKey: 4
   spawnTransform: {fileID: 8897711918403504472}
   juiceGameObjects:
@@ -239,6 +241,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0f7f5878-3735-4193-ba94-86c2ada3d85c
   shouldCrossRef: 0
+--- !u!114 &4888638666166880286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4739648838314446072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1001 &1294143520907804098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -707,15 +727,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de8cd134696fd0b40831d7835c707f70, type: 3}
---- !u!4 &4031893668756638997 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8982536545135481920, guid: de8cd134696fd0b40831d7835c707f70,
-    type: 3}
-  m_PrefabInstance: {fileID: 5430295014563453269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4031893668756638995 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8982536545135481926, guid: de8cd134696fd0b40831d7835c707f70,
+    type: 3}
+  m_PrefabInstance: {fileID: 5430295014563453269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4031893668756638997 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8982536545135481920, guid: de8cd134696fd0b40831d7835c707f70,
     type: 3}
   m_PrefabInstance: {fileID: 5430295014563453269}
   m_PrefabAsset: {fileID: 0}
@@ -995,15 +1015,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de8cd134696fd0b40831d7835c707f70, type: 3}
---- !u!1 &2403004830121562038 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8982536545135481926, guid: de8cd134696fd0b40831d7835c707f70,
-    type: 3}
-  m_PrefabInstance: {fileID: 6769281102817418224}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2403004830121562032 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8982536545135481920, guid: de8cd134696fd0b40831d7835c707f70,
+    type: 3}
+  m_PrefabInstance: {fileID: 6769281102817418224}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2403004830121562038 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8982536545135481926, guid: de8cd134696fd0b40831d7835c707f70,
     type: 3}
   m_PrefabInstance: {fileID: 6769281102817418224}
   m_PrefabAsset: {fileID: 0}

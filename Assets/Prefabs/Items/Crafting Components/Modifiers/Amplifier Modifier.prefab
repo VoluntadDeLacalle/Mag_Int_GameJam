@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7599902804946415086}
   - component: {fileID: 8271129706576324406}
   - component: {fileID: 4173124271454156444}
+  - component: {fileID: 1077460286418754166}
   m_Layer: 0
   m_Name: Amplifier Modifier
   m_TagString: Untagged
@@ -110,6 +111,7 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   modifierType: 0
 --- !u!65 &7599902804946415086
 BoxCollider:
@@ -154,3 +156,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3deed898-269d-4826-94fc-53aab6672857
   shouldCrossRef: 0
+--- !u!114 &1077460286418754166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8271129706576324401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2

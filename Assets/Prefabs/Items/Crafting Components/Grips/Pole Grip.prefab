@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1129399706590503680}
   - component: {fileID: 7826866020923807220}
   - component: {fileID: 1420696916553759136}
+  - component: {fileID: 1792905981114008188}
   m_Layer: 0
   m_Name: Pole Grip
   m_TagString: Untagged
@@ -110,6 +111,7 @@ MonoBehaviour:
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
+  interactableOnStart: 1
   gripType: 2
 --- !u!54 &1129399706590503680
 Rigidbody:
@@ -154,3 +156,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 85d31291-c81c-455e-9e19-5b512f5aa7d3
   shouldCrossRef: 0
+--- !u!114 &1792905981114008188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652268627475117329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2

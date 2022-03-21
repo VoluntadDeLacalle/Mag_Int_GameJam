@@ -98,9 +98,7 @@ public class JunkerStateMachine : MonoBehaviour
                 junker.nav.speed = junker.behavior.patrolSpeed;
                 junker.behavior.StartPatrolling();
 
-                junker.shouldChangeColor = true;
-                junker.targetColor = junker.neutralEyeColor;
-                junker.colorChangeTimer = junker.maxColorChangeTimer + 0.25f;
+                junker.ChangeEmissionColor(junker.neutralEyeColor);
 
                 break;
             case StateType.Act:
@@ -112,9 +110,7 @@ public class JunkerStateMachine : MonoBehaviour
                 junker.nav.speed = junker.behavior.chaseSpeed;
                 junker.behavior.SetLastKnowPosition(Player.Instance.transform.position);
 
-                junker.shouldChangeColor = true;
-                junker.targetColor = junker.aggresiveEyeColor;
-                junker.colorChangeTimer = junker.maxColorChangeTimer + 0.25f;
+                junker.ChangeEmissionColor(junker.aggresiveEyeColor);
 
                 if (!junker.junkerFOV.FindPlayer())
                 {
@@ -124,9 +120,7 @@ public class JunkerStateMachine : MonoBehaviour
             case StateType.Disabled:
                 junker.behavior.Disable();
 
-                junker.shouldChangeColor = true;
-                junker.targetColor = junker.disabledEyeColor;
-                junker.colorChangeTimer = junker.maxColorChangeTimer + 0.25f;
+                junker.ChangeEmissionColor(junker.disabledEyeColor);
                 break;
         }
     }

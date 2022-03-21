@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5272148457308298235}
   - component: {fileID: 1359011765174645727}
   - component: {fileID: 5210208393671956296}
+  - component: {fileID: 3898710564543331624}
   m_Layer: 0
   m_Name: GrabberEffector
   m_TagString: Untagged
@@ -191,3 +192,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 527c2dfa-bcd1-451c-afa8-fce4e54f0dc3
   shouldCrossRef: 0
+--- !u!114 &3898710564543331624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359011765174645720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2

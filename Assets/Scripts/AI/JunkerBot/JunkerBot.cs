@@ -35,11 +35,7 @@ public class JunkerBot : MonoBehaviour
     public Color neutralEyeColor = Color.blue;
     public Color aggresiveEyeColor = Color.red;
     public Color disabledEyeColor = Color.black;
-    public float colorChangeTimer = 0f;
 
-    [HideInInspector] public bool shouldChangeColor = false;
-    [HideInInspector] public Color targetColor = Color.white;
-    [HideInInspector] public float maxColorChangeTimer = 0f;
     private Material currentMaterial;
 
     [Header("Debugging")]
@@ -57,7 +53,6 @@ public class JunkerBot : MonoBehaviour
     private void Awake()
     {
         maxDisabledTimer = disabledTimer;
-        maxColorChangeTimer = colorChangeTimer;
 
         currentMaterial = eyeRenderer.material;
 
@@ -142,22 +137,13 @@ public class JunkerBot : MonoBehaviour
         health.OnHealthDepleated.AddListener(Die);
     }
 
+    public void ChangeEmissionColor(Color targetColor)
+    {
+        currentMaterial.SetColor("_EmissionColor", targetColor);
+    }
+
     void Update()
     {
-        if (shouldChangeColor)
-        {
-            Color currentColor = currentMaterial.GetColor("_EmissionColor");
-            currentColor = Color.Lerp(currentColor, targetColor, maxColorChangeTimer * Time.deltaTime);
-            currentMaterial.SetColor("_EmissionColor", currentColor);
-
-            colorChangeTimer -= Time.deltaTime;
-            if (colorChangeTimer <= 0)
-            {
-                shouldChangeColor = false;
-                currentMaterial.SetColor("_EmissionColor", targetColor);
-            }
-        }
-
         if (isDead)
         {
             deathTimer -= Time.deltaTime;

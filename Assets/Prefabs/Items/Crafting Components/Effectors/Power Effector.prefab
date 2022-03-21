@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 7840012654974856565}
   - component: {fileID: 472697491067735557}
   - component: {fileID: 578203591148292745}
+  - component: {fileID: 8297506101472527048}
   m_Layer: 0
   m_Name: Power Effector
   m_TagString: Untagged
@@ -148,13 +149,11 @@ MonoBehaviour:
   interactableOnStart: 1
   maxDistance: 5
   beamGrowTime: 8
-  raycastRadius: 0.2
   shotTransform: {fileID: 3345018427162573523}
   lineRenderer: {fileID: 3092318643269192884}
   baseBeam: {fileID: 3092318644302582081}
   collisionBeam: {fileID: 3092318643311363021}
   sparks: {fileID: 3092318643493544307}
-  hasCollided: 0
   amplifiedMaxDistance: 10
 --- !u!114 &8140686091902465690
 MonoBehaviour:
@@ -213,6 +212,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7c33577c-771d-4d3e-91f8-a86a847afc4d
   shouldCrossRef: 0
+--- !u!114 &8297506101472527048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7752515112599629233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be427942ad0efef499d0eed0cf472c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPulse: 0
+  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  maxRimSize: 1.75
+  minRimSize: 5
+  pausePulseTimer: 0.5
+  pulseSpeed: 2
 --- !u!1001 &4665190562683835455
 PrefabInstance:
   m_ObjectHideFlags: 0

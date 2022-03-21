@@ -113,7 +113,8 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
     void Start()
     {
         string lastSceneName = GameManager.Instance.GetLastSavedScene();
-        Debug.Log("Last Scene: " + lastSceneName + ", Current Scene: " + SceneManager.GetActiveScene().name);
+        //Debug.Log("Last Scene: " + lastSceneName + ", Current Scene: " + SceneManager.GetActiveScene().name);
+        
         if (SceneManager.GetActiveScene().name != lastSceneName)
         {
             int index = -1;
