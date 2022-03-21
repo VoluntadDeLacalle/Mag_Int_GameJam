@@ -30,7 +30,7 @@ public class Health : MonoBehaviour, ISaveable
     {
         var saveData = (SaveData)state;
 
-        if (saveData.currentSavedHealth > maxHealth)
+        if (saveData.currentSavedHealth > maxHealth || saveData.currentSavedHealth == 0)
         {
             currentHealth = maxHealth;
         }
