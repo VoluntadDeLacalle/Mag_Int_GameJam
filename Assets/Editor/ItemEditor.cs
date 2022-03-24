@@ -9,6 +9,7 @@ public class ItemEditor : Editor
         type_Prop,
         name_Prop,
         description_Prop,
+        canPickUp_Prop,
         obtained_Prop,
         restored_Prop,
         scrapAmount_Prop,
@@ -25,6 +26,7 @@ public class ItemEditor : Editor
         type_Prop = serializedObject.FindProperty("itemType");
         name_Prop = serializedObject.FindProperty("itemName");
         description_Prop = serializedObject.FindProperty("description");
+        canPickUp_Prop = serializedObject.FindProperty("canPickUp");
         obtained_Prop = serializedObject.FindProperty("isObtained");
         restored_Prop = serializedObject.FindProperty("isRestored");
         scrapAmount_Prop = serializedObject.FindProperty("restorationScrapAmount");
@@ -57,6 +59,7 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.LabelField("Item State Information", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 EditorGUILayout.PropertyField(obtained_Prop, new GUIContent("Is Obtained"));
                 EditorGUILayout.PropertyField(restored_Prop, new GUIContent("Is Restored"));
                 EditorGUILayout.PropertyField(scrapAmount_Prop, new GUIContent("Restoration Scrap Amount"));
@@ -76,6 +79,7 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.LabelField("Item State Information", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 EditorGUILayout.PropertyField(obtained_Prop, new GUIContent("Is Obtained"));
                 EditorGUILayout.PropertyField(restored_Prop, new GUIContent("Is Restored"));
                 EditorGUILayout.PropertyField(scrapAmount_Prop, new GUIContent("Restoration Scrap Amount"));
@@ -90,6 +94,7 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.LabelField("Item State Information", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 EditorGUILayout.PropertyField(obtained_Prop, new GUIContent("Is Obtained"));
                 EditorGUILayout.PropertyField(restored_Prop, new GUIContent("Is Restored"));
                 EditorGUILayout.PropertyField(scrapAmount_Prop, new GUIContent("Restoration Scrap Amount"));
@@ -104,6 +109,7 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.LabelField("Item State Information", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 EditorGUILayout.PropertyField(obtained_Prop, new GUIContent("Is Obtained"));
                 EditorGUILayout.PropertyField(restored_Prop, new GUIContent("Is Restored"));
                 EditorGUILayout.PropertyField(scrapAmount_Prop, new GUIContent("Restoration Scrap Amount"));
@@ -118,6 +124,7 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.LabelField("Item State Information", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 EditorGUILayout.PropertyField(obtained_Prop, new GUIContent("Is Obtained"));
                 EditorGUILayout.PropertyField(restored_Prop, new GUIContent("Is Restored"));
                 EditorGUILayout.PropertyField(scrapAmount_Prop, new GUIContent("Restoration Scrap Amount"));
@@ -125,9 +132,11 @@ public class ItemEditor : Editor
                 break;
             case Item.TypeTag.scrap:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 break;
             case Item.TypeTag.external:
                 EditorGUILayout.PropertyField(name_Prop, new GUIContent("Item Name"));
+                EditorGUILayout.PropertyField(canPickUp_Prop, new GUIContent("Can Pick Up"));
                 break;
         }
 

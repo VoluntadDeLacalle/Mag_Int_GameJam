@@ -40,14 +40,14 @@ public class Pickup : MonoBehaviour
 
     void AddItemInRange(Item tempItem, GameObject otherGameObject)
     {
-        if (tempItem.isEquipped != true && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
+        if (tempItem.canPickUp && tempItem.isEquipped != true && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
         {
             if (!currentItemsInRange.Contains(otherGameObject.GetComponent<Item>()))
             {
                 currentItemsInRange.Add(otherGameObject.GetComponent<Item>());
             }
         }
-        else if (tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
+        else if (tempItem.canPickUp && tempItem.isEquipped && tempItem.itemType == Item.TypeTag.grip && tempItem.gameObject.transform.root.GetComponent<Player>() == null)
         {
             if (!currentItemsInRange.Contains(otherGameObject.GetComponent<Item>()))
             {
@@ -128,7 +128,7 @@ public class Pickup : MonoBehaviour
             }
             else
             {
-                itemHighlight.text = "Press 'E' to pick up the item!";
+                itemHighlight.text = "Press 'E' to pick up the " + currentPickupItem.itemName;
             }
 
             updateText = true;

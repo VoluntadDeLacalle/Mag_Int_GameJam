@@ -112,6 +112,7 @@ public struct ChassisDataModel
     public string itemName;
     public List<float> itemPosition;
     public List<float> itemRotation;
+    public bool canPickUp;
     public bool isObtained;
     public bool isRestored;
     public bool isEquipped;
@@ -125,6 +126,7 @@ public struct ItemDataModel
     public string itemName;
     public List<float> itemPosition;
     public List<float> itemRotation;
+    public bool canPickUp;
     public bool isObtained;
     public bool isRestored;
     public bool isEquipped;
@@ -151,6 +153,7 @@ public class Item : MonoBehaviour, ISaveable
     public string itemName;
     [TextArea]
     public string description;
+    public bool canPickUp = true;
     public bool isObtained = false;
     public bool isRestored = false;
     public int restorationScrapAmount = 0;
@@ -189,11 +192,12 @@ public class Item : MonoBehaviour, ISaveable
                 {
                     Item currentComponent = chassisComponentTransforms[i].GetComponentTransformItem();
 
-                    currentItemDataModel = new ItemDataModel 
+                    currentItemDataModel = new ItemDataModel
                     {
                         itemName = currentComponent.itemName,
                         itemPosition = currentPosition,
                         itemRotation = currentRotation,
+                        canPickUp = currentComponent.canPickUp,
                         isObtained = currentComponent.isObtained,
                         isRestored = currentComponent.isRestored,
                         isEquipped = currentComponent.isEquipped
@@ -217,6 +221,7 @@ public class Item : MonoBehaviour, ISaveable
                     itemName = currentGripItem.itemName,
                     itemPosition = currentPosition,
                     itemRotation = currentRotation,
+                    canPickUp = currentGripItem.canPickUp,
                     isObtained = currentGripItem.isObtained,
                     isRestored = currentGripItem.isRestored,
                     isEquipped = currentGripItem.isEquipped
@@ -233,6 +238,7 @@ public class Item : MonoBehaviour, ISaveable
                 itemName = itemName,
                 itemPosition = currentPosition,
                 itemRotation = currentRotation,
+                canPickUp = canPickUp,
                 isObtained = isObtained,
                 isRestored = isRestored,
                 isEquipped = isEquipped,
@@ -247,6 +253,7 @@ public class Item : MonoBehaviour, ISaveable
                 itemName = itemName,
                 itemPosition = currentPosition,
                 itemRotation = currentRotation,
+                canPickUp = canPickUp,
                 isObtained = isObtained,
                 isRestored = isRestored,
                 isEquipped = isEquipped,
@@ -291,6 +298,11 @@ public class Item : MonoBehaviour, ISaveable
             }
         }
     }
+
+    public void SetPickUp(bool nPickUp)
+    {
+        canPickUp = nPickUp;
+    }
     #endregion
 
     #region Gizmos
@@ -319,6 +331,7 @@ public class Item : MonoBehaviour, ISaveable
     #region Public Functions
     public void LoadItemModelInfo(ItemDataModel itemDataModel)
     {
+        canPickUp = itemDataModel.canPickUp;
         isObtained = itemDataModel.isObtained;
         isRestored = itemDataModel.isRestored;
         isEquipped = itemDataModel.isEquipped;
@@ -326,6 +339,7 @@ public class Item : MonoBehaviour, ISaveable
 
     public void LoadChassisModelInfo(ChassisDataModel chassisDataModel)
     {
+        canPickUp = chassisDataModel.canPickUp;
         isObtained = chassisDataModel.isObtained;
         isRestored = chassisDataModel.isRestored;
         isEquipped = chassisDataModel.isEquipped;

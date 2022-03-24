@@ -45,15 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc842bdd7a921754785a1ee01d79e0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questTextMesh: {fileID: 0}
-  questTextBackground: {fileID: 0}
-  objectiveTextMesh: {fileID: 0}
-  objectiveTextBackground: {fileID: 0}
-  generalInformationTextMesh: {fileID: 0}
-  questFlavorBackground: {fileID: 0}
-  questFlavorTextMesh: {fileID: 0}
   questFlavorTimer: 4
-  compassRef: {fileID: 0}
   inactiveQuestMarker: {fileID: 21300000, guid: ae3f988587b20594e8388fffd288a156,
     type: 3}
   locationQuestMarker: {fileID: 21300000, guid: 027cf04f08f2d954dbaf8085ba0012b3,
@@ -64,7 +56,88 @@ MonoBehaviour:
   activateFirstOnStart: 0
   questActivationRadius: 3
   markerGO: {fileID: 2974971339988426444}
-  levelQuests: []
+  levelQuests:
+  - questName: Fix the Oilworks!
+    questStartSceneName: Receiving Station Hub
+    questStartLocation: {x: 81.72, y: 25.129, z: 11.7}
+    isActive: 0
+    isCompleted: 0
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    currentObjective: 0
+    objectives:
+    - levelName: Oilworks
+      numbOfStartEvents: 1
+      OnObjectiveStart:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: 
+            m_MethodName: 
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: 
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      goalType: 0
+      objectiveDescription: It seems the AI in this area have let it flood! Remove
+        the power source to drain the oil!
+      isCompleted: 0
+      numbOfCompleteEvents: 3
+      OnObjectiveComplete:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: LiquidDrain, Assembly-CSharp
+            m_MethodName: StartDraining
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_MethodName: SetActive
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+            m_MethodName: set_sharedMaterial
+            m_Mode: 2
+            m_Arguments:
+              m_ObjectArgument: {fileID: -4565884009001823619, guid: ff9edf1713438c2429cf7e139362c031,
+                type: 3}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      activationRadius: 0
+      targetWorldPosition: {x: 0, y: 0, z: 0}
+      itemName: Power
+      itemType: 1
+      npcName: 
+      npcDialogue: {fileID: 0}
+      npcSprite: {fileID: 0}
+      numberToCollect: 1
+      collectedAmount: 0
   currentQuestIndex: 0
 --- !u!114 &5636452110327323313
 MonoBehaviour:
@@ -79,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 5c5f138b-7cc6-4f48-8f81-e8ad19df8fb8
-  shouldCrossRef: 0
+  shouldCrossRef: 1
 --- !u!1001 &3883427978782849012
 PrefabInstance:
   m_ObjectHideFlags: 0

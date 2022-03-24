@@ -153,6 +153,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                         itemName = currentComponent.itemName,
                         itemPosition = currentPosition,
                         itemRotation = currentRotation,
+                        canPickUp = currentComponent.canPickUp,
                         isObtained = currentComponent.isObtained,
                         isRestored = currentComponent.isRestored,
                         isEquipped = currentComponent.isEquipped
@@ -188,6 +189,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                     itemName = currentGripItem.itemName,
                     itemPosition = currentPosition,
                     itemRotation = currentRotation,
+                    canPickUp = currentGripItem.canPickUp,
                     isObtained = currentGripItem.isObtained,
                     isRestored = currentGripItem.isRestored,
                     isEquipped = currentGripItem.isEquipped
@@ -214,6 +216,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                 itemName = newItem.itemName,
                 itemPosition = currentChassisPosition,
                 itemRotation = currentChassisRotation,
+                canPickUp = newItem.canPickUp,
                 isObtained = newItem.isObtained,
                 isRestored = newItem.isRestored,
                 isEquipped = newItem.isEquipped,
@@ -222,6 +225,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             };
 
             currentChassisDataModel.isObtained = true;
+            currentChassisDataModel.canPickUp = false;
             chassisDataModels.Add(currentChassisDataModel);
         }
         else
@@ -242,6 +246,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                 itemName = newItem.itemName,
                 itemPosition = currentItemPosition,
                 itemRotation = currentItemRotation,
+                canPickUp = newItem.canPickUp,
                 isObtained = newItem.isObtained,
                 isRestored = newItem.isRestored,
                 isEquipped = newItem.isEquipped,
@@ -249,6 +254,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
 
             currentItemDataModel.isObtained = true;
             currentItemDataModel.isEquipped = false;
+            currentItemDataModel.canPickUp = false;
             itemDataModels.Add(currentItemDataModel);
         }
 
@@ -332,6 +338,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                 itemName = chassisDataModels[chassisIndex].itemName,
                 itemPosition = chassisDataModels[chassisIndex].itemPosition,
                 itemRotation = chassisDataModels[chassisIndex].itemRotation,
+                canPickUp = chassisDataModels[chassisIndex].canPickUp,
                 isObtained = chassisDataModels[chassisIndex].isObtained,
                 isRestored = true,
                 isEquipped = chassisDataModels[chassisIndex].isEquipped,
@@ -369,6 +376,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                 itemName = itemDataModels[itemIndex].itemName,
                 itemPosition = itemDataModels[itemIndex].itemPosition,
                 itemRotation = itemDataModels[itemIndex].itemRotation,
+                canPickUp = itemDataModels[itemIndex].canPickUp,
                 isObtained = itemDataModels[itemIndex].isObtained,
                 isRestored = true,
                 isEquipped = itemDataModels[itemIndex].isEquipped
@@ -439,6 +447,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         }
 
         currentChassisItem.isObtained = false;
+        currentChassisItem.canPickUp = true;
 
         if (!LevelManager.Instance.HasItemName(currentChassisItem.itemName))
         {
@@ -448,30 +457,6 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         chassisDataModels.RemoveAt(dropIndex);
 
         ResetSelectedInfo();
-        //if (dropIndex == inventory.Count)
-        //{
-        //    if (inventory.Count == 0)
-        //    {
-        //        ResetSelectedInfo();
-        //        dropIndex = -1;
-        //    }
-        //    else
-        //    {
-        //        ChangeInventoryInformation(dropIndex - 1);
-        //    }
-        //}
-        //else
-        //{
-        //    if (inventory.Count == 0)
-        //    {
-        //        ResetSelectedInfo();
-        //        dropIndex = -1;
-        //    }
-        //    else
-        //    {
-        //        ChangeInventoryInformation(dropIndex);
-        //    }
-        //}
 
         Player.Instance.backpackFill.DecreaseBackpack(20);
         if (chassisDataModels.Count + itemDataModels.Count == 0)
@@ -501,6 +486,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         currentItemGO.SetActive(true);
 
         currentItem.isObtained = false;
+        currentItem.canPickUp = true;
 
         if (!LevelManager.Instance.HasItemName(currentItem.itemName))
         {
@@ -510,30 +496,6 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         itemDataModels.RemoveAt(dropIndex);
 
         ResetSelectedInfo();
-        //if (dropIndex == inventory.Count)
-        //{
-        //    if (inventory.Count == 0)
-        //    {
-        //        ResetSelectedInfo();
-        //        dropIndex = -1;
-        //    }
-        //    else
-        //    {
-        //        ChangeInventoryInformation(dropIndex - 1);
-        //    }
-        //}
-        //else
-        //{
-        //    if (inventory.Count == 0)
-        //    {
-        //        ResetSelectedInfo();
-        //        dropIndex = -1;
-        //    }
-        //    else
-        //    {
-        //        ChangeInventoryInformation(dropIndex);
-        //    }
-        //}
 
         Player.Instance.backpackFill.DecreaseBackpack(20);
         if (chassisDataModels.Count + itemDataModels.Count == 0)
@@ -761,6 +723,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             itemName = chassisDataModels[equipIndex].itemName,
             itemPosition = chassisDataModels[equipIndex].itemPosition,
             itemRotation = chassisDataModels[equipIndex].itemRotation,
+            canPickUp = chassisDataModels[equipIndex].canPickUp,
             isObtained = chassisDataModels[equipIndex].isObtained,
             isRestored = chassisDataModels[equipIndex].isRestored,
             isEquipped = true,
@@ -832,6 +795,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             itemName = chassisDataModels[unequipIndex].itemName,
             itemPosition = chassisDataModels[unequipIndex].itemPosition,
             itemRotation = chassisDataModels[unequipIndex].itemRotation,
+            canPickUp = chassisDataModels[unequipIndex].canPickUp,
             isObtained = chassisDataModels[unequipIndex].isObtained,
             isRestored = chassisDataModels[unequipIndex].isRestored,
             isEquipped = false,
