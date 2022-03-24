@@ -703,47 +703,38 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         }
     }
 
-    void TryStartQuest()
+    public void TryStartQuest(Vector3 playerLocation)
     {
         if (currentQuestIndex >= levelQuests.Count || currentQuestIndex == -1 || !Player.Instance.vThirdPersonInput.CanMove())
         {
             return;
         }
 
-        Collider[] objectsInRange = Physics.OverlapSphere(levelQuests[currentQuestIndex].questStartLocation, questActivationRadius);
-        for (int i = 0; i < objectsInRange.Length; i++)
+        if (Vector3.Distance(playerLocation, levelQuests[currentQuestIndex].questStartLocation) < questActivationRadius)
         {
-            if (objectsInRange[i].gameObject.GetComponentInChildren<Player>() != null)
+            if (!levelQuests[currentQuestIndex].isActive)
             {
-                if (!levelQuests[currentQuestIndex].isActive)
+                levelQuests[currentQuestIndex].Activate();
+
+                compassRef.ResetQuestMarker();
+                InitQuestInfo();
+
+                if (questStartSFX != string.Empty)
                 {
-                    generalInformationTextMesh.text = $"Press 'R' to start the quest: {levelQuests[currentQuestIndex].questName}";
-                    if (Input.GetKeyDown(KeyCode.R))
-                    {
-                        levelQuests[currentQuestIndex].Activate();
-                        
-                        compassRef.ResetQuestMarker();
-                        InitQuestInfo();
-
-                        if (questStartSFX != string.Empty)
-                        {
-                            AudioManager.instance.Play(questStartSFX);
-                        }
-
-                        questFlavorTextMesh.text = $"Protocol Initiated.\n{levelQuests[currentQuestIndex].questName}";
-                        questFlavorBackground.SetActive(true);
-                        StartCoroutine(DeactivateQuestFlavor());
-
-                        if (levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Gather || levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Restore)
-                        {
-                            CheckForPrecompletedItems();
-                        }
-
-                        generalInformationTextMesh.text = "";
-                        markerGO.SetActive(false);
-                    }
-                    break;
+                    AudioManager.instance.Play(questStartSFX);
                 }
+
+                questFlavorTextMesh.text = $"Protocol Initiated.\n{levelQuests[currentQuestIndex].questName}";
+                questFlavorBackground.SetActive(true);
+                StartCoroutine(DeactivateQuestFlavor());
+
+                if (levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Gather || levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Restore)
+                {
+                    CheckForPrecompletedItems();
+                }
+
+                generalInformationTextMesh.text = "";
+                markerGO.SetActive(false);
             }
         }
     }
@@ -799,8 +790,6 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                     compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
                 }
             }
-
-            TryStartQuest();
         }
         else
         {

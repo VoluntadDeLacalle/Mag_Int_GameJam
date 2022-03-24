@@ -585,6 +585,13 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
                 currentObjective.CheckLocation(transform.position);
             }
         }
+        else
+        {
+            if (QuestManager.Instance.GetCurrentQuest() != null)
+            {
+                QuestManager.Instance.TryStartQuest(transform.position);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.F) && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
         {
