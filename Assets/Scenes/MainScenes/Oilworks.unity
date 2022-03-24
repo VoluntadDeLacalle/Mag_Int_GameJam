@@ -64862,7 +64862,7 @@ PrefabInstance:
         type: 3}
       propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1370679165}
+      objectReference: {fileID: 1370679166}
     - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
         type: 3}
       propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -65025,7 +65025,7 @@ PrefabInstance:
     - target: {fileID: 7661759265455796512, guid: 45331bdd207e2b044ab1fc68db5e5c31,
         type: 3}
       propertyPath: m_Name
-      value: BeamEffect
+      value: BeamEffectPhysical
       objectReference: {fileID: 0}
     - target: {fileID: 7661759265455796527, guid: 45331bdd207e2b044ab1fc68db5e5c31,
         type: 3}
@@ -65110,6 +65110,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1370679164}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1370679166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370679165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f61786ae7fa214f90ee9fca60064fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldBeEnabled: 1
+--- !u!114 &1370679167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370679165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d256da51771bb4d914542dff364be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0d7f4571-67d6-400b-867f-efbf0d187b19
+  shouldCrossRef: 0
 --- !u!1001 &1372665499
 PrefabInstance:
   m_ObjectHideFlags: 0

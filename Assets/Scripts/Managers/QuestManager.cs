@@ -697,7 +697,10 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     {
         yield return new WaitForSeconds(questFlavorTimer);
 
-        questFlavorBackground.SetActive(false);
+        if (questFlavorBackground != null)
+        {
+            questFlavorBackground.SetActive(false);
+        }
     }
 
     void TryStartQuest()
