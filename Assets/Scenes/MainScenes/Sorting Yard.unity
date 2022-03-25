@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -204,6 +204,21 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.2571172
       objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -31.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 29.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.853
+      objectReference: {fileID: 0}
     - target: {fileID: 2052303143255754223, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -352,17 +367,17 @@ PrefabInstance:
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9611444
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 33.86081
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -31054,7 +31069,7 @@ Terrain:
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
-  m_DrawInstanced: 0
+  m_DrawInstanced: 1
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
   m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
