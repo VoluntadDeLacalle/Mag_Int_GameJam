@@ -35,6 +35,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
 
             lines += 2;
 
+            Rect rectSceneName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(rectSceneName, property.FindPropertyRelative("levelName"));
+
             switch (currentType)
             {
                 case Objective.GoalType.Craft:
@@ -81,14 +84,36 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     break;
             }
 
-            Rect rectEventSpace = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(rectEventSpace, " ");
+            int numberOfStartEvents = (int)property.FindPropertyRelative("numbOfStartEvents").intValue;
+            int numberOfCompleteEvents = (int)property.FindPropertyRelative("numbOfCompleteEvents").intValue;
 
-            Rect rectNumbOfEvents = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(rectNumbOfEvents, property.FindPropertyRelative("numbOfEvents"));
+            Rect rectStartEventSpace = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(rectStartEventSpace, " ");
 
-            Rect rectEvent = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * 4);
-            EditorGUI.PropertyField(rectEvent, property.FindPropertyRelative("OnObjectiveComplete"));
+            Rect rectNumbOfStartEvents = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(rectNumbOfStartEvents, property.FindPropertyRelative("numbOfStartEvents"));
+
+            Rect rectStartEvent = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * (numberOfStartEvents));
+            EditorGUI.PropertyField(rectStartEvent, property.FindPropertyRelative("OnObjectiveStart"));
+
+            if (numberOfStartEvents > 0)
+            {
+                lines += (4 + (int)(numberOfStartEvents - 1) * 3);
+            }
+            else
+            {
+                lines += 4;
+            }
+            
+
+            Rect rectCompleteEventSpace = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * 3);
+            EditorGUI.LabelField(rectCompleteEventSpace, " ");
+
+            Rect rectNumbOfCompleteEvents = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(rectNumbOfCompleteEvents, property.FindPropertyRelative("numbOfCompleteEvents"));
+
+            Rect rectCompleteEvent = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight * (numberOfCompleteEvents));
+            EditorGUI.PropertyField(rectCompleteEvent, property.FindPropertyRelative("OnObjectiveComplete"));
         }
         
         EditorGUI.EndProperty();
@@ -124,9 +149,16 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     break;
             }
 
-            if (property.FindPropertyRelative("numbOfEvents").intValue > 0)
+            if (property.FindPropertyRelative("numbOfStartEvents").intValue > 0)
             {
-                totalLines += (property.FindPropertyRelative("numbOfEvents").intValue - 1) * 3;
+                totalLines += (property.FindPropertyRelative("numbOfStartEvents").intValue - 1) * 3;
+            }
+
+            totalLines += 8;
+
+            if (property.FindPropertyRelative("numbOfCompleteEvents").intValue > 0)
+            {
+                totalLines += (property.FindPropertyRelative("numbOfCompleteEvents").intValue - 1) * 3;
             }
         }
 

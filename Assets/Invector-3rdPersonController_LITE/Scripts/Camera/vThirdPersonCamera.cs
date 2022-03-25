@@ -105,17 +105,21 @@ public class vThirdPersonCamera : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
+        if ((Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1)) && Player.Instance.anim.GetInteger("GripEnum") == 2)
         {
             shouldMove = !shouldMove;
             lerpTimer = maxLerpTimer;
 
-            
         }
 
-        if ((Input.GetMouseButton(1) && !shouldMove) || (!Input.GetMouseButton(1) && shouldMove))
+        if (((Input.GetMouseButton(1) && !shouldMove) || (!Input.GetMouseButton(1) && shouldMove)) && Player.Instance.anim.GetInteger("GripEnum") == 2)
         {
             shouldMove = !shouldMove;
+        }
+
+        if (shouldMove && Player.Instance.anim.GetInteger("GripEnum") != 2)
+        {
+            shouldMove = false;
         }
 
         if (shouldMove)

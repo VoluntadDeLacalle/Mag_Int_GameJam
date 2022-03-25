@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,6 +13,7 @@ using UnityEditor;
 public class Quest
 {
     public string questName = "";
+    public string questStartSceneName = string.Empty;
     public Vector3 questStartLocation = Vector3.zero;
     public bool isActive = false;
     public bool isCompleted = false;
@@ -79,6 +82,11 @@ public class Quest
 [System.Serializable]
 public class Objective
 {
+    public string levelName = string.Empty;
+
+    public int numbOfStartEvents = 0;
+    public UnityEvent OnObjectiveStart;
+
     public enum GoalType
     {
         Gather,
@@ -92,7 +100,7 @@ public class Objective
     public string objectiveDescription = "";
     public bool isCompleted = false;
 
-    public int numbOfEvents = 0;
+    public int numbOfCompleteEvents = 0;
     public UnityEvent OnObjectiveComplete;
 
     public float activationRadius = 3f;
@@ -110,6 +118,11 @@ public class Objective
 
     public void AddGatheringItem(string nItemName)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Gather)
         {
             if (nItemName == itemName)
@@ -126,6 +139,11 @@ public class Objective
 
     public void AddGatheringScrap(string nItemName, int scrapAmount)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Gather)
         {
             if (nItemName == itemName)
@@ -142,6 +160,11 @@ public class Objective
 
     public void CraftItem(string nItemName)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Craft)
         {
             if (nItemName == itemName)
@@ -153,6 +176,11 @@ public class Objective
 
     public void CheckLocation(Vector3 currentPosition)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Location)
         {
             if (Vector3.Distance(currentPosition, targetWorldPosition) < activationRadius)
@@ -164,6 +192,11 @@ public class Objective
 
     public KeyValuePair<TextAsset, Sprite> NPCTalkedTo(string nNPCName)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return new KeyValuePair<TextAsset, Sprite>(null, null);
+        }
+
         if (goalType == GoalType.Talk)
         {
             if (nNPCName == npcName)
@@ -182,6 +215,11 @@ public class Objective
 
     public void ActivateItem(string nItemName)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Activate)
         {
             if (nItemName == itemName)
@@ -193,6 +231,11 @@ public class Objective
 
     public void RestoreItem(string nItemName)
     {
+        if (levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
         if (goalType == GoalType.Restore)
         {
             if (nItemName == itemName)
@@ -224,17 +267,17 @@ public struct QuestDataModel
 public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 {
     [Header("UI Variables")]
-    public TMPro.TextMeshProUGUI questTextMesh;
-    public GameObject questTextBackground;
-    public TMPro.TextMeshProUGUI objectiveTextMesh;
-    public GameObject objectiveTextBackground;
-    public TMPro.TextMeshProUGUI generalInformationTextMesh;
-    public GameObject questFlavorBackground;
-    public TMPro.TextMeshProUGUI questFlavorTextMesh;
+    private TMPro.TextMeshProUGUI questTextMesh;
+    private GameObject questTextBackground;
+    private TMPro.TextMeshProUGUI objectiveTextMesh;
+    private GameObject objectiveTextBackground;
+    private TMPro.TextMeshProUGUI generalInformationTextMesh;
+    private GameObject questFlavorBackground;
+    private TMPro.TextMeshProUGUI questFlavorTextMesh;
     public float questFlavorTimer = 2f;
 
     [Header("Compass UI Variables")]
-    public Compass compassRef;
+    private Compass compassRef;
     public Sprite inactiveQuestMarker;
     public Sprite locationQuestMarker;
 
@@ -249,6 +292,8 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     public GameObject markerGO;
     [SerializeField] private List<Quest> levelQuests = new List<Quest>();
     public int currentQuestIndex = 0;
+
+    private string currentSceneName = string.Empty;
 
     public object CaptureState()
     {
@@ -327,16 +372,6 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         }
 
         levelQuests[currentQuestIndex].currentObjective = saveData.currentObjectiveIndex;
-
-        if (levelQuests[currentQuestIndex].isActive)
-        {
-            levelQuests[currentQuestIndex].Activate();
-            InitQuestInfo();
-        }
-        else
-        {
-            ResetQuestInfo();
-        }
     }
 
     [System.Serializable]
@@ -351,20 +386,29 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     {
         for (int i = 0; i < levelQuests.Count; i++)
         {
-            Gizmos.color = Color.green;
-            Vector3 currentStartPosition = levelQuests[i].questStartLocation;
-            Gizmos.DrawWireSphere(currentStartPosition, 0.5f);
-            Gizmos.DrawLine(currentStartPosition, currentStartPosition + Vector3.up);
+            if (levelQuests[i].questStartSceneName == EditorSceneManager.GetActiveScene().name)
+            {
+                Gizmos.color = Color.green;
+                Vector3 currentStartPosition = levelQuests[i].questStartLocation;
+                Gizmos.DrawWireSphere(currentStartPosition, 0.5f);
+                Gizmos.DrawLine(currentStartPosition, currentStartPosition + Vector3.up);
 
-            Gizmos.DrawWireSphere(currentStartPosition, questActivationRadius);
-            #if UNITY_EDITOR
+                Gizmos.DrawWireSphere(currentStartPosition, questActivationRadius);
+                #if UNITY_EDITOR
                 GUIStyle startStyle = new GUIStyle();
                 startStyle.normal.textColor = Color.green;
                 Handles.Label(currentStartPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, start position.", startStyle);
-            #endif
+                #endif
+            }
+
 
             for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
             {
+                if (levelQuests[i].GetGizmosInformation()[j].levelName != EditorSceneManager.GetActiveScene().name)
+                {
+                    continue;
+                }
+
                 if (levelQuests[i].GetGizmosInformation()[j].goalType == Objective.GoalType.Location)
                 {
                     Gizmos.color = Color.red;
@@ -386,34 +430,105 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     new void Awake()
     {
-        base.Awake();
-        
-        for(int i = 0; i < levelQuests.Count; i++)
+        if (Instance == this)
         {
-            levelQuests[i].OnQuestComplete.AddListener(CurrentQuestComplete);
+            Debug.Log("Awake called on main quest manager");
+        }
 
-            for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
+        if (Instance != null)
+        {
+            if (Instance != this)
             {
-                levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(levelQuests[i].UpdateCurrentObjective);
-                levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(CurrentObjectiveComplete);
+                for (int k = 0; k < levelQuests.Count; k++)
+                {
+                    for (int m = 0; m < levelQuests[k].GetGizmosInformation().Count; m++)
+                    {
+                        Instance.levelQuests[k].GetGizmosInformation()[m].OnObjectiveComplete.RemoveAllListeners();
+
+
+                        Instance.levelQuests[k].GetGizmosInformation()[m].OnObjectiveStart = levelQuests[k].GetGizmosInformation()[m].OnObjectiveStart;
+                        Instance.levelQuests[k].GetGizmosInformation()[m].OnObjectiveComplete = levelQuests[k].GetGizmosInformation()[m].OnObjectiveComplete;
+                    }
+                }
             }
         }
 
+        base.Awake();
+
         markerGO.SetActive(false);
-        compassRef.ResetQuestMarker();
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        {
+            return;
+        }
+
+        compassRef.ResetQuestMarker();
+
         if (activateFirstOnStart)
         {
-            if (currentQuestIndex == 0)
+            if (currentQuestIndex == 0 && levelQuests[0].questStartSceneName == currentSceneName)
             {
                 levelQuests[0].Activate();
                 InitQuestInfo();
             }   
         }
     }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        {
+            return;
+        }
+
+        currentSceneName = scene.name;
+
+        QuestUIManager.Instance.InitUI(ref questTextMesh, ref questTextBackground, ref objectiveTextMesh, ref objectiveTextBackground, ref generalInformationTextMesh, ref questFlavorBackground, ref questFlavorTextMesh);
+        QuestUIManager.Instance.InitCompass(ref compassRef);
+
+        if (currentQuestIndex < levelQuests.Count)
+        {
+            if (levelQuests[currentQuestIndex].isActive)
+            {
+                levelQuests[currentQuestIndex].Activate();
+                InitQuestInfo();
+            }
+            else
+            {
+                ResetQuestInfo();
+            }
+        }
+        
+        for (int i = 0; i < levelQuests.Count; i++)
+        {
+            if (levelQuests[i].isCompleted)
+            {
+                continue;
+            }
+
+            levelQuests[i].OnQuestComplete.AddListener(CurrentQuestComplete);
+
+            for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
+            {
+                if (levelQuests[i].GetGizmosInformation()[j].isCompleted)
+                {
+                    continue;
+                }
+
+                levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(levelQuests[i].UpdateCurrentObjective);
+                levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(CurrentObjectiveComplete);
+            }
+        }
+    }
+
 
     private void CurrentObjectiveComplete()
     {
@@ -516,6 +631,12 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         {
             return;
         }
+        else if (currentObjective.levelName != currentSceneName)
+        {
+            return;
+        }
+
+        currentObjective.OnObjectiveStart?.Invoke();
 
         if (currentObjective.goalType == Objective.GoalType.Gather)
         {
@@ -576,50 +697,44 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     {
         yield return new WaitForSeconds(questFlavorTimer);
 
-        questFlavorBackground.SetActive(false);
+        if (questFlavorBackground != null)
+        {
+            questFlavorBackground.SetActive(false);
+        }
     }
 
-    void TryStartQuest()
+    public void TryStartQuest(Vector3 playerLocation)
     {
         if (currentQuestIndex >= levelQuests.Count || currentQuestIndex == -1 || !Player.Instance.vThirdPersonInput.CanMove())
         {
             return;
         }
 
-        Collider[] objectsInRange = Physics.OverlapSphere(levelQuests[currentQuestIndex].questStartLocation, questActivationRadius);
-        for (int i = 0; i < objectsInRange.Length; i++)
+        if (Vector3.Distance(playerLocation, levelQuests[currentQuestIndex].questStartLocation) < questActivationRadius)
         {
-            if (objectsInRange[i].gameObject.GetComponentInChildren<Player>() != null)
+            if (!levelQuests[currentQuestIndex].isActive)
             {
-                if (!levelQuests[currentQuestIndex].isActive)
+                levelQuests[currentQuestIndex].Activate();
+
+                compassRef.ResetQuestMarker();
+                InitQuestInfo();
+
+                if (questStartSFX != string.Empty)
                 {
-                    generalInformationTextMesh.text = $"Press 'R' to start the quest: {levelQuests[currentQuestIndex].questName}";
-                    if (Input.GetKeyDown(KeyCode.R))
-                    {
-                        levelQuests[currentQuestIndex].Activate();
-                        
-                        compassRef.ResetQuestMarker();
-                        InitQuestInfo();
-
-                        if (questStartSFX != string.Empty)
-                        {
-                            AudioManager.instance.Play(questStartSFX);
-                        }
-
-                        questFlavorTextMesh.text = $"Protocol Initiated.\n{levelQuests[currentQuestIndex].questName}";
-                        questFlavorBackground.SetActive(true);
-                        StartCoroutine(DeactivateQuestFlavor());
-
-                        if (levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Gather || levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Restore)
-                        {
-                            CheckForPrecompletedItems();
-                        }
-
-                        generalInformationTextMesh.text = "";
-                        markerGO.SetActive(false);
-                    }
-                    break;
+                    AudioManager.instance.Play(questStartSFX);
                 }
+
+                questFlavorTextMesh.text = $"Protocol Initiated.\n{levelQuests[currentQuestIndex].questName}";
+                questFlavorBackground.SetActive(true);
+                StartCoroutine(DeactivateQuestFlavor());
+
+                if (levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Gather || levelQuests[currentQuestIndex].GetCurrentObjective().goalType == Objective.GoalType.Restore)
+                {
+                    CheckForPrecompletedItems();
+                }
+
+                generalInformationTextMesh.text = "";
+                markerGO.SetActive(false);
             }
         }
     }
@@ -651,6 +766,11 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        {
+            return;
+        }
+
         if (!HasNewQuest())
         {
             return;
@@ -658,7 +778,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         if (!IsCurrentQuestActive())
         {
-            if (GetCurrentQuest() != null)
+            if (GetCurrentQuest() != null && GetCurrentQuest().questStartSceneName == SceneManager.GetActiveScene().name)
             {
                 if (!markerGO.activeInHierarchy)
                 {
@@ -670,8 +790,6 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                     compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
                 }
             }
-
-            TryStartQuest();
         }
         else
         {

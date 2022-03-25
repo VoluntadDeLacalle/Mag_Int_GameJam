@@ -94,7 +94,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4517393001253572980}
-  - {fileID: 5368502491622608649}
+  - {fileID: 3826707833193265548}
   - {fileID: 5205006115369465361}
   - {fileID: 4155222877125540282}
   - {fileID: 722618203113523606}
@@ -104,121 +104,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &340149067474048442
-PrefabInstance:
+--- !u!1 &4811529970681240240
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4713670846683412102}
-    m_Modifications:
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: compassRef
-      value: 
-      objectReference: {fileID: 809736475145886953}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: questTextMesh
-      value: 
-      objectReference: {fileID: 8697175277562322214}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: objectiveTextMesh
-      value: 
-      objectReference: {fileID: 1915655125512889370}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: questFlavorTextMesh
-      value: 
-      objectReference: {fileID: 4758425109584538329}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: questTextBackground
-      value: 
-      objectReference: {fileID: 4280926901904414680}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: questFlavorBackground
-      value: 
-      objectReference: {fileID: 8141313497278192725}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: objectiveTextBackground
-      value: 
-      objectReference: {fileID: 5822121846760733753}
-    - target: {fileID: 5636452110327323312, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: generalInformationTextMesh
-      value: 
-      objectReference: {fileID: 7495678210012008844}
-    - target: {fileID: 5636452110327323314, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_Name
-      value: QuestManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fc2b9182665a5214ba49ce29ab4a3a44, type: 3}
---- !u!4 &5368502491622608649 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5636452110327323315, guid: fc2b9182665a5214ba49ce29ab4a3a44,
-    type: 3}
-  m_PrefabInstance: {fileID: 340149067474048442}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3826707833193265548}
+  - component: {fileID: 4358111735901715192}
+  m_Layer: 0
+  m_Name: QuestUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3826707833193265548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4811529970681240240}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4713670846683412102}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4358111735901715192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4811529970681240240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0095e27e03c15ec44a31c63da25c893d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questTextMesh: {fileID: 8697175277562322214}
+  questTextBackground: {fileID: 4280926901904414680}
+  objectiveTextMesh: {fileID: 1915655125512889370}
+  objectiveTextBackground: {fileID: 5822121846760733753}
+  generalInformationTextMesh: {fileID: 7495678210012008844}
+  questFlavorBackground: {fileID: 8141313497278192725}
+  questFlavorTextMesh: {fileID: 4758425109584538329}
+  compassRef: {fileID: 809736475145886953}
 --- !u!1001 &885930364210412884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1129,16 +1065,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8299489602801493732}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5572869696341048273 stripped
+--- !u!114 &3942527614792063654 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4502327098856545589, guid: a8cfad4ef49e3c348b49e6d9d1ee4146,
+  m_CorrespondingSourceObject: {fileID: 5015635767504845890, guid: a8cfad4ef49e3c348b49e6d9d1ee4146,
     type: 3}
   m_PrefabInstance: {fileID: 8299489602801493732}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: e650b43b9ac282d41a847b5b989e9338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7495678210012008844 stripped
@@ -1201,16 +1137,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3942527614792063654 stripped
+--- !u!114 &5572869696341048273 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5015635767504845890, guid: a8cfad4ef49e3c348b49e6d9d1ee4146,
+  m_CorrespondingSourceObject: {fileID: 4502327098856545589, guid: a8cfad4ef49e3c348b49e6d9d1ee4146,
     type: 3}
   m_PrefabInstance: {fileID: 8299489602801493732}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e650b43b9ac282d41a847b5b989e9338, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8412441850604627420

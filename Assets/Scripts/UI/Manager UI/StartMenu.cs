@@ -100,6 +100,7 @@ public class StartMenu : MonoBehaviour
         {
             GameManager.Instance.ResetSaveFiles();
             GameManager.Instance.currentSavedScene = 0;
+            QuestManager.Instance.currentQuestIndex = 0;
             SceneManager.LoadScene(GameManager.Instance.GetLastSavedScene());
         }
     }

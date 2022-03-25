@@ -123,7 +123,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
                 if (lastSceneName == levelSpawnPoints[i].fromSceneName
                     && levelSpawnPoints[i].currentSpawnName == GameManager.Instance.GetSpawnLocationName())
                 {
-                    Debug.Log("True");
                     index = i;
                     break;
                 }
