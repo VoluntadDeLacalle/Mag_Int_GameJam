@@ -10,6 +10,10 @@ public class DetectorEffector : Item
     public float radiusGrowthTime = 1;
     public float detectorMoveThreshold = 0.1f;
     public GameObject detectorRadiusObj;
+    public Renderer detectorRadiusRenderer;
+    public float outsideFresnelPower = 5f;
+    public float insideFresnelPower = 1.5f;
+    public float fresnelLerpingSpeed = 3f;
     public List<Material> detectableMats = new List<Material>();
 
     [Header("Modifier Variables")]
@@ -126,7 +130,7 @@ public class DetectorEffector : Item
         float radiusY = radius * (1 / transform.localScale.y);
         float radiusZ = radius * (1 / transform.localScale.z);
 
-        detectorRadiusObj.transform.localScale = new Vector3(radiusX * 2, radiusY * 2, radiusZ * 2); //Multiplication is temp.
+        detectorRadiusObj.transform.localScale = new Vector3(radiusX, radiusY, radiusZ);
     }
 
     void UpdateVisibility()
@@ -135,6 +139,30 @@ public class DetectorEffector : Item
         {
             detectableMats[i].SetFloat("_Radius", currentRadius);
             detectableMats[i].SetVector("_Center", detectorRadiusObj.transform.position);
+        }
+    }
+
+    void UpdateFresnelPower()
+    {
+        float currentFresnelPower = detectorRadiusRenderer.material.GetFloat("_FresnelPower");
+
+        if (Vector3.Distance(detectorRadiusObj.transform.position, Player.Instance.vThirdPersonCamera.transform.position) < currentRadius)
+        {
+            if (currentFresnelPower > insideFresnelPower)
+            {
+                currentFresnelPower = Mathf.Lerp(currentFresnelPower, insideFresnelPower, fresnelLerpingSpeed * Time.deltaTime);
+
+                detectorRadiusRenderer.material.SetFloat("_FresnelPower", currentFresnelPower);
+            }
+        }
+        else
+        {
+            if (currentFresnelPower < outsideFresnelPower)
+            {
+                currentFresnelPower = Mathf.Lerp(currentFresnelPower, outsideFresnelPower, fresnelLerpingSpeed * Time.deltaTime);
+
+                detectorRadiusRenderer.material.SetFloat("_FresnelPower", currentFresnelPower);
+            }
         }
     }
 
@@ -212,6 +240,8 @@ public class DetectorEffector : Item
                 UpdateSphereNotAlive();
             }
         }
+
+        UpdateFresnelPower();
     }
 
     void OnDestroy()
