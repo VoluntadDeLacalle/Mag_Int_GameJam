@@ -14,6 +14,7 @@ public class Interactables : MonoBehaviour
     public float pausePulseTimer = 2f;
     public float pulseSpeed = 2;
 
+    public Renderer mainRenderer;
     private Material material;
     private float currentRimSize = 0;
     private float maxPausePulseTimer = 0f;
@@ -25,7 +26,15 @@ public class Interactables : MonoBehaviour
         maxPausePulseTimer = pausePulseTimer;
         pulseDown = true;
 
-        material = GetComponent<Renderer>().material;
+        if (GetComponent<Renderer>())
+        {
+            material = GetComponent<Renderer>().material;
+        }
+        else
+        {
+            material = mainRenderer.material;
+        }
+        
         Color transparentColor = new Color(rimColor.r, rimColor.g, rimColor.b, 0);
         material.SetColor("_RimColor", transparentColor);
     }

@@ -217,8 +217,14 @@ public class vThirdPersonCamera : MonoBehaviour
 
         Vector3 playerRaycastOrigin = Player.Instance.itemHandler.itemDetection.pickupTransform.position;
         Vector3 playerRaycastDir = (aimAssist.aimTargetObj.transform.position - playerRaycastOrigin).normalized;
-        Ray playerCollisionRay = new Ray(playerRaycastOrigin, Player.Instance.transform.forward);
         Gizmos.DrawLine(playerRaycastOrigin, playerRaycastOrigin + playerRaycastDir * playerAimCullingDistance);
+
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(current_cPos, new Vector3(0.2f, 0.2f, 0.2f));
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(desired_cPos, 0.2f);
     }
 
     void LerpCamera()
@@ -273,7 +279,7 @@ public class vThirdPersonCamera : MonoBehaviour
         }
         else
         {
-            Vector3 tempTargetPos = currentTarget.position + lerpTarget.transform.position;
+            Vector3 tempTargetPos =  lerpTarget.transform.position;
             targetPos = new Vector3(tempTargetPos.x, tempTargetPos.y + offSetPlayerPivot, tempTargetPos.z);
         }
         

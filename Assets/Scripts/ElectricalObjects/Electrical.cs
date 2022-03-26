@@ -43,7 +43,7 @@ public class Electrical : MonoBehaviour, ISaveable
         }
     }
 
-    public void SetIsPowered(bool shouldPower, bool onSceneLoad = false)
+    public virtual void SetIsPowered(bool shouldPower, bool onSceneLoad = false)
     {
         isPowered = shouldPower;
 

@@ -1,36 +1,129 @@
 using UnityEngine;
 
-public class ElectricalBox : Electrical
+public class ElectricalBox : Electrical, ISaveable
 { 
-    private MeshRenderer meshRenderer;
-
     [Header("Electrical Box Variables")]
+    public MeshRenderer meshRenderer;
+    public GameObject battery;
+    public Transform collectionTransform;
+
+    public bool isBatteryAttached = false;
+
+    public float batteryCollectionRadius = 0;
+
     public Color deactivatedColor;
     public Color activatedColor;
 
-    public float sparkleSize = 5; 
-
-    private GameObject interactionParticle;
-    private ObjectPooler.Key interactionKey = ObjectPooler.Key.InteractionParticle;
-
-
-    void Start()
+    new public object CaptureState()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        return new SaveData
+        {
+            savedBatteryStatus = isBatteryAttached,
+            poweredState = IsPowered()
+        };
+    }
 
-        interactionParticle = ObjectPooler.GetPooler(interactionKey).GetPooledObject();
-        interactionParticle.transform.position = transform.position;
-        interactionParticle.transform.rotation = transform.rotation;
+    new public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
 
-        interactionParticle.transform.parent = gameObject.transform;
+        isBatteryAttached = saveData.savedBatteryStatus;
+        SetIsPowered(saveData.poweredState, true);
+    }
 
-        interactionParticle.transform.localScale = new Vector3(transform.localScale.x + sparkleSize, transform.localScale.y + sparkleSize, transform.localScale.z + sparkleSize);
-        interactionParticle.SetActive(true);
+    [System.Serializable]
+    private struct SaveData
+    {
+        public bool savedBatteryStatus;
+        public bool poweredState;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(collectionTransform.position, batteryCollectionRadius);
+    }
+
+    public bool GetBatteryStatus()
+    {
+        return isBatteryAttached;
+    }
+
+    public void SetBatteryStatus(bool nBatteryStatus)
+    {
+        isBatteryAttached = nBatteryStatus;
+    }
+
+    public override void SetIsPowered(bool shouldPower, bool onSceneLoad = false)
+    {
+        if (!isBatteryAttached && shouldPower)
+        {
+            return;
+        }
+
+        isPowered = shouldPower;
+
+        if (shouldPower)
+        {
+            OnActivated?.Invoke();
+        }
+        else
+        {
+            OnDeactived?.Invoke();
+        }
+
+        if (!onSceneLoad)
+        {
+            GameManager.Instance.SaveScene();
+        }
+    }
+
+    void TryCollectBattery()
+    {
+        Collider[] collidersInRange = Physics.OverlapSphere(collectionTransform.position, batteryCollectionRadius);
+
+        if (collidersInRange.Length > 0)
+        {
+            for (int i = 0; i < collidersInRange.Length; i++)
+            {
+                PowerSource powerSourceCheck = null;
+                powerSourceCheck = collidersInRange[i].gameObject.GetComponent<PowerSource>();
+
+                if (powerSourceCheck != null)
+                {
+                    FixedJoint fixedJointCheck = null;
+                    fixedJointCheck = collidersInRange[i].gameObject.GetComponent<FixedJoint>();
+
+                    if (fixedJointCheck != null)
+                    {
+                        fixedJointCheck.connectedBody.gameObject.GetComponent<GrabberEffector>().DropCurrentObj();
+                    }
+
+                    collidersInRange[i].gameObject.GetComponent<SaveEnabledState>().ShouldEnableObject(false);
+                    isBatteryAttached = true;
+                    return;
+                }
+            }
+        }
     }
 
     private void Update()
     {
-        if (IsPowered())
+        if (!isBatteryAttached)
+        {
+            TryCollectBattery();
+        }
+
+        if (isBatteryAttached && !battery.activeSelf)
+        {
+            battery.SetActive(true);
+        }
+        else if (!isBatteryAttached && battery.activeSelf)
+        {
+            battery.SetActive(false);
+        }
+
+        if (IsPowered() && isBatteryAttached)
         {
             if (meshRenderer.material.color != activatedColor)
             {
