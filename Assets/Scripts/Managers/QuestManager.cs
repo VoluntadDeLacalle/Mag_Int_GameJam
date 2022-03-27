@@ -94,7 +94,8 @@ public class Objective
         Location,
         Talk,
         Activate,
-        Restore
+        Restore,
+        External
     };
     public GoalType goalType = GoalType.Location;
     public string objectiveDescription = "";
@@ -115,6 +116,8 @@ public class Objective
 
     public int numberToCollect = 0;
     public int collectedAmount = 0;
+
+    public string externalObjectiveName = string.Empty;
 
     public void AddGatheringItem(string nItemName)
     {
@@ -242,6 +245,19 @@ public class Objective
             {
                 Complete();
             }
+        }
+    }
+
+    public void ExternalObjective(string nExternalName)
+    {
+        if(levelName != SceneManager.GetActiveScene().name)
+        {
+            return;
+        }
+
+        if (externalObjectiveName == nExternalName)
+        {
+            Complete();
         }
     }
 

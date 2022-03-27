@@ -82,6 +82,10 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     Rect rectRestoreItemName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
                     EditorGUI.PropertyField(rectRestoreItemName, property.FindPropertyRelative("itemName"));
                     break;
+                case Objective.GoalType.External:
+                    Rect rectExternalName = new Rect(position.min.x, position.min.y + lines++ * EditorGUIUtility.singleLineHeight, position.size.x, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(rectExternalName, property.FindPropertyRelative("externalObjectiveName"));
+                    break;
             }
 
             int numberOfStartEvents = (int)property.FindPropertyRelative("numbOfStartEvents").intValue;
@@ -145,6 +149,9 @@ public class ObjectiveEditorDrawer : PropertyDrawer
                     totalLines += 11;
                     break;
                 case Objective.GoalType.Restore:
+                    totalLines += 11;
+                    break;
+                case Objective.GoalType.External:
                     totalLines += 11;
                     break;
             }

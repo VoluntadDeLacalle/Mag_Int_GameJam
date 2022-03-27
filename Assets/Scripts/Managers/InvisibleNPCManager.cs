@@ -5,6 +5,7 @@ using UnityEngine;
 public class InvisibleNPCManager : MonoBehaviour, ISaveable
 {
     public List<InvisibleNPCEffectorActions> invisibleNPCActions = new List<InvisibleNPCEffectorActions>();
+    public string completionObjectiveName = string.Empty;
     public bool shouldStartDetecting = false;
     public bool hasCompletedAction = false;
 
@@ -29,6 +30,16 @@ public class InvisibleNPCManager : MonoBehaviour, ISaveable
         public bool detectionStatus;
     }
 
+    public void ShouldDetect(bool nShouldDetect)
+    {
+        shouldStartDetecting = nShouldDetect;
+    }
+
+    public void CompletionTest()
+    {
+        Debug.Log("IT WORKS!");
+    }
+
     void CheckNPCStatus()
     {
         bool allNPCHit = true;
@@ -48,7 +59,14 @@ public class InvisibleNPCManager : MonoBehaviour, ISaveable
 
         if (allNPCHit)
         {
-            Debug.Log("ALL NPCs enabled!");
+            if (QuestManager.Instance.IsCurrentQuestActive())
+            {
+                Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
+                if (currentObjective != null)
+                {
+                    currentObjective.ExternalObjective(completionObjectiveName);
+                }
+            }
             hasCompletedAction = true;
         }
     }

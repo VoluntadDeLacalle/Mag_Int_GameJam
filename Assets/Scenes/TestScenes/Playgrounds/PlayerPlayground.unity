@@ -4771,6 +4771,112 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].questName
+      value: Test!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].questStartSceneName
+      value: PlayerPlayground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].questStartLocation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].questStartLocation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].questStartLocation.z
+      value: 11.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].goalType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].levelName
+      value: PlayerPlayground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].numbOfStartEvents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].numbOfCompleteEvents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].objectiveDescription
+      value: Find all of the Invisible workers and ZAP them to fix their stealth
+        plating!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].externalObjectiveName
+      value: InvisibleNPCRoundup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1944901657}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1944901657}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShouldDetect
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CompletionTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InvisibleNPCManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InvisibleNPCManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378944834775509645, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: levelQuests.Array.data[0].objectives.Array.data[0].OnObjectiveStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8046619096103225096, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
         type: 3}
       propertyPath: m_RootOrder
@@ -5654,6 +5760,7 @@ MonoBehaviour:
   - {fileID: 8864927783916238359}
   - {fileID: 632221960}
   - {fileID: 1933911063}
+  completionObjectiveName: InvisibleNPCRoundup
   shouldStartDetecting: 0
   hasCompletedAction: 0
 --- !u!114 &1944901658
