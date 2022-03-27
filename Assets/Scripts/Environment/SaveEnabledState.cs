@@ -31,6 +31,11 @@ public class SaveEnabledState : MonoBehaviour, ISaveable
 
     public void ShouldEnableObject(bool shouldEnable)
     {
+        if (shouldEnable == shouldBeEnabled)
+        {
+            return;
+        }
+
         shouldBeEnabled = shouldEnable;
         gameObject.SetActive(shouldEnable);
     }

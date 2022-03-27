@@ -97,7 +97,6 @@ public class PowerEffector : Item
             {
                 if (collisionBeam.activeSelf)
                 {
-                    Debug.Log("Turned off");
                     collisionBeam.SetActive(false);
                 }
 

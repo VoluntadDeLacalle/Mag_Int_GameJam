@@ -6,4 +6,6 @@ public class NPCCharacter : MonoBehaviour
 {
     public string characterName;
     public float talkRadius = 2.5f;
+
+
 }
