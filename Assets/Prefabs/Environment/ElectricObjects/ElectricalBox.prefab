@@ -104,8 +104,9 @@ MonoBehaviour:
   collectionTransform: {fileID: 1892246430355779473}
   isBatteryAttached: 0
   batteryCollectionRadius: 0.8
-  deactivatedColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
-  activatedColor: {r: 1, g: 0.97778857, b: 0, a: 1}
+  emissionLerpSpeed: 3
+  deactivatedEmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  activatedEmissionColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!65 &8492489628918450501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldPulse: 1
-  rimColor: {r: 1, g: 0.6544537, b: 0, a: 1}
+  rimColor: {r: 1, g: 1, b: 1, a: 1}
   maxRimSize: 1.25
   minRimSize: 5
   pausePulseTimer: 2
