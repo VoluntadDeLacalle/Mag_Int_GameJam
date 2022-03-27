@@ -39,7 +39,7 @@ public class Electrical : MonoBehaviour, ISaveable
 
         if (poweredOnAwake)
         {
-            isPowered = true;
+            SetIsPowered(true, true);
         }
     }
 

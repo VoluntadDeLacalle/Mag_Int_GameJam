@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class GateController : MonoBehaviour
 {
+    public bool openOnAwake = false;
     public Animator gateAnimator;
     public string openParameter;
 
+    void Awake()
+    {
+        if (openOnAwake)
+        {
+            OpenGate();
+        }
+    }
+
     public void OpenGate()
     {
-        Debug.Log("Ran");
         gateAnimator.SetBool(openParameter, true);
     }
 
     public void CloseGate()
     {
-        Debug.Log("closed");
+        
         gateAnimator.SetBool(openParameter, false);
     }
 }

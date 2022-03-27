@@ -55,6 +55,11 @@ public class ElectricalBox : Electrical, ISaveable
         isBatteryAttached = nBatteryStatus;
     }
 
+    public void SetPowerEvent(bool shouldPower)
+    {
+        SetIsPowered(shouldPower);
+    }
+
     public override void SetIsPowered(bool shouldPower, bool onSceneLoad = false)
     {
         if (!isBatteryAttached && shouldPower)

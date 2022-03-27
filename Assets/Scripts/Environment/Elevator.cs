@@ -157,6 +157,12 @@ public class Elevator : MonoBehaviour
                     }
                 }
 
+                Pitfall pitfallCheck = other.gameObject.GetComponent<Pitfall>();
+                if (pitfallCheck != null)
+                {
+                    return;
+                }
+
                 other.gameObject.transform.parent = this.transform.parent;
             }
         }
