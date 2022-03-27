@@ -30,13 +30,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5341651447662970992}
-  m_LocalRotation: {x: -0.28177676, y: 0.0028098996, z: 0.40955028, w: 0.86767656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.71, y: 0.39, z: 3.74}
   m_LocalScale: {x: 1, y: 0.16133727, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -29.425, y: -15.034, z: 54.504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5341651447662971005
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   chassisGripTransform:
     gripTransform: {fileID: 0}
   interactableOnStart: 1
-  scrapAmount: 600
+  scrapAmount: 100
 --- !u!65 &5341651447662971007
 BoxCollider:
   m_ObjectHideFlags: 0
