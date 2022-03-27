@@ -11,8 +11,9 @@ public class ElectricalBox : Electrical, ISaveable
 
     public float batteryCollectionRadius = 0;
 
-    public Color deactivatedColor;
-    public Color activatedColor;
+    public float emissionLerpSpeed = 3f;
+    public Color deactivatedEmissionColor;
+    public Color activatedEmissionColor;
 
     new public object CaptureState()
     {
@@ -125,16 +126,24 @@ public class ElectricalBox : Electrical, ISaveable
 
         if (IsPowered() && isBatteryAttached)
         {
-            if (meshRenderer.material.color != activatedColor)
+            Color currentEmissionColor = meshRenderer.material.GetColor("_EmissionColor");
+
+            if (currentEmissionColor != activatedEmissionColor)
             {
-                meshRenderer.material.color = activatedColor;
+                currentEmissionColor = Color.Lerp(currentEmissionColor, activatedEmissionColor, emissionLerpSpeed * Time.deltaTime);
+
+                meshRenderer.material.SetColor("_EmissionColor", currentEmissionColor);
             }
         }
         else
         {
-            if (meshRenderer.material.color != deactivatedColor)
+            Color currentEmissionColor = meshRenderer.material.GetColor("_EmissionColor");
+
+            if (currentEmissionColor != deactivatedEmissionColor)
             {
-                meshRenderer.material.color = deactivatedColor;
+                currentEmissionColor = Color.Lerp(currentEmissionColor, deactivatedEmissionColor, emissionLerpSpeed * Time.deltaTime);
+
+                meshRenderer.material.SetColor("_EmissionColor", currentEmissionColor);
             }
         }
     }

@@ -149,6 +149,14 @@ public class Elevator : MonoBehaviour
                     }
                 }
 
+                for (int i = 0; i < Player.Instance.ragdoll.ragdollColliders.Count; i++)
+                {
+                    if (Player.Instance.ragdoll.ragdollColliders[i] == other)
+                    {
+                        return;
+                    }
+                }
+
                 other.gameObject.transform.parent = this.transform.parent;
             }
         }

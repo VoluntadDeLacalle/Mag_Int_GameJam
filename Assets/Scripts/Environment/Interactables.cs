@@ -32,6 +32,7 @@ public class Interactables : MonoBehaviour
         }
         else
         {
+            Debug.Log("in here");
             material = mainRenderer.material;
         }
         
