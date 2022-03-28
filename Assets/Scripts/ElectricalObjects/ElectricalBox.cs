@@ -11,7 +11,11 @@ public class ElectricalBox : Electrical, ISaveable
 
     public float batteryCollectionRadius = 0;
 
+    [Header("Juice Variables")]
     public float emissionLerpSpeed = 3f;
+
+    [Range(1,5)]
+    public float intensity = 2;
     public Color deactivatedEmissionColor;
     public Color activatedEmissionColor;
 
@@ -133,9 +137,9 @@ public class ElectricalBox : Electrical, ISaveable
         {
             Color currentEmissionColor = meshRenderer.material.GetColor("_EmissionColor");
 
-            if (currentEmissionColor != activatedEmissionColor)
+            if (currentEmissionColor != activatedEmissionColor * intensity)
             {
-                currentEmissionColor = Color.Lerp(currentEmissionColor, activatedEmissionColor, emissionLerpSpeed * Time.deltaTime);
+                currentEmissionColor = Color.Lerp(currentEmissionColor, activatedEmissionColor * intensity, emissionLerpSpeed * Time.deltaTime);
 
                 meshRenderer.material.SetColor("_EmissionColor", currentEmissionColor);
             }
@@ -144,9 +148,9 @@ public class ElectricalBox : Electrical, ISaveable
         {
             Color currentEmissionColor = meshRenderer.material.GetColor("_EmissionColor");
 
-            if (currentEmissionColor != deactivatedEmissionColor)
+            if (currentEmissionColor != deactivatedEmissionColor * intensity)
             {
-                currentEmissionColor = Color.Lerp(currentEmissionColor, deactivatedEmissionColor, emissionLerpSpeed * Time.deltaTime);
+                currentEmissionColor = Color.Lerp(currentEmissionColor, deactivatedEmissionColor * intensity, emissionLerpSpeed * Time.deltaTime);
 
                 meshRenderer.material.SetColor("_EmissionColor", currentEmissionColor);
             }

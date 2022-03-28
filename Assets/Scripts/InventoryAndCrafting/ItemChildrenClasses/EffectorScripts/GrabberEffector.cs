@@ -154,7 +154,10 @@ public class GrabberEffector : Item
         {
             Debug.LogError($"{itemName} is currently of {itemType} type and not effector!");
         }
+    }
 
+    private void FixedUpdate()
+    {
         if (currentAttachedObj != null)
         {
             FixedJoint currentFixedJoint = currentAttachedObj.GetComponent<FixedJoint>();

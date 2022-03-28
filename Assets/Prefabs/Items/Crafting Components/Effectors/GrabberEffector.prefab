@@ -132,7 +132,8 @@ MonoBehaviour:
   itemType: 1
   itemName: Grabber
   description: Will pick up one object when activated within its reach. To drop a
-    grabbed object, press control and the left mouse button.
+    grabbed object, activate the effector again.
+  canPickUp: 1
   isObtained: 0
   isRestored: 0
   restorationScrapAmount: 50
@@ -210,3 +211,4 @@ MonoBehaviour:
   minRimSize: 5
   pausePulseTimer: 0.5
   pulseSpeed: 2
+  mainRenderer: {fileID: 0}

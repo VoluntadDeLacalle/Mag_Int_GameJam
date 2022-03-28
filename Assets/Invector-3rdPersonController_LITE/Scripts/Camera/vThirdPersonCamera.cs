@@ -125,7 +125,7 @@ public class vThirdPersonCamera : MonoBehaviour
         if (shouldMove)
         {
             yMinLimit = -20;
-            yMaxLimit = 45;
+            yMaxLimit = 50;
         }
         else
         {
@@ -136,13 +136,16 @@ public class vThirdPersonCamera : MonoBehaviour
         Vector3 playerRaycastOrigin = Player.Instance.itemHandler.itemDetection.pickupTransform.position;
         Vector3 playerRaycastDir = (aimAssist.aimTargetObj.transform.position - playerRaycastOrigin).normalized;
 
+        RaycastHit hitInfo;
         if (!playerRaycastBool)
         {
-            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, playerAimCullingDistance, LayerMask.NameToLayer("Player"));
+            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, out hitInfo, playerAimCullingDistance, LayerMask.NameToLayer("Player"));
+            playerRaycastBool = (playerRaycastBool && !(hitInfo.collider.gameObject.GetComponent<Grabbable>() != null || hitInfo.collider.gameObject.GetComponent<Item>() != null));
         }
         else
         {
-            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, playerAimCullingDistance + 0.5f, LayerMask.NameToLayer("Player"));
+            playerRaycastBool = Physics.Raycast(playerRaycastOrigin, playerRaycastDir, out hitInfo, playerAimCullingDistance + 0.5f, LayerMask.NameToLayer("Player"));
+            playerRaycastBool = (playerRaycastBool && !(hitInfo.collider.gameObject.GetComponent<Grabbable>() != null || hitInfo.collider.gameObject.GetComponent<Item>() != null));
         }
     }
 
@@ -235,7 +238,7 @@ public class vThirdPersonCamera : MonoBehaviour
             {
                 current_cPos = Vector3.Lerp(current_cPos, lerpTarget.transform.position, lerpSpeed * Time.fixedDeltaTime);
 
-                lerpTimer -= Time.deltaTime;
+                lerpTimer -= Time.fixedDeltaTime;
                 if (lerpTimer <= 0 || Vector3.Distance(current_cPos, lerpTarget.transform.position) < 0.05f)
                 {
                     current_cPos = lerpTarget.transform.position;
@@ -245,7 +248,7 @@ public class vThirdPersonCamera : MonoBehaviour
             {
                 current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.fixedDeltaTime);
 
-                lerpTimer -= Time.deltaTime;
+                lerpTimer -= Time.fixedDeltaTime;
                 if (lerpTimer <= 0 || Vector3.Distance(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0)) < 0.05f)
                 {
                     current_cPos = currentTargetPos + new Vector3(0, currentHeight, 0);

@@ -135,7 +135,7 @@ public struct ItemDataModel
 
 [Serializable]
 [RequireComponent(typeof(SaveableEntity))]
-public class Item : MonoBehaviour, ISaveable
+public class Item : MonoBehaviour, ISaveable, IGrabbable
 {
     #region Variables
     public enum TypeTag
