@@ -28,7 +28,6 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
     public Image selectedInspectorImage;
     public TMPro.TextMeshProUGUI selectedItemTitle;
     public TMPro.TextMeshProUGUI selectedItemDescription;
-    public TMPro.TextMeshProUGUI selectedItemAttachedComponents;
     public GameObject dropItemButton;
     public GameObject equipItemButton;
     public GameObject unequipItemButton;
@@ -113,7 +112,6 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         selectedInspectorImage.color = new Color(0, 0, 0, 0);
         selectedItemTitle.text = "";
         selectedItemDescription.text = "";
-        selectedItemAttachedComponents.text = "";
 
         dropItemButton.SetActive(false);
         dropItemButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
@@ -555,28 +553,13 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             }
             equipItemButton.GetComponent<Button>().onClick.AddListener(delegate { EquipItem(chassisIndex); });
             unequipItemButton.GetComponent<Button>().onClick.AddListener(delegate { UnequipItem(chassisIndex); });
-
-            selectedItemAttachedComponents.text = "<b>Effectors</b>\n------------";
-
-            for (int i = 0; i < chassisDataModels[chassisIndex].componentItemModels.Count; i++)
-            {
-                if (chassisDataModels[chassisIndex].componentItemModels[i].HasValue)
-                {
-                    selectedItemAttachedComponents.text += $"\n{chassisDataModels[chassisIndex].componentItemModels[i].Value.itemName}";
-                }
-            }
-            selectedItemAttachedComponents.text += "\n\n<b>Grip</b>\n------------";
-
-            if (chassisDataModels[chassisIndex].gripItemModel.HasValue)
-            {
-                selectedItemAttachedComponents.text += $"\n{chassisDataModels[chassisIndex].gripItemModel.Value.itemName}";
-            }
         }
         else
         {
             restoreItemButton.SetActive(true);
             restoreItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { RemoveScrapChassis(chassisIndex, restorationAmount); });
-            restoreItemButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Restore for {restorationAmount} scrap";
+            restoreItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { UpdateInventoryView(); });
+            restoreItemButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Restore: {restorationAmount}";
         }
             
         selectedItemDescription.text = description;
@@ -623,7 +606,8 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
         {
             restoreItemButton.SetActive(true);
             restoreItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { RemoveScrapItem(itemIndex, restorationAmount); });
-            restoreItemButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Restore for {restorationAmount} scrap";
+            restoreItemButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { UpdateInventoryView(); });
+            restoreItemButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Restore: {restorationAmount}";
         }
 
         selectedItemDescription.text = description;
@@ -826,7 +810,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             ItemPooler.Instance.GetItemSprite(currentItemName, out currentItemSprite);
 
 
-            currentItemBox.GetComponentInChildren<Image>().sprite = currentItemSprite;
+            currentItemBox.GetComponentInChildren<InventoryItemBox>().SetInventoryIcon(currentItemSprite, chassisDataModels[i].isRestored);
             currentItemBox.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChangeInventoryInformationChassis(currentItemName); });
             currentItemBox.SetActive(true);
         }
@@ -841,7 +825,7 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
             ItemPooler.Instance.GetItemSprite(currentItemName, out currentItemSprite);
 
 
-            currentItemBox.GetComponentInChildren<Image>().sprite = currentItemSprite;
+            currentItemBox.GetComponentInChildren<InventoryItemBox>().SetInventoryIcon(currentItemSprite, itemDataModels[i].isRestored);
             currentItemBox.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChangeInventoryInformationItem(currentItemName); });
             currentItemBox.SetActive(true);
         }
@@ -858,10 +842,13 @@ public class Inventory : SingletonMonoBehaviour<Inventory>, ISaveable
                 continue;
             }
 
-            currentTrans.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
-            currentTrans.gameObject.GetComponentInChildren<Image>().sprite = null;
-            currentTrans.gameObject.SetActive(false);
-            currentTrans.SetParent(ObjectPooler.GetPooler(inventoryItemUIKey).gameObject.transform, false);
+            if (currentTrans.gameObject.GetComponent<Button>() != null)
+            {
+                currentTrans.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                currentTrans.gameObject.GetComponentInChildren<Image>().sprite = null;
+                currentTrans.gameObject.SetActive(false);
+                currentTrans.SetParent(ObjectPooler.GetPooler(inventoryItemUIKey).gameObject.transform, false);
+            }
         }
     }
 }

@@ -10,7 +10,9 @@ public class PrimaryCraftingUIDescriptor : MonoBehaviour
     [Header("Main Mod Button Variables")]
     public TextMeshProUGUI titleTextMesh;
     public TextMeshProUGUI itemNameTextMesh;
+    public Image buttonIconBackground;
     public Image buttonIcon;
+    public Sprite iconBackground;
 
     [Header("Mod Item List Variables")]
     [Range(5, 10)]
@@ -60,11 +62,14 @@ public class PrimaryCraftingUIDescriptor : MonoBehaviour
 
         if (itemSprite == null)
         {
+            buttonIconBackground.enabled = false;
             buttonIcon.enabled = false;
         }
         else
         {
+            buttonIconBackground.enabled = true;
             buttonIcon.enabled = true;
+            buttonIconBackground.sprite = iconBackground;
             buttonIcon.sprite = itemSprite;
         }       
     }

@@ -20,6 +20,8 @@ public class Compass : MonoBehaviour
     public GameObject compassGO;
     public GameObject questMarkerGO;
 
+    public float questMarkerYPos = 0f;
+
     float compassUnit;
 
     private void Start()
@@ -67,6 +69,6 @@ public class Compass : MonoBehaviour
 
         float angle = Vector2.SignedAngle(questmarker.position - playerPos, cameraForward);
 
-        return new Vector2(compassUnit * angle, 0f);
+        return new Vector2(compassUnit * angle, questMarkerYPos);
     }
 }

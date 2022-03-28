@@ -162,13 +162,14 @@ MonoBehaviour:
   itemType: 0
   itemName: Lvl. 1 Chassis
   description: This is a chassis with one component slot.
+  canPickUp: 1
   isObtained: 0
   isRestored: 0
   restorationScrapAmount: 125
   isEquipped: 0
   localHandPos: {x: 0.062, y: 0.221, z: 0.063}
   localHandRot: {x: 128.1, y: 151.688, z: -10.816}
-  inventorySprite: {fileID: 21300000, guid: 69e99d011cd8b854298636b894c26e4b, type: 3}
+  inventorySprite: {fileID: 21300000, guid: d6e971bc142aa8c4ca1cc55e8b8bb35b, type: 3}
   chassisComponentTransforms:
   - componentTransform: {fileID: 6955212821588163272}
   chassisGripTransform:
@@ -206,6 +207,7 @@ MonoBehaviour:
   minRimSize: 5
   pausePulseTimer: 0.5
   pulseSpeed: 2
+  mainRenderer: {fileID: 0}
 --- !u!1 &4718765319688027001
 GameObject:
   m_ObjectHideFlags: 0

@@ -136,13 +136,14 @@ MonoBehaviour:
   itemName: Power
   description: This effector will shoot a beam in whatever direction it is pointing.
     This beam will activate certain electrical equipment.
+  canPickUp: 1
   isObtained: 0
   isRestored: 0
   restorationScrapAmount: 250
   isEquipped: 0
   localHandPos: {x: 0, y: 0, z: 0}
   localHandRot: {x: 0, y: 0, z: 0}
-  inventorySprite: {fileID: 21300000, guid: ad07f808c8fdd304bb0265777ab5becd, type: 3}
+  inventorySprite: {fileID: 21300000, guid: f6d066f4aca679a49a467fee93c5e605, type: 3}
   chassisComponentTransforms: []
   chassisGripTransform:
     gripTransform: {fileID: 0}
@@ -230,6 +231,7 @@ MonoBehaviour:
   minRimSize: 5
   pausePulseTimer: 0.5
   pulseSpeed: 2
+  mainRenderer: {fileID: 0}
 --- !u!1001 &4665190562683835455
 PrefabInstance:
   m_ObjectHideFlags: 0

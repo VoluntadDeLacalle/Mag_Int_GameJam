@@ -5,6 +5,10 @@ using UnityEngine;
 public class GenericButton : MonoBehaviour
 {
     [SerializeField] public string menuClick = string.Empty;
+    public TMPro.TextMeshProUGUI buttonTextMesh;
+
+    public Color normalColor = Color.white;
+    public Color hoverColor = Color.white;
 
     public void PlayClickSFX()
     {
@@ -12,5 +16,15 @@ public class GenericButton : MonoBehaviour
         {
             AudioManager.Get().Play(menuClick);
         }
+    }
+
+    public void SwitchTextNormalColor()
+    {
+        buttonTextMesh.color = normalColor;
+    }
+
+    public void SwitchTextHoveredColor()
+    {
+        buttonTextMesh.color = hoverColor;
     }
 }

@@ -294,8 +294,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     [Header("Compass UI Variables")]
     private Compass compassRef;
-    public Sprite inactiveQuestMarker;
-    public Sprite locationQuestMarker;
+    public Sprite questMarker;
 
     [Header("Audio Variables")]
     public string questStartSFX = string.Empty;
@@ -670,7 +669,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         {
             if (currentObjective.goalType == Objective.GoalType.Location && !compassRef.compassGO.activeInHierarchy)
             {
-                compassRef.SetQuestMarker(locationQuestMarker, currentObjective.targetWorldPosition);
+                compassRef.SetQuestMarker(questMarker, currentObjective.targetWorldPosition);
             }
 
             objectiveTextMesh.text = currentObjective.objectiveDescription;
@@ -803,7 +802,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
                 if (!compassRef.compassGO.activeInHierarchy)
                 {
-                    compassRef.SetQuestMarker(inactiveQuestMarker, GetCurrentQuest().questStartLocation);
+                    compassRef.SetQuestMarker(questMarker, GetCurrentQuest().questStartLocation);
                 }
             }
         }
