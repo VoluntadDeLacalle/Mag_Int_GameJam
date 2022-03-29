@@ -290,7 +290,10 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
     private TMPro.TextMeshProUGUI generalInformationTextMesh;
     private GameObject questFlavorBackground;
     private TMPro.TextMeshProUGUI questFlavorTextMesh;
+    private GameObject questBackgroundCollapsed;
     public float questFlavorTimer = 2f;
+
+    private bool isQuestCollapsed = false;
 
     [Header("Compass UI Variables")]
     private Compass compassRef;
@@ -506,7 +509,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         currentSceneName = scene.name;
 
-        QuestUIManager.Instance.InitUI(ref questTextMesh, ref questTextBackground, ref objectiveTextMesh, ref objectiveTextBackground, ref generalInformationTextMesh, ref questFlavorBackground, ref questFlavorTextMesh);
+        QuestUIManager.Instance.InitUI(ref questTextMesh, ref questTextBackground, ref objectiveTextMesh, ref objectiveTextBackground, ref generalInformationTextMesh, ref questFlavorBackground, ref questFlavorTextMesh, ref questBackgroundCollapsed);
         QuestUIManager.Instance.InitCompass(ref compassRef);
 
         if (currentQuestIndex < levelQuests.Count)
@@ -550,6 +553,8 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         markerGO.SetActive(false);
 
         compassRef.ResetQuestMarker();
+        isQuestCollapsed = false;
+        UpdateQuestText(isQuestCollapsed);
         SetObjectiveInfo();
 
         if (!HasNewQuest())
@@ -644,11 +649,25 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         Objective currentObjective = levelQuests[currentQuestIndex].GetCurrentObjective();
         if (currentObjective == null)
         {
+            objectiveTextBackground.SetActive(false);
             return;
         }
         else if (currentObjective.levelName != currentSceneName)
         {
+            objectiveTextBackground.SetActive(false);
             return;
+        }
+        else
+        {
+            if (!isQuestCollapsed && Time.timeScale == 1.0f)
+            {
+                objectiveTextBackground.SetActive(true);
+            }
+            else
+            {
+                objectiveTextBackground.SetActive(false);
+            }
+            
         }
 
         currentObjective.OnObjectiveStart?.Invoke();
@@ -674,14 +693,13 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
             objectiveTextMesh.text = currentObjective.objectiveDescription;
         }
-
-        objectiveTextBackground.SetActive(true);
     }
 
     void InitQuestInfo()
     {
         questTextMesh.text = levelQuests[currentQuestIndex].questName;
-        questTextBackground.SetActive(true);
+        isQuestCollapsed = false;
+        UpdateQuestText(isQuestCollapsed);
 
         SetObjectiveInfo();
     }
@@ -699,11 +717,12 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     void ResetQuestInfo()
     {
-        questTextMesh.text = "";
+        //questTextMesh.text = "";
         objectiveTextMesh.text = "";
 
         questTextBackground.SetActive(false);
         objectiveTextBackground.SetActive(false);
+        questBackgroundCollapsed.SetActive(false);
 
         compassRef.ResetQuestMarker();
     }
@@ -716,6 +735,13 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
         {
             questFlavorBackground.SetActive(false);
         }
+    }
+
+    void UpdateQuestText(bool shouldShow)
+    {
+        questTextBackground.SetActive(!shouldShow);
+        objectiveTextBackground.SetActive(!shouldShow);
+        questBackgroundCollapsed.SetActive(shouldShow);
     }
 
     public void TryStartQuest(Vector3 playerLocation)
@@ -788,7 +814,23 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
         if (!HasNewQuest())
         {
+            ResetQuestInfo();
             return;
+        }
+
+        if (Time.timeScale == 1.0f && !(questTextBackground.activeSelf || questBackgroundCollapsed.activeSelf) && IsCurrentQuestActive())
+        {
+            UpdateQuestText(isQuestCollapsed);
+        }
+        else if(Time.timeScale == 0.0f && (questTextBackground.activeSelf || questBackgroundCollapsed.activeSelf))
+        {
+            ResetQuestInfo();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab) && Player.Instance.vThirdPersonInput.CanMove())
+        {
+            isQuestCollapsed = !isQuestCollapsed;
+            UpdateQuestText(isQuestCollapsed);
         }
 
         if (!IsCurrentQuestActive())
@@ -816,7 +858,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                     SpawnMarkerGO(currentObjective.targetWorldPosition, currentObjective.activationRadius, Color.red);
                 }
             }
-            
+
             SetObjectiveInfo();
         }
     }
