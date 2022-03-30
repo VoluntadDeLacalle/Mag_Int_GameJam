@@ -14,9 +14,16 @@ public class NPCCharacter : MonoBehaviour, ISaveable
         currentPosition.Add(transform.position.y);
         currentPosition.Add(transform.position.z);
 
+        List<float> currentRotation = new List<float>();
+        currentRotation.Add(transform.rotation.x);
+        currentRotation.Add(transform.rotation.y);
+        currentRotation.Add(transform.rotation.z);
+        currentRotation.Add(transform.rotation.w);
+
         return new SaveData
         {
-            npcPosition = currentPosition
+            npcPosition = currentPosition,
+            npcRotation = currentRotation
         };
     }
 
@@ -25,11 +32,13 @@ public class NPCCharacter : MonoBehaviour, ISaveable
         var saveData = (SaveData)state;
 
         transform.position = new Vector3(saveData.npcPosition[0], saveData.npcPosition[1], saveData.npcPosition[2]);
+        transform.rotation = new Quaternion(saveData.npcRotation[0], saveData.npcRotation[1], saveData.npcRotation[2], saveData.npcRotation[3]);
     }
 
     [System.Serializable]
     private struct SaveData
     {
         public List<float> npcPosition;
+        public List<float> npcRotation;
     }
 }

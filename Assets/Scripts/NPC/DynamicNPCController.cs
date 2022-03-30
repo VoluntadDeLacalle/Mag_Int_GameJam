@@ -10,6 +10,17 @@ public class DynamicNPCController : NPCCharacter
     public TextAsset basicTextFile = null;
     public Sprite talkerIcon = null;
 
+    public void SetTextFile(TextAsset textFile)
+    {
+        basicTextFile = textFile;
+    }
+
+    public void MoveCharacter(Transform nTransform)
+    {
+        transform.position = nTransform.position;
+        transform.rotation = nTransform.rotation;
+    }
+
     void TryTalk()
     {
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, talkRadius);

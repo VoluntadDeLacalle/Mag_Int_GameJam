@@ -71,6 +71,11 @@ public class GrabberEffector : Item
 
             if(tempRB != null)
             {
+                if (tempRB.mass >= 100)
+                {
+                    continue;
+                }
+
                 Elevator elevator = collidersInRange[i].gameObject.GetComponent<Elevator>();
                 if (elevator != null)
                 {
