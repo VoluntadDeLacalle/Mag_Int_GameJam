@@ -113,7 +113,7 @@ MonoBehaviour:
   chassisGripTransform:
     gripTransform: {fileID: 0}
   interactableOnStart: 1
-  scrapAmount: 100
+  scrapAmount: 20
 --- !u!65 &5341651447662971007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.65, z: 1}
+  m_Size: {x: 0.4, y: 3, z: 0.43}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2236935686923787100
 Rigidbody:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldPulse: 1
-  rimColor: {r: 1, g: 0.50980395, b: 0, a: 1}
+  rimColor: {r: 0, g: 1, b: 0.9690733, a: 1}
   maxRimSize: 1.75
   minRimSize: 5
   pausePulseTimer: 0.5

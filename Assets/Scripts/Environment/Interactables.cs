@@ -7,7 +7,7 @@ public class Interactables : MonoBehaviour
     public bool shouldPulse = false;
 
     public Color rimColor;
-    [Range(1, 4)]
+    [Range(0, 4)]
     public float maxRimSize = 1.25f;
     [Range(4, 5)]
     public float minRimSize = 5;

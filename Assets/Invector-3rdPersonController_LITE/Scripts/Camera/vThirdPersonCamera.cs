@@ -98,7 +98,7 @@ public class vThirdPersonCamera : MonoBehaviour
 
         aimAssist = GetComponent<AimTargetAssist>();
 
-        lerpTimer = lerpSpeed * Time.deltaTime;
+        lerpTimer = lerpSpeed * Time.fixedDeltaTime;
         maxLerpTimer = lerpTimer;
         lerpTimer = 0;
     }
@@ -117,7 +117,7 @@ public class vThirdPersonCamera : MonoBehaviour
             shouldMove = !shouldMove;
         }
 
-        if (shouldMove && Player.Instance.anim.GetInteger("GripEnum") != 2)
+        if (shouldMove && (Player.Instance.anim.GetInteger("GripEnum") != 2 || !Player.Instance.vThirdPersonInput.CanMove()))
         {
             shouldMove = false;
         }
@@ -246,7 +246,7 @@ public class vThirdPersonCamera : MonoBehaviour
             }
             else
             {
-                current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), 5f * Time.fixedDeltaTime);
+                current_cPos = Vector3.Lerp(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0), lerpSpeed * Time.fixedDeltaTime);
 
                 lerpTimer -= Time.fixedDeltaTime;
                 if (lerpTimer <= 0 || Vector3.Distance(current_cPos, currentTargetPos + new Vector3(0, currentHeight, 0)) < 0.05f)

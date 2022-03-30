@@ -10,6 +10,7 @@ public class LiquidDrain : MonoBehaviour, ISaveable
     public Transform drainTransform;
     public bool shouldDrain = false;
     public bool hasDrainedPrior = false;
+    public bool stopDraining = false;
     public float drainSpeed = 5f;
 
     [Header("Debugging Buttons")]
@@ -57,9 +58,15 @@ public class LiquidDrain : MonoBehaviour, ISaveable
 
     private void Update()
     {
+        if (stopDraining)
+        {
+            return;
+        }
+
         if (hasDrainedPrior && !shouldDrain)
         {
             liquidPlane.transform.position = new Vector3(liquidPlane.transform.position.x, drainTransform.transform.position.y, liquidPlane.transform.position.z);
+            stopDraining = true;
         }
 
         if (shouldDrain && liquidPlane.transform.position.y > drainTransform.position.y)
@@ -69,6 +76,7 @@ public class LiquidDrain : MonoBehaviour, ISaveable
         else if (shouldDrain && liquidPlane.transform.position.y <= drainTransform.position.y)
         {
             GameManager.Instance.SaveScene();
+            stopDraining = true;
         }
     }
 }
