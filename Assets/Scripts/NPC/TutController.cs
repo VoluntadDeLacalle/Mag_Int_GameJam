@@ -16,17 +16,4 @@ public class TutController : MonoBehaviour
 
     [Button("Try Grab", "TestGrab")]
     [SerializeField] private bool _grabBtn;
-
-    private void Awake()
-    {
-        ragdoll.GetAllRagdolls(primaryRigidbody, primaryCollider);
-    }
-
-    public void ToggleRagdoll(bool shouldToggle)
-    {
-        primaryCollider.enabled = !shouldToggle;
-        anim.enabled = !shouldToggle;
-
-        ragdoll.ToggleRagdoll(shouldToggle);
-    }
 }
