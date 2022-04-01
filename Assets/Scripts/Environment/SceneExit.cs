@@ -45,6 +45,11 @@ public class SceneExit : MonoBehaviour, ISaveable
         }
     }
 
+    public void UpdateCanUseExit(bool nExit)
+    {
+        canUseExit = nExit;
+    }
+
     public void MoveToScene()
     {
         LevelManager.Instance.LoadNextActiveScene(nextSceneName, nextSceneSpawnLocationName);

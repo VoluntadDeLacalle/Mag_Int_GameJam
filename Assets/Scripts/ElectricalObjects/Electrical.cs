@@ -49,6 +49,7 @@ public class Electrical : MonoBehaviour, ISaveable
 
         if (shouldPower)
         {
+            Debug.Log("Yes");
             OnActivated?.Invoke();
         }
         else

@@ -621,6 +621,14 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void CurrentQuestComplete()
     {
+        if (GetCurrentQuest() != null)
+        {
+            if (!GetCurrentQuest().isCompleted)
+            {
+                return;
+            }
+        }
+        
         ResetQuestInfo();
         currentQuestIndex++;
 
@@ -776,6 +784,18 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
                 generalInformationTextMesh.text = "";
                 markerGO.SetActive(false);
+            }
+        }
+        else
+        {
+            if (questTextBackground.activeSelf)
+            {
+                questTextBackground.SetActive(false);
+            }
+
+            if (objectiveTextBackground.activeSelf)
+            {
+                objectiveTextBackground.SetActive(false);
             }
         }
     }
