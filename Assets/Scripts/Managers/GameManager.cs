@@ -14,6 +14,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     public string gameManagerSaveFile;
     public string optionsSaveFile;
     public string levelManagerSaveFile;
+    public string questManagerSaveFile;
     public string sceneSaveFile;
 
     [Header("Scenes")]
@@ -61,6 +62,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     {
         SaveSystem.ResetSaveFile(gameManagerSaveFile);
         SaveSystem.ResetSaveFile(levelManagerSaveFile);
+        SaveSystem.ResetSaveFile(questManagerSaveFile);
         SaveSystem.ResetSaveFile(sceneSaveFile);
     }
 
@@ -82,6 +84,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         if (scene.name == mainMenuName && !hasLoadedInitially)
         {
             SaveSystem.Load(gameManagerSaveFile);
+            SaveSystem.Load(questManagerSaveFile);
             hasLoadedInitially = true;
         }
         else
@@ -128,11 +131,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
         SaveSystem.Save(sceneSaveFile);
         SaveSystem.Save(levelManagerSaveFile);
+        SaveSystem.Save(questManagerSaveFile);
     }
 
     public bool HasSaveData()
     {
-        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile);
+        bool returnValue = SaveSystem.DoesFileExist(gameManagerSaveFile) || SaveSystem.DoesFileExist(levelManagerSaveFile) || SaveSystem.DoesFileExist(sceneSaveFile) || SaveSystem.DoesFileExist(questManagerSaveFile);
         return returnValue;
     }
 

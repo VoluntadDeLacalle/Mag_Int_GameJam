@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class LandmineNEW : Explosive
 {
-    [Header("Landmine Variables")]
-    public Transform colliderTransform;
-    public Vector3 boxCenter;
-    public Vector3 boxBounds;
-
     public bool turnOnDetectorMat = false;
     public Material detectorMat;
 
@@ -20,29 +15,24 @@ public class LandmineNEW : Explosive
         }
     }
 
-    new void OnDrawGizmos()
+    private void OnTriggerEnter(Collider other)
     {
-        base.OnDrawGizmos();
-
-        Gizmos.color = Color.yellow;
-        Gizmos.matrix = colliderTransform.localToWorldMatrix;
-
-        Gizmos.DrawWireCube(Vector3.zero, boxBounds * 2);
+        if (other != this.gameObject)
+        {
+            if (!hasExploded)
+            {
+                ActivateExplosion();
+            }
+        }
     }
 
-    void CheckCollisions()
+    private void OnTriggerStay(Collider other)
     {
-        Collider[] collidersInBox = Physics.OverlapBox(colliderTransform.position, boxBounds, transform.rotation);
-
-        if (collidersInBox.Length > 0)
+        if (other != this.gameObject)
         {
-            for (int i = 0; i < collidersInBox.Length; i++)
+            if (!hasExploded)
             {
-                if (collidersInBox[i].gameObject != gameObject)
-                {
-                    ActivateExplosion();
-                    return;
-                }
+                ActivateExplosion();
             }
         }
     }
@@ -51,21 +41,5 @@ public class LandmineNEW : Explosive
     {
         hasExploded = true;
         Explode();
-    }
-
-    private void Update()
-    {
-        if (colliderTransform.position != transform.position + boxCenter)
-        {
-            colliderTransform.position = transform.position + boxCenter;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (!hasExploded)
-        {
-            CheckCollisions();
-        }
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1574913855148550987}
   - component: {fileID: 8121274462719598050}
   - component: {fileID: 4892133123363924365}
+  - component: {fileID: 3309133548774149394}
   - component: {fileID: 151612136050906152}
   - component: {fileID: 151612136050906153}
   m_Layer: 0
@@ -32,8 +33,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 9044703222267899542}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   explosionDelay: 0.1
   hasExploded: 0
   bombTag: bomb
-  colliderTransform: {fileID: 9044703222267899542}
+  colliderTransform: {fileID: 0}
   boxCenter: {x: 0, y: 0.28, z: 0}
   boxBounds: {x: 0.9, y: 0.2, z: 0.9}
   turnOnDetectorMat: 0
@@ -121,6 +121,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmine: {fileID: 8121274462719598050}
+--- !u!65 &3309133548774149394
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070673356041734814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8, y: 0.4, z: 1.8}
+  m_Center: {x: 0, y: 0.28, z: 0}
 --- !u!65 &151612136050906152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -150,33 +163,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &7399671888146576778
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9044703222267899542}
-  m_Layer: 0
-  m_Name: ColliderTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9044703222267899542
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7399671888146576778}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.28, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400850131964366884}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

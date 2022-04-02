@@ -53,6 +53,18 @@ public class Quest
         return objectives;
     }
 
+    public void ResetQuest()
+    {
+        isActive = false;
+        isCompleted = false;
+        currentObjective = 0;
+
+        for (int i = 0; i < objectives.Count; i++)
+        {
+            objectives[i].ResetObjective();
+        }
+    }
+
     public void UpdateCurrentObjective()
     {
         if (!isActive)
@@ -118,6 +130,12 @@ public class Objective
     public int collectedAmount = 0;
 
     public string externalObjectiveName = string.Empty;
+
+    public void ResetObjective()
+    {
+        isCompleted = false;
+        collectedAmount = 0;
+    }
 
     public void AddGatheringItem(string nItemName)
     {
@@ -545,6 +563,14 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                 levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(levelQuests[i].UpdateCurrentObjective);
                 levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(CurrentObjectiveComplete);
             }
+        }
+    }
+
+    public void ResetAllQuests()
+    {
+        for (int i = 0; i < levelQuests.Count; i++)
+        {
+            levelQuests[i].ResetQuest();
         }
     }
 

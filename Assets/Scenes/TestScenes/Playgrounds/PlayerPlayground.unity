@@ -1305,6 +1305,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Landmine (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
 --- !u!1 &320553707
@@ -2162,6 +2167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Landmine (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
@@ -4236,6 +4246,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Landmine (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
 --- !u!4 &1311166894 stripped
@@ -4319,7 +4334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1392170686
 Transform:
   m_ObjectHideFlags: 0
@@ -4610,6 +4625,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Landmine (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
 --- !u!4 &1458125882 stripped
@@ -4856,6 +4876,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Landmine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
@@ -5346,6 +5371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Landmine (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
 --- !u!1 &1736991441
@@ -5466,11 +5496,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1651598321}
     m_Modifications:
-    - target: {fileID: 3672690595840364223, guid: fafa858e3e044cf47a6cbd30c384542a,
-        type: 3}
-      propertyPath: detectableMats.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3701083293217482440, guid: fafa858e3e044cf47a6cbd30c384542a,
         type: 3}
       propertyPath: m_RootOrder
@@ -5915,6 +5940,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Landmine (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1070673356041734814, guid: 14e4bbcd7241d0b4ba8af81e55c245a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14e4bbcd7241d0b4ba8af81e55c245a1, type: 3}
 --- !u!1001 &1933911061
@@ -6356,6 +6386,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 546624183844952088, guid: 64031f1a3e524dc4684c205d898bc8dd,
+        type: 3}
+      propertyPath: basicTextFile
+      value: 
+      objectReference: {fileID: 4900000, guid: e29fdb4b5959f804eba178b5b4b15e95, type: 3}
     - target: {fileID: 546624183844952089, guid: 64031f1a3e524dc4684c205d898bc8dd,
         type: 3}
       propertyPath: m_RootOrder
@@ -8126,9 +8161,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4850683590677424054, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 4850683590677424054, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4850683592284839096, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 4850683592284839096, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_hasFontAssetChanged
