@@ -51,10 +51,17 @@ public class DynamicNPCController : NPCCharacter
                         Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
                         if (currentObjective != null)
                         {
-                            if (currentObjective.npcName == characterName)
+                            if (currentObjective.goalType == Objective.GoalType.Talk)
                             {
-                                activationTextGO.SetActive(true);
-                                npcTextMesh.text = $"Press 'T' to talk to {characterName}";
+                                if (currentObjective.npcName == characterName)
+                                {
+                                    activationTextGO.SetActive(true);
+                                    npcTextMesh.text = $"Press 'T' to talk to {characterName}";
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -69,14 +76,21 @@ public class DynamicNPCController : NPCCharacter
                         Objective currentObjective = QuestManager.Instance.GetCurrentQuest().GetCurrentObjective();
                         if (currentObjective != null)
                         {
-                            KeyValuePair<TextAsset, Sprite> textboxInput = currentObjective.NPCTalkedTo(characterName);
-                            Textbox.Instance.EnableTextbox(textboxInput.Key, textboxInput.Value, false);
+                            if (currentObjective.goalType == Objective.GoalType.Talk)
+                            {
+                                if (currentObjective.npcName == characterName)
+                                {
+                                    KeyValuePair<TextAsset, Sprite> textboxInput = currentObjective.NPCTalkedTo(characterName);
+                                    Textbox.Instance.EnableTextbox(textboxInput.Key, textboxInput.Value, false);
+
+                                    break;
+                                }
+                            }
                         }
                     }
-                    else
-                    {
-                        Textbox.Instance.EnableTextbox(basicTextFile, talkerIcon, false);
-                    }
+
+                    Textbox.Instance.EnableTextbox(basicTextFile, talkerIcon, false);
+                    break;
                 }
             }
 

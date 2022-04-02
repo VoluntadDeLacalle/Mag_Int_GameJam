@@ -609,6 +609,74 @@ MonoBehaviour:
       numberToCollect: 1
       collectedAmount: 0
       externalObjectiveName: InvisibleNPCPuzzle
+  - questName: Leave the Hub.
+    questStartSceneName: Receiving Station Hub
+    questStartLocation: {x: 26.4, y: 25, z: 94.1}
+    isActive: 0
+    isCompleted: 0
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    currentObjective: 0
+    objectives:
+    - levelName: Receiving Station Hub
+      numbOfStartEvents: 2
+      OnObjectiveStart:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_MethodName: SetActive
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: ElectricalBox, Assembly-CSharp
+            m_MethodName: SetBatteryStatus
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
+      goalType: 2
+      objectiveDescription: Open the gates!
+      isCompleted: 0
+      numbOfCompleteEvents: 1
+      OnObjectiveComplete:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+            m_MethodName: FadeLoadMainMenu
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      activationRadius: 3
+      targetWorldPosition: {x: 152.7, y: 25, z: 57.7}
+      itemName: 
+      itemType: 0
+      npcName: 
+      npcDialogue: {fileID: 0}
+      npcSprite: {fileID: 0}
+      numberToCollect: 0
+      collectedAmount: 0
+      externalObjectiveName: 
   currentQuestIndex: 0
 --- !u!114 &5636452110327323313
 MonoBehaviour:
