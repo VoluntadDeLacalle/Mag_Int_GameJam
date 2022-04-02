@@ -94,6 +94,10 @@ public class SaveSystem : MonoBehaviour
             {
                 state[saveable.Id] = saveable.CaptureState();
             }
+            else if (savePath == GameManager.Instance.questManagerSaveFile && saveable.gameObject == QuestManager.Instance.gameObject)
+            {
+                state[saveable.Id] = saveable.CaptureState();
+            }
             else if (savePath == GameManager.Instance.optionsSaveFile)
             {
                 if(OptionsManager.Instance != null)
@@ -141,6 +145,10 @@ public class SaveSystem : MonoBehaviour
             if (state.TryGetValue(saveable.Id, out object value))
             {
                 if (savePath == GameManager.Instance.gameManagerSaveFile && saveable.gameObject == GameManager.Instance.gameObject)
+                {
+                    saveable.RestoreState(value);
+                }
+                else if (savePath == GameManager.Instance.questManagerSaveFile && saveable.gameObject == QuestManager.Instance.gameObject)
                 {
                     saveable.RestoreState(value);
                 }

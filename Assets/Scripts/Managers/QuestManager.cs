@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 
 [System.Serializable]
@@ -51,6 +51,18 @@ public class Quest
     public List<Objective> GetGizmosInformation()
     {
         return objectives;
+    }
+
+    public void ResetQuest()
+    {
+        isActive = false;
+        isCompleted = false;
+        currentObjective = 0;
+
+        for (int i = 0; i < objectives.Count; i++)
+        {
+            objectives[i].ResetObjective();
+        }
     }
 
     public void UpdateCurrentObjective()
@@ -118,6 +130,12 @@ public class Objective
     public int collectedAmount = 0;
 
     public string externalObjectiveName = string.Empty;
+
+    public void ResetObjective()
+    {
+        isCompleted = false;
+        collectedAmount = 0;
+    }
 
     public void AddGatheringItem(string nItemName)
     {
@@ -402,48 +420,49 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void OnDrawGizmosSelected()
     {
-        for (int i = 0; i < levelQuests.Count; i++)
-        {
-            if (levelQuests[i].questStartSceneName == EditorSceneManager.GetActiveScene().name)
+        #if UNITY_EDITOR
+            for (int i = 0; i < levelQuests.Count; i++)
             {
-                Gizmos.color = Color.green;
-                Vector3 currentStartPosition = levelQuests[i].questStartLocation;
-                Gizmos.DrawWireSphere(currentStartPosition, 0.5f);
-                Gizmos.DrawLine(currentStartPosition, currentStartPosition + Vector3.up);
-
-                Gizmos.DrawWireSphere(currentStartPosition, questActivationRadius);
-                #if UNITY_EDITOR
-                GUIStyle startStyle = new GUIStyle();
-                startStyle.normal.textColor = Color.green;
-                Handles.Label(currentStartPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, start position.", startStyle);
-                #endif
-            }
-
-
-            for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
-            {
-                if (levelQuests[i].GetGizmosInformation()[j].levelName != EditorSceneManager.GetActiveScene().name)
+                if (levelQuests[i].questStartSceneName == EditorSceneManager.GetActiveScene().name)
                 {
-                    continue;
-                }
+                    Gizmos.color = Color.green;
+                    Vector3 currentStartPosition = levelQuests[i].questStartLocation;
+                    Gizmos.DrawWireSphere(currentStartPosition, 0.5f);
+                    Gizmos.DrawLine(currentStartPosition, currentStartPosition + Vector3.up);
 
-                if (levelQuests[i].GetGizmosInformation()[j].goalType == Objective.GoalType.Location)
-                {
-                    Gizmos.color = Color.red;
-                    Vector3 currentLocationPosition = levelQuests[i].GetGizmosInformation()[j].targetWorldPosition;
-                    Gizmos.DrawWireSphere(currentLocationPosition, 0.5f);
-                    Gizmos.DrawLine(currentLocationPosition, currentLocationPosition + Vector3.up);
-
-                    Gizmos.DrawWireSphere(currentLocationPosition, levelQuests[i].GetGizmosInformation()[j].activationRadius);
-
+                    Gizmos.DrawWireSphere(currentStartPosition, questActivationRadius);
                     #if UNITY_EDITOR
-                        GUIStyle locationStyle = new GUIStyle();
-                        locationStyle.normal.textColor = Color.red;
-                        Handles.Label(currentLocationPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, Objective {j + 1}, target.", locationStyle);
+                    GUIStyle startStyle = new GUIStyle();
+                    startStyle.normal.textColor = Color.green;
+                    Handles.Label(currentStartPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, start position.", startStyle);
                     #endif
                 }
+
+
+                for (int j = 0; j < levelQuests[i].GetGizmosInformation().Count; j++)
+                {
+                    if (levelQuests[i].GetGizmosInformation()[j].levelName != EditorSceneManager.GetActiveScene().name)
+                    {
+                        continue;
+                    }
+
+                    if (levelQuests[i].GetGizmosInformation()[j].goalType == Objective.GoalType.Location)
+                    {
+                        Gizmos.color = Color.red;
+                        Vector3 currentLocationPosition = levelQuests[i].GetGizmosInformation()[j].targetWorldPosition;
+                        Gizmos.DrawWireSphere(currentLocationPosition, 0.5f);
+                        Gizmos.DrawLine(currentLocationPosition, currentLocationPosition + Vector3.up);
+
+                        Gizmos.DrawWireSphere(currentLocationPosition, levelQuests[i].GetGizmosInformation()[j].activationRadius);
+
+                    
+                            GUIStyle locationStyle = new GUIStyle();
+                            locationStyle.normal.textColor = Color.red;
+                            Handles.Label(currentLocationPosition + Vector3.up, $"Quest: {levelQuests[i].questName}, Objective {j + 1}, target.", locationStyle);
+                    }
+                }
             }
-        }
+        #endif
     }
 
     new void Awake()
@@ -544,6 +563,14 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
                 levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(levelQuests[i].UpdateCurrentObjective);
                 levelQuests[i].GetGizmosInformation()[j].OnObjectiveComplete.AddListener(CurrentObjectiveComplete);
             }
+        }
+    }
+
+    public void ResetAllQuests()
+    {
+        for (int i = 0; i < levelQuests.Count; i++)
+        {
+            levelQuests[i].ResetQuest();
         }
     }
 

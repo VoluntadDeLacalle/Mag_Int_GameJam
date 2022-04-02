@@ -200,6 +200,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         SceneManager.LoadScene(sceneName);
     }
 
+    public void FadeLoadMainMenu()
+    {
+        Player.Instance.vThirdPersonInput.ShouldMove(false);
+        Player.Instance.panelFade.Fade((int)PanelComponentFade.FadeType.FadeIn);
+        Player.Instance.panelFade.OnFadeFinished.AddListener(delegate { LoadMainMenu(); });
+    }
+
     public void LoadMainMenu()
     {
         Time.timeScale = 1.0f;

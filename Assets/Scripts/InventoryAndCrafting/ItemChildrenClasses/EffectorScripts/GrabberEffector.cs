@@ -82,6 +82,12 @@ public class GrabberEffector : Item
                     continue;
                 }
 
+                NPCCharacter character = collidersInRange[i].gameObject.GetComponent<NPCCharacter>();
+                if (character != null)
+                {
+                    continue;
+                }
+
                 JunkerBot junkerInRange = collidersInRange[i].gameObject.GetComponent<JunkerBot>();
                 if (junkerInRange != null)
                 {
