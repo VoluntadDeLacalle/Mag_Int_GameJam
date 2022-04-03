@@ -6,6 +6,7 @@ public class NPCCharacter : MonoBehaviour, ISaveable
 {
     public string characterName;
     public float talkRadius = 2.5f;
+    public bool canTalk = true;
 
     public object CaptureState()
     {
@@ -23,7 +24,8 @@ public class NPCCharacter : MonoBehaviour, ISaveable
         return new SaveData
         {
             npcPosition = currentPosition,
-            npcRotation = currentRotation
+            npcRotation = currentRotation,
+            talkStatus = canTalk
         };
     }
 
@@ -33,6 +35,7 @@ public class NPCCharacter : MonoBehaviour, ISaveable
 
         transform.position = new Vector3(saveData.npcPosition[0], saveData.npcPosition[1], saveData.npcPosition[2]);
         transform.rotation = new Quaternion(saveData.npcRotation[0], saveData.npcRotation[1], saveData.npcRotation[2], saveData.npcRotation[3]);
+        canTalk = saveData.talkStatus;
     }
 
     [System.Serializable]
@@ -40,5 +43,6 @@ public class NPCCharacter : MonoBehaviour, ISaveable
     {
         public List<float> npcPosition;
         public List<float> npcRotation;
+        public bool talkStatus;
     }
 }

@@ -21,8 +21,20 @@ public class DynamicNPCController : NPCCharacter
         transform.rotation = nTransform.rotation;
     }
 
+    public void ShouldTalk(bool shouldTalk)
+    {
+        canTalk = shouldTalk;
+    }
+
     void TryTalk()
     {
+        if (!canTalk)
+        {
+            activationTextGO.SetActive(false);
+            npcTextMesh.text = "";
+            return;
+        }
+
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, talkRadius);
         
         if (collidersInRange.Length == 0)

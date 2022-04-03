@@ -389,25 +389,13 @@ MonoBehaviour:
       goalType: 0
       objectiveDescription: Collect the source of the power surge.
       isCompleted: 0
-      numbOfCompleteEvents: 2
+      numbOfCompleteEvents: 1
       OnObjectiveComplete:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 0}
             m_TargetAssemblyTypeName: ElectricalBox, Assembly-CSharp
             m_MethodName: SetBatteryStatus
-            m_Mode: 6
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 1
-            m_CallState: 2
-          - m_Target: {fileID: 0}
-            m_TargetAssemblyTypeName: ElectricalBox, Assembly-CSharp
-            m_MethodName: SetPowerEvent
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -467,7 +455,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
       goalType: 6
-      objectiveDescription: Fix his leg!
+      objectiveDescription: Fix Tut's leg!
       isCompleted: 0
       numbOfCompleteEvents: 0
       OnObjectiveComplete:
@@ -518,12 +506,24 @@ MonoBehaviour:
       collectedAmount: 0
       externalObjectiveName: TutLeg
     - levelName: Sorting Yard
-      numbOfStartEvents: 0
+      numbOfStartEvents: 1
       OnObjectiveStart:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: ElectricalBox, Assembly-CSharp
+            m_MethodName: SetPowerEvent
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
       goalType: 6
-      objectiveDescription: Find all of the main yard workers!
+      objectiveDescription: Find all 5 of the main yard workers!
       isCompleted: 0
       numbOfCompleteEvents: 4
       OnObjectiveComplete:

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InvisibleNPCEffectorActions : EffectorActions, ISaveable
 {
+    public DynamicNPCController npcController;
     public List<Renderer> characterRenderers = new List<Renderer>();
     public Material[] updateMaterials;
     public bool hasBeenHit = false;
@@ -42,6 +43,7 @@ public class InvisibleNPCEffectorActions : EffectorActions, ISaveable
             }
 
             hasBeenHit = true;
+            npcController.ShouldTalk(true);
         }
     }
 }
