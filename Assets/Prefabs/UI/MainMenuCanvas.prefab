@@ -280,7 +280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pre-Alpha Demo
+  m_text: Demo
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2ee4a03f766d2954ea9db7d65555f23d, type: 2}
   m_sharedMaterial: {fileID: -9004359070821136281, guid: 2ee4a03f766d2954ea9db7d65555f23d,
@@ -637,7 +637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 120, y: 0}
+  m_AnchoredPosition: {x: 120, y: 20}
   m_SizeDelta: {x: 200, y: 280}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1701673721281309656
@@ -1190,6 +1190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1431,6 +1436,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
@@ -1898,12 +1908,12 @@ PrefabInstance:
     - target: {fileID: 204703534835736589, guid: 8e1ab33bc7386b248ba4a0b16aa7f8f3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 204703534835736589, guid: 8e1ab33bc7386b248ba4a0b16aa7f8f3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -87
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: 204703534835736589, guid: 8e1ab33bc7386b248ba4a0b16aa7f8f3,
         type: 3}
@@ -2120,6 +2130,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
@@ -3069,6 +3084,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301836187893580379, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301836187893580379, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301836187893580379, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3131,6 +3156,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Options
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
@@ -3215,7 +3245,12 @@ PrefabInstance:
     - target: {fileID: 7882367088186047574, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
       propertyPath: m_text
-      value: Options
+      value: Options & Controls
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882367088186047574, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_margin.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7882367088186047574, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}
@@ -3368,6 +3403,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Quit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4209659076835613134, guid: 03e4b4a32b4732c4b876aaa28f0e6503,
         type: 3}

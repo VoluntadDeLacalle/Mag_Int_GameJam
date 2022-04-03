@@ -902,7 +902,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             {
                 if (currentObjective.goalType == Objective.GoalType.Location && !markerGO.activeInHierarchy)
                 {
-                    SpawnMarkerGO(currentObjective.targetWorldPosition, currentObjective.activationRadius, Color.red);
+                    SpawnMarkerGO(currentObjective.targetWorldPosition, currentObjective.activationRadius, Color.cyan);
                 }
             }
 

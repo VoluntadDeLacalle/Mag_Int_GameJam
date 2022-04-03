@@ -36,7 +36,9 @@ public class OptionsManager : SingletonMonoBehaviour<OptionsManager>, ISaveable
         public float soundVolume;
     }
 
+    public GameObject optionsBackgroundPanel;
     public GameObject optionsPanel;
+    public GameObject controlsPanel;
 
     [Header("Volume Options")]
     public Slider masterVolSlider;
@@ -58,7 +60,13 @@ public class OptionsManager : SingletonMonoBehaviour<OptionsManager>, ISaveable
 
     public void ToggleOptionsPanel(bool toggle)
     {
-        optionsPanel.SetActive(toggle);
+        optionsBackgroundPanel.SetActive(toggle);
+
+        if (controlsPanel.activeSelf)
+        {
+            optionsPanel.SetActive(true);
+            controlsPanel.SetActive(false);
+        }
     }
 
     private void Update()
