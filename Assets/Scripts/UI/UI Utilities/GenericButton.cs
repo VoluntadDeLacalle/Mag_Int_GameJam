@@ -25,6 +25,13 @@ public class GenericButton : MonoBehaviour
 
     public void SwitchTextHoveredColor()
     {
-        buttonTextMesh.color = hoverColor;
+        if (gameObject.GetComponent<UnityEngine.UI.Button>().interactable)
+        {
+            buttonTextMesh.color = hoverColor;
+        }
+        else
+        {
+            buttonTextMesh.color = normalColor;
+        }
     }
 }
