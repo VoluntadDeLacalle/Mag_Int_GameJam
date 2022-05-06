@@ -2578,6 +2578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkRadius: 2.5
+  canTalk: 1
   textFile: {fileID: 4900000, guid: 38c3b581981a5654e87a35980be3206c, type: 3}
   talkerIcon: {fileID: 21300000, guid: 7e386f99f8b14b645ad6a08aed732f89, type: 3}
 --- !u!1 &705803683
@@ -8211,7 +8212,7 @@ PrefabInstance:
     - target: {fileID: 4758425109584538329, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4850683590677424054, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -9122,6 +9123,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813189465555532897, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 21.119873
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813189465555532897, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -21.192383
       objectReference: {fileID: 0}
     - target: {fileID: 6886561454978178483, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
