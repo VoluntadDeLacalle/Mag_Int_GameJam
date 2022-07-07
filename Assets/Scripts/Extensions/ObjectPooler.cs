@@ -20,7 +20,8 @@ public class ObjectPooler : MonoBehaviour
         GrenadeAmmo,
         RockAmmo,
         ExplosionParticle,
-        InteractionParticle
+        InteractionParticle,
+        Scrap
     }
 
     public Key key;

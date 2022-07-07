@@ -20,6 +20,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public Collider primaryCollider;
     public Health health;
     public Pickup pickup;
+    public ItemDrop itemDropper;
     public PlayerItemHandler itemHandler;
 
     [Header("Death & Unconscious Variables")]
@@ -208,6 +209,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
         health.TakeDamage(1);
 
         RagdollPlayer();
+        itemDropper.DropItems(transform.position, backBone.position.y, 1, 3);
 
         isUnconscious = true;
     }
