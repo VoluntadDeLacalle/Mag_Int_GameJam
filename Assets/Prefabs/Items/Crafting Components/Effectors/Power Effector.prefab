@@ -149,6 +149,7 @@ MonoBehaviour:
     gripTransform: {fileID: 0}
   interactableOnStart: 1
   maxDistance: 5
+  maxChargeTimer: 3
   beamGrowTime: 8
   shotTransform: {fileID: 3345018427162573523}
   lineRenderer: {fileID: 3092318643269192884}
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e1c1911e2111240808ea227983327a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rateOfBatteryDrain: 30
+  rateOfBatteryDrain: 10
   rateOfBatteryFill: 20
 --- !u!65 &7840012654974856565
 BoxCollider:
