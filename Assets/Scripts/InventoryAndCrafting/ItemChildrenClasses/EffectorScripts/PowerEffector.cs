@@ -8,6 +8,8 @@ public class PowerEffector : Item
     [Header("Power Specific Variables")]
     public float maxDistance = 5;
     private float currentDistance = 0;
+    public float maxChargeTimer = 3;
+    private float currentChargeTimer = 0;
     public float beamGrowTime = 0.5f;
     public Transform shotTransform;
     
@@ -21,6 +23,7 @@ public class PowerEffector : Item
     private float collidedDistance = 0;
     private bool hasCollided = false;
     private Ray currentRay;
+    private EffectorActions currentEffectorActionsObject = null;
 
     [Header("Modifier Variables")]
     public int amplifiedMaxDistance = 10;
@@ -28,6 +31,7 @@ public class PowerEffector : Item
     void Awake()
     {
         originalMaxDistance = maxDistance;
+        currentChargeTimer = maxChargeTimer;
         lineRenderer.enabled = true;
     }
 
@@ -133,6 +137,7 @@ public class PowerEffector : Item
             }
 
             hasCollided = false;
+            currentChargeTimer = maxChargeTimer;
 
             if (currentDistance > 0.1f)
             {
@@ -179,10 +184,21 @@ public class PowerEffector : Item
             hasCollided = true;
             collidedDistance = hitInfo.distance + 0.1f;
 
-            EffectorActions effectorActions = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
-            if (effectorActions != null)
+            if (currentEffectorActionsObject == null)
             {
-                effectorActions.PowerEffectorAction();
+                currentEffectorActionsObject = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
+            }
+            
+            if (currentEffectorActionsObject != null && currentChargeTimer > 0)
+            {
+                currentChargeTimer -= Time.deltaTime;
+
+                if (currentChargeTimer <= 0)
+                {
+                    currentEffectorActionsObject.PowerEffectorAction();
+                    currentChargeTimer = maxChargeTimer;
+                    currentEffectorActionsObject = null;
+                }
             }
 
             if (!collisionBeam.activeSelf)
@@ -208,14 +224,27 @@ public class PowerEffector : Item
                 hasCollided = true;
                 collidedDistance = currentDistance;
 
-                EffectorActions effectorActions = collidersInRange[0].gameObject.GetComponent<EffectorActions>();
-                if (effectorActions != null)
+                if (currentEffectorActionsObject == null)
                 {
-                    effectorActions.PowerEffectorAction();
+                    currentEffectorActionsObject = collidersInRange[0].gameObject.GetComponent<EffectorActions>();
+                }
+
+                if (currentEffectorActionsObject != null && currentChargeTimer > 0)
+                {
+                    currentChargeTimer -= Time.deltaTime;
+
+                    if (currentChargeTimer <= 0)
+                    {
+                        currentEffectorActionsObject.PowerEffectorAction();
+                        currentChargeTimer = maxChargeTimer;
+                        currentEffectorActionsObject = null;
+                    }
                 }
             }
             else
             {
+                currentEffectorActionsObject = null;
+                currentChargeTimer = maxChargeTimer;
                 hasCollided = false;
                 collidedDistance = 0;
             }
