@@ -72,6 +72,23 @@ public class HUDControls : MonoBehaviour
             toggleOpt(pauseUI);
             optionsUI.SetActive(false);
         }
+        else if (Player.Instance.playerInput.actions["Unpause"].WasPerformedThisFrame())
+        {
+            if (craftingUI.activeSelf)
+            {
+                toggleOpt(craftingUI);
+            }
+            if (inventoryUI.activeSelf)
+            {
+                toggleOpt(inventoryUI);
+            }
+            if (pauseUI.activeSelf)
+            {
+                toggleOpt(pauseUI);
+            }
+
+            optionsUI.SetActive(false);
+        }
 
         if (Player.Instance.IsAlive() && Player.Instance.vThirdPersonInput.CanMove())
         {
@@ -122,17 +139,30 @@ public class HUDControls : MonoBehaviour
 
     public void toggleOpt(GameObject uiName)
     {
+        StopCoroutine(UnlockCursor());
+
         if(uiName.activeSelf)
         {
             uiName.SetActive(false);
             Time.timeScale = 1f;
+
             Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             uiName.SetActive(true);
             Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
+
+            if (Player.Instance.playerInput.currentControlScheme == "Keyboard")
+            {
+                StartCoroutine(UnlockCursor());
+            }
         }
+    }
+
+    IEnumerator UnlockCursor()
+    {
+        yield return null;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

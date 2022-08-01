@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "e0d157a0-7c9e-4e67-94a8-6fb996c96f4b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -305,7 +314,7 @@
                 {
                     "name": "",
                     "id": "763f687c-4370-4e76-85fa-f7b1e1c72f6b",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "PS4;Xbox",
@@ -420,6 +429,28 @@
                     "processors": "",
                     "groups": "PS4;Xbox",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08e8ce43-a630-4080-b665-7e613d492a9e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d741ff92-a19a-41c8-ad55-00a858e45b81",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4;Xbox",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

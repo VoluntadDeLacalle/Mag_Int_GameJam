@@ -132,9 +132,18 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
-            var X = lookDirection.x;
-            var Y = lookDirection.y;
+            float X, Y;
+            if (Time.timeScale < 0.1f)
+            {
+                X = 0;
+                Y = 0;
+            }
+            else
+            {
+                Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
+                X = lookDirection.x;
+                Y = lookDirection.y;
+            }
 
             gameObject.GetComponent<Animator>().SetFloat("CameraHorizontal", Mathf.Clamp(Mathf.Abs(X), 0, 1));
 
