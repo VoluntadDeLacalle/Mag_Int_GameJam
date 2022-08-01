@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Invector.vCharacterController
 {
@@ -7,6 +8,8 @@ namespace Invector.vCharacterController
         #region Variables       
 
         [Header("Controller Input")]
+        [HideInInspector]
+        public PlayerInput playerInput;
         public string horizontalInput = "Horizontal";
         public string verticallInput = "Vertical";
         public KeyCode jumpInput = KeyCode.Space;
@@ -57,6 +60,8 @@ namespace Invector.vCharacterController
 
             if (cc != null)
                 cc.Init();
+
+            playerInput = GetComponent<PlayerInput>();
         }
 
         protected virtual void InitializeTpCamera()
@@ -102,8 +107,9 @@ namespace Invector.vCharacterController
             }
             else
             {
-                cc.input.x = Input.GetAxis(horizontalInput);
-                cc.input.z = Input.GetAxis(verticallInput);
+                Vector2 moveDirections = playerInput.actions["Move"].ReadValue<Vector2>();
+                cc.input.x = moveDirections.x;
+                cc.input.z = moveDirections.y;
             }
         }
 
@@ -127,8 +133,9 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            var Y = Input.GetAxis(rotateCameraYInput);
-            var X = Input.GetAxis(rotateCameraXInput);
+            Vector2 lookDirection = playerInput.actions["Look"].ReadValue<Vector2>();
+            var X = lookDirection.x;
+            var Y = lookDirection.y;
 
             gameObject.GetComponent<Animator>().SetFloat("CameraHorizontal", Mathf.Clamp(Mathf.Abs(X), 0, 1));
 
@@ -137,7 +144,7 @@ namespace Invector.vCharacterController
 
         protected virtual void StrafeInput()
         {
-            if (Input.GetKeyDown(strafeInput))
+            if (Input.GetKeyDown(strafeInput)) //START HERE IF IT WORKS AHHA
                 cc.Strafe(true);
             else if (Input.GetKeyUp(strafeInput))
                 cc.Strafe(false);
