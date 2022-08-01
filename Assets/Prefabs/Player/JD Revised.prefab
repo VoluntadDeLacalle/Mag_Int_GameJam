@@ -3180,6 +3180,7 @@ GameObject:
   - component: {fileID: -7452040692193898975}
   - component: {fileID: 1018390873774750509}
   - component: {fileID: 1018390873774750508}
+  - component: {fileID: 8608224624182698870}
   - component: {fileID: 8741778327616787926}
   - component: {fileID: 1637422145287995559}
   - component: {fileID: 3525646185255956491}
@@ -3355,6 +3356,37 @@ MonoBehaviour:
   cc: {fileID: 0}
   tpCamera: {fileID: 0}
   cameraMain: {fileID: 0}
+--- !u!114 &8608224624182698870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018390873774750505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 94483f8e9832ba849ae8384224f117c0,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerAction
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &8741778327616787926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14431,12 +14463,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db4097b20021a3642952143d934e1c92, type: 3}
---- !u!4 &1021534229902029518 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4286869954607192, guid: db4097b20021a3642952143d934e1c92,
-    type: 3}
-  m_PrefabInstance: {fileID: 1018390875151125142}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1132397039742236586 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114023759507881276, guid: db4097b20021a3642952143d934e1c92,
@@ -14449,6 +14475,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1446143d2dd8ec9418e07f18d96fadd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1021534229902029518 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4286869954607192, guid: db4097b20021a3642952143d934e1c92,
+    type: 3}
+  m_PrefabInstance: {fileID: 1018390875151125142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1436313701558595732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14528,6 +14560,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f59308c42e56494ea26703ca3b60d11, type: 3}
+--- !u!4 &4807802962407544064 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5860996080282527124, guid: 3f59308c42e56494ea26703ca3b60d11,
+    type: 3}
+  m_PrefabInstance: {fileID: 1436313701558595732}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4577966725674352913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3199521424961040773, guid: 3f59308c42e56494ea26703ca3b60d11,
@@ -14540,12 +14578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a97f430d8cc3d488b8fa1a4c4c2f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4807802962407544064 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5860996080282527124, guid: 3f59308c42e56494ea26703ca3b60d11,
-    type: 3}
-  m_PrefabInstance: {fileID: 1436313701558595732}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-7736493693957043693
 MonoBehaviour:
   m_ObjectHideFlags: 0
