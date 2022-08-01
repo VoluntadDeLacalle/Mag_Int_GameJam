@@ -8,8 +8,6 @@ namespace Invector.vCharacterController
         #region Variables       
 
         [Header("Controller Input")]
-        [HideInInspector]
-        public PlayerInput playerInput;
         public string horizontalInput = "Horizontal";
         public string verticallInput = "Vertical";
         public KeyCode jumpInput = KeyCode.Space;
@@ -60,8 +58,6 @@ namespace Invector.vCharacterController
 
             if (cc != null)
                 cc.Init();
-
-            playerInput = GetComponent<PlayerInput>();
         }
 
         protected virtual void InitializeTpCamera()
@@ -107,9 +103,12 @@ namespace Invector.vCharacterController
             }
             else
             {
-                Vector2 moveDirections = playerInput.actions["Move"].ReadValue<Vector2>();
-                cc.input.x = moveDirections.x;
-                cc.input.z = moveDirections.y;
+                Vector2 moveDirection = Player.Instance.playerInput.actions["Move"].ReadValue<Vector2>();
+                moveDirection.x = Mathf.Clamp(moveDirection.x, -1, 1);
+                moveDirection.y = Mathf.Clamp(moveDirection.y, -1, 1);
+
+                cc.input.x = moveDirection.x;
+                cc.input.z = moveDirection.y;
             }
         }
 
@@ -133,7 +132,7 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            Vector2 lookDirection = playerInput.actions["Look"].ReadValue<Vector2>();
+            Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
             var X = lookDirection.x;
             var Y = lookDirection.y;
 
@@ -144,17 +143,17 @@ namespace Invector.vCharacterController
 
         protected virtual void StrafeInput()
         {
-            if (Input.GetKeyDown(strafeInput)) //START HERE IF IT WORKS AHHA
+            if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame()) //START HERE IF IT WORKS AHHA
                 cc.Strafe(true);
-            else if (Input.GetKeyUp(strafeInput))
+            else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
                 cc.Strafe(false);
         }
 
         protected virtual void SprintInput()
         {
-            if (Input.GetKeyDown(sprintInput))
+            if (Player.Instance.playerInput.actions["Sprint"].WasPressedThisFrame())
                 cc.Sprint(true);
-            else if (Input.GetKeyUp(sprintInput))
+            else if (Player.Instance.playerInput.actions["Sprint"].WasReleasedThisFrame())
                 cc.Sprint(false);
             
             if (cc.input.magnitude < 0.1f)
@@ -182,7 +181,7 @@ namespace Invector.vCharacterController
                 return;
             }
 
-            if (Input.GetKeyDown(jumpInput) && JumpConditions())
+            if (Player.Instance.playerInput.actions["Jump"].WasPressedThisFrame() && JumpConditions())
                 cc.Jump();
         }
 

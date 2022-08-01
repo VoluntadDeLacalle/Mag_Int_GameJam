@@ -11,7 +11,8 @@
                     "id": "09abed56-6eaa-4997-a1b7-7b0a5cfeb019",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Look",
@@ -19,7 +20,8 @@
                     "id": "77a9912c-32fd-4482-8501-fb0522afa832",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Aim",
@@ -27,7 +29,8 @@
                     "id": "b6e04e39-26d2-4034-b9c2-f0554b0fa066",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Fire",
@@ -35,7 +38,8 @@
                     "id": "09e94f49-ee58-4645-9862-eb5ede82e965",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Interact",
@@ -43,7 +47,17 @@
                     "id": "d57a961a-3240-4482-b678-1c86a8714788",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "b3b06b9e-b2a4-4d6b-bddb-a3dc6779dd16",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
@@ -51,7 +65,8 @@
                     "id": "485157ac-e70b-4473-be55-43650f2c62df",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Inventory",
@@ -59,7 +74,8 @@
                     "id": "9f5b0ee2-b781-478e-a7f5-a2792b29cbee",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Crafting",
@@ -67,7 +83,8 @@
                     "id": "6f6676bb-39f3-4fd5-88d8-49f81197d22b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DisplayQuestUI",
@@ -75,7 +92,8 @@
                     "id": "0aa4fe15-825e-4d21-9bbe-e63c6fd89fee",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Emote",
@@ -83,7 +101,8 @@
                     "id": "43840ac7-a144-4f97-81f0-1e9ab61c15b3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Pause",
@@ -91,7 +110,8 @@
                     "id": "ac104ef5-0786-4739-866f-e4040f973e8f",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -177,7 +197,7 @@
                     "id": "e30d5583-0959-4b94-a37d-a39ec4dc9646",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=25,y=25)",
                     "groups": "PS4;Xbox",
                     "action": "Look",
                     "isComposite": false,
@@ -378,6 +398,28 @@
                     "processors": "",
                     "groups": "PS4;Xbox",
                     "action": "Emote",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba05fdcb-6edc-460d-b25c-af36e924dbc0",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8137d267-6989-426c-9553-79c74deefaea",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4;Xbox",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

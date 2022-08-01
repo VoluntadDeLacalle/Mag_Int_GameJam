@@ -114,7 +114,7 @@ public class StartMenu : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)) && !hasSkipped)
+        if ((Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame() || Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame()) && !hasSkipped)
         {
             SkipOPCutscene();
             hasSkipped = true;

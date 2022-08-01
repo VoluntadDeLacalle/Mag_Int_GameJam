@@ -51,17 +51,17 @@ public class PowerEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButton(1)) || (Input.GetMouseButton(0) && Input.GetMouseButton(1)))
+            if ((Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && Player.Instance.playerInput.actions["Aim"].IsPressed()) || (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed()))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }
-            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+            else if (Player.Instance.playerInput.actions["Fire"].WasReleasedThisFrame() || Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
             {
                 batteryCheck.ShouldDrainBattery(false);
             }
         }
 
-        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        if (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed())
         {
             if (batteryCheck != null)
             {
@@ -217,7 +217,7 @@ public class PowerEffector : Item
         else
         {
             Collider[] collidersInRange = Physics.OverlapSphere(shotTransform.position, 0.1f);
-            if (collidersInRange.Length > 0 && Input.GetMouseButton(0)
+            if (collidersInRange.Length > 0 && Player.Instance.playerInput.actions["Fire"].IsPressed()
                 && collidersInRange[0].gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
 

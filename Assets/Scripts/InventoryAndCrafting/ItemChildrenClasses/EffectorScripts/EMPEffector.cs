@@ -26,7 +26,7 @@ public class EMPEffector : Item
             UpdateEMPDetection();
         }
 
-        if (Input.GetMouseButton(0))
+        if (Player.Instance.playerInput.actions["Fire"].IsPressed())
         {
             if (QuestManager.Instance.IsCurrentQuestActive())
             {

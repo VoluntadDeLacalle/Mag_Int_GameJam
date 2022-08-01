@@ -23,7 +23,7 @@ public class GrabberEffector : Item
     {
         if (currentAttachedObj == null)
         {
-            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+            if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && Player.Instance.playerInput.actions["Aim"].IsPressed())
             {
                 TryGrab();
 
@@ -39,7 +39,7 @@ public class GrabberEffector : Item
         }
         else
         {
-            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+            if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && Player.Instance.playerInput.actions["Aim"].IsPressed())
             {
                 DropCurrentObj();
             }
