@@ -32,7 +32,7 @@ public class HUDControls : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && Player.Instance.IsAlive())
+        if (Player.Instance.playerInput.actions["Inventory"].WasPressedThisFrame() && Player.Instance.IsAlive())
         {
             if (craftingUI.activeSelf)
             {
@@ -45,7 +45,7 @@ public class HUDControls : MonoBehaviour
 
             toggleOpt(inventoryUI);
         }
-        else if (Input.GetKeyDown(KeyCode.C) && Player.Instance.IsAlive())
+        else if (Player.Instance.playerInput.actions["Crafting"].WasPressedThisFrame() && Player.Instance.IsAlive())
         {
             if (inventoryUI.activeSelf)
             {
@@ -58,7 +58,7 @@ public class HUDControls : MonoBehaviour
 
             toggleOpt(craftingUI);
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (Player.Instance.playerInput.actions["Pause"].WasPressedThisFrame())
         {
             if (craftingUI.activeSelf)
             {
@@ -70,6 +70,23 @@ public class HUDControls : MonoBehaviour
             }
 
             toggleOpt(pauseUI);
+            optionsUI.SetActive(false);
+        }
+        else if (Player.Instance.playerInput.actions["Unpause"].WasPerformedThisFrame())
+        {
+            if (craftingUI.activeSelf)
+            {
+                toggleOpt(craftingUI);
+            }
+            if (inventoryUI.activeSelf)
+            {
+                toggleOpt(inventoryUI);
+            }
+            if (pauseUI.activeSelf)
+            {
+                toggleOpt(pauseUI);
+            }
+
             optionsUI.SetActive(false);
         }
 
@@ -86,7 +103,7 @@ public class HUDControls : MonoBehaviour
 
             if (!pauseUI.activeSelf && Time.timeScale == 1.0f)
             {
-                if (Input.GetMouseButtonDown(1))
+                if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame())
                 {
                     if (Player.Instance.anim.GetInteger("GripEnum") > 0)
                     {
@@ -95,7 +112,7 @@ public class HUDControls : MonoBehaviour
                     }
                     
                 }
-                else if (Input.GetMouseButtonUp(1))
+                else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
                 {
                     if (Player.Instance.anim.GetInteger("GripEnum") > 0)
                     {
@@ -122,17 +139,30 @@ public class HUDControls : MonoBehaviour
 
     public void toggleOpt(GameObject uiName)
     {
+        StopCoroutine(UnlockCursor());
+
         if(uiName.activeSelf)
         {
             uiName.SetActive(false);
             Time.timeScale = 1f;
+
             Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             uiName.SetActive(true);
             Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
+
+            if (Player.Instance.playerInput.currentControlScheme == "Keyboard")
+            {
+                StartCoroutine(UnlockCursor());
+            }
         }
+    }
+
+    IEnumerator UnlockCursor()
+    {
+        yield return null;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

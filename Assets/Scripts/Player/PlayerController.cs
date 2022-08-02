@@ -115,8 +115,9 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            Vector2 moveDirection = Player.Instance.playerInput.actions["Move"].ReadValue<Vector2>();
+            float h = moveDirection.x;
+            float v = moveDirection.y;
             Vector3 desiredDirection = new Vector3(h, 0.0f, v).normalized;
 
             if (!characterController.isGrounded)
@@ -157,7 +158,7 @@ public class PlayerController : MonoBehaviour
     private void ManageHookshotStart()
     {
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame())
         {
             RaycastHit hit;
             if (Physics.Raycast(sceneCamera.position, sceneCamera.forward, out hit, maxGrappleDistance, GrappleMask))

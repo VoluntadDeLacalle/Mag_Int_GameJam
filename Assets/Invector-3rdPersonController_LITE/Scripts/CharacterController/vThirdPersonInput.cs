@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Invector.vCharacterController
 {
@@ -102,8 +103,12 @@ namespace Invector.vCharacterController
             }
             else
             {
-                cc.input.x = Input.GetAxis(horizontalInput);
-                cc.input.z = Input.GetAxis(verticallInput);
+                Vector2 moveDirection = Player.Instance.playerInput.actions["Move"].ReadValue<Vector2>();
+                moveDirection.x = Mathf.Clamp(moveDirection.x, -1, 1);
+                moveDirection.y = Mathf.Clamp(moveDirection.y, -1, 1);
+
+                cc.input.x = moveDirection.x;
+                cc.input.z = moveDirection.y;
             }
         }
 
@@ -127,8 +132,18 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            var Y = Input.GetAxis(rotateCameraYInput);
-            var X = Input.GetAxis(rotateCameraXInput);
+            float X, Y;
+            if (Time.timeScale < 0.1f)
+            {
+                X = 0;
+                Y = 0;
+            }
+            else
+            {
+                Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
+                X = lookDirection.x;
+                Y = lookDirection.y;
+            }
 
             gameObject.GetComponent<Animator>().SetFloat("CameraHorizontal", Mathf.Clamp(Mathf.Abs(X), 0, 1));
 
@@ -137,17 +152,17 @@ namespace Invector.vCharacterController
 
         protected virtual void StrafeInput()
         {
-            if (Input.GetKeyDown(strafeInput))
+            if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame()) //START HERE IF IT WORKS AHHA
                 cc.Strafe(true);
-            else if (Input.GetKeyUp(strafeInput))
+            else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
                 cc.Strafe(false);
         }
 
         protected virtual void SprintInput()
         {
-            if (Input.GetKeyDown(sprintInput))
+            if (Player.Instance.playerInput.actions["Sprint"].WasPressedThisFrame())
                 cc.Sprint(true);
-            else if (Input.GetKeyUp(sprintInput))
+            else if (Player.Instance.playerInput.actions["Sprint"].WasReleasedThisFrame())
                 cc.Sprint(false);
             
             if (cc.input.magnitude < 0.1f)
@@ -175,7 +190,7 @@ namespace Invector.vCharacterController
                 return;
             }
 
-            if (Input.GetKeyDown(jumpInput) && JumpConditions())
+            if (Player.Instance.playerInput.actions["Jump"].WasPressedThisFrame() && JumpConditions())
                 cc.Jump();
         }
 

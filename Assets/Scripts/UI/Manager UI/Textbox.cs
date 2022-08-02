@@ -273,7 +273,7 @@ public class Textbox : SingletonMonoBehaviour<Textbox>
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) && !autoAdavance)
+        if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && !autoAdavance)
         {
             if (!isTyping)
             {

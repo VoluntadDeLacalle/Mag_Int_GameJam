@@ -19,7 +19,7 @@ public class GripItem : Item
 
     public override void Activate()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame())
         {
             if (Player.Instance.vThirdPersonInput.CanMove())
             {
@@ -35,12 +35,12 @@ public class GripItem : Item
                 }
             }
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }
 
-        if (!Input.GetMouseButton(1) && Player.Instance.anim.GetBool("IsActivated"))
+        if (!Player.Instance.playerInput.actions["Aim"].IsPressed() && Player.Instance.anim.GetBool("IsActivated"))
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }
