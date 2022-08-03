@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class StartMenu : MonoBehaviour
     public Vector3 JDEndPosition = Vector3.zero;
 
     private bool hasSkipped = false;
+    private PlayerInput playerInput;
 
     private void Start()
     {
@@ -38,6 +40,7 @@ public class StartMenu : MonoBehaviour
         }
 
         AudioManager.instance.CrossFadeTo("DistantMountains");
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void SkipOPCutscene()
@@ -48,6 +51,15 @@ public class StartMenu : MonoBehaviour
         UnwrappedJDRef.transform.position = JDEndPosition;
 
         mainTimelineDirector.time = skipToTime;
+        
+        for (int i = 0; i < mainMenuButtons.Count; i++)
+        {
+            if (mainMenuButtons[i].interactable)
+            {
+                mainMenuButtons[i].Select();
+                break;
+            }
+        }
     }
 
     public void LoadPlay()
@@ -114,7 +126,7 @@ public class StartMenu : MonoBehaviour
 
     private void Update()
     {
-        if ((Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame() || Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame()) && !hasSkipped)
+        if ((playerInput.actions["Unpause"].WasPressedThisFrame() || playerInput.actions["Jump"].WasPressedThisFrame()) && !hasSkipped)
         {
             SkipOPCutscene();
             hasSkipped = true;
