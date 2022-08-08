@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1.5721126, g: 1.1767874, b: 0.48295993, a: 1}
+  m_Sun: {fileID: 1418888338}
+  m_IndirectSpecularColor: {r: 1.502695, g: 1.1221837, b: 0.4777016, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13686,6 +13686,11 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1353700791063740755, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: freeSpeed.sprintSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2052303143255754223, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -14020,6 +14025,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614373596723338466, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7718493182060660552, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -17428,6 +17438,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415094299}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!108 &1418888338 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 962626661934753648, guid: b21fc024b7dbb404faf97dc9bb3fd039,
+    type: 3}
+  m_PrefabInstance: {fileID: 1420102031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1420102031
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17435,17 +17451,7 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 962626661934753648, guid: b21fc024b7dbb404faf97dc9bb3fd039,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 962626661934753648, guid: b21fc024b7dbb404faf97dc9bb3fd039,
-        type: 3}
-      propertyPath: m_Shadows.m_Strength
-      value: 0.704
-      objectReference: {fileID: 0}
-    - target: {fileID: 962626662359646411, guid: b21fc024b7dbb404faf97dc9bb3fd039,
+    - target: {fileID: 962626661934753649, guid: b21fc024b7dbb404faf97dc9bb3fd039,
         type: 3}
       propertyPath: m_IsActive
       value: 1
