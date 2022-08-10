@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1418888338}
-  m_IndirectSpecularColor: {r: 1.5721126, g: 1.1767874, b: 0.48295993, a: 1}
+  m_IndirectSpecularColor: {r: 1.502695, g: 1.1221837, b: 0.4777016, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5246,17 +5246,17 @@ PrefabInstance:
     - target: {fileID: 7019655559676688851, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.75
+      value: 14.3
       objectReference: {fileID: 0}
     - target: {fileID: 7019655559676688851, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.09
+      value: 99.13
       objectReference: {fileID: 0}
     - target: {fileID: 7019655559676688851, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.92
+      value: 11.7
       objectReference: {fileID: 0}
     - target: {fileID: 7019655559676688851, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
@@ -13049,494 +13049,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1223375496}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &816215517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816215509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1384774831, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fsm:
-    dataVersion: 2
-    usedInTemplate: {fileID: 0}
-    name: FSM
-    startState: Off
-    states:
-    - name: Off
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 50
-        y: 100
-        width: 112.4
-        height: 32
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: SwitchToggle
-          isSystemEvent: 0
-          isGlobal: 1
-        toState: On
-        linkStyle: 0
-        linkConstraint: 0
-        linkTarget: 0
-        colorIndex: 0
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.SendMessage
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 91d45a00
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams:
-        - ownerOption: 1
-          gameObject:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {fileID: 816215509}
-        animationCurveParams: []
-        functionCallParams:
-        - FunctionName: ShouldActivate
-          parameterType: bool
-          BoolParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          FloatParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          IntParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          GameObjectParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {fileID: 0}
-          ObjectParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          StringParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 
-          Vector2Parameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0}
-          Vector3Parameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0, z: 0}
-          RectParamater:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value:
-              serializedVersion: 2
-              x: 0
-              y: 0
-              width: 0
-              height: 0
-          QuaternionParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0, z: 0, w: 0}
-          MaterialParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          TextureParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          ColorParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {r: 0, g: 0, b: 0, a: 1}
-          EnumParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            enumName: HutongGames.PlayMaker.None
-            intValue: 0
-          ArrayParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            type: -1
-            objectTypeName: UnityEngine.Object
-            floatValues: []
-            intValues: 
-            boolValues: 
-            stringValues: []
-            vector4Values: []
-            objectReferences: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams: []
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams: []
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams: []
-        byteData: 0000000001000000
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 14000000070000000700000015000000
-        paramName:
-        - gameObject
-        - delivery
-        - options
-        - functionCall
-        paramDataPos: 00000000000000000400000000000000
-        paramByteDataSize: 00000000040000000400000000000000
-    - name: On
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 297.10156
-        y: 97.203125
-        width: 112.4
-        height: 32
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: SwitchToggle
-          isSystemEvent: 0
-          isGlobal: 1
-        toState: Off
-        linkStyle: 0
-        linkConstraint: 0
-        linkTarget: 0
-        colorIndex: 0
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.SendMessage
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 91d45a00
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams:
-        - ownerOption: 1
-          gameObject:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {fileID: 816215509}
-        animationCurveParams: []
-        functionCallParams:
-        - FunctionName: ShouldActivate
-          parameterType: bool
-          BoolParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 1
-          FloatParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          IntParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          GameObjectParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {fileID: 0}
-          ObjectParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          StringParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 
-          Vector2Parameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0}
-          Vector3Parameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0, z: 0}
-          RectParamater:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value:
-              serializedVersion: 2
-              x: 0
-              y: 0
-              width: 0
-              height: 0
-          QuaternionParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {x: 0, y: 0, z: 0, w: 0}
-          MaterialParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          TextureParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            typeName: 
-            value: {fileID: 0}
-          ColorParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {r: 0, g: 0, b: 0, a: 1}
-          EnumParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            enumName: HutongGames.PlayMaker.None
-            intValue: 0
-          ArrayParameter:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            type: -1
-            objectTypeName: UnityEngine.Object
-            floatValues: []
-            intValues: 
-            boolValues: 
-            stringValues: []
-            vector4Values: []
-            objectReferences: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams: []
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams: []
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams: []
-        byteData: 0000000001000000
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 14000000070000000700000015000000
-        paramName:
-        - gameObject
-        - delivery
-        - options
-        - functionCall
-        paramDataPos: 00000000000000000400000000000000
-        paramByteDataSize: 00000000040000000400000000000000
-    events:
-    - name: FINISHED
-      isSystemEvent: 1
-      isGlobal: 0
-    - name: SwitchToggle
-      isSystemEvent: 0
-      isGlobal: 1
-    globalTransitions: []
-    variables:
-      floatVariables: []
-      intVariables: []
-      boolVariables: []
-      stringVariables: []
-      vector2Variables: []
-      vector3Variables: []
-      colorVariables: []
-      rectVariables: []
-      quaternionVariables: []
-      gameObjectVariables: []
-      objectVariables: []
-      materialVariables: []
-      textureVariables: []
-      arrayVariables: []
-      enumVariables: []
-      categories:
-      - 
-      variableCategoryIDs: 
-    description: 
-    docUrl: 
-    showStateLabel: 0
-    maxLoopCount: 0
-    watermark: 
-    password: 
-    locked: 0
-    manualUpdate: 0
-    outVariableIndices: 
-    keepDelayedEventsOnStateExit: 0
-    preprocessed: 0
-    ExposedEvents: []
-    OutputEvents: []
-    RestartOnEnable: 1
-    ResetVariablesOnEnable: 0
-    EnableDebugFlow: 0
-    EnableBreakpoints: 1
-    editorFlags: 225
-    activeStateName: 
-    mouseEvents: 0
-    handleLevelLoaded: 0
-    handleTriggerEnter2D: 0
-    handleTriggerExit2D: 0
-    handleTriggerStay2D: 0
-    handleCollisionEnter2D: 0
-    handleCollisionExit2D: 0
-    handleCollisionStay2D: 0
-    handleTriggerEnter: 0
-    handleTriggerExit: 0
-    handleTriggerStay: 0
-    handleCollisionEnter: 0
-    handleCollisionExit: 0
-    handleCollisionStay: 0
-    handleParticleCollision: 0
-    handleControllerColliderHit: 0
-    handleJointBreak: 0
-    handleJointBreak2D: 0
-    handleOnGUI: 0
-    handleFixedUpdate: 0
-    handleLateUpdate: 0
-    handleApplicationEvents: 0
-    handleUiEvents: 0
-    handleLegacyNetworking: 0
-    handleAnimatorMove: 0
-    handleAnimatorIK: 0
-  fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
 --- !u!1 &818171639
 GameObject:
   m_ObjectHideFlags: 0
@@ -14689,7 +14201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939815459}
   m_LocalRotation: {x: -0, y: 0.23172642, z: -0, w: 0.972781}
-  m_LocalPosition: {x: -0.020000458, y: -0.461, z: 0.09000015}
+  m_LocalPosition: {x: 20.019999, y: 95.632996, z: 19.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1502611983}
@@ -17958,40 +17470,40 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6105266383242995, guid: d780ccb8d57c3f8418ecba13018de57e, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.1421216
+      value: -0.14212175
       objectReference: {fileID: 0}
     - target: {fileID: 6105266383242995, guid: d780ccb8d57c3f8418ecba13018de57e, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.02036734
+      value: 0.020366892
       objectReference: {fileID: 0}
     - target: {fileID: 6105266383242995, guid: d780ccb8d57c3f8418ecba13018de57e, type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.002659982
+      value: 0.0026605316
       objectReference: {fileID: 0}
     - target: {fileID: 28493415431633021, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.44310796
+      value: -0.443108
       objectReference: {fileID: 0}
     - target: {fileID: 28493415431633021, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.001834624
+      value: -0.0018341558
       objectReference: {fileID: 0}
     - target: {fileID: 59024286052978369, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.4024061
+      value: -0.40240604
       objectReference: {fileID: 0}
     - target: {fileID: 59024286052978369, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.0026157796
+      value: -0.0026153624
       objectReference: {fileID: 0}
     - target: {fileID: 59024286052978369, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.16762936
+      value: 0.16762942
       objectReference: {fileID: 0}
     - target: {fileID: 102158279057935096, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18016,17 +17528,17 @@ PrefabInstance:
     - target: {fileID: 136581124912032019, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.27662814
+      value: -0.2766285
       objectReference: {fileID: 0}
     - target: {fileID: 136581124912032019, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.0261407
+      value: 0.026138756
       objectReference: {fileID: 0}
     - target: {fileID: 136581124912032019, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.25711715
+      value: -0.2571166
       objectReference: {fileID: 0}
     - target: {fileID: 574173516228416827, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18050,6 +17562,46 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 30.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 95.084
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 39.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.85876596
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.51236814
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1353700791063740753, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 61.643
+      objectReference: {fileID: 0}
     - target: {fileID: 1353700791063740755, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: freeSpeed.sprintSpeed
@@ -18058,152 +17610,152 @@ PrefabInstance:
     - target: {fileID: 2052303143255754223, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.27662668
+      value: -0.27662665
       objectReference: {fileID: 0}
     - target: {fileID: 2052303143255754223, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.026140511
+      value: 0.026140982
       objectReference: {fileID: 0}
     - target: {fileID: 2052303143255754223, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.25711706
+      value: -0.25711614
       objectReference: {fileID: 0}
     - target: {fileID: 2128995016151050767, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.14212307
+      value: -0.14212485
       objectReference: {fileID: 0}
     - target: {fileID: 2128995016151050767, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.020367816
+      value: 0.020362213
       objectReference: {fileID: 0}
     - target: {fileID: 2128995016151050767, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.002659982
+      value: 0.0026607849
       objectReference: {fileID: 0}
     - target: {fileID: 2160390293855638657, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.44310945
+      value: -0.44310924
       objectReference: {fileID: 0}
     - target: {fileID: 2160390293855638657, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.011168929
+      value: 0.011169634
       objectReference: {fileID: 0}
     - target: {fileID: 2160390293855638657, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.0018347233
+      value: -0.001835824
       objectReference: {fileID: 0}
     - target: {fileID: 2770661154296104334, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.28407177
+      value: 0.2840739
       objectReference: {fileID: 0}
     - target: {fileID: 2770661154296104334, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.0000044703484
+      value: -0.0000043660402
       objectReference: {fileID: 0}
     - target: {fileID: 2770661154296104334, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.00000037252903
+      value: 0.0000055357814
       objectReference: {fileID: 0}
     - target: {fileID: 2870182496569682733, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.28407863
+      value: -0.2840794
       objectReference: {fileID: 0}
     - target: {fileID: 2870182496569682733, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.0000006854534
+      value: -0.0000031888485
       objectReference: {fileID: 0}
     - target: {fileID: 2870182496569682733, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.00000045076013
+      value: -0.0000021383166
       objectReference: {fileID: 0}
     - target: {fileID: 2925402593332246269, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.27662206
+      value: -0.276622
       objectReference: {fileID: 0}
     - target: {fileID: 2925402593332246269, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.02614054
+      value: 0.026141
       objectReference: {fileID: 0}
     - target: {fileID: 2925402593332246269, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.2571164
+      value: 0.2571161
       objectReference: {fileID: 0}
     - target: {fileID: 3309028904168522281, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.039924067
+      value: 0.039922357
       objectReference: {fileID: 0}
     - target: {fileID: 3309028904168522281, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.019211674
+      value: -0.019217072
       objectReference: {fileID: 0}
     - target: {fileID: 3309028904168522281, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.104794316
+      value: -0.10479705
       objectReference: {fileID: 0}
     - target: {fileID: 3490867346870759125, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.039925545
+      value: 0.039925255
       objectReference: {fileID: 0}
     - target: {fileID: 3490867346870759125, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.019212142
+      value: -0.01921305
       objectReference: {fileID: 0}
     - target: {fileID: 3490867346870759125, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.104794316
+      value: -0.10479523
       objectReference: {fileID: 0}
     - target: {fileID: 3821052711094835713, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.27661982
+      value: -0.27661914
       objectReference: {fileID: 0}
     - target: {fileID: 3821052711094835713, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.02614023
+      value: 0.026145369
       objectReference: {fileID: 0}
     - target: {fileID: 3821052711094835713, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.25711656
+      value: 0.2571166
       objectReference: {fileID: 0}
     - target: {fileID: 4318205169553762674, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.2840732
+      value: 0.28407302
       objectReference: {fileID: 0}
     - target: {fileID: 4318205169553762674, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.000004604459
+      value: -0.0000055730343
       objectReference: {fileID: 0}
     - target: {fileID: 4318205169553762674, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.00000020861626
+      value: -0.0000005811453
       objectReference: {fileID: 0}
     - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18223,7 +17775,7 @@ PrefabInstance:
     - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: levelSpawnPoints.Array.data[0].currentSpawnName
-      value: SceneEntranceFromTutorialPit
+      value: SceneEntranceFromStartingArea
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18233,17 +17785,17 @@ PrefabInstance:
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.47
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 95.48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18313,27 +17865,27 @@ PrefabInstance:
     - target: {fileID: 5473220045344181382, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.0000009536743
+      value: -0.0000021755695
       objectReference: {fileID: 0}
     - target: {fileID: 5473220045344181382, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.0000000027939677
+      value: 0.00000030826777
       objectReference: {fileID: 0}
     - target: {fileID: 6227015628910452858, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.3590737
+      value: 0.35907367
       objectReference: {fileID: 0}
     - target: {fileID: 6227015628910452858, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.00000086426735
+      value: -0.000000029802322
       objectReference: {fileID: 0}
     - target: {fileID: 6227015628910452858, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.00000028591603
+      value: -0.000000103376806
       objectReference: {fileID: 0}
     - target: {fileID: 6430884315112048303, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18358,17 +17910,17 @@ PrefabInstance:
     - target: {fileID: 7319450816019667743, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.35907254
+      value: -0.35907266
       objectReference: {fileID: 0}
     - target: {fileID: 7319450816019667743, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.00000029802322
+      value: 0.0000011175871
       objectReference: {fileID: 0}
     - target: {fileID: 7319450816019667743, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.0000007264316
+      value: 0.0000010021031
       objectReference: {fileID: 0}
     - target: {fileID: 7460387223714712647, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18398,32 +17950,32 @@ PrefabInstance:
     - target: {fileID: 7718493182060660552, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.018889649
+      value: 0.01888915
       objectReference: {fileID: 0}
     - target: {fileID: 7718493182060660552, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.012549644
+      value: -0.01255122
       objectReference: {fileID: 0}
     - target: {fileID: 7718493182060660552, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.10737724
+      value: 0.107377015
       objectReference: {fileID: 0}
     - target: {fileID: 8539842755483593652, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.018891126
+      value: 0.01889084
       objectReference: {fileID: 0}
     - target: {fileID: 8539842755483593652, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.012550112
+      value: -0.012551021
       objectReference: {fileID: 0}
     - target: {fileID: 8539842755483593652, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.10737724
+      value: 0.107376315
       objectReference: {fileID: 0}
     - target: {fileID: 8556987019851004374, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -18448,17 +18000,17 @@ PrefabInstance:
     - target: {fileID: 8650830658156984291, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.35907397
+      value: -0.35907385
       objectReference: {fileID: 0}
     - target: {fileID: 8650830658156984291, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.00000017881393
+      value: -0.00000043213367
       objectReference: {fileID: 0}
     - target: {fileID: 8650830658156984291, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.0000006221235
+      value: 0.00000012293458
       objectReference: {fileID: 0}
     - target: {fileID: 9046729013542282317, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
@@ -20607,110 +20159,13 @@ MonoBehaviour:
     name: FSM
     startState: CheckForPlayer
     states:
-    - name: Activate
-      description: 
-      colorIndex: 0
-      position:
-        serializedVersion: 2
-        x: 475.95312
-        y: 103.359375
-        width: 100
-        height: 16
-      isBreakpoint: 0
-      isSequence: 0
-      hideUnused: 0
-      transitions: []
-      actionData:
-        actionNames:
-        - HutongGames.PlayMaker.Actions.SendEvent
-        customNames:
-        - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 5e69bb04
-        unityObjectParams: []
-        fsmGameObjectParams: []
-        fsmOwnerDefaultParams: []
-        animationCurveParams: []
-        functionCallParams: []
-        fsmTemplateControlParams: []
-        fsmEventTargetParams:
-        - target: 2
-          excludeSelf:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          gameObject:
-            ownerOption: 1
-            gameObject:
-              useVariable: 0
-              name: 
-              tooltip: 
-              showInInspector: 0
-              networkSync: 0
-              value: {fileID: 816215509}
-          fsmName:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: FSM
-          sendToChildren:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: 0
-          fsmComponent: {fileID: 0}
-        fsmPropertyParams: []
-        layoutOptionParams: []
-        fsmStringParams: []
-        fsmObjectParams: []
-        fsmVarParams: []
-        fsmArrayParams: []
-        fsmEnumParams: []
-        fsmFloatParams:
-        - useVariable: 0
-          name: 
-          tooltip: 
-          showInInspector: 0
-          networkSync: 0
-          value: 0
-        fsmIntParams: []
-        fsmBoolParams: []
-        fsmVector2Params: []
-        fsmVector3Params: []
-        fsmColorParams: []
-        fsmRectParams: []
-        fsmQuaternionParams: []
-        stringParams:
-        - SwitchToggle
-        byteData: 00
-        arrayParamSizes: 
-        arrayParamTypes: []
-        customTypeSizes: 
-        customTypeNames: []
-        paramDataType: 1f000000170000000f00000001000000
-        paramName:
-        - eventTarget
-        - sendEvent
-        - delay
-        - everyFrame
-        paramDataPos: 00000000000000000000000000000000
-        paramByteDataSize: 00000000000000000000000001000000
     - name: CanActivate
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 275.28906
-        y: 87.10156
+        x: 289.28906
+        y: 79.10156
         width: 112.4
         height: 48
       isBreakpoint: 0
@@ -20730,7 +20185,7 @@ MonoBehaviour:
           name: SwitchToggle
           isSystemEvent: 0
           isGlobal: 1
-        toState: Activate
+        toState: Activate test
         linkStyle: 0
         linkConstraint: 0
         linkTarget: 0
@@ -20993,6 +20448,332 @@ MonoBehaviour:
         - everyFrame
         paramDataPos: 0000000000000000000000000000000000000000000000000100000000000000010000000400000005000000
         paramByteDataSize: 0000000004000000000000000000000000000000000000000000000000000000000000000100000001000000
+    - name: Activate test
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 524.7578
+        y: 90.75
+        width: 107.6
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.SendMessage
+        - HutongGames.PlayMaker.Actions.SendMessage
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000004000000
+        actionHashCodes: 91d45a0091d45a00
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 1797039757}
+        - ownerOption: 1
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 816215509}
+        animationCurveParams: []
+        functionCallParams:
+        - FunctionName: RemoveScrap
+          parameterType: int
+          BoolParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 0
+          FloatParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 0
+          IntParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 50
+          GameObjectParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+          ObjectParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          StringParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 
+          Vector2Parameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0}
+          Vector3Parameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0, z: 0}
+          RectParamater:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value:
+              serializedVersion: 2
+              x: 0
+              y: 0
+              width: 0
+              height: 0
+          QuaternionParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0, z: 0, w: 0}
+          MaterialParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          TextureParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          ColorParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {r: 0, g: 0, b: 0, a: 1}
+          EnumParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            enumName: 
+            intValue: 0
+          ArrayParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            type: -1
+            objectTypeName: 
+            floatValues: []
+            intValues: 
+            boolValues: 
+            stringValues: []
+            vector4Values: []
+            objectReferences: []
+        - FunctionName: ShouldActivate
+          parameterType: bool
+          BoolParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 1
+          FloatParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 0
+          IntParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 0
+          GameObjectParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+          ObjectParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          StringParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: 
+          Vector2Parameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0}
+          Vector3Parameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0, z: 0}
+          RectParamater:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value:
+              serializedVersion: 2
+              x: 0
+              y: 0
+              width: 0
+              height: 0
+          QuaternionParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {x: 0, y: 0, z: 0, w: 0}
+          MaterialParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          TextureParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            typeName: 
+            value: {fileID: 0}
+          ColorParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {r: 0, g: 0, b: 0, a: 1}
+          EnumParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            enumName: 
+            intValue: 0
+          ArrayParameter:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            type: -1
+            objectTypeName: 
+            floatValues: []
+            intValues: 
+            boolValues: 
+            stringValues: []
+            vector4Values: []
+            objectReferences: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00000000010000000000000001000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1400000007000000070000001500000014000000070000000700000015000000
+        paramName:
+        - gameObject
+        - delivery
+        - options
+        - functionCall
+        - gameObject
+        - delivery
+        - options
+        - functionCall
+        paramDataPos: 0000000000000000040000000000000001000000080000000c00000001000000
+        paramByteDataSize: 0000000004000000040000000000000000000000040000000400000000000000
     events:
     - name: SwitchToggle
       isSystemEvent: 0
@@ -26931,11 +26712,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
-        type: 3}
-      propertyPath: sceneNames.Array.data[4]
-      value: Tutorial Pit
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a34bb1cf6f6c87447a0c7f53f037f1ed, type: 3}
 --- !u!1 &1618583605
@@ -29396,6 +29172,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792787719}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1797039757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6103139643333141224, guid: d780ccb8d57c3f8418ecba13018de57e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1093949057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1821934553
 GameObject:
   m_ObjectHideFlags: 0

@@ -1662,7 +1662,7 @@ PrefabInstance:
     - target: {fileID: 7019655559676688852, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
       propertyPath: nextSceneSpawnLocationName
-      value: FromStartingArea
+      value: SceneEntranceFromStartingArea
       objectReference: {fileID: 0}
     - target: {fileID: 7019655559676688853, guid: 3a388a9391d7c10488455206149d7095,
         type: 3}
@@ -9118,6 +9118,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: sceneNames.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: sceneNames.Array.data[0]
+      value: Starting Area
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: sceneNames.Array.data[1]
+      value: Tutorial Pit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: sceneNames.Array.data[2]
+      value: Tutorial Pit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046619096103225103, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
+        type: 3}
+      propertyPath: sceneNames.Array.data[3]
+      value: Tutorial Pit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a34bb1cf6f6c87447a0c7f53f037f1ed, type: 3}
