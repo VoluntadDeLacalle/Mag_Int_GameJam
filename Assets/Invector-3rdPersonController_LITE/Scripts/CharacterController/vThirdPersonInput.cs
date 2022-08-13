@@ -7,16 +7,7 @@ namespace Invector.vCharacterController
     {
         #region Variables       
 
-        [Header("Controller Input")]
-        public string horizontalInput = "Horizontal";
-        public string verticallInput = "Vertical";
-        public KeyCode jumpInput = KeyCode.Space;
-        public KeyCode strafeInput = KeyCode.Mouse1;
-        public KeyCode sprintInput = KeyCode.LeftShift;
-
-        [Header("Camera Input")]
-        public string rotateCameraXInput = "Mouse X";
-        public string rotateCameraYInput = "Mouse Y";
+        public int controllerLookScaler = 25;
 
         [HideInInspector] public vThirdPersonController cc;
         [HideInInspector] public vThirdPersonCamera tpCamera;
@@ -141,6 +132,12 @@ namespace Invector.vCharacterController
             else
             {
                 Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
+                
+                if (Player.Instance.playerInput.currentControlScheme != "Keyboard")
+                {
+                    lookDirection *= controllerLookScaler;
+                }
+                
                 X = lookDirection.x;
                 Y = lookDirection.y;
             }

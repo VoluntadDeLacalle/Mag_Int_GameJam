@@ -512,11 +512,15 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     void Update()
     {
-        if (playerInput.actions["Sprint"].WasPressedThisFrame() && vThirdPersonController.isGrounded)
+        if (playerInput.actions["Aim"].IsPressed() && vThirdPersonController.isGrounded)
         {
-            vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed + 2f;
+            vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed;
         }
-        else if ((playerInput.actions["Sprint"].WasReleasedThisFrame() || !playerInput.actions["Aim"].IsPressed()) && vThirdPersonController.isGrounded)
+        else if (vThirdPersonController.isSprinting && vThirdPersonController.isGrounded)
+        {
+            vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.sprintSpeed;
+        }
+        else if (!vThirdPersonController.isSprinting && vThirdPersonController.isGrounded)
         {
             vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed;
         }

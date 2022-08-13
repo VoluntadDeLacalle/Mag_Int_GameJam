@@ -3316,9 +3316,9 @@ MonoBehaviour:
     movementSmooth: 6
     animationSmooth: 0.2
     rotationSpeed: 16
-    walkByDefault: 0
+    walkByDefault: 1
     rotateWithCamera: 1
-    walkSpeed: 2
+    walkSpeed: 6
     runningSpeed: 6
     sprintSpeed: 6
   jumpWithRigidbodyForce: 0
@@ -3347,13 +3347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5deb9ff5611cb9d4596d397ac57ee8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalInput: Horizontal
-  verticallInput: Vertical
-  jumpInput: 32
-  strafeInput: 324
-  sprintInput: 304
-  rotateCameraXInput: Mouse X
-  rotateCameraYInput: Mouse Y
+  controllerLookScaler: 25
   cc: {fileID: 0}
   tpCamera: {fileID: 0}
   cameraMain: {fileID: 0}
