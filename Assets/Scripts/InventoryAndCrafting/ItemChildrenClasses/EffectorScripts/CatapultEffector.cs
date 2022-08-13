@@ -21,7 +21,7 @@ public class CatapultEffector : Item
             return;
         }
 
-        if (GameManager.Instance.inputManager.actions["Fire"].WasPressedThisFrame())
+        if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame())
         {
             List<Item> currentAttachedAmmo = new List<Item>();
             for (int i = 0; i < currentChassis.chassisComponentTransforms.Count; i++)

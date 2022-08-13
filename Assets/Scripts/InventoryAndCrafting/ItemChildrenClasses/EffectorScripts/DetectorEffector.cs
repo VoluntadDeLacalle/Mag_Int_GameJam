@@ -49,17 +49,17 @@ public class DetectorEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if ((GameManager.Instance.inputManager.actions["Fire"].WasPressedThisFrame() && GameManager.Instance.inputManager.actions["Aim"].IsPressed()) || (GameManager.Instance.inputManager.actions["Fire"].IsPressed() && GameManager.Instance.inputManager.actions["Aim"].IsPressed()))
+            if ((Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && Player.Instance.playerInput.actions["Aim"].IsPressed()) || (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed()))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }
-            else if (GameManager.Instance.inputManager.actions["Fire"].WasReleasedThisFrame() || GameManager.Instance.inputManager.actions["Aim"].WasReleasedThisFrame())
+            else if (Player.Instance.playerInput.actions["Fire"].WasReleasedThisFrame() || Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
             {
                 batteryCheck.ShouldDrainBattery(false);
             }
         }
 
-        if (GameManager.Instance.inputManager.actions["Fire"].IsPressed() && GameManager.Instance.inputManager.actions["Aim"].IsPressed())
+        if (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed())
         {
             if (batteryCheck != null)
             {

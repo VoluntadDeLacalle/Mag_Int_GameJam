@@ -202,7 +202,6 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
 
         ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
-        Debug.Log($"Loading next scene: {sceneName}");
         SceneManager.LoadScene(sceneName);
     }
 

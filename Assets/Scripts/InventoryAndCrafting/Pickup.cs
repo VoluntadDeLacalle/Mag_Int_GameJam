@@ -139,7 +139,7 @@ public class Pickup : MonoBehaviour
             return;
         }
 
-        if (GameManager.Instance.inputManager.actions["Interact"].IsPressed())
+        if (Player.Instance.playerInput.actions["Interact"].IsPressed())
         {
             if (Time.timeScale != 0.0f || Player.Instance.vThirdPersonInput.CanMove())
             {

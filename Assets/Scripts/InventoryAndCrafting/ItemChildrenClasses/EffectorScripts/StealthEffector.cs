@@ -37,7 +37,7 @@ public class StealthEffector : Item
             UpdateActiveRadius();
         }
 
-        if (GameManager.Instance.inputManager.actions["Fire"].IsPressed())
+        if (Player.Instance.playerInput.actions["Fire"].IsPressed())
         {
             if (QuestManager.Instance.IsCurrentQuestActive())
             {

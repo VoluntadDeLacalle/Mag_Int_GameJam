@@ -51,17 +51,17 @@ public class PowerEffector : Item
                 BatteryChargeUI.Instance.ShowBatteryCharge(true);
             }
 
-            if ((GameManager.Instance.inputManager.actions["Fire"].WasPressedThisFrame() && GameManager.Instance.inputManager.actions["Aim"].IsPressed()) || (GameManager.Instance.inputManager.actions["Fire"].IsPressed() && GameManager.Instance.inputManager.actions["Aim"].IsPressed()))
+            if ((Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame() && Player.Instance.playerInput.actions["Aim"].IsPressed()) || (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed()))
             {
                 batteryCheck.ShouldDrainBattery(true);
             }
-            else if (GameManager.Instance.inputManager.actions["Fire"].WasReleasedThisFrame() || GameManager.Instance.inputManager.actions["Aim"].WasReleasedThisFrame())
+            else if (Player.Instance.playerInput.actions["Fire"].WasReleasedThisFrame() || Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
             {
                 batteryCheck.ShouldDrainBattery(false);
             }
         }
 
-        if (GameManager.Instance.inputManager.actions["Fire"].IsPressed() && GameManager.Instance.inputManager.actions["Aim"].IsPressed())
+        if (Player.Instance.playerInput.actions["Fire"].IsPressed() && Player.Instance.playerInput.actions["Aim"].IsPressed())
         {
             if (batteryCheck != null)
             {
@@ -217,7 +217,7 @@ public class PowerEffector : Item
         else
         {
             Collider[] collidersInRange = Physics.OverlapSphere(shotTransform.position, 0.1f);
-            if (collidersInRange.Length > 0 && GameManager.Instance.inputManager.actions["Fire"].IsPressed()
+            if (collidersInRange.Length > 0 && Player.Instance.playerInput.actions["Fire"].IsPressed()
                 && collidersInRange[0].gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
             {
 

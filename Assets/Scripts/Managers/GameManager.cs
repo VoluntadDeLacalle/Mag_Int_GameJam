@@ -27,8 +27,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     private string nextSceneSpawnLocationName = string.Empty;
     private bool hasLoadedInitially = false;
 
-    [HideInInspector]
-    public PlayerInput inputManager;
+    [Header("Player Input Manager")]
+    public PlayerInputManager playerInputManager;
 
     public object CaptureState()
     {
@@ -65,11 +65,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         }
 
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    private void Start()
-    {
-        inputManager = GetComponent<PlayerInput>();
     }
 
     [ContextMenu("ResetSaveFile")]
@@ -138,7 +133,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
         {
             if (sceneNames[i].CompareTo(SceneManager.GetActiveScene().name.ToLower()) == 0)
             {
-                Debug.Log($"Current scene saved: {sceneNames[i]}");
                 currentSavedScene = i;
                 break;
             }

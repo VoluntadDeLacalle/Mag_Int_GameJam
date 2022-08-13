@@ -103,7 +103,7 @@ namespace Invector.vCharacterController
             }
             else
             {
-                Vector2 moveDirection = GameManager.Instance.inputManager.actions["Move"].ReadValue<Vector2>();
+                Vector2 moveDirection = Player.Instance.playerInput.actions["Move"].ReadValue<Vector2>();
                 moveDirection.x = Mathf.Clamp(moveDirection.x, -1, 1);
                 moveDirection.y = Mathf.Clamp(moveDirection.y, -1, 1);
 
@@ -140,7 +140,7 @@ namespace Invector.vCharacterController
             }
             else
             {
-                Vector2 lookDirection = GameManager.Instance.inputManager.actions["Look"].ReadValue<Vector2>();
+                Vector2 lookDirection = Player.Instance.playerInput.actions["Look"].ReadValue<Vector2>();
                 X = lookDirection.x;
                 Y = lookDirection.y;
             }
@@ -152,17 +152,17 @@ namespace Invector.vCharacterController
 
         protected virtual void StrafeInput()
         {
-            if (GameManager.Instance.inputManager.actions["Aim"].WasPressedThisFrame())
+            if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame())
                 cc.Strafe(true);
-            else if (GameManager.Instance.inputManager.actions["Aim"].WasReleasedThisFrame())
+            else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
                 cc.Strafe(false);
         }
 
         protected virtual void SprintInput()
         {
-            if (GameManager.Instance.inputManager.actions["Sprint"].WasPressedThisFrame())
+            if (Player.Instance.playerInput.actions["Sprint"].WasPressedThisFrame())
                 cc.Sprint(true);
-            else if (GameManager.Instance.inputManager.actions["Sprint"].WasReleasedThisFrame())
+            else if (Player.Instance.playerInput.actions["Sprint"].WasReleasedThisFrame())
                 cc.Sprint(false);
             
             if (cc.input.magnitude < 0.1f)
@@ -190,7 +190,7 @@ namespace Invector.vCharacterController
                 return;
             }
 
-            if (GameManager.Instance.inputManager.actions["Jump"].WasPressedThisFrame() && JumpConditions())
+            if (Player.Instance.playerInput.actions["Jump"].WasPressedThisFrame() && JumpConditions())
                 cc.Jump();
         }
 

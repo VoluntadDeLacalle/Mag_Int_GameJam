@@ -15,7 +15,6 @@ public class ItemPooler : SingletonMonoBehaviour<ItemPooler>
     new void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this.gameObject);
 
         for (int i = 0; i < gameItems.Count; i++)
         {
