@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_ShaderKeywords: _FRESNELHIGHLIGHTS_ON _METALLICSPECGLOSSMAP _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
     _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_FRESNEL_HIGHLIGHTS
-    _MK_LIGHT_CEL _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_PBS_MAP_0 _MK_RECEIVE_SHADOWS
+    _MK_LIGHT_BANDED _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_PBS_MAP_0 _MK_RECEIVE_SHADOWS
     _MK_SPECULAR_ISOTROPIC _MK_WRAPPED_DIFFUSE _NORMALMAP _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
@@ -206,7 +206,7 @@ Material:
     - _DetailNormalMapIntensity: 1
     - _DetailNormalMapScale: 1
     - _Diffuse: 0
-    - _DiffuseSmoothness: 0
+    - _DiffuseSmoothness: 0.199
     - _DiffuseThresholdOffset: 0.25
     - _Dissolve: 0
     - _DissolveAmount: 0.5
@@ -230,10 +230,10 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 1
-    - _LightBands: 4
-    - _LightBandsScale: 0.5
-    - _LightThreshold: 0.279
+    - _Light: 2
+    - _LightBands: 5
+    - _LightBandsScale: 0.167
+    - _LightThreshold: 0.221
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 0.25
     - _LightTransmissionIntensity: 1
@@ -249,7 +249,7 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: 0
-    - _OutlineSize: 45.28
+    - _OutlineSize: 182.9
     - _OutlineTab: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
