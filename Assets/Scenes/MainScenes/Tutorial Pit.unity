@@ -19879,7 +19879,6 @@ GameObject:
   - component: {fileID: 1283059429}
   - component: {fileID: 1283059428}
   - component: {fileID: 1283059427}
-  - component: {fileID: 1283059426}
   - component: {fileID: 1283059425}
   m_Layer: 0
   m_Name: Elevator Switch
@@ -19887,7 +19886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1283059425
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19901,36 +19900,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9821514, y: 0.9999999, z: 1.4171535}
   m_Center: {x: -0.491076, y: 0, z: 0.007641303}
---- !u!114 &1283059426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283059424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1283059427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33780,7 +33749,6 @@ GameObject:
   - component: {fileID: 2071660941}
   - component: {fileID: 2071660940}
   - component: {fileID: 2071660939}
-  - component: {fileID: 2071660938}
   - component: {fileID: 2071660937}
   m_Layer: 0
   m_Name: Basic Switch (1)
@@ -33788,7 +33756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &2071660937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33802,36 +33770,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9821514, y: 0.9999999, z: 1.4171535}
   m_Center: {x: -0.491076, y: 0, z: 0.007641303}
---- !u!114 &2071660938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071660936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &2071660939
 MonoBehaviour:
   m_ObjectHideFlags: 0
