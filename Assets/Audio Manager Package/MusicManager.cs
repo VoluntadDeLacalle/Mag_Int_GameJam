@@ -24,7 +24,10 @@ public class MusicManager : MonoBehaviour
 
         instance = this;
 
-        DontDestroyOnLoad(gameObject);
+        if (this.gameObject == gameObject.transform.root.gameObject)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     void Start()

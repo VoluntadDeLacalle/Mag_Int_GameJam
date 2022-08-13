@@ -162,7 +162,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
 
     public void QuitGame()
     {
-        if (SceneManager.GetActiveScene().name != mainMenuName)
+        if (SceneManager.GetActiveScene().name.ToLower() != mainMenuName)
         {
             SaveScene();
             SaveGameManager();

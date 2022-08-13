@@ -502,7 +502,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        if (SceneManager.GetActiveScene().name.ToLower() == GameManager.Instance.mainMenuName)
         {
             return;
         }
@@ -521,7 +521,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        if (SceneManager.GetActiveScene().name.ToLower() == GameManager.Instance.mainMenuName)
         {
             return;
         }
@@ -854,7 +854,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == GameManager.Instance.mainMenuName)
+        if (SceneManager.GetActiveScene().name.ToLower() == GameManager.Instance.mainMenuName)
         {
             return;
         }
