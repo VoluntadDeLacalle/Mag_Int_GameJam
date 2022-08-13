@@ -79,7 +79,7 @@ public class DynamicNPCController : NPCCharacter
                     }
                 }
 
-                if (Player.Instance.playerInput.actions["Interact"].WasPressedThisFrame() && Player.Instance.vThirdPersonInput.CanMove())
+                if (GameManager.Instance.inputManager.actions["Interact"].WasPressedThisFrame() && Player.Instance.vThirdPersonInput.CanMove())
                 {
                     activationTextGO.SetActive(false);
 

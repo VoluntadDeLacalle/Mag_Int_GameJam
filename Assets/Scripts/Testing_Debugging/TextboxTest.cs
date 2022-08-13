@@ -33,7 +33,7 @@ public class TextboxTest : MonoBehaviour
     {
         if (inRange)
         {
-            if (Player.Instance.playerInput.actions["Interact"].WasPressedThisFrame())
+            if (GameManager.Instance.inputManager.actions["Interact"].WasPressedThisFrame())
             {
                 Textbox.Instance.EnableTextbox(textFile, talkerIcon, false);
             }

@@ -15,12 +15,12 @@ public class PauseMenu : MonoBehaviour
 
     void OnEnable()
     {
-        if (Player.Instance == null || Player.Instance.playerInput == null)
+        if (GameManager.Instance == null || GameManager.Instance.inputManager == null)
         {
             return;
         }
 
-        if (Player.Instance.playerInput.currentControlScheme != "Keyboard")
+        if (GameManager.Instance.inputManager.currentControlScheme != "Keyboard")
         {
             StartCoroutine(SelectButtonLater());
         }

@@ -18,7 +18,7 @@ public class GunEffector : Item
             return;
         }
 
-        if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame())
+        if (GameManager.Instance.inputManager.actions["Fire"].WasPressedThisFrame())
         {
             List<Item> currentAttachedAmmo = new List<Item>();
             for (int i = 0; i < currentChassis.chassisComponentTransforms.Count; i++)

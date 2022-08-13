@@ -13,7 +13,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     public vThirdPersonInput vThirdPersonInput;
     public vThirdPersonCamera vThirdPersonCamera;
     [HideInInspector]
-    public PlayerInput playerInput;
 
     [Header("Other Component Variables")]
     public GameObject rootObj;
@@ -115,11 +114,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             originPoint.transform.rotation = transform.rotation;
             origin = originPoint.transform;
         }
-    }
-
-    void Start()
-    {
-        playerInput = GetComponent<PlayerInput>();
     }
 
     private void OnDrawGizmosSelected()
@@ -512,11 +506,11 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
     void Update()
     {
-        if (playerInput.actions["Sprint"].WasPressedThisFrame() && vThirdPersonController.isGrounded)
+        if (GameManager.Instance.inputManager.actions["Sprint"].WasPressedThisFrame() && vThirdPersonController.isGrounded)
         {
             vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed + 2f;
         }
-        else if ((playerInput.actions["Sprint"].WasReleasedThisFrame() || !playerInput.actions["Aim"].IsPressed()) && vThirdPersonController.isGrounded)
+        else if ((GameManager.Instance.inputManager.actions["Sprint"].WasReleasedThisFrame() || !GameManager.Instance.inputManager.actions["Aim"].IsPressed()) && vThirdPersonController.isGrounded)
         {
             vThirdPersonController.airSpeed = vThirdPersonController.freeSpeed.runningSpeed;
         }
@@ -603,7 +597,7 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
             }
         }
 
-        if (playerInput.actions["Emote"].WasPressedThisFrame() && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
+        if (GameManager.Instance.inputManager.actions["Emote"].WasPressedThisFrame() && vThirdPersonController.inputMagnitude < 0.1f && vThirdPersonInput.CanMove())
         {
             playerEmoter.PlayEmote("EmoteTrigger");
         }

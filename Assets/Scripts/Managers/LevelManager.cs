@@ -115,13 +115,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         string lastSceneName = GameManager.Instance.GetLastSavedScene();
         //Debug.Log("Last Scene: " + lastSceneName + ", Current Scene: " + SceneManager.GetActiveScene().name);
         
-        if (SceneManager.GetActiveScene().name != lastSceneName)
+        if (SceneManager.GetActiveScene().name.ToLower().CompareTo(lastSceneName) != 0)
         {
             int index = -1;
             for (int i = 0; i < levelSpawnPoints.Count; i++)
             {
-                if (lastSceneName == levelSpawnPoints[i].fromSceneName
-                    && levelSpawnPoints[i].currentSpawnName == GameManager.Instance.GetSpawnLocationName())
+                if (lastSceneName == levelSpawnPoints[i].fromSceneName.ToLower()
+                    && levelSpawnPoints[i].currentSpawnName.ToLower() == GameManager.Instance.GetSpawnLocationName())
                 {
                     index = i;
                     break;
@@ -165,8 +165,10 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         addedItemNames.Remove(itemName);
     }
 
-    private void UnloadScene(string sceneName)
+    private void UnloadScene(string nSceneName)
     {
+        string sceneName = nSceneName.ToLower();
+
         int index = -1;
         for (int i = 0; i < GameManager.Instance.sceneNames.Count; i++)
         {
@@ -189,14 +191,18 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>, ISaveable
         playerSpawnLocation.rotation = Player.Instance.origin.rotation;
     }
 
-    public void LoadNextActiveScene(string sceneName, string nextSceneSpawnLocationName)
+    public void LoadNextActiveScene(string nSceneName, string nNextSceneSpawnLocationName)
     {
+        string sceneName = nSceneName.ToLower();
+        string nextSceneSpawnLocationName = nNextSceneSpawnLocationName.ToLower();
+
         Time.timeScale = 1.0f;
         //UnloadScene(sceneName);
         GameManager.Instance.SetNextSpawnLocationName(nextSceneSpawnLocationName);
 
         ItemPooler.Instance.ResetVisualItems();
         GameManager.Instance.SaveScene();
+        Debug.Log($"Loading next scene: {sceneName}");
         SceneManager.LoadScene(sceneName);
     }
 

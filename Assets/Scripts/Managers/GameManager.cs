@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 #if UNITY_EDITOR
-    using UnityEditor;
+using UnityEditor;
 #endif
 
 public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
@@ -25,6 +26,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     public int currentSavedScene = 0;
     private string nextSceneSpawnLocationName = string.Empty;
     private bool hasLoadedInitially = false;
+
+    [HideInInspector]
+    public PlayerInput inputManager;
 
     public object CaptureState()
     {
@@ -54,7 +58,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     {
         base.Awake();
 
+        mainMenuName = mainMenuName.ToLower();
+        for (int i = 0; i < sceneNames.Count; i++)
+        {
+            sceneNames[i] = sceneNames[i].ToLower();
+        }
+
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        inputManager = GetComponent<PlayerInput>();
     }
 
     [ContextMenu("ResetSaveFile")]
@@ -121,9 +136,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, ISaveable
     {
         for (int i = 0; i < sceneNames.Count; i++)
         {
-            if (sceneNames[i] == SceneManager.GetActiveScene().name)
+            if (sceneNames[i].CompareTo(SceneManager.GetActiveScene().name.ToLower()) == 0)
             {
-                //Debug.Log(sceneNames[i]);
+                Debug.Log($"Current scene saved: {sceneNames[i]}");
                 currentSavedScene = i;
                 break;
             }

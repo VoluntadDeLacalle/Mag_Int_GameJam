@@ -874,7 +874,7 @@ public class QuestManager : SingletonMonoBehaviour<QuestManager>, ISaveable
             ResetQuestInfo();
         }
 
-        if (Player.Instance.playerInput.actions["DisplayQuestUI"].WasPressedThisFrame() && Player.Instance.vThirdPersonInput.CanMove())
+        if (GameManager.Instance.inputManager.actions["DisplayQuestUI"].WasPressedThisFrame() && Player.Instance.vThirdPersonInput.CanMove())
         {
             isQuestCollapsed = !isQuestCollapsed;
             UpdateQuestText(isQuestCollapsed);

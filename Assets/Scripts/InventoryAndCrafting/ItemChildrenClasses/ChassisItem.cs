@@ -48,19 +48,19 @@ public class ChassisItem : Item
         }
 
         
-        if (Player.Instance.playerInput.actions["Aim"].WasPressedThisFrame())
+        if (GameManager.Instance.inputManager.actions["Aim"].WasPressedThisFrame())
         {
             if (Player.Instance.vThirdPersonInput.CanMove())
             {
                 Player.Instance.anim.SetBool("IsActivated", true);
             }
         }
-        else if (Player.Instance.playerInput.actions["Aim"].WasReleasedThisFrame())
+        else if (GameManager.Instance.inputManager.actions["Aim"].WasReleasedThisFrame())
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }
 
-        if (!Player.Instance.playerInput.actions["Aim"].IsPressed() && Player.Instance.anim.GetBool("IsActivated"))
+        if (!GameManager.Instance.inputManager.actions["Aim"].IsPressed() && Player.Instance.anim.GetBool("IsActivated"))
         {
             Player.Instance.anim.SetBool("IsActivated", false);
         }

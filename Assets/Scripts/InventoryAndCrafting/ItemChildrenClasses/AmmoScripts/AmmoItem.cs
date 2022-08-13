@@ -30,7 +30,7 @@ public class AmmoItem : Item
             return;
         }
 
-        if (Player.Instance.playerInput.actions["Fire"].WasPressedThisFrame())
+        if (GameManager.Instance.inputManager.actions["Fire"].WasPressedThisFrame())
         {
             bool gunEffectorCheck = false;
             bool catapultEffectorCheck = false;
