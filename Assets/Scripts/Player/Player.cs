@@ -39,8 +39,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
     [Header("Ragdoll Variables")]
     public Ragdoll ragdoll;
     public Transform deathCameraTarget;
-    public MagicaCloth.MagicaPhysicsManager clothPhysicsManager;
-    public MagicaCloth.MagicaBoneSpring backpackBoneSpring;
     public UnityEngine.AI.NavMeshObstacle mainNavObs;
     public Transform headBone;
     public Transform backBone;
@@ -152,8 +150,6 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         primaryCollider.enabled = !shouldToggle;
         anim.enabled = !shouldToggle;
-        clothPhysicsManager.enabled = !shouldToggle;
-        backpackBoneSpring.enabled = !shouldToggle;
 
 
         if ((shouldToggle && !ragdoll.IsRagdolled()) || (!shouldToggle && ragdoll.IsRagdolled()))
