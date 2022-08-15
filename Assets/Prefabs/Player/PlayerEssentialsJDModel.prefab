@@ -422,6 +422,7 @@ MonoBehaviour:
     type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &4713670846683412103
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +733,11 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpHeight
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018390873774750509, guid: dbdb5724dbe209c4c8db74825c9f3f5d,
+        type: 3}
+      propertyPath: strafeSpeed.walkSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1018390873774750511, guid: dbdb5724dbe209c4c8db74825c9f3f5d,
         type: 3}
