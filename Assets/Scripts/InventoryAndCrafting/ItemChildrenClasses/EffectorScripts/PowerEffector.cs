@@ -21,6 +21,7 @@ public class PowerEffector : Item
 
     private bool hasStarted = false;
     private bool hasStopped = false;
+    private bool hasActivated = false;
     private float originalMaxDistance = 0;
     private float collidedDistance = 0;
     private bool hasCollided = false;
@@ -198,7 +199,7 @@ public class PowerEffector : Item
                 hasStopped = false;
             }
 
-            if (currentEffectorActionsObject != null && currentChargeTimer > 0)
+            if (currentEffectorActionsObject != null && currentChargeTimer > 0 && !hasActivated)
             {
                 currentChargeTimer -= Time.deltaTime;
 
@@ -206,7 +207,7 @@ public class PowerEffector : Item
                 {
                     currentEffectorActionsObject.PowerEffectorAction();
                     currentChargeTimer = maxChargeTimer;
-                    currentEffectorActionsObject = null;
+                    hasActivated = true;
                 }
             }
 
@@ -245,7 +246,7 @@ public class PowerEffector : Item
                     hasStopped = false;
                 }
 
-                if (currentEffectorActionsObject != null && currentChargeTimer > 0)
+                if (currentEffectorActionsObject != null && currentChargeTimer > 0 && !hasActivated)
                 {
                     currentChargeTimer -= Time.deltaTime;
 
@@ -253,7 +254,7 @@ public class PowerEffector : Item
                     {
                         currentEffectorActionsObject.PowerEffectorAction();
                         currentChargeTimer = maxChargeTimer;
-                        currentEffectorActionsObject = null;
+                        hasActivated = true;
                     }
                 }
             }
@@ -270,6 +271,7 @@ public class PowerEffector : Item
                 currentChargeTimer = maxChargeTimer;
                 hasCollided = false;
                 collidedDistance = 0;
+                hasActivated = false;
             }
         }
     }
