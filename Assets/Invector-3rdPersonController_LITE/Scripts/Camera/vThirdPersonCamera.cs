@@ -149,7 +149,7 @@ public class vThirdPersonCamera : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (target == null || targetLookAt == null) return;
 
