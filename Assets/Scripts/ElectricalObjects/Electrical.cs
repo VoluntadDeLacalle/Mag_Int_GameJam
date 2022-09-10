@@ -9,6 +9,8 @@ public class Electrical : MonoBehaviour, ISaveable
 
     public UnityEvent OnActivated;
     public UnityEvent OnDeactived;
+    public UnityEvent OnPowerStart;
+    public UnityEvent OnPowerStop;
 
     protected bool isPowered = false;
 

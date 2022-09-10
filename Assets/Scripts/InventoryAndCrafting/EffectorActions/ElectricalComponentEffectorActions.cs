@@ -6,6 +6,16 @@ public class ElectricalComponentEffectorActions : EffectorActions
 {
     public Electrical electricalComponent;
 
+    public override void OnPowerEffectorStartHit()
+    {
+        electricalComponent.OnPowerStart?.Invoke();
+    }
+
+    public override void OnPowerEffectorStopHit()
+    {
+        electricalComponent.OnPowerStop?.Invoke();
+    }
+
     public override void PowerEffectorAction()
     {
         if (!electricalComponent.IsPowered())

@@ -19,6 +19,8 @@ public class PowerEffector : Item
     public GameObject collisionBeam;
     public GameObject sparks;
 
+    private bool hasStarted = false;
+    private bool hasStopped = false;
     private float originalMaxDistance = 0;
     private float collidedDistance = 0;
     private bool hasCollided = false;
@@ -188,7 +190,14 @@ public class PowerEffector : Item
             {
                 currentEffectorActionsObject = hitInfo.collider.gameObject.GetComponent<EffectorActions>();
             }
-            
+
+            if (!hasStarted)
+            {
+                currentEffectorActionsObject.OnPowerEffectorStartHit();
+                hasStarted = true;
+                hasStopped = false;
+            }
+
             if (currentEffectorActionsObject != null && currentChargeTimer > 0)
             {
                 currentChargeTimer -= Time.deltaTime;
@@ -229,6 +238,13 @@ public class PowerEffector : Item
                     currentEffectorActionsObject = collidersInRange[0].gameObject.GetComponent<EffectorActions>();
                 }
 
+                if (!hasStarted)
+                {
+                    currentEffectorActionsObject.OnPowerEffectorStartHit();
+                    hasStarted = true;
+                    hasStopped = false;
+                }
+
                 if (currentEffectorActionsObject != null && currentChargeTimer > 0)
                 {
                     currentChargeTimer -= Time.deltaTime;
@@ -243,6 +259,13 @@ public class PowerEffector : Item
             }
             else
             {
+                if(!hasStopped)
+                {
+                    currentEffectorActionsObject.OnPowerEffectorStopHit();
+                    hasStopped = true;
+                    hasStarted = false;
+                }
+
                 currentEffectorActionsObject = null;
                 currentChargeTimer = maxChargeTimer;
                 hasCollided = false;
