@@ -262,7 +262,11 @@ public class PowerEffector : Item
             {
                 if(!hasStopped)
                 {
-                    currentEffectorActionsObject.OnPowerEffectorStopHit();
+                    if(currentEffectorActionsObject != null)
+                    {
+                        currentEffectorActionsObject.OnPowerEffectorStopHit();
+                    }
+                    
                     hasStopped = true;
                     hasStarted = false;
                 }
