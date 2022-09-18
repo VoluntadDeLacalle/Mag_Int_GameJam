@@ -194,7 +194,15 @@ public class PowerEffector : Item
 
             if (!hasStarted)
             {
-                currentEffectorActionsObject.OnPowerEffectorStartHit();
+                if (currentEffectorActionsObject && currentEffectorActionsObject.GetComponent<EffectorActions>())
+                {
+                    currentEffectorActionsObject.OnPowerEffectorStartHit();
+                }
+
+                if (currentEffectorActionsObject && currentEffectorActionsObject.GetComponent<EffectorActions>())
+                {
+                    currentEffectorActionsObject.OnPowerEffectorStartHit();
+                }
                 hasStarted = true;
                 hasStopped = false;
             }
