@@ -2171,12 +2171,18 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SetIntValue
+        - HutongGames.PlayMaker.Actions.SetIntValue
+        - HutongGames.PlayMaker.Actions.SetIntValue
+        - HutongGames.PlayMaker.Actions.SetIntValue
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 603dd905
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000030000000600000009000000
+        actionHashCodes: 603dd905603dd905603dd905603dd905
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -2194,13 +2200,49 @@ MonoBehaviour:
         fsmFloatParams: []
         fsmIntParams:
         - useVariable: 1
-          name: Parts
+          name: PartsTypeA
           tooltip: 
           showInInspector: 0
           networkSync: 0
           value: 0
         - useVariable: 1
-          name: Parts
+          name: PartsTypeA
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeB
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeB
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeC
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeC
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeD
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: PartsTypeD
           tooltip: 
           showInInspector: 0
           networkSync: 0
@@ -2212,18 +2254,27 @@ MonoBehaviour:
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams: []
-        byteData: 00
+        byteData: 00000000
         arrayParamSizes: 
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 100000001000000001000000
+        paramDataType: 100000001000000001000000100000001000000001000000100000001000000001000000100000001000000001000000
         paramName:
         - intVariable
         - intValue
         - everyFrame
-        paramDataPos: 000000000100000000000000
-        paramByteDataSize: 000000000000000001000000
+        - intVariable
+        - intValue
+        - everyFrame
+        - intVariable
+        - intValue
+        - everyFrame
+        - intVariable
+        - intValue
+        - everyFrame
+        paramDataPos: 000000000100000000000000020000000300000001000000040000000500000002000000060000000700000003000000
+        paramByteDataSize: 000000000000000001000000000000000000000001000000000000000000000001000000000000000000000001000000
     - name: Add Part
       description: 
       colorIndex: 0
@@ -2272,7 +2323,7 @@ MonoBehaviour:
         fsmFloatParams: []
         fsmIntParams:
         - useVariable: 1
-          name: Parts
+          name: PartsTypeA
           tooltip: 
           showInInspector: 0
           networkSync: 0
@@ -2359,7 +2410,7 @@ MonoBehaviour:
         fsmFloatParams: []
         fsmIntParams:
         - useVariable: 1
-          name: Parts
+          name: PartsTypeA
           tooltip: 
           showInInspector: 0
           networkSync: 0
@@ -2495,7 +2546,7 @@ MonoBehaviour:
     events:
     - name: AddsPart
       isSystemEvent: 0
-      isGlobal: 1
+      isGlobal: 0
     - name: Has Part
       isSystemEvent: 0
       isGlobal: 0
@@ -2519,7 +2570,25 @@ MonoBehaviour:
       floatVariables: []
       intVariables:
       - useVariable: 1
-        name: Parts
+        name: PartsTypeA
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: PartsTypeB
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: PartsTypeC
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: PartsTypeD
         tooltip: 
         showInInspector: 0
         networkSync: 0
@@ -2539,7 +2608,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 00000000
+      variableCategoryIDs: 00000000000000000000000000000000
     description: 
     docUrl: 
     showStateLabel: 0
@@ -2941,7 +3010,7 @@ GameObject:
   - component: {fileID: 556774192}
   - component: {fileID: 556774193}
   m_Layer: 0
-  m_Name: Machine Part
+  m_Name: Machine Part A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2978,15 +3047,15 @@ MonoBehaviour:
     dataVersion: 2
     usedInTemplate: {fileID: 0}
     name: FSM
-    startState: State 1
+    startState: Listener
     states:
-    - name: State 1
+    - name: Listener
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 50
-        y: 100
+        x: 63.382812
+        y: 110.9375
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2994,7 +3063,7 @@ MonoBehaviour:
       hideUnused: 0
       transitions:
       - fsmEvent:
-          name: AddsPart
+          name: AddsPartA
           isSystemEvent: 0
           isGlobal: 1
         toState: Send message
@@ -3054,7 +3123,7 @@ MonoBehaviour:
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams:
-        - AddsPart
+        - AddsPartA
         byteData: 00000000
         arrayParamSizes: 
         arrayParamTypes: []
@@ -3074,8 +3143,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 260.85938
-        y: 90.30469
+        x: 329.10156
+        y: 112.140625
         width: 118.8
         height: 32
       isBreakpoint: 0
@@ -3161,7 +3230,7 @@ MonoBehaviour:
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams:
-        - AddsPart
+        - AddsPartA
         byteData: 00
         arrayParamSizes: 
         arrayParamTypes: []
@@ -3180,8 +3249,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 196
-        y: 222.30469
+        x: 202.03906
+        y: 188.11719
         width: 100
         height: 32
       isBreakpoint: 0
@@ -3192,7 +3261,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: State 1
+        toState: Listener
         linkStyle: 0
         linkConstraint: 0
         linkTarget: 0
@@ -3249,12 +3318,12 @@ MonoBehaviour:
         paramDataPos: 000000000000000000000000
         paramByteDataSize: 000000000000000001000000
     events:
-    - name: AddsPart
-      isSystemEvent: 0
-      isGlobal: 1
     - name: FINISHED
       isSystemEvent: 1
       isGlobal: 0
+    - name: AddsPartA
+      isSystemEvent: 0
+      isGlobal: 1
     globalTransitions: []
     variables:
       floatVariables: []
