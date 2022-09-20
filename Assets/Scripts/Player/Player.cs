@@ -380,6 +380,8 @@ public class Player : SingletonMonoBehaviour<Player>, ISaveable
 
         vThirdPersonCamera.transform.LookAt(deathCameraTarget);
         vThirdPersonCamera.SetTarget(gameObject.transform);
+
+        transform.parent = rootObj.transform;
     }
 
     private void Die()

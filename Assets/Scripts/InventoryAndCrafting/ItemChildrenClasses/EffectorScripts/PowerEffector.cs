@@ -199,10 +199,6 @@ public class PowerEffector : Item
                     currentEffectorActionsObject.OnPowerEffectorStartHit();
                 }
 
-                if (currentEffectorActionsObject && currentEffectorActionsObject.GetComponent<EffectorActions>())
-                {
-                    currentEffectorActionsObject.OnPowerEffectorStartHit();
-                }
                 hasStarted = true;
                 hasStopped = false;
             }
@@ -249,7 +245,11 @@ public class PowerEffector : Item
 
                 if (!hasStarted)
                 {
-                    currentEffectorActionsObject.OnPowerEffectorStartHit();
+                    if (currentEffectorActionsObject && currentEffectorActionsObject.GetComponent<EffectorActions>())
+                    {
+                        currentEffectorActionsObject.OnPowerEffectorStartHit();
+                    }
+
                     hasStarted = true;
                     hasStopped = false;
                 }
@@ -270,7 +270,7 @@ public class PowerEffector : Item
             {
                 if(!hasStopped)
                 {
-                    if(currentEffectorActionsObject != null)
+                    if(currentEffectorActionsObject && currentEffectorActionsObject.GetComponent<EffectorActions>())
                     {
                         currentEffectorActionsObject.OnPowerEffectorStopHit();
                     }
