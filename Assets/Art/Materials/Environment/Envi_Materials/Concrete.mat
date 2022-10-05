@@ -24,7 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7633a2fd8a3bed44791c9e952ff86e5d, type: 3}
   m_ShaderKeywords: _FRESNELHIGHLIGHTS_ON _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
     _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_FRESNEL_HIGHLIGHTS
-    _MK_LIGHT_CEL _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_RECEIVE_SHADOWS _MK_SPECULAR_ISOTROPIC
+    _MK_LIGHT_BANDED _MK_NORMAL_MAP _MK_OUTLINE_HULL_CLIP _MK_RECEIVE_SHADOWS _MK_SPECULAR_ISOTROPIC
     _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 1
@@ -243,10 +243,10 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 1
-    - _LightBands: 4
-    - _LightBandsScale: 0.5
-    - _LightThreshold: 0.312
+    - _Light: 2
+    - _LightBands: 5
+    - _LightBandsScale: 0.24
+    - _LightThreshold: 0.23
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 0.25
     - _LightTransmissionIntensity: 1
