@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1834982881002651095}
   - component: {fileID: 6910789290749763770}
   - component: {fileID: 1798410324072606542}
+  - component: {fileID: 7056364660728825318}
   m_Layer: 0
   m_Name: Catwalk_Fence_S
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2d8ad7a7ab62fc4da4c18ed4de8af0d, type: 2}
+  - {fileID: 2100000, guid: 62de6dcf47254614788b88710f2eff96, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7056364660728825318
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423861177028434697}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9999995, y: 1.1949999, z: 0.10000004}
+  m_Center: {x: 0.00000017881393, y: 0.5475, z: 0.00000006519258}
