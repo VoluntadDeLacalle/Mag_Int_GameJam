@@ -74,12 +74,14 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SetFloatValue
+        - HutongGames.PlayMaker.Actions.SetFloatValue
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 9845b305
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 9845b3059845b305
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -107,6 +109,18 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: Speed Adjust
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: Speed Adjust
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         fsmIntParams: []
         fsmBoolParams: []
         fsmVector2Params: []
@@ -115,18 +129,21 @@ MonoBehaviour:
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams: []
-        byteData: 00
+        byteData: 0000
         arrayParamSizes: 
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 0f0000000f00000001000000
+        paramDataType: 0f0000000f000000010000000f0000000f00000001000000
         paramName:
         - floatVariable
         - floatValue
         - everyFrame
-        paramDataPos: 000000000100000000000000
-        paramByteDataSize: 000000000000000001000000
+        - floatVariable
+        - floatValue
+        - everyFrame
+        paramDataPos: 000000000100000000000000020000000300000001000000
+        paramByteDataSize: 000000000000000001000000000000000000000001000000
     - name: Speed Up
       description: 
       colorIndex: 0
@@ -198,12 +215,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
-        - useVariable: 0
-          name: 
+        - useVariable: 1
+          name: Speed Adjust
           tooltip: 
-          showInInspector: 0
+          showInInspector: 1
           networkSync: 0
-          value: 12
+          value: 0
         - useVariable: 0
           name: 
           tooltip: 
@@ -454,12 +471,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
-        - useVariable: 0
-          name: 
+        - useVariable: 1
+          name: Recall Speed
           tooltip: 
-          showInInspector: 0
+          showInInspector: 1
           networkSync: 0
-          value: 25
+          value: 10
         - useVariable: 0
           name: 
           tooltip: 
@@ -532,7 +549,19 @@ MonoBehaviour:
       linkTarget: 0
       colorIndex: 0
     variables:
-      floatVariables: []
+      floatVariables:
+      - useVariable: 1
+        name: Speed Adjust
+        tooltip: 
+        showInInspector: 1
+        networkSync: 0
+        value: 10
+      - useVariable: 1
+        name: Recall Speed
+        tooltip: 
+        showInInspector: 1
+        networkSync: 0
+        value: 25
       intVariables: []
       boolVariables: []
       stringVariables: []
@@ -549,7 +578,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 
+      variableCategoryIDs: 0000000000000000
     description: 
     docUrl: 
     showStateLabel: 0
@@ -967,17 +996,17 @@ MonoBehaviour:
     variables:
       floatVariables:
       - useVariable: 1
-        name: RecallSpeed
+        name: 
         tooltip: 
         showInInspector: 1
         networkSync: 0
-        value: 2
+        value: 0
       - useVariable: 1
-        name: SettleSpeed
+        name: 
         tooltip: 
         showInInspector: 1
         networkSync: 0
-        value: 2
+        value: 0
       intVariables: []
       boolVariables: []
       stringVariables: []
