@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 0.1811643, g: 0.31854683, b: 0.33716366, a: 1}
+  m_AmbientEquatorColor: {r: 0.21586053, g: 0.23074007, b: 0.20507877, a: 1}
+  m_AmbientGroundColor: {r: 0.5754717, g: 0.42203522, b: 0.31705233, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -3945,7 +3945,7 @@ PrefabInstance:
     - target: {fileID: 8046619096103225096, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8046619096103225096, guid: a34bb1cf6f6c87447a0c7f53f037f1ed,
         type: 3}
@@ -21158,6 +21158,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394108999}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &397207638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397207639}
+  - component: {fileID: 397207641}
+  - component: {fileID: 397207640}
+  m_Layer: 0
+  m_Name: SceneExitToRailyardHub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397207639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397207638}
+  m_LocalRotation: {x: -0, y: -0.012675755, z: -0, w: 0.99991965}
+  m_LocalPosition: {x: 28.56, y: 69.49, z: 58.29}
+  m_LocalScale: {x: 1, y: 1.96, z: 3}
+  m_Children: []
+  m_Father: {fileID: 1170809178}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -1.453, z: 0}
+--- !u!114 &397207640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397207638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8620a8a32918c34b91ad22f3e2fadf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneName: Railyard Hub
+  nextSceneSpawnLocationName: SceneEntranceFromIndustrialLevel
+  canUseExit: 1
+--- !u!65 &397207641
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397207638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.9941902, y: 2.2035682, z: 1}
+  m_Center: {x: -0.07321167, y: 0.6017829, z: 0}
 --- !u!1 &397467069
 GameObject:
   m_ObjectHideFlags: 0
@@ -26261,6 +26321,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 63.32
       objectReference: {fileID: 0}
+    - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelSpawnPoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelSpawnPoints.Array.data[0].spawnPoint
+      value: 
+      objectReference: {fileID: 1345854818}
+    - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelSpawnPoints.Array.data[0].fromSceneName
+      value: Railyard Hub
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517393001253572983, guid: d780ccb8d57c3f8418ecba13018de57e,
+        type: 3}
+      propertyPath: levelSpawnPoints.Array.data[0].currentSpawnName
+      value: SceneEntranceFromRailyardHub
+      objectReference: {fileID: 0}
     - target: {fileID: 4713670846683412102, guid: d780ccb8d57c3f8418ecba13018de57e,
         type: 3}
       propertyPath: m_RootOrder
@@ -26403,6 +26483,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d780ccb8d57c3f8418ecba13018de57e, type: 3}
+--- !u!4 &454422738 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4517393001253572980, guid: d780ccb8d57c3f8418ecba13018de57e,
+    type: 3}
+  m_PrefabInstance: {fileID: 454422737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &457027608
 GameObject:
   m_ObjectHideFlags: 0
@@ -27361,7 +27447,7 @@ Transform:
   - {fileID: 1464109129}
   - {fileID: 865050086}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &476102432
 GameObject:
@@ -39837,7 +39923,7 @@ Transform:
   - {fileID: 523619629}
   - {fileID: 1728644071}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &745830734
 GameObject:
@@ -41732,7 +41818,7 @@ Transform:
   - {fileID: 1122746399}
   - {fileID: 28829042}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 89.999, z: 0}
 --- !u!1 &775472393
 GameObject:
@@ -45560,7 +45646,7 @@ PrefabInstance:
     - target: {fileID: 6979919470649767691, guid: 1936e417fe303854e8b16d102c73fb74,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6979919470649767691, guid: 1936e417fe303854e8b16d102c73fb74,
         type: 3}
@@ -47613,7 +47699,7 @@ Transform:
   - {fileID: 623766233}
   - {fileID: 1732562230}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874888881
 GameObject:
@@ -60898,7 +60984,7 @@ PrefabInstance:
     - target: {fileID: 7028640773562340846, guid: f10cb67bfc19ef44f9cddba6220ccf33,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7028640773562340846, guid: f10cb67bfc19ef44f9cddba6220ccf33,
         type: 3}
@@ -61847,7 +61933,7 @@ Transform:
   - {fileID: 721640130}
   - {fileID: 539073117}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1126683272
 GameObject:
@@ -63308,7 +63394,7 @@ Transform:
   - {fileID: 574452025}
   - {fileID: 1175439063}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1142559411
 GameObject:
@@ -64345,6 +64431,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168698886}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1170809177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170809178}
+  m_Layer: 0
+  m_Name: RailyardHubTransitions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1170809178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170809177}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 397207639}
+  - {fileID: 1345854818}
+  m_Father: {fileID: 454422738}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1172238871
 GameObject:
   m_ObjectHideFlags: 0
@@ -70809,7 +70927,7 @@ PrefabInstance:
     - target: {fileID: 3424161711293296555, guid: aaac848168173074e9071d4f43f321e2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3424161711293296555, guid: aaac848168173074e9071d4f43f321e2,
         type: 3}
@@ -72142,6 +72260,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343277317}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1345854817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1345854818}
+  m_Layer: 0
+  m_Name: SceneEntranceFromRailyardHub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1345854818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345854817}
+  m_LocalRotation: {x: -0, y: -0.012675755, z: -0, w: 0.99991965}
+  m_LocalPosition: {x: 28.43, y: 68.367, z: 63.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1170809178}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -1.453, z: 0}
 --- !u!1 &1346166360
 GameObject:
   m_ObjectHideFlags: 0
@@ -83084,7 +83232,7 @@ Transform:
   m_LocalScale: {x: 26.264643, y: 21.287165, z: 26.132122}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1557852301
 GameObject:
@@ -85642,7 +85790,7 @@ PrefabInstance:
     - target: {fileID: 3502643822024618779, guid: c173fe959f417e743a48df1b579814fb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3502643822024618779, guid: c173fe959f417e743a48df1b579814fb,
         type: 3}
@@ -89505,7 +89653,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718955136
 GameObject:
@@ -90592,7 +90740,7 @@ Transform:
   - {fileID: 401477505}
   - {fileID: 1751485542}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 89.999, z: 0}
 --- !u!65 &1738309899
 BoxCollider:
