@@ -722,7 +722,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1220222029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a79e9f3105a718446b53b14fb17cbd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1448463656
@@ -1073,10 +1073,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: a79e9f3105a718446b53b14fb17cbd71, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 1220222034}
+        m_TargetAssemblyTypeName: SimpleButtonTransition, Assembly-CSharp
+        m_MethodName: Scene1
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
