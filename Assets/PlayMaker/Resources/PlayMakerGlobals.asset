@@ -22,21 +22,40 @@ MonoBehaviour:
       value: 0
     intVariables: []
     boolVariables: []
-    stringVariables: []
+    stringVariables:
+    - useVariable: 1
+      name: Description
+      tooltip: 
+      showInInspector: 0
+      networkSync: 0
+      value: 
+    - useVariable: 1
+      name: Item Name
+      tooltip: 
+      showInInspector: 0
+      networkSync: 0
+      value: 
     vector2Variables: []
     vector3Variables: []
     colorVariables: []
     rectVariables: []
     quaternionVariables: []
     gameObjectVariables: []
-    objectVariables: []
+    objectVariables:
+    - useVariable: 1
+      name: Item Sprite
+      tooltip: 
+      showInInspector: 0
+      networkSync: 0
+      typeName: UnityEngine.Sprite
+      value: {fileID: 0}
     materialVariables: []
     textureVariables: []
     arrayVariables: []
     enumVariables: []
     categories:
     - 
-    variableCategoryIDs: 0000000000000000
+    variableCategoryIDs: 0000000000000000000000000000000000000000
   events:
   - SwitchToggle
   - AddPart 1
@@ -56,3 +75,4 @@ MonoBehaviour:
   - BeamStop
   - Fixed
   - Beam Start
+  - Press
