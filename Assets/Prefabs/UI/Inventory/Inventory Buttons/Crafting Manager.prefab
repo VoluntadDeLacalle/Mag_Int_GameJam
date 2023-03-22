@@ -1,5 +1,72 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3467672547391669672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 6858674530217068703}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5956054252555854080}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5956054252555854080
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 974694982848899487, guid: d402813d6c9839c40bbbfe040f92871b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6858674530217068703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467672547391669672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 280067533164599715}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3972347725970366058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 6858674530217068703}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 280067533164599715}
+  m_Layer: 0
+  m_Name: Item 1 (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &280067533164599715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 6858674530217068703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3972347725970366058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5956054252555854080}
+  m_Father: {fileID: 5956054252636118294}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5956054251487702411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,7 +1181,7 @@ RectTransform:
   m_Children:
   - {fileID: 5956054253564363612}
   m_Father: {fileID: 5956054252636118294}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1258,7 +1325,7 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.GetProperty
-        - HutongGames.PlayMaker.Actions.GetName
+        - HutongGames.PlayMaker.Actions.SetStringValue
         - HutongGames.PlayMaker.Actions.SetStringValue
         customNames:
         - 
@@ -1267,15 +1334,9 @@ MonoBehaviour:
         actionEnabled: 010101
         actionIsOpen: 010101
         actionStartIndex: 000000000200000005000000
-        actionHashCodes: 5ac8520471c75a03c030f103
+        actionHashCodes: 5ac85204c030f103c030f103
         unityObjectParams: []
-        fsmGameObjectParams:
-        - useVariable: 0
-          name: 
-          tooltip: 
-          showInInspector: 0
-          networkSync: 0
-          value: {fileID: 5956054251964450058}
+        fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
         animationCurveParams: []
         functionCallParams: []
@@ -1397,7 +1458,7 @@ MonoBehaviour:
             tooltip: 
             showInInspector: 0
             networkSync: 0
-            enumName: 
+            enumName: HutongGames.PlayMaker.None
             intValue: 0
           ArrayParameter:
             useVariable: 0
@@ -1406,7 +1467,7 @@ MonoBehaviour:
             showInInspector: 0
             networkSync: 0
             type: -1
-            objectTypeName: 
+            objectTypeName: UnityEngine.Object
             floatValues: []
             intValues: 
             boolValues: 
@@ -1416,12 +1477,6 @@ MonoBehaviour:
           setProperty: 0
         layoutOptionParams: []
         fsmStringParams:
-        - useVariable: 1
-          name: Item Name
-          tooltip: 
-          showInInspector: 0
-          networkSync: 0
-          value: 
         - useVariable: 1
           name: Description
           tooltip: 
@@ -1433,7 +1488,19 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 1
           networkSync: 0
-          value: A simple electrical component
+          value: A stealth component
+        - useVariable: 1
+          name: Description
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        - useVariable: 1
+          name: Name
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1452,17 +1519,17 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 2400000001000000130000001200000001000000120000001200000001000000
+        paramDataType: 2400000001000000120000001200000001000000120000001200000001000000
         paramName:
         - targetProperty
-        - everyFrame
-        - gameObject
-        - storeName
         - everyFrame
         - stringVariable
         - stringValue
         - everyFrame
-        paramDataPos: 0000000000000000000000000000000001000000010000000200000002000000
+        - stringVariable
+        - stringValue
+        - everyFrame
+        paramDataPos: 0000000000000000000000000100000001000000020000000300000002000000
         paramByteDataSize: 0000000001000000000000000000000001000000000000000000000001000000
     - name: Listen
       description: 
@@ -1541,9 +1608,9 @@ MonoBehaviour:
       - useVariable: 1
         name: Name
         tooltip: 
-        showInInspector: 0
+        showInInspector: 1
         networkSync: 0
-        value: 
+        value: Stealth Effector
       - useVariable: 1
         name: Item 1 Description
         tooltip: 
@@ -2076,8 +2143,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5956054252555854080}
   - {fileID: 5956054251964450061}
+  - {fileID: 280067533164599715}
   - {fileID: 5956054251487702410}
   m_Father: {fileID: 5956054252019139000}
   m_RootOrder: 2
@@ -3643,9 +3710,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d402813d6c9839c40bbbfe040f92871b, type: 3}
---- !u!224 &5956054252555854080 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 974694982848899487, guid: d402813d6c9839c40bbbfe040f92871b,
-    type: 3}
-  m_PrefabInstance: {fileID: 6858674530217068703}
-  m_PrefabAsset: {fileID: 0}
